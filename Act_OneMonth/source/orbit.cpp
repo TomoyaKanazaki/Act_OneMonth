@@ -9,11 +9,9 @@
 #include "renderer.h"
 #include "model.h"
 #include "debugproc.h"
-#include "object_mesh.h"
-#include "collision.h"
 #include "gamemanager.h"
 #include "player.h"
-#include "effect.h"
+#include "object_mesh.h"
 
 //==========================================
 //  コンストラクタ
@@ -134,15 +132,6 @@ void COrbit::Update(void)
 	D3DXVECTOR3 vtxNew = m_pVtxPos[1] - m_pVtxPos[0];
 	D3DXVECTOR3 vtxOld = m_pVtxPos[3] - m_pVtxPos[2];
 
-	//パーティクルを呼び出し
-	for (int nCnt = 0; nCnt < 50; nCnt++)
-	{
-		//発生するポイント
-		D3DXVECTOR3 pos;
-		D3DXVec3Lerp(&pos, &m_pVtxPos[1], &m_pVtxPos[3], 0.02f * nCnt);
-		CEffect::Create(pos, D3DXVECTOR3(5.0f, 5.0f, 5.0f), m_colDef, 30);
-	}
-
 	//計算用ベクトルの外積を求める
 	D3DXVec3Cross(&Direction, &vtxNew, &vtxOld);
 
@@ -160,9 +149,6 @@ void COrbit::Update(void)
 		aVtx[2] = m_pVtxPos[1];
 		aVtx[3] = m_pVtxPos[0];
 	}
-
-	//先端ポリゴンの当たり判定
-	Collision::InSquare(&aVtx[0], m_fLength);
 }
 
 //==========================================

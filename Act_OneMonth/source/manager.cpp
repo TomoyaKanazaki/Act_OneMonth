@@ -9,7 +9,6 @@
 #include "input.h"
 #include "object2D.h"
 #include "debugproc.h"
-#include "pause.h"
 #include "sound.h"
 #include "camera.h"
 #include "light.h"
@@ -18,7 +17,6 @@
 #include "layer.h"
 #include "motion.h"
 #include "scenemanager.h"
-#include "enemy_manager.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -28,7 +26,6 @@ CKeyboard *CManager::m_pKeyboard = NULL;
 CMouse *CManager::m_pMouse = NULL;
 CJoyPad *CManager::m_pJoyPad = NULL;
 CDebugProc *CManager::m_pDebugProc = NULL;
-CPause *CManager::m_pPause = NULL;
 CSound *CManager::m_pSound = NULL;
 CTexture *CManager::m_pTexture = NULL;
 CSceneManager *CManager::m_pSceneManager = NULL;
@@ -120,9 +117,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//モーション情報を読み込む
 	CMotion::Load();
 
-	//敵の生成情報を読み込む
-	CEnemyManager::Load();
-
 #ifdef _DEBUG
 	//デバッグ表示の生成
 	if (m_pDebugProc == NULL)
@@ -177,21 +171,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	if (m_pJoyPad != NULL)
 	{
 		m_pJoyPad->Init(hInstance, hWnd);
-	}
-
-	//ポーズの生成
-	if (m_pPause == NULL)
-	{
-		m_pPause = new CPause;
-	}
-
-	//ポーズの初期化
-	if (m_pPause != NULL)
-	{
-		if (FAILED(m_pPause->Init()))
-		{
-			return E_FAIL;
-		}
 	}
 
 	//シーンマネージャの生成
@@ -275,14 +254,6 @@ void CManager::Uninit(void)
 		m_pJoyPad = NULL;
 	}
 
-	//ポーズの終了、破棄
-	if (m_pPause != NULL)
-	{
-		m_pPause->Uninit();
-		delete m_pPause;
-		m_pPause = NULL;
-	}
-
 	//テクスチャの破棄
 	if (m_pTexture != NULL)
 	{
@@ -303,9 +274,6 @@ void CManager::Uninit(void)
 
 	//モーション情報の破棄
 	CMotion::UnLoad();
-
-	//生成情報を破棄
-	CEnemyManager::Unload();
 }
 
 //==========================================
@@ -329,12 +297,6 @@ void CManager::Update(void)
 	if (m_pJoyPad != NULL)
 	{
 		m_pJoyPad->Update();
-	}
-
-	//ポーズの更新処理
-	if (m_pPause != NULL)
-	{
-		m_pPause->Update();
 	}
 
 	//レンダラーの更新処理

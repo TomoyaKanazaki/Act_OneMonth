@@ -20,7 +20,6 @@ class CKeyboard;
 class CMouse;
 class CJoyPad;
 class CDebugProc;
-class CPause;
 class CSound;
 class CTexture;
 class CSceneManager;
@@ -31,6 +30,17 @@ class CSceneManager;
 class CManager
 {
 public:
+
+	//定数
+#define SCREEN_WIDTH (1280) //スクリーンの幅
+#define SCREEN_HEIGHT (720) //スクリーンの高さ
+#define CENTER_WIDTH (SCREEN_WIDTH / 2) //スクリーン中心座標のY座標
+#define CENTER_HEIGHT (SCREEN_HEIGHT / 2) //スクリーン中心座標のX座標
+#define FLOAT_SCREEN_WIDTH (1280.0f) //スクリーンの幅(float版)
+#define FLOAT_SCREEN_HEIGHT (720.0f) //スクリーンの高さ(float版)
+#define CLASS_NAME "WindowClass"
+#define WINDOW_NAME "REBLADE"
+
 	CManager(); //コンストラクタ
 	~CManager(); //デストラクタ
 
@@ -46,7 +56,6 @@ public:
 	static CMouse *GetMouse(void) { return m_pMouse; }
 	static CJoyPad *GetJoyPad(void) { return m_pJoyPad; }
 	static CDebugProc *GetDebugProc(void) { return m_pDebugProc; }
-	static CPause *GetPause(void) { return m_pPause; }
 	static CSound *GetSound(void) { return m_pSound; }
 	static CTexture *GetTexture(void) { return m_pTexture; }
 	static CSceneManager *GetSceneManager(void) { return m_pSceneManager; }
@@ -61,7 +70,6 @@ private:
 	static CMouse *m_pMouse;
 	static CJoyPad *m_pJoyPad;
 	static CDebugProc *m_pDebugProc;
-	static CPause *m_pPause;
 	static CSound *m_pSound;
 	static CTexture *m_pTexture;
 	static CSceneManager *m_pSceneManager;

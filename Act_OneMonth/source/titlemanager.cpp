@@ -8,12 +8,8 @@
 #include "manager.h"
 #include "scenemanager.h"
 #include "input.h"
-#include "logo.h"
 #include "camera.h"
 #include "light.h"
-#include "bg.h"
-#include "camera_title.h"
-#include "debris.h"
 #include "sound.h"
 
 //==========================================
@@ -42,23 +38,11 @@ CTitleManager::~CTitleManager()
 //==========================================
 HRESULT CTitleManager::Init(void)
 {
-	CLogo::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.3f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH * 0.6f, SCREEN_HEIGHT * 0.2f, 0.0f), CLogo::TITLE);
-	CLogo::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.6f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH * 0.4f, SCREEN_HEIGHT * 0.15f, 0.0f), CLogo::ENTER);
-
-	//îwåiÇÃê∂ê¨
-	CBg::Create();
-
 	//ÉâÉCÉgÇÃê∂ê¨
 	if (m_pLight == NULL)
 	{
 		m_pLight = new CLight;
 		m_pLight->Init();
-	}
-
-	//Ç≤Ç›ÇÃê∂ê¨
-	for (int nCnt = 0; nCnt < 100; nCnt++)
-	{
-		CDebris::Create();
 	}
 
 	//BGMÇÃçƒê∂

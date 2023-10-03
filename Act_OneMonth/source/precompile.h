@@ -21,17 +21,8 @@
 #include <assert.h>
 
 //定数
-#define SCREEN_WIDTH (1280) //スクリーンの幅
-#define SCREEN_HEIGHT (720) //スクリーンの高さ
-#define CENTER_WIDTH (SCREEN_WIDTH / 2) //スクリーン中心座標のY座標
-#define CENTER_HEIGHT (SCREEN_HEIGHT / 2) //スクリーン中心座標のX座標
-#define FLOAT_SCREEN_WIDTH (1280.0f) //スクリーンの幅(float版)
-#define FLOAT_SCREEN_HEIGHT (720.0f) //スクリーンの高さ(float版)
-
 #define FVF_VERTEX_2D (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 #define FVF_VERTEX_3D (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1)
-#define CLASS_NAME "WindowClass"
-#define WINDOW_NAME "HGS_spring"
 
 //==========================================
 //  頂点座標[2D]の構造体を定義

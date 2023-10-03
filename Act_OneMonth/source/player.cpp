@@ -9,20 +9,14 @@
 #include "manager.h"
 #include "input.h"
 #include "renderer.h"
-#include "effect.h"
 #include "sound.h"
 #include "debugproc.h"
 #include "camera.h"
 #include "model.h"
-#include "field.h"
-#include "object_fan.h"
-#include "collision.h"
 #include "motion.h"
-#include "collision.h"
 #include "layer.h"
 #include "gamemanager.h"
 #include "orbit.h"
-#include "particle.h"
 #include "camera.h"
 
 //==========================================
@@ -199,9 +193,6 @@ void CPlayer::Update(void)
 
 	//前回角度の保存
 	m_oldRot = m_rot;
-
-	//着地状態を取得
-	m_bRand = CGameManager::GetFan()->OnMesh(m_pos);
 
 	//存在位置の判定
 	if (m_bRand)

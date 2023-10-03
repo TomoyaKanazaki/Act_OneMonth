@@ -9,12 +9,6 @@
 #include "debugproc.h"
 #include "scenemanager.h"
 #include "input.h"
-#include "logo.h"
-#include "bg.h"
-#include "debris.h"
-#include "ranking.h"
-#include "rank.h"
-#include "score.h"
 #include "sound.h"
 
 //==========================================
@@ -39,31 +33,6 @@ CResultManager::~CResultManager()
 //==========================================
 HRESULT CResultManager::Init(void)
 {
-	//RESULTの表示
-	CLogo::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.2f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH * 0.3f, SCREEN_HEIGHT * 0.1f, 0.0f), CLogo::RESULT);
-
-	//今回の順位の表示
-	CLogo::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.35f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH * 0.3f, SCREEN_HEIGHT * 0.1f, 0.0f), CLogo::RANK);
-
-	//スコアの表示
-	CLogo::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.7f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH * 0.3f, SCREEN_HEIGHT * 0.1f, 0.0f), CLogo::SCORE);
-
-	//背景の生成
-	CBg::Create();
-
-	//順位の取得
-	m_nRank = CRanking::GetRank();
-	CRank::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.3f, SCREEN_HEIGHT * 0.5f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH * 0.4f, SCREEN_HEIGHT * 0.2f, 0.0f), m_nRank);
-
-	//スコアの取得
-	CScore::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.3f, SCREEN_HEIGHT * 0.85f, 0.0f), D3DXVECTOR3(SCREEN_WIDTH * 0.4f, SCREEN_HEIGHT * 0.2f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), CScore::GetScore());
-
-	//ごみの生成
-	for (int nCnt = 0; nCnt < 100; nCnt++)
-	{
-		CDebris::Create();
-	}
-
 	//BGMの再生
 	CManager::GetSound()->Play(CSound::SOUND_LABEL_BGM000);
 

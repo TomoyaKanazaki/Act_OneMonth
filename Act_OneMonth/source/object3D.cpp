@@ -7,9 +7,7 @@
 #include "object3D.h"
 #include "manager.h"
 #include "renderer.h"
-#include "particle.h"
 #include "gamemanager.h"
-#include "score.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -475,19 +473,6 @@ bool CObject3D::Collision(CObject::TYPE type, D3DXVECTOR3 *pCrossPoint)
 						CrossPoint.y = 0.0f;
 						*pCrossPoint = CrossPoint;
 						pObj->SetPos(CrossPoint);
-
-						//爆発を呼び出す
-						CParticle::Create
-						(
-							CrossPoint,
-							mc_sizeExplosion * (float)pObj->GetCombo() * 0.5f,
-							mc_sizeExplosion * (float)pObj->GetCombo() * 0.5f,
-							D3DXCOLOR(1.0f, 1.0f - (0.12f * (float)pObj->GetCombo()), 0.0f, 1.0f),
-							30, 10 * pObj->GetCombo(), 10 * pObj->GetCombo(), 3
-						);
-
-						//スコアを加算
-						CGameManager::GetScore()->Add(100 * pObj->GetCombo());
 
 						//対象のオブジェクトを破棄
 						pObj->Uninit();

@@ -1,0 +1,22 @@
+//==========================================
+//
+//  使用するモデルの設定[ModelData.txt]
+//  Author : Tomoya Kanazaki
+//
+//==========================================
+
+NUM_MODEL = 10
+
+//==========================================
+//  xファイル名
+//==========================================
+MODEL_FILENAME = Player\\core.x			//[0]プレイヤーの核
+MODEL_FILENAME = Player\\head.x			//[1]プレイヤーの頭
+MODEL_FILENAME = Player\\body.x			//[2]プレイヤーの体
+MODEL_FILENAME = Player\\arm_left.x		//[3]プレイヤーの左腕
+MODEL_FILENAME = Player\\arm_right.x	//[4]プレイヤーの右腕
+MODEL_FILENAME = Enemy\\ballbot.x		//[5]丸い敵
+MODEL_FILENAME = Enemy\\block.x			//[6]止める敵
+MODEL_FILENAME = Enemy\\push00.x		//[7]円
+MODEL_FILENAME = Enemy\\push01.x		//[8]弾く敵
+MODEL_FILENAME = skybox.x				//[9]背景

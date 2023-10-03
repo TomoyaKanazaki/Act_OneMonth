@@ -7,10 +7,8 @@
 #include "object.h"
 #include "renderer.h"
 #include "manager.h"
-#include "pause.h"
 #include "camera.h"
 #include "debugproc.h"
-#include "effect.h"
 #include "scenemanager.h"
 
 //==========================================
