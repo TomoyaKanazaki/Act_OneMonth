@@ -99,6 +99,9 @@
     <ClCompile Include="source\object_mesh.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="source\camera_game.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera.h">
@@ -180,6 +183,9 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\object_mesh.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\camera_game.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>

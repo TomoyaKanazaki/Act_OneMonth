@@ -8,6 +8,7 @@
 #include "titlemanager.h"
 #include "gamemanager.h"
 #include "resultmanager.h"
+#include "camera_game.h"
 #include "fade.h"
 #include "scene.h"
 #include "object.h"
@@ -57,6 +58,7 @@ void CSceneManager::Init(SCENE newsecene)
 			break;
 		case GAME:
 			m_pScene = new CGameManager;
+			m_pCamera = new CCameraGame;
 			break;
 		case RESULT:
 			m_pScene = new CResultManager;
@@ -72,17 +74,22 @@ void CSceneManager::Init(SCENE newsecene)
 		return;
 	}
 
-	//カメラを生成
-	if (m_pCamera == NULL)
-	{
-		m_pCamera = new CCamera;
-		m_pCamera->Init();
-	}
-
 	//シーンを初期化
 	if (m_pScene != NULL)
 	{
 		m_pScene->Init();
+	}
+
+	//カメラを生成
+	if (m_pCamera == NULL)
+	{
+		m_pCamera = new CCamera;
+	}
+
+	//カメラを初期化
+	if (m_pCamera != NULL)
+	{
+		m_pCamera->Init();
 	}
 
 	//フェードを生成

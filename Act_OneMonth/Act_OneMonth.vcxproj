@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\camera.cpp" />
+    <ClCompile Include="source\camera_game.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\gamemanager.cpp" />
@@ -53,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera.h" />
+    <ClInclude Include="source\camera_game.h" />
     <ClInclude Include="source\debugproc.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\gamemanager.h" />
