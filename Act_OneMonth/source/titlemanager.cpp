@@ -45,9 +45,6 @@ HRESULT CTitleManager::Init(void)
 		m_pLight->Init();
 	}
 
-	//BGM‚ÌÄ¶
-	CManager::GetSound()->Play(CSound::SOUND_LABEL_BGM000);
-
 	return S_OK;
 }
 
@@ -80,7 +77,6 @@ void CTitleManager::Update(void)
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetMouse()->GetTrigger(CMouse::BUTTON_LEFT))
 	{
 		CManager::GetSceneManager()->SetNext(CSceneManager::GAME);
-		CManager::GetSound()->Play(CSound::SOUND_LABEL_ENTER);
 		return;
 	}
 	else if (m_nCntScene >= 900)

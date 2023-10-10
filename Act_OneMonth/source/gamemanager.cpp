@@ -71,9 +71,6 @@ HRESULT CGameManager::Init(void)
 		m_pLight->Init();
 	}
 
-	//BGM‚ÌÄ¶
-	CManager::GetSound()->Play(CSound::SOUND_LABEL_BGM001);
-
 	return S_OK;
 }
 

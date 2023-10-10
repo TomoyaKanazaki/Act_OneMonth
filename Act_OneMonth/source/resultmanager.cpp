@@ -33,9 +33,6 @@ CResultManager::~CResultManager()
 //==========================================
 HRESULT CResultManager::Init(void)
 {
-	//BGM‚ÌÄ¶
-	CManager::GetSound()->Play(CSound::SOUND_LABEL_BGM000);
-
 	return S_OK;
 }
 
@@ -60,7 +57,6 @@ void CResultManager::Update(void)
 	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || m_nCntScene >= 1500)
 	{
 		CManager::GetSceneManager()->SetNext(CSceneManager::TITLE);
-		CManager::GetSound()->Play(CSound::SOUND_LABEL_ENTER);
 		return;
 	}
 
