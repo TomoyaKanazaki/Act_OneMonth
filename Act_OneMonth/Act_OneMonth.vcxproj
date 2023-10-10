@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\bg.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="source\light.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\manager.cpp" />
+    <ClCompile Include="source\map_cube.cpp" />
     <ClCompile Include="source\model.cpp" />
     <ClCompile Include="source\motion.cpp" />
     <ClCompile Include="source\number.cpp" />
@@ -53,6 +55,7 @@
     <ClCompile Include="source\titlemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\bg.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
     <ClInclude Include="source\debugproc.h" />
@@ -62,6 +65,7 @@
     <ClInclude Include="source\layer.h" />
     <ClInclude Include="source\light.h" />
     <ClInclude Include="source\manager.h" />
+    <ClInclude Include="source\map_cube.h" />
     <ClInclude Include="source\model.h" />
     <ClInclude Include="source\motion.h" />
     <ClInclude Include="source\number.h" />

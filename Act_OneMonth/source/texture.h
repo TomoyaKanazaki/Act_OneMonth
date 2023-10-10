@@ -21,18 +21,8 @@ public:
 	//テクスチャの種類の列挙型定義
 	enum TEXTURE
 	{
-		EFFECT = 0, //エフェクト
+		BG = 0, //背景
 		NUMBER, //数字
-		FIELD, //床
-		TITLE, //タイトル
-		RESULT, //リザルト
-		TARGET, //的
-		EXPLOSION, //爆発
-		SMOKE, //煙
-		RANKING, //ランキング
-		ENTER, //エンター
-		RANK, //今回の順位
-		SCORE, //スコア
 		TEXTURE_MAX
 	};
 

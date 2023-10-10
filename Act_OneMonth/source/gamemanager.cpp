@@ -17,13 +17,15 @@
 #include "model.h"
 #include "renderer.h"
 #include "debugproc.h"
+#include "bg.h"
+#include "map_cube.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
 CPlayer *CGameManager::m_pPlayer = NULL;
 CCamera *CGameManager::m_pCamera = NULL;
-CLight *CGameManager::m_pLight = NULL;
+CLight* CGameManager::m_pLight = NULL;
 
 //==========================================
 //  コンストラクタ
@@ -47,7 +49,13 @@ CGameManager::~CGameManager()
 HRESULT CGameManager::Init(void)
 {
 	//プレイヤーの生成
-	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, 0.0f));
+	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
+
+	//背景の生成
+	CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f), D3DXVECTOR3(1000.0f, 1000.0f, 0.0f));
+
+	//床の生成
+	CMap_Cube::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	//カメラの生成
 	if (m_pCamera == NULL)

@@ -22,10 +22,7 @@ public:
 	typedef enum
 	{
 		PLAYER_LAYER = 0, //プレイヤー構造
-		NORMAL_LAYER, //敵構造
-		BLOCK_LAYER, //敵構造
-		PUSH_LAYER, //敵構造
-		BG_LAYER, //背景
+		CUBE_LAYER, //普通の床の構造
 		LAYERS_MAX
 	}LAYERS;
 

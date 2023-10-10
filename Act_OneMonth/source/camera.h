@@ -29,8 +29,8 @@ public:
 
 protected:
 
-#define CAMERA_DISTANCE (1000.0f) //視点からプレイヤーの距離
-#define HEIGHT (300.0f) //視点の高さ
+#define CAMERA_DISTANCE (300.0f) //視点からプレイヤーの距離
+#define HEIGHT (150.0f) //視点の高さ
 #define MAX_ROT (D3DX_PI * 0.99f) //視点の限界角
 #define MIN_ROT (D3DX_PI * 0.01f) //視点の限界角
 

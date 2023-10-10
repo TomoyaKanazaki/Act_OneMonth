@@ -22,22 +22,10 @@ public:
 	{
 		TYPE_NONE = 0, //不使用
 		TYPE_PLAYER, //プレイヤー
-		TYPE_NORMAL_ENEMY, //敵
-		TYPE_BLOCK_ENEMY, //止める敵
-		TYPE_PUSH_ENEMY, //弾く敵
-		TYPE_BULLET_ENEMY, //弾の敵
-		TYPE_EXPLOSION, //爆発
 		TYPE_BG, //背景
-		TYPE_EFFECT, //エフェクト
 		TYPE_NUMBER, //数字
-		TYPE_TIMER, //タイマー
-		TYPE_SCORE, //スコア
 		TYPE_FIELD, //床
-		TYPE_SHADOW, //影
-		TYPE_TARGET, //目標
 		TYPE_FADE, //フェード
-		TYPE_ROCKON, //ロックオン
-		TYPE_DEBRIS, //スペースデブリ
 		METHOD_MAX
 	}TYPE;
 

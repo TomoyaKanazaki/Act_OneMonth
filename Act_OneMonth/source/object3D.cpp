@@ -64,7 +64,7 @@ HRESULT CObject3D::Init(void)
 	//頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	if (GetType() == TYPE_FIELD || GetType() == TYPE_SHADOW)
+	if (GetType() == TYPE_FIELD )
 	{
 		//頂点座標の設定
 		pVtx[0].pos = D3DXVECTOR3(-m_fLength, 0.0f, m_fLength);
@@ -136,7 +136,7 @@ void CObject3D::Update(void)
 	//サイズの更新
 	m_fLength = sqrtf(m_size.x * m_size.x + m_size.z * m_size.z) * 0.5f;
 
-	if (GetType() == TYPE_FIELD || GetType() == TYPE_SHADOW)
+	if (GetType() == TYPE_FIELD)
 	{
 		//頂点座標の設定
 		pVtx[0].pos = D3DXVECTOR3(-m_fLength, 0.0f, m_fLength);

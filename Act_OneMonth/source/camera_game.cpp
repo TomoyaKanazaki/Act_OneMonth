@@ -29,6 +29,15 @@ CCameraGame::~CCameraGame()
 //==========================================
 HRESULT CCameraGame::Init(void)
 {
+	//プレイヤー座標を取得
+	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetPos();
+
+	//注視点を設定
+	m_posR = posPlayer;
+
+	//視点を設定
+	m_posV = m_posR + D3DXVECTOR3(0.0f, HEIGHT, -CAMERA_DISTANCE);
+
 	return CCamera::Init();
 }
 
@@ -44,7 +53,7 @@ void CCameraGame::Update(void)
 	m_posR = posPlayer;
 
 	//視点を更新
-	m_posV = m_posR + D3DXVECTOR3(0.0f, HEIGHT, CAMERA_DISTANCE);
+	m_posV = m_posR + D3DXVECTOR3(0.0f, HEIGHT, -CAMERA_DISTANCE);
 
 	CCamera::Update();
 }
