@@ -34,6 +34,7 @@ private:
 
 	//メンバ変数
 	HWND m_hWnd; //ウィンドウハンドル
+	bool m_bUpdate; //更新フラグ
 
 };
 

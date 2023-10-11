@@ -19,13 +19,15 @@
 #include "debugproc.h"
 #include "bg.h"
 #include "map_cube.h"
+#include "ui.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
 CPlayer *CGameManager::m_pPlayer = NULL;
 CCamera *CGameManager::m_pCamera = NULL;
-CLight* CGameManager::m_pLight = NULL;
+CLight *CGameManager::m_pLight = NULL;
+CUi *CGameManager::m_pUi = NULL;
 
 //==========================================
 //  コンストラクタ
@@ -71,6 +73,13 @@ HRESULT CGameManager::Init(void)
 		m_pLight->Init();
 	}
 
+	//UIの生成
+	if (m_pUi == NULL)
+	{
+		m_pUi = new CUi;
+		m_pUi->Init();
+	}
+
 	return S_OK;
 }
 
@@ -88,6 +97,13 @@ void CGameManager::Uninit(void)
 	}
 
 	m_pCamera = NULL;
+
+	//UIの終了
+	if (m_pUi != NULL)
+	{
+		m_pUi->Uninit();
+		delete m_pUi;
+	}
 
 	//BGMの停止
 	CManager::GetSound()->Stop();
@@ -112,6 +128,12 @@ void CGameManager::Update(void)
 	{
 		m_pLight->Update();
 	}
+
+	//UIの更新
+	if (m_pUi != NULL)
+	{
+		m_pUi->Update();
+	}
 }
 
 //==========================================
@@ -119,5 +141,9 @@ void CGameManager::Update(void)
 //==========================================
 void CGameManager::Draw(void)
 {
-
+	//UIの更新
+	if (m_pUi != NULL)
+	{
+		m_pUi->Draw();
+	}
 }

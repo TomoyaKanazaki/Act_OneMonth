@@ -14,6 +14,7 @@
 class CPlayer;
 class CCamera;
 class CLight;
+class CUi;
 
 //==========================================
 //  ゲームマネージャクラス定義
@@ -35,6 +36,7 @@ public:
 	static CPlayer *GetPlayer(void) { return m_pPlayer; }
 	static CCamera *GetCamera(void) { return m_pCamera; }
 	static CLight *GetLight(void) { return m_pLight; }
+	static CUi *GetUi(void) { return m_pUi; }
 
 private:
 
@@ -44,6 +46,7 @@ private:
 	static CPlayer *m_pPlayer;
 	static CCamera *m_pCamera;
 	static CLight *m_pLight;
+	static CUi *m_pUi;
 
 };
 

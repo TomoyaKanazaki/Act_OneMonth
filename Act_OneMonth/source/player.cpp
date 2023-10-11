@@ -179,7 +179,7 @@ void CPlayer::Update(void)
 
 	if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
 	{
-		m_pos.x -= 100.0f;
+		m_pos.x += 100.0f;
 	}
 
 	//モーションを更新する
