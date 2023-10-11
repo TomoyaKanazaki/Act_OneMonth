@@ -23,6 +23,8 @@
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
+    <ClCompile Include="source\enemy.cpp" />
+    <ClCompile Include="source\enemy_normal.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\gamemanager.cpp" />
     <ClCompile Include="source\imgui\imgui.cpp" />
@@ -71,6 +73,8 @@
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
     <ClInclude Include="source\debugproc.h" />
+    <ClInclude Include="source\enemy.h" />
+    <ClInclude Include="source\enemy_normal.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\gamemanager.h" />
     <ClInclude Include="source\imgui\imconfig.h" />
@@ -165,6 +169,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -173,6 +178,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

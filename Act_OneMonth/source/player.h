@@ -14,7 +14,6 @@
 //==========================================
 class CModel;
 class CMotion;
-class COrbit;
 
 //==========================================
 //  プレイヤークラスの定義
@@ -50,14 +49,10 @@ private:
 	bool m_bDead;
 	D3DXMATERIAL *m_pDefMat;
 
-	//静的メンバ変数
-	const static float mc_fExplosion; //殲滅範囲
-
 	//モデル情報
 	CModel **m_ppModel; //モデル情報
 	CLayer::LAYERDATA *m_pLayer; //階層構造情報
 	CMotion *m_pMotion;
-	COrbit *m_orbit;
 
 };
 

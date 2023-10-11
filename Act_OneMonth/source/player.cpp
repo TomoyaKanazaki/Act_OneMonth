@@ -26,11 +26,6 @@
 #define PLAYER_HEIGHT (40.0f) //プレイヤーの高さ
 
 //==========================================
-//  静的メンバ変数宣言
-//==========================================
-const float CPlayer::mc_fExplosion = 5000.0f;
-
-//==========================================
 //  コンストラクタ
 //==========================================
 CPlayer::CPlayer(int nPriority) : CObject(nPriority)
@@ -48,7 +43,6 @@ CPlayer::CPlayer(int nPriority) : CObject(nPriority)
 	m_ppModel = NULL;
 	m_pLayer = NULL;
 	m_pMotion = NULL;
-	m_orbit = NULL;
 }
 
 //==========================================
@@ -133,14 +127,6 @@ void CPlayer::Uninit(void)
 	{
 		delete m_pMotion;
 		m_pMotion = NULL;
-	}
-
-	//軌跡を破棄
-	if (m_orbit != NULL)
-	{
-		m_orbit->Uninit();
-		delete m_orbit;
-		m_orbit = NULL;
 	}
 
 	//自分自身の破棄

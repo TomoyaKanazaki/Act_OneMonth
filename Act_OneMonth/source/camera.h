@@ -23,13 +23,17 @@ public:
 	void SetCamera(void);
 	D3DXVECTOR3 GetPosR(void) { return m_posR; }
 	D3DXVECTOR3 GetPosV(void) { return m_posV; }
+	void SetPosR(D3DXVECTOR3 pos) { m_posR = pos; }
+	void SetPosV(D3DXVECTOR3 pos) { m_posV = pos; }
 	D3DXVECTOR3 GetRot(void) { return m_rot; }
 	D3DXMATRIX GetMtxPro(void) { return m_mtxProjection; }
 	D3DXMATRIX CreateViewMatrix(void);
+	void SwitchDebug(void) { m_bDebug = !m_bDebug; }
+	bool GetDebug(void) { return m_bDebug; }
 
 protected:
 
-#define CAMERA_DISTANCE (300.0f) //視点からプレイヤーの距離
+#define CAMERA_DISTANCE (400.0f) //視点からプレイヤーの距離
 #define HEIGHT (150.0f) //視点の高さ
 #define MAX_ROT (D3DX_PI * 0.99f) //視点の限界角
 #define MIN_ROT (D3DX_PI * 0.01f) //視点の限界角
@@ -48,6 +52,7 @@ protected:
 	D3DXVECTOR3 m_rot; //Xの計算に使用する角度
 	D3DXVECTOR3 m_diff; //プレイヤー座標との差分
 	float m_fFov; //視野角
+	bool m_bDebug; //デバッグフラグ
 
 };
 

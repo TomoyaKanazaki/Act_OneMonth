@@ -20,6 +20,7 @@
 #include "bg.h"
 #include "map_cube.h"
 #include "ui.h"
+#include "enemy.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -53,6 +54,8 @@ HRESULT CGameManager::Init(void)
 	//プレイヤーの生成
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
+	CEnemy::Create(D3DXVECTOR3(200.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+
 	//背景の生成
 	CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f), D3DXVECTOR3(1000.0f, 1000.0f, 0.0f));
 
@@ -74,11 +77,13 @@ HRESULT CGameManager::Init(void)
 	}
 
 	//UIの生成
+#ifdef _DEBUG
 	if (m_pUi == NULL)
 	{
 		m_pUi = new CUi;
 		m_pUi->Init();
 	}
+#endif
 
 	return S_OK;
 }

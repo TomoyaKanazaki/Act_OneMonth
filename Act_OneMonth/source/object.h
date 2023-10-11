@@ -22,6 +22,7 @@ public:
 	{
 		TYPE_NONE = 0, //不使用
 		TYPE_PLAYER, //プレイヤー
+		TYPE_ENEMY, //敵
 		TYPE_BG, //背景
 		TYPE_NUMBER, //数字
 		TYPE_FIELD, //床

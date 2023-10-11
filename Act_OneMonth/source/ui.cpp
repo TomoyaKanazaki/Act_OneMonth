@@ -6,7 +6,10 @@
 //==========================================
 #include "ui.h"
 #include "manager.h"
+#include "gamemanager.h"
 #include "renderer.h"
+#include "enemy.h"
+#include "camera.h"
 
 //==========================================
 //  コンストラクタ
@@ -15,6 +18,7 @@ CUi::CUi()
 {
 	m_hWnd = NULL;
 	m_bUpdate = false;
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
 //==========================================
@@ -84,6 +88,12 @@ void CUi::Update(void)
 	//ウィンドウの生成
 	ImGui::Begin(u8"MapEditor");
 
+	//カメラ操作
+	SetCamera();
+
+	//モード選択
+	SelectMode();
+
 	//ウィンドウの終了
 	ImGui::End();
 
@@ -117,4 +127,91 @@ void CUi::Draw(void)
 		//ライティングをオン
 		pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	}
+}
+
+//==========================================
+//  モード選択処理
+//==========================================
+void CUi::SelectMode(void)
+{
+	//タブを生成
+	if (ImGui::BeginTabBar(u8"モード変更", 0))
+	{
+		//エディットモード
+		if (ImGui::BeginTabItem(u8"Set"))
+		{
+			ImGui::Text(u8"SetObject");
+			Create();
+			ImGui::EndTabItem();
+		}
+
+		//プレイモード
+		if (ImGui::BeginTabItem(u8"Move"))
+		{
+			ImGui::Text(u8"MoveObject");
+			Move();
+			ImGui::EndTabItem();
+		}
+
+		ImGui::Separator();
+		ImGui::TreePop();
+	}
+}
+
+//==========================================
+//  オブジェクトを生成する処理
+//==========================================
+void CUi::Create(void)
+{
+	//位置を移動
+	ImGui::DragFloat3(u8"生成位置", m_pos);
+
+	//敵を生成
+	if (ImGui::Button(u8"生成!!!"))
+	{
+		CEnemy::Create(m_pos, CEnemy::NORMAL);
+	}
+}
+
+//==========================================
+//  オブジェクトを移動する処理
+//==========================================
+void CUi::Move(void)
+{
+
+}
+
+//==========================================
+//  カメラの設定
+//==========================================
+void CUi::SetCamera(void)
+{
+	//カメラの取得
+	CCamera* pCamera = CGameManager::GetCamera();
+
+	//デバッグ状態の切り替え
+	if (ImGui::Button(u8"カメラ操作"))
+	{
+		pCamera->SwitchDebug();
+	} ImGui::SameLine();
+
+	//表示内容
+	if (pCamera->GetDebug())
+	{
+		ImGui::Text("ON");
+	}
+	else
+	{
+		ImGui::Text("OFF");
+	}
+
+	//視点、注視点の取得
+	D3DXVECTOR3 posR = pCamera->GetPosR();
+
+	//視点、注視点の操作
+	ImGui::Text(u8"カメラの操作");
+	ImGui::DragFloat3(u8"視点", posR);
+
+	//視点、注視点の設定
+	pCamera->SetPosR(posR);
 }

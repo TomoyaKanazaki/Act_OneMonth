@@ -22,6 +22,7 @@ CCamera::CCamera()
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_diff = D3DXVECTOR3(0.0f, HEIGHT, CAMERA_DISTANCE);
+	m_bDebug = false;
 }
 
 //==========================================
