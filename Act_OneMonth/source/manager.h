@@ -61,6 +61,7 @@ public:
 	static CSceneManager *GetSceneManager(void) { return m_pSceneManager; }
 	static int GetFPS(void) { return m_nFPS; }
 	static void SetFPS(int nFPS) { m_nFPS = nFPS; }
+	static HWND GetWindowHandle(void) { return m_Wnd; }
 
 private:
 
@@ -76,7 +77,11 @@ private:
 	static int m_nFPS;
 
 	//ƒƒ“ƒo•Ï”
-	HINSTANCE m_Instance; HWND m_Wnd; BOOL m_Window;
+	HINSTANCE m_Instance; 
+	BOOL m_Window;
+
+	//Ã“Iƒƒ“ƒo•Ï”
+	static HWND m_Wnd;
 
 };
 

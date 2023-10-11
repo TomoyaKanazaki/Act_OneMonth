@@ -30,6 +30,7 @@ CSound *CManager::m_pSound = NULL;
 CTexture *CManager::m_pTexture = NULL;
 CSceneManager *CManager::m_pSceneManager = NULL;
 int CManager::m_nFPS = 0;
+HWND CManager::m_Wnd = NULL;
 
 //==========================================
 //  コンストラクタ

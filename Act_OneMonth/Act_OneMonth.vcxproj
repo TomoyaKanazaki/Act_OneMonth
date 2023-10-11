@@ -25,11 +25,22 @@
     <ClCompile Include="source\debugproc.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\gamemanager.cpp" />
+    <ClCompile Include="source\imgui\imgui.cpp" />
+    <ClCompile Include="source\imgui\imgui_demo.cpp" />
+    <ClCompile Include="source\imgui\imgui_draw.cpp" />
+    <ClCompile Include="source\imgui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="source\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="source\imgui\imgui_tables.cpp" />
+    <ClCompile Include="source\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="source\imgui\implot.cpp" />
+    <ClCompile Include="source\imgui\implot_demo.cpp" />
+    <ClCompile Include="source\imgui\implot_items.cpp" />
     <ClCompile Include="source\input.cpp" />
     <ClCompile Include="source\layer.cpp" />
     <ClCompile Include="source\light.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\manager.cpp" />
+    <ClCompile Include="source\map.cpp" />
     <ClCompile Include="source\map_cube.cpp" />
     <ClCompile Include="source\model.cpp" />
     <ClCompile Include="source\motion.cpp" />
@@ -53,6 +64,7 @@
     <ClCompile Include="source\sound.cpp" />
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="source\titlemanager.cpp" />
+    <ClCompile Include="source\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\bg.h" />
@@ -61,10 +73,21 @@
     <ClInclude Include="source\debugproc.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\gamemanager.h" />
+    <ClInclude Include="source\imgui\imconfig.h" />
+    <ClInclude Include="source\imgui\imgui.h" />
+    <ClInclude Include="source\imgui\imgui_impl_dx9.h" />
+    <ClInclude Include="source\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="source\imgui\imgui_internal.h" />
+    <ClInclude Include="source\imgui\implot.h" />
+    <ClInclude Include="source\imgui\implot_internal.h" />
+    <ClInclude Include="source\imgui\imstb_rectpack.h" />
+    <ClInclude Include="source\imgui\imstb_textedit.h" />
+    <ClInclude Include="source\imgui\imstb_truetype.h" />
     <ClInclude Include="source\input.h" />
     <ClInclude Include="source\layer.h" />
     <ClInclude Include="source\light.h" />
     <ClInclude Include="source\manager.h" />
+    <ClInclude Include="source\map.h" />
     <ClInclude Include="source\map_cube.h" />
     <ClInclude Include="source\model.h" />
     <ClInclude Include="source\motion.h" />
@@ -85,6 +108,7 @@
     <ClInclude Include="source\sound.h" />
     <ClInclude Include="source\texture.h" />
     <ClInclude Include="source\titlemanager.h" />
+    <ClInclude Include="source\ui.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D6D1A35B-7ED6-49E4-98AD-4764003301F5}</ProjectGuid>
@@ -160,7 +184,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>source\\imgui;source</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>precompile.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ForcedIncludeFiles>precompile.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -194,7 +218,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>source\\imgui;source</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>precompile.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ForcedIncludeFiles>precompile.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
