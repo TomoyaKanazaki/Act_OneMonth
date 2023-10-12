@@ -43,7 +43,8 @@ HRESULT CObject3D::Init(void)
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 
 	//ローカル変数宣言
-	m_fLength = sqrtf(m_size.x * m_size.x + m_size.z * m_size.z) * 0.5f;
+	m_fLength = sqrtf(m_size.x * m_size.x + m_size.y * m_size.y) * 0.5f;
+	m_fAngle = (m_size.x, m_size.y);
 
 	if (FAILED(pDevice->CreateVertexBuffer
 	(
@@ -67,10 +68,10 @@ HRESULT CObject3D::Init(void)
 	if (GetType() == TYPE_FIELD )
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(-m_fLength, 0.0f, m_fLength);
-		pVtx[1].pos = D3DXVECTOR3(m_fLength, 0.0f, m_fLength);
-		pVtx[2].pos = D3DXVECTOR3(-m_fLength, 0.0f, -m_fLength);
-		pVtx[3].pos = D3DXVECTOR3(m_fLength, 0.0f, -m_fLength);
+		pVtx[0].pos = D3DXVECTOR3(-m_size.x * 0.5f, 0.0f, m_size.y * 0.5f);
+		pVtx[1].pos = D3DXVECTOR3(m_size.x * 0.5f, 0.0f, m_size.y * 0.5f);
+		pVtx[2].pos = D3DXVECTOR3(-m_size.x * 0.5f, 0.0f, -m_size.y * 0.5f);
+		pVtx[3].pos = D3DXVECTOR3(m_size.x * 0.5f, 0.0f, -m_size.y * 0.5f);
 
 		//法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -81,10 +82,10 @@ HRESULT CObject3D::Init(void)
 	else
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(-m_fLength, m_fLength, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(m_fLength, m_fLength, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(-m_fLength, -m_fLength, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(m_fLength, -m_fLength, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(-m_size.x * 0.5f, m_size.y * 0.5f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(m_size.x * 0.5f, m_size.y * 0.5f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(-m_size.x * 0.5f, -m_size.y * 0.5f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(m_size.x * 0.5f, -m_size.y * 0.5f, 0.0f);
 
 		//法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
@@ -134,15 +135,16 @@ void CObject3D::Update(void)
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	//サイズの更新
-	m_fLength = sqrtf(m_size.x * m_size.x + m_size.z * m_size.z) * 0.5f;
+	m_fLength = sqrtf(m_size.x * m_size.x + m_size.y * m_size.y) * 0.5f;
+	m_fAngle = (m_size.y, m_size.x);
 
 	if (GetType() == TYPE_FIELD)
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(-m_fLength, 0.0f, m_fLength);
-		pVtx[1].pos = D3DXVECTOR3(m_fLength, 0.0f, m_fLength);
-		pVtx[2].pos = D3DXVECTOR3(-m_fLength, 0.0f, -m_fLength);
-		pVtx[3].pos = D3DXVECTOR3(m_fLength, 0.0f, -m_fLength);
+		pVtx[0].pos = D3DXVECTOR3(-m_size.x * 0.5f, 0.0f, m_size.y * 0.5f);
+		pVtx[1].pos = D3DXVECTOR3(m_size.x * 0.5f, 0.0f, m_size.y * 0.5f);
+		pVtx[2].pos = D3DXVECTOR3(-m_size.x * 0.5f, 0.0f, -m_size.y * 0.5f);
+		pVtx[3].pos = D3DXVECTOR3(m_size.x * 0.5f, 0.0f, -m_size.y * 0.5f);
 
 		//法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -153,10 +155,10 @@ void CObject3D::Update(void)
 	else
 	{
 		//頂点座標の設定
-		pVtx[0].pos = D3DXVECTOR3(-m_fLength, m_fLength, 0.0f);
-		pVtx[1].pos = D3DXVECTOR3(m_fLength, m_fLength, 0.0f);
-		pVtx[2].pos = D3DXVECTOR3(-m_fLength, -m_fLength, 0.0f);
-		pVtx[3].pos = D3DXVECTOR3(m_fLength, -m_fLength, 0.0f);
+		pVtx[0].pos = D3DXVECTOR3(-m_size.x * 0.5f, m_size.y * 0.5f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(m_size.x * 0.5f, m_size.y * 0.5f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(-m_size.x * 0.5f, -m_size.y * 0.5f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(m_size.x * 0.5f, -m_size.y * 0.5f, 0.0f);
 
 		//法線ベクトルの設定
 		pVtx[0].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);

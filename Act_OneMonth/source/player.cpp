@@ -20,26 +20,13 @@
 #include "camera.h"
 
 //==========================================
-//  マクロ定義
-//==========================================
-#define PLAYER_SPEED (2.0f) //プレイヤーの移動速度(キーボード)
-#define PLAYER_HEIGHT (40.0f) //プレイヤーの高さ
-
-//==========================================
 //  コンストラクタ
 //==========================================
 CPlayer::CPlayer(int nPriority) : CObject(nPriority)
 {
-	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_nNumModel = 0;
-	m_nLife = 0;
-	m_nDeadCounter = 0;
-	m_nBladeLife = 10;
-	m_fSpeed = 0.0f;
-	m_fAngle = 0.0f;
-	m_fSwing = 0.3f;
+	m_vecStick = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_fDashAngle = 0.0f;
 	m_bRand = true;
-	m_bDead = false;
 	m_ppModel = NULL;
 	m_pLayer = NULL;
 	m_pMotion = NULL;
@@ -138,15 +125,14 @@ void CPlayer::Uninit(void)
 //==========================================
 void CPlayer::Update(void)
 {
-	//移動量を取得
-	D3DXVECTOR3 move = CManager::GetKeyboard()->GetWASD();
-	m_move.x += move.x;
+	//前回座標を保存
+	m_oldPos = m_pos;
 
-	//慣性による移動の停止
-	m_move.x += (0.0f - m_move.x) * 0.1f;
+	//移動の処理
+	Move();
 
-	//移動量を適用
-	m_pos += m_move;
+	//ダッシュの処理
+	Dash();
 
 	//実体を移動する
 	if (m_ppModel != NULL)
@@ -163,17 +149,8 @@ void CPlayer::Update(void)
 		}
 	}
 
-	if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
-	{
-		m_pos.x += 100.0f;
-	}
-
 	//モーションを更新する
 	m_pMotion->Update();
-
-	//デバッグ表示
-	CManager::GetDebugProc()->Print("移動量 : %f\n", m_move.x);
-	CManager::GetDebugProc()->Print("存在座標 : %f\n", m_pos.x);
 }
 
 //==========================================
@@ -212,4 +189,107 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 
 	//ポインタを返す
 	return pPlayer;
+}
+
+//==========================================
+//  移動の処理
+//==========================================
+void CPlayer::Move(void)
+{
+	//パッド移動量を取得
+	D3DXVECTOR3 move = CManager::GetJoyPad()->GetStickL(0.1f);
+
+	//キーボード移動量の取得
+	if (move.x == 0.0f)
+	{
+		move = CManager::GetKeyboard()->GetWASD();
+	}
+
+	//移動量の適用
+	m_move.x = move.x * PLAYER_SPEED;
+
+	//慣性による移動の停止
+	m_move.x += (0.0f - m_move.x) * 0.1f;
+
+	//移動量を適用
+	m_pos += m_move;
+}
+
+//==========================================
+//  ダッシュの処理
+//==========================================
+void CPlayer::Dash(void)
+{
+	//パッドの入力情報を取得
+	D3DXVECTOR3 move = CManager::GetJoyPad()->GetStickR(0.3f);
+
+	//入力角度を算出
+	float fAngle = atan2f(move.y, move.x);
+
+	if (m_vecStick == D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+	{
+		if (move.x != 0.0f || move.y != 0.0f)
+		{
+			m_pos += D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
+			COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
+			Hit();
+		}
+	}
+
+	//今回の入力情報を保存する
+	m_vecStick = CManager::GetJoyPad()->GetStickR(0.2f);
+
+	//入力角度を保存する
+	m_fDashAngle = fAngle;
+
+	//デバッグ用ダッシュ
+#ifdef _DEBUG
+	if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
+	{
+		m_pos.x += DASH_DISTANCE;
+		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
+		Hit();
+	}
+#endif
+}
+
+//==========================================
+//  敵を巻き込む処理
+//==========================================
+void CPlayer::Hit(void)
+{
+	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
+	{
+		//先頭のアドレスを取得
+		CObject* pObj = CObject::GetTop(nCntPriority);
+
+		while (pObj != NULL)
+		{
+			//次のアドレスを保存
+			CObject* pNext = pObj->GetNext();
+
+			if (pObj->GetType() == CObject::TYPE_ENEMY) //敵の場合
+			{
+				//対象の座標を取得する
+				D3DXVECTOR3 pos = pObj->GetPos();
+
+				//前回座標との距離を計算する
+				D3DXVECTOR3 vecToPosOld = m_oldPos - pos;
+				float fLength = sqrtf(vecToPosOld.x * vecToPosOld.x + vecToPosOld.y * vecToPosOld.y);
+
+				//今回座標との距離を加算する
+				D3DXVECTOR3 vecToPos = m_pos - pos;
+				fLength += sqrtf(vecToPos.x * vecToPos.x + vecToPos.y * vecToPos.y);
+
+				//判定内の判定を取る
+				if (HIT_RANGE >= fLength)
+				{
+					pObj->Uninit();
+				}
+			}
+
+			//次のアドレスにずらす
+			pObj = pNext;
+		}
+	}
 }

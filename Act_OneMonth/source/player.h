@@ -30,23 +30,27 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 	D3DXVECTOR3 GetMove(void) { return m_move; }
-	void SetDead(const bool bDead) { m_bDead = bDead; }
 
 	//静的メンバ関数
 	static CPlayer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 private:
 
+	//定数定義
+#define PLAYER_SPEED (3.0f) //プレイヤーの移動速度(キーボード)
+#define PLAYER_HEIGHT (40.0f) //プレイヤーの高さ
+#define DASH_DISTANCE (300.0f) //ダッシュの移動距離
+#define HIT_RANGE (350.0f) //ヒットする範囲
+
+	//メンバ関数
+	void Move(void);
+	void Dash(void);
+	void Hit(void);
+
 	//メンバ変数
-	int m_nLife;
-	int m_nNumModel;
-	int m_nDeadCounter;
-	int m_nBladeLife;
-	float m_fSpeed;
-	float m_fAngle;
-	float m_fSwing;
+	D3DXVECTOR3 m_vecStick; //前回の右スティック入力
+	float m_fDashAngle; //前回の右スティック入力
 	bool m_bRand;
-	bool m_bDead;
 	D3DXMATERIAL *m_pDefMat;
 
 	//モデル情報
