@@ -78,7 +78,7 @@ void CTitleManager::Update(void)
 	//m_nCntScene++;
 
 	//‰æ–Ê‘JˆÚ
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || CManager::GetMouse()->GetTrigger(CMouse::BUTTON_LEFT))
+	if (CManager::GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A))
 	{
 		CManager::GetSceneManager()->SetNext(CSceneManager::GAME);
 		return;

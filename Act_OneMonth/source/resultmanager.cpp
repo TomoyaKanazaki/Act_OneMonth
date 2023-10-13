@@ -58,13 +58,11 @@ void CResultManager::Update(void)
 	m_nCntScene++;
 
 	//‰æ–Ê‘JˆÚ
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) || m_nCntScene >= 1500)
+	if (CManager::GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_nCntScene >= 1500)
 	{
 		CManager::GetSceneManager()->SetNext(CSceneManager::TITLE);
 		return;
 	}
-
-	CManager::GetDebugProc()->Print("‡ˆÊ : %d\n", m_nRank);
 }
 
 //==========================================
