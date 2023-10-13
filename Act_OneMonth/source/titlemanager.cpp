@@ -11,6 +11,8 @@
 #include "camera.h"
 #include "light.h"
 #include "sound.h"
+#include "logo.h"
+#include "texture.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -38,6 +40,8 @@ CTitleManager::~CTitleManager()
 //==========================================
 HRESULT CTitleManager::Init(void)
 {
+	CLogo::Create(D3DXVECTOR3(CENTER_WIDTH, CENTER_HEIGHT, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f), CTexture::TITLE);
+
 	//ライトの生成
 	if (m_pLight == NULL)
 	{

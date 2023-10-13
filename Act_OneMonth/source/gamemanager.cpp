@@ -55,12 +55,13 @@ HRESULT CGameManager::Init(void)
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
 	CEnemy::Create(D3DXVECTOR3(150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(-150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
 
-	//背景の生成
-	CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f), D3DXVECTOR3(1000.0f, 1000.0f, 0.0f));
+	////背景の生成
+	//CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f), D3DXVECTOR3(1000.0f, 1000.0f, 0.0f));
 
-	//床の生成
-	CMap_Cube::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	////床の生成
+	//CMap_Cube::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	//カメラの生成
 	if (m_pCamera == NULL)
@@ -126,6 +127,14 @@ void CGameManager::Update(void)
 		CManager::GetSceneManager()->SetNext(CSceneManager::RESULT);
 		return;
 	}
+
+	//画面遷移テスト
+	if (CEnemy::GetNum() == 0)
+	{
+		CManager::GetSceneManager()->SetNext(CSceneManager::RESULT);
+		return;
+	}
+
 #endif
 
 	//ライトの更新

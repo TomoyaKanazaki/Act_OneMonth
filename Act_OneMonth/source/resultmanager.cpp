@@ -10,6 +10,8 @@
 #include "scenemanager.h"
 #include "input.h"
 #include "sound.h"
+#include "logo.h"
+#include "texture.h"
 
 //==========================================
 //  コンストラクタ
@@ -33,6 +35,8 @@ CResultManager::~CResultManager()
 //==========================================
 HRESULT CResultManager::Init(void)
 {
+	CLogo::Create(D3DXVECTOR3(CENTER_WIDTH, CENTER_HEIGHT, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f), CTexture::RESULT);
+
 	return S_OK;
 }
 

@@ -5,10 +5,12 @@
 //
 //==========================================
 
-NUM_TEXTURE = 2
+NUM_TEXTURE = 4
 
 //==========================================
 //  テクスチャファイル名
 //==========================================
 TEXTURE_FILENAME = BG.png				//[0]背景
 TEXTURE_FILENAME = number.png			//[1]数字
+TEXTURE_FILENAME = title.png			//[2]タイトル
+TEXTURE_FILENAME = result.png			//[3]リザルト

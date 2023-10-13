@@ -23,6 +23,8 @@ public:
 	{
 		BG = 0, //背景
 		NUMBER, //数字
+		TITLE, //タイトル
+		RESULT, //リザルト
 		TEXTURE_MAX
 	};
 
