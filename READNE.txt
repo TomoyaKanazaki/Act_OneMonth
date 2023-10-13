@@ -17,6 +17,7 @@ exeファイルと起動に必要なリソースファイルが入っていま�
 ◇SDK      : DirectX9
 ◇開発期間 : 2022/10/02～2023/10/31(1ヶ月)
 ◇ジャンル : 横スクロール2Dアクション
+◇GitHubURL: https://github.com/TomoyaKanazaki/Act_OneMonth.git
 
 ◆動作確認済み環境◆
 ※注意※プレイには2本のアナログスティックを持つコントローラーが必須です。
