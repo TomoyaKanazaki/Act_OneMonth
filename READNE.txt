@@ -15,7 +15,7 @@ exeファイルと起動に必要なリソースファイルが入っていま�
 ◆作品について◆
 ◇使用言語 : C++
 ◇SDK      : DirectX9
-◇開発期間 : 2022/10/02～2023/10/27(1ヶ月)
+◇開発期間 : 2023/10/02～2023/10/27(1ヶ月)
 ◇ジャンル : 横スクロール2Dアクション
 ◇GitHubURL: https://github.com/TomoyaKanazaki/Act_OneMonth.git
 
