@@ -45,6 +45,8 @@ private:
 	void Create(void);
 	void Move(void);
 	void SetCamera(void);
+	void Save(void);
+	void Load(void);
 
 	//メンバ変数
 	HWND m_hWnd; //ウィンドウハンドル

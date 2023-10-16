@@ -49,6 +49,7 @@ CObject::CObject(int nPriority)
 	m_type = TYPE_NONE;
 	m_nNumObject++;
 	m_bDeath = false;
+	m_bMap = false;
 }
 
 //==========================================

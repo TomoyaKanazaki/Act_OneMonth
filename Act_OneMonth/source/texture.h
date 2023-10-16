@@ -25,6 +25,7 @@ public:
 		NUMBER, //数字
 		TITLE, //タイトル
 		RESULT, //リザルト
+		FIELD, //床
 		TEXTURE_MAX
 	};
 

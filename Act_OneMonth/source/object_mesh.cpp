@@ -190,41 +190,6 @@ void CObject_Mesh::Draw(void)
 }
 
 //==========================================
-//  生成処理
-//==========================================
-CObject_Mesh * CObject_Mesh::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, D3DXVECTOR2 uv)
-{
-	//インスタンス生成
-	CObject_Mesh *pMesh = NULL;
-
-	//NULLチェック
-	if (pMesh == NULL)
-	{
-		//メモリを確保
-		pMesh = new CObject_Mesh;
-	}
-
-	if (pMesh == NULL)
-	{
-		return NULL;
-	}
-
-	//分割数を設定
-	pMesh->m_Mesh.nNumMesh_U = (int)uv.x;
-	pMesh->m_Mesh.nNumMesh_V = (int)uv.y;
-	pMesh->m_pos = pos;
-	pMesh->m_size = size;
-	pMesh->m_rot = rot;
-	pMesh->m_Color = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
-
-	//初期化
-	pMesh->Init();
-
-	//ポインタを返す
-	return pMesh;
-}
-
-//==========================================
 //  頂点バッファの設定処理
 //==========================================
 void CObject_Mesh::SetVtx(void)
@@ -242,9 +207,6 @@ void CObject_Mesh::SetVtx(void)
 
 		//頂点カラーの設定
 		pVtx[nCntVtx].col = m_Color;
-
-		//テクスチャ座標の設定
-		pVtx[nCntVtx].tex = D3DXVECTOR2(0.0f, 0.0f);
 	}	
 
 	//頂点座標の設定
@@ -258,6 +220,9 @@ void CObject_Mesh::SetVtx(void)
 				0.0f,
 				(m_size.z * 0.5f) - ((m_size.z / m_Mesh.nNumMesh_V) * nCntVtxV)
 			);
+
+			//テクスチャ座標の設定
+			pVtx[nCntVtxU + (nCntVtxV * m_Mesh.nNumVtx_U)].tex = D3DXVECTOR2((float)(nCntVtxU % m_Mesh.nNumVtx_U), (float)(nCntVtxV % m_Mesh.nNumVtx_V));
 		}
 	}
 

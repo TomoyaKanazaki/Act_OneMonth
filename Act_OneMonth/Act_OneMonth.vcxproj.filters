@@ -19,6 +19,9 @@
     <Filter Include="system">
       <UniqueIdentifier>{8d66a832-e83d-441b-9412-7d0dfe46045f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{46374d73-4661-4a3e-bcc8-7506f34d427b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\player.cpp">
@@ -58,24 +61,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\number.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\object.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\object2D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\object2D_Anim.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\object3D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\object3D_Anim.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\object_mesh.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\camera_game.cpp">
@@ -159,6 +144,27 @@
     <ClCompile Include="source\logo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="source\object.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\object_mesh.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\object2D.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\object2D_Anim.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\object3D.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\object3D_Anim.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\field.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\bg.h">
@@ -177,24 +183,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\object3D_Anim.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\object3D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\object2D_Anim.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\object2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\object_mesh.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\object.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\number.h">
@@ -294,6 +282,27 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\logo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\object.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\object_mesh.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\object2D.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\object2D_Anim.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\object3D.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\object3D_Anim.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\field.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -24,6 +24,7 @@ public:
 		TYPE_PLAYER, //プレイヤー
 		TYPE_ENEMY, //敵
 		TYPE_BG, //背景
+		TYPE_MAP, //地形
 		TYPE_NUMBER, //数字
 		TYPE_FIELD, //床
 		TYPE_FADE, //フェード
@@ -47,11 +48,13 @@ public:
 	D3DXVECTOR3 GetOldRot(void) { return m_oldRot; }
 	D3DXVECTOR3 GetSize(void) { return m_size; }
 	TYPE GetType(void) { return m_type; }
+	bool GetMap(void) { return m_bMap; }
 	void SetPos(const D3DXVECTOR3 pos) { m_pos = pos; }
 	void SetRot(const D3DXVECTOR3 rot) { m_rot = rot; }
 	void SetMove(const D3DXVECTOR3 move) { m_move = move; }
 	void SetSize(const D3DXVECTOR3 size) { m_size = size; }
 	void SetType(TYPE type) { m_type = type; }
+	void SetMap(void) { m_bMap = true; }
 
 	virtual int GetCombo() { return NULL; } //敵のコンボ数の取得
 
@@ -83,6 +86,7 @@ private:
 	int m_nPriority; //描画優先順位
 	TYPE m_type; //種類
 	bool m_bDeath; //死亡フラグ
+	bool m_bMap; //マップに関係するオブジェクトか否か
 
 	//静的メンバ変数
 	static int m_nNumObject; //オブジェクトの総数

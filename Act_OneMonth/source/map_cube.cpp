@@ -29,7 +29,7 @@ CMap_Cube::~CMap_Cube()
 HRESULT CMap_Cube::Init(void)
 {
 	//タイプの設定
-	SetType(TYPE_FIELD);
+	SetType(TYPE_MAP);
 
 	//階層構造情報を生成
 	m_pLayer = CLayer::Set(CLayer::CUBE_LAYER);

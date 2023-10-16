@@ -29,25 +29,26 @@ public:
 	~CObject_Mesh(); //デストラクタ
 
 	//メンバ関数
-	HRESULT Init(void);
-	void Uninit(void);
-	void Update(void);
-	void Draw(void);
+	virtual HRESULT Init(void) override;
+	virtual void Uninit(void) override;
+	virtual void Update(void) override;
+	virtual void Draw(void) override;
 	bool OnMesh(const D3DXVECTOR3 pos);
 	bool OnMesh(const D3DXVECTOR3 pos, const D3DXVECTOR3 oldpos, D3DXVECTOR3 *pVecLine, D3DXVECTOR3 *pVecToPos);
 	void BindTexture(const LPDIRECT3DTEXTURE9 pTexture) { m_pTexture = pTexture; }
 	void SetVtxPos(const D3DXVECTOR3 pos, const int nIdx);
 	void SetColor(D3DXCOLOR col);
 
-	//静的メンバ関数
-	static CObject_Mesh *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, D3DXVECTOR2 uv);
+protected:
+
+	//メンバ変数
+	MeshData m_Mesh; //メッシュ情報
 
 private:
 
 	//メンバ変数
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff; //頂点バッファ
 	LPDIRECT3DINDEXBUFFER9 m_pIdxBuff; //インデックスバッファ
-	MeshData m_Mesh; //メッシュ情報
 	LPDIRECT3DTEXTURE9 m_pTexture; //テクスチャ情報
 	D3DXMATRIX m_mtxWorld; //ワールドマトリックス
 	D3DXCOLOR m_Color;

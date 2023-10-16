@@ -21,6 +21,7 @@
 #include "map_cube.h"
 #include "ui.h"
 #include "enemy.h"
+#include "field.h"
 
 //==========================================
 //  Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -57,11 +58,11 @@ HRESULT CGameManager::Init(void)
 	CEnemy::Create(D3DXVECTOR3(150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
 	CEnemy::Create(D3DXVECTOR3(-150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
 
-	////”wŒi‚Ì¶¬
-	//CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f), D3DXVECTOR3(1000.0f, 1000.0f, 0.0f));
+	//°‚Ì¶¬
+	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1500.0f, 0.0f, 1000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(10.0f, 10.0f));
 
 	////°‚Ì¶¬
-	//CMap_Cube::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	CMap_Cube::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	//ƒJƒƒ‰‚Ì¶¬
 	if (m_pCamera == NULL)

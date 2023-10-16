@@ -5,6 +5,13 @@
 //
 //==========================================
 #include "map.h"
+#include "object.h"
+#include "manager.h"
+
+//==========================================
+//  静的メンバ変数宣言
+//==========================================
+CMap::Tips CMap::m_Tips[2048] = {};
 
 //==========================================
 //  コンストラクタ
@@ -51,4 +58,51 @@ void CMap::Update(void)
 //==========================================
 void CMap::Draw(void)
 {
+}
+
+//==========================================
+//  書き出し処理
+//==========================================
+void CMap::Save(void)
+{
+	//ローカル変数宣言
+	int nNumTips = 0; //マップチップの総数を保存する変数
+
+	//地形のデータを取得する
+	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
+	{
+		//先頭のアドレスを取得
+		CObject* pObj = CObject::GetTop(nCntPriority);
+
+		while (pObj != NULL)
+		{
+			//次のアドレスを保存
+			CObject* pNext = pObj->GetNext();
+
+			if (pObj->GetMap()) //マップチップの場合
+			{
+				//座標を取得
+				m_Tips[nNumTips].pos = pObj->GetPos();
+
+				//角度を取得
+				m_Tips[nNumTips].rot = pObj->GetRot();
+
+				//種類を取得
+				m_Tips[nNumTips].type = pObj->GetType();
+
+				//使用数を加算
+				nNumTips++;
+
+				//警告
+				if (nNumTips == 2047)
+				{
+					MessageBox(CManager::GetWindowHandle(), "Failed to save", "データ容量超過", MB_OK);
+					return;
+				}
+			}
+
+			//次のアドレスにずらす
+			pObj = pNext;
+		}
+	}
 }
