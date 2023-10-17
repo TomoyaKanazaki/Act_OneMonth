@@ -133,14 +133,17 @@ void CPlayer::Update(void)
 	//前回座標を保存
 	m_oldPos = m_pos;
 
-	//ジャンプ!
-	Jump();
-
-	//移動の処理
-	Move();
-
 	//ダッシュの処理
 	Dash();
+
+	if (!m_bDash)
+	{
+		//ジャンプ!
+		Jump();
+
+		//移動の処理
+		Move();
+	}
 
 	//移動制限
 	Limit();
@@ -166,6 +169,9 @@ void CPlayer::Update(void)
 	//重力
 	Gravity();
 
+	//ダッシュ時の処理
+	Hit();
+
 	//デバッグ表示
 	CManager::GetManager()->GetDebugProc()->Print("移動量 ( %f, %f )\n", m_move.x, m_move.y);
 	CManager::GetManager()->GetDebugProc()->Print("座標 ( %f, %f )\n", m_pos.x, m_pos.y);
@@ -174,7 +180,7 @@ void CPlayer::Update(void)
 //==========================================
 //  描画処理
 //==========================================
-void CPlayer::Draw()
+void CPlayer::Draw(void)
 {
 
 }
@@ -272,6 +278,7 @@ void CPlayer::Gravity(void)
 	//重力の無効条件
 	if (m_pos.y <= 0.0f)
 	{
+		m_move.y = 0.0f;
 		return;
 	}
 
@@ -313,28 +320,33 @@ void CPlayer::Dash(void)
 	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_UP))
 	{
 		m_pos.y += DASH_DISTANCE;
-		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
 		m_bDash = true;
 	}
 	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_DOWN))
 	{
 		m_pos.y -= DASH_DISTANCE;
-		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
 		m_bDash = true;
 	}
 	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_RIGHT))
 	{
 		m_pos.x += DASH_DISTANCE;
-		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
 		m_bDash = true;
 	}
 	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LEFT))
 	{
 		m_pos.x -= DASH_DISTANCE;
-		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
 		m_bDash = true;
 	}
 #endif
+
+	//移動制限
+	Limit();
+
+	//移動がなかった場合はダッシュをキャンセル
+	if (m_oldPos == m_pos)
+	{
+		m_bDash = false;
+	}
 }
 
 //==========================================

@@ -13,11 +13,11 @@ NUM_LAYER = 2
 
 LAYER_DATA //プレイヤーの構造
 	
-	NUM_MODEL 5
+	NUM_MODEL 14
 	
 	MODELID		0
 	ParentID	-1
-	POS			0.0 50.0 0.0
+	POS			0.0 28.0 0.0
 	ROT			0.0 0.0 0.0
 	
 	MODELID		1
@@ -26,25 +26,70 @@ LAYER_DATA //プレイヤーの構造
 	ROT			0.0 0.0 0.0
 
 	MODELID		2
-	ParentID	0
-	POS			0.0 0.0 0.0
+	ParentID	1
+	POS			0.0 10.0 1.5
 	ROT			0.0 0.0 0.0
 
 	MODELID		3
 	ParentID	0
-	POS			30.0 0.0 0.0
+	POS			3.0 0.0 0.0
 	ROT			0.0 0.0 0.0
 
 	MODELID		4
+	ParentID	1
+	POS			2.5 7.0 2.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		5
+	ParentID	4
+	POS			6.0 1.0 0.0
+	ROT			0.0 0.0 0.0
+
+	MODELID		6
+	ParentID	1
+	POS			-2.5 7.0 2.0
+	ROT			0.0 0.0 0.0
+
+	MODELID		7
+	ParentID	6
+	POS			-6.0 1.0 0.0
+	ROT			0.0 0.0 0.0
+
+	MODELID		8
 	ParentID	0
-	POS			-30.0 0.0 0.0
+	POS			2.0 -4.5 0.5
+	ROT			0.0 0.0 0.0
+
+	MODELID		9
+	ParentID	8
+	POS			-0.65 -11.5 0.55
+	ROT			0.0 0.0 0.0
+
+	MODELID		10
+	ParentID	9
+	POS			-0.16 -10.0 0.0
+	ROT			0.0 0.0 0.0
+
+	MODELID		11
+	ParentID	0
+	POS			-2.0 -4.5 0.5
+	ROT			0.0 0.0 0.0
+
+	MODELID		12
+	ParentID	11
+	POS			0.65 -11.5 0.55
+	ROT			0.0 0.0 0.0
+
+	MODELID		13
+	ParentID	12
+	POS			0.155 -10.0 0.0
 	ROT			0.0 0.0 0.0
 
 LAYER_DATA //普通の床の構造
 	
 	NUM_MODEL 1
 	
-	MODELID		5
+	MODELID		14
 	ParentID	-1
 	POS			0.0 0.0 0.0
 	ROT			0.0 0.0 0.0
