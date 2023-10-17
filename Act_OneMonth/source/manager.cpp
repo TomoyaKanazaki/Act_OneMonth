@@ -289,6 +289,7 @@ void CManager::Uninit(void)
 	if (m_pGameTime != NULL)
 	{
 		m_pGameTime->Uninit();
+		delete m_pGameTime;
 	}
 }
 

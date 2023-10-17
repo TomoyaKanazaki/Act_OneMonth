@@ -28,6 +28,7 @@ CPlayer::CPlayer(int nPriority) : CObject(nPriority)
 	m_vecStick = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fDashAngle = 0.0f;
 	m_bRand = true;
+	m_bDash = false;
 	m_ppModel = NULL;
 	m_pLayer = NULL;
 	m_pMotion = NULL;
@@ -132,11 +133,17 @@ void CPlayer::Update(void)
 	//前回座標を保存
 	m_oldPos = m_pos;
 
+	//ジャンプ!
+	Jump();
+
 	//移動の処理
 	Move();
 
 	//ダッシュの処理
 	Dash();
+
+	//移動制限
+	Limit();
 
 	//実体を移動する
 	if (m_ppModel != NULL)
@@ -155,6 +162,13 @@ void CPlayer::Update(void)
 
 	//モーションを更新する
 	m_pMotion->Update();
+
+	//重力
+	Gravity();
+
+	//デバッグ表示
+	CManager::GetManager()->GetDebugProc()->Print("移動量 ( %f, %f )\n", m_move.x, m_move.y);
+	CManager::GetManager()->GetDebugProc()->Print("座標 ( %f, %f )\n", m_pos.x, m_pos.y);
 }
 
 //==========================================
@@ -196,6 +210,18 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 }
 
 //==========================================
+//  移動制限
+//==========================================
+void CPlayer::Limit(void)
+{
+	if (m_pos.y < 0.0f)
+	{
+		m_pos.y = 0.0f;
+		m_bRand = true;
+	}
+}
+
+//==========================================
 //  移動の処理
 //==========================================
 void CPlayer::Move(void)
@@ -210,13 +236,47 @@ void CPlayer::Move(void)
 	}
 
 	//移動量の適用
-	m_move.x = move.x * PLAYER_SPEED * m_fDeltaTime;
+	m_move.x = move.x * PLAYER_SPEED;
 
 	//慣性による移動の停止
 	m_move.x += (0.0f - m_move.x) * 0.1f;
 
 	//移動量を適用
-	m_pos += m_move;
+	m_pos += m_move * m_fDeltaTime;
+}
+
+//==========================================
+//  ジャンプの処理
+//==========================================
+void CPlayer::Jump(void)
+{
+	//着地フラグがオフの時
+	if (!m_bRand)
+	{
+		return;
+	}
+
+	//ジャンプ!
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_LB))
+	{
+		m_move.y = JUMP_MOVE;
+		m_bRand = false;
+	}
+}
+
+//==========================================
+//  重力の処理
+//==========================================
+void CPlayer::Gravity(void)
+{
+	//重力の無効条件
+	if (m_pos.y <= 0.0f)
+	{
+		return;
+	}
+
+	//移動量の減少
+	m_move.y -= GRAVITY;
 }
 
 //==========================================
@@ -224,6 +284,9 @@ void CPlayer::Move(void)
 //==========================================
 void CPlayer::Dash(void)
 {
+	//ダッシュフラグのリセット
+	m_bDash = false;
+
 	//パッドの入力情報を取得
 	D3DXVECTOR3 move = CManager::GetManager()->GetJoyPad()->GetStickR(0.3f);
 
@@ -235,8 +298,7 @@ void CPlayer::Dash(void)
 		if (move.x != 0.0f || move.y != 0.0f)
 		{
 			m_pos += D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
-			COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
-			Hit();
+			m_bDash = true;
 		}
 	}
 
@@ -248,11 +310,29 @@ void CPlayer::Dash(void)
 
 	//デバッグ用ダッシュ
 #ifdef _DEBUG
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_SPACE))
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_UP))
+	{
+		m_pos.y += DASH_DISTANCE;
+		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
+		m_bDash = true;
+	}
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_DOWN))
+	{
+		m_pos.y -= DASH_DISTANCE;
+		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
+		m_bDash = true;
+	}
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_RIGHT))
 	{
 		m_pos.x += DASH_DISTANCE;
 		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
-		Hit();
+		m_bDash = true;
+	}
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LEFT))
+	{
+		m_pos.x -= DASH_DISTANCE;
+		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
+		m_bDash = true;
 	}
 #endif
 }
@@ -262,6 +342,15 @@ void CPlayer::Dash(void)
 //==========================================
 void CPlayer::Hit(void)
 {
+	//ダッシュしてない場合
+	if (!m_bDash)
+	{
+		return;
+	}
+
+	//当たり判定の生成
+	COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
+
 	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
 	{
 		//先頭のアドレスを取得

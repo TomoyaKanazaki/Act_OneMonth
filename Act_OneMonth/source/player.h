@@ -37,13 +37,18 @@ public:
 private:
 
 	//定数定義
-#define PLAYER_SPEED (300.0f) //プレイヤーの移動速度(キーボード)
+#define PLAYER_SPEED (400.0f) //プレイヤーの移動速度
 #define PLAYER_HEIGHT (40.0f) //プレイヤーの高さ
 #define DASH_DISTANCE (300.0f) //ダッシュの移動距離
 #define HIT_RANGE (350.0f) //ヒットする範囲
+#define JUMP_MOVE (1000.0f) //ジャンプ力
+#define GRAVITY (25.0f) //重力
 
 	//メンバ関数
+	void Limit(void);
 	void Move(void);
+	void Jump(void);
+	void Gravity(void);
 	void Dash(void);
 	void Hit(void);
 
@@ -51,6 +56,7 @@ private:
 	D3DXVECTOR3 m_vecStick; //前回の右スティック入力
 	float m_fDashAngle; //前回の右スティック入力
 	bool m_bRand;
+	bool m_bDash;
 	D3DXMATERIAL *m_pDefMat;
 
 	//モデル情報
