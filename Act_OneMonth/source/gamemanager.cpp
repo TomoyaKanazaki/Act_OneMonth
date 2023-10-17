@@ -113,7 +113,7 @@ void CGameManager::Uninit(void)
 	}
 
 	//BGM‚Ì’âŽ~
-	CManager::GetSound()->Stop();
+	CManager::GetManager()->GetManager()->GetSound()->Stop();
 }
 
 //==========================================
@@ -123,16 +123,16 @@ void CGameManager::Update(void)
 {
 #if _DEBUG
 	//‰æ–Ê‘JˆÚƒeƒXƒg
-	if (CManager::GetKeyboard()->GetTrigger(DIK_RETURN) && CManager::GetKeyboard()->GetPress(DIK_LSHIFT))
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN) && CManager::GetManager()->GetKeyboard()->GetPress(DIK_LSHIFT))
 	{
-		CManager::GetSceneManager()->SetNext(CSceneManager::RESULT);
+		CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 		return;
 	}
 
 	//‰æ–Ê‘JˆÚƒeƒXƒg
 	if (CEnemy::GetNum() == 0)
 	{
-		CManager::GetSceneManager()->SetNext(CSceneManager::RESULT);
+		CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 		return;
 	}
 

@@ -46,6 +46,7 @@ CObject::CObject(int nPriority)
 	m_oldRot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_nPriority = nPriority;
+	m_fDeltaTime = 0.0f;
 	m_type = TYPE_NONE;
 	m_nNumObject++;
 	m_bDeath = false;
@@ -191,7 +192,7 @@ void CObject::UpdateAll(void)
 		}
 	}
 
-	CManager::GetDebugProc()->Print("オブジェクト数 : %d\n", m_nNumObject);
+	CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("オブジェクト数 : %d\n", m_nNumObject);
 }
 
 //==========================================

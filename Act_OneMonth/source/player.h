@@ -37,7 +37,7 @@ public:
 private:
 
 	//定数定義
-#define PLAYER_SPEED (3.0f) //プレイヤーの移動速度(キーボード)
+#define PLAYER_SPEED (300.0f) //プレイヤーの移動速度(キーボード)
 #define PLAYER_HEIGHT (40.0f) //プレイヤーの高さ
 #define DASH_DISTANCE (300.0f) //ダッシュの移動距離
 #define HIT_RANGE (350.0f) //ヒットする範囲

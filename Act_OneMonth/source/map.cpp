@@ -96,7 +96,7 @@ void CMap::Save(void)
 				//警告
 				if (nNumTips == 2047)
 				{
-					MessageBox(CManager::GetWindowHandle(), "Failed to save", "データ容量超過", MB_OK);
+					MessageBox(CManager::GetManager()->GetWindowHandle(), "Failed to save", "データ容量超過", MB_OK);
 					return;
 				}
 			}

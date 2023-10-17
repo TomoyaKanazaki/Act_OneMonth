@@ -40,7 +40,7 @@ CObject3D::~CObject3D()
 HRESULT CObject3D::Init(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
 	//ローカル変数宣言
 	m_fLength = sqrtf(m_size.x * m_size.x + m_size.y * m_size.y) * 0.5f;
@@ -185,7 +185,7 @@ void CObject3D::Update(void)
 void CObject3D::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
 	//ローカル変数宣言
 	D3DXMATRIX mtxRot, mtxTrans, mtxView; //計算用マトリックス

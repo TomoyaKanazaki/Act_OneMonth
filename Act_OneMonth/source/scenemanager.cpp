@@ -180,16 +180,16 @@ void CSceneManager::Draw(void)
 	switch (m_Scene)
 	{
 	case TITLE:
-		CManager::GetDebugProc()->Print("現在のシーン : タイトル\n");
+		CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("現在のシーン : タイトル\n");
 		break;
 	case GAME:
-		CManager::GetDebugProc()->Print("現在のシーン : ゲーム\n");
+		CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("現在のシーン : ゲーム\n");
 		break;
 	case RESULT:
-		CManager::GetDebugProc()->Print("現在のシーン : リザルト\n");
+		CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("現在のシーン : リザルト\n");
 		break;
 	case RANKING:
-		CManager::GetDebugProc()->Print("現在のシーン : ランキング\n");
+		CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("現在のシーン : ランキング\n");
 		break;
 	default:
 		break;

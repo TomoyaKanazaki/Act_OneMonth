@@ -77,6 +77,7 @@ protected:
 	D3DXVECTOR3 m_size; //オブジェクトのサイズ
 	D3DXVECTOR3 m_oldPos; //オブジェクトの前回座標
 	D3DXVECTOR3 m_oldRot; //オブジェクトの前回角度
+	float m_fDeltaTime; //前回の更新からかかった時間
 
 private:
 

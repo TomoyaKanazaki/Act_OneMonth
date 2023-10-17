@@ -185,16 +185,16 @@ void CRenderer::Draw(void)
 		CObject::DrawAll();
 
 		//シーンマネージャを描画
-		if (CManager::GetSceneManager() != NULL)
+		if (CManager::GetManager()->GetSceneManager() != NULL)
 		{
-			CManager::GetSceneManager()->Draw();
+			CManager::GetManager()->GetSceneManager()->Draw();
 		}
 
 		//デバッグ表示
-		if (CManager::GetDebugProc() != NULL)
+		if (CManager::GetManager()->GetDebugProc() != NULL)
 		{
-			CManager::GetDebugProc()->Print("FPS : %d\n", CManager::GetFPS());
-			CManager::GetDebugProc()->Draw();
+			CManager::GetManager()->GetDebugProc()->Print("FPS : %d\n", CManager::GetManager()->GetFPS());
+			CManager::GetManager()->GetDebugProc()->Draw();
 		}
 
 		//描画終了

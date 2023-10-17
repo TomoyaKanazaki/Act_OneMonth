@@ -18,6 +18,7 @@
 #include "gamemanager.h"
 #include "orbit.h"
 #include "camera.h"
+#include "gametime.h"
 
 //==========================================
 //  コンストラクタ
@@ -125,6 +126,9 @@ void CPlayer::Uninit(void)
 //==========================================
 void CPlayer::Update(void)
 {
+	//経過時間を取得する
+	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+
 	//前回座標を保存
 	m_oldPos = m_pos;
 
@@ -197,16 +201,16 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 void CPlayer::Move(void)
 {
 	//パッド移動量を取得
-	D3DXVECTOR3 move = CManager::GetJoyPad()->GetStickL(0.1f);
+	D3DXVECTOR3 move = CManager::GetManager()->GetJoyPad()->GetStickL(0.1f);
 
 	//キーボード移動量の取得
 	if (move.x == 0.0f)
 	{
-		move = CManager::GetKeyboard()->GetWASD();
+		move = CManager::GetManager()->GetKeyboard()->GetWASD();
 	}
 
 	//移動量の適用
-	m_move.x = move.x * PLAYER_SPEED;
+	m_move.x = move.x * PLAYER_SPEED * m_fDeltaTime;
 
 	//慣性による移動の停止
 	m_move.x += (0.0f - m_move.x) * 0.1f;
@@ -221,7 +225,7 @@ void CPlayer::Move(void)
 void CPlayer::Dash(void)
 {
 	//パッドの入力情報を取得
-	D3DXVECTOR3 move = CManager::GetJoyPad()->GetStickR(0.3f);
+	D3DXVECTOR3 move = CManager::GetManager()->GetJoyPad()->GetStickR(0.3f);
 
 	//入力角度を算出
 	float fAngle = atan2f(move.y, move.x);
@@ -237,14 +241,14 @@ void CPlayer::Dash(void)
 	}
 
 	//今回の入力情報を保存する
-	m_vecStick = CManager::GetJoyPad()->GetStickR(0.2f);
+	m_vecStick = CManager::GetManager()->GetJoyPad()->GetStickR(0.2f);
 
 	//入力角度を保存する
 	m_fDashAngle = fAngle;
 
 	//デバッグ用ダッシュ
 #ifdef _DEBUG
-	if (CManager::GetKeyboard()->GetTrigger(DIK_SPACE))
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_SPACE))
 	{
 		m_pos.x += DASH_DISTANCE;
 		COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);

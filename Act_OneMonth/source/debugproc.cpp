@@ -17,7 +17,7 @@ LPD3DXFONT CDebugProc::m_pFont = NULL;	// デバッグフォントへのポインタ
 //**********************************************************
 //マクロ定義
 //**********************************************************
-#define MAX_FLOATNUM	(2)		//小数点以下の表示桁数
+#define MAX_FLOATNUM	(4)		//小数点以下の表示桁数
 
 //==========================================================
 // コンストラクタ
@@ -46,7 +46,7 @@ void CDebugProc::Init(void)
 	LPDIRECT3DDEVICE9 pDevice;		//デバイスへのポインタ
 
 	//デバイスの取得
-	pDevice = CManager::GetRenderer()->GetDevice();
+	pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
 	//デバッグ表示用フォントの生成
 	D3DXCreateFont(pDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "Terminal", &m_pFont);
@@ -77,7 +77,7 @@ void CDebugProc::Uninit(void)
 //==========================================================
 void CDebugProc::Update(void)
 {
-	CKeyboard *pKeyboard = CManager::GetKeyboard();	// キーボードのポインタ
+	CKeyboard *pKeyboard = CManager::GetManager()->GetKeyboard();	// キーボードのポインタ
 
 	if(pKeyboard->GetTrigger(DIK_F1) == true)
 	{//F1キーが押されたとき

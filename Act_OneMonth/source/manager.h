@@ -23,6 +23,7 @@ class CDebugProc;
 class CSound;
 class CTexture;
 class CSceneManager;
+class CGameTime;
 
 //==========================================
 //  マネージャクラス定義
@@ -49,38 +50,41 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	CRenderer* GetRenderer(void) { return m_pRenderer; }
+	CKeyboard* GetKeyboard(void) { return m_pKeyboard; }
+	CMouse* GetMouse(void) { return m_pMouse; }
+	CJoyPad* GetJoyPad(void) { return m_pJoyPad; }
+	CDebugProc* GetDebugProc(void) { return m_pDebugProc; }
+	CSound* GetSound(void) { return m_pSound; }
+	CTexture* GetTexture(void) { return m_pTexture; }
+	CSceneManager* GetSceneManager(void) { return m_pSceneManager; }
+	CGameTime* GetGameTime(void) { return m_pGameTime; }
+	int GetFPS(void) { return m_nFPS; }
+	void SetFPS(int nFPS) { m_nFPS = nFPS; }
 
 	//静的メンバ関数
-	static CRenderer *GetRenderer(void) { return m_pRenderer; }
-	static CKeyboard *GetKeyboard(void) { return m_pKeyboard; }
-	static CMouse *GetMouse(void) { return m_pMouse; }
-	static CJoyPad *GetJoyPad(void) { return m_pJoyPad; }
-	static CDebugProc *GetDebugProc(void) { return m_pDebugProc; }
-	static CSound *GetSound(void) { return m_pSound; }
-	static CTexture *GetTexture(void) { return m_pTexture; }
-	static CSceneManager *GetSceneManager(void) { return m_pSceneManager; }
-	static int GetFPS(void) { return m_nFPS; }
-	static void SetFPS(int nFPS) { m_nFPS = nFPS; }
+	static CManager* GetManager(void);
+	static HRESULT Release(void);
 	static HWND GetWindowHandle(void) { return m_Wnd; }
 
 private:
 
-	//静的メンバ変数
-	static CRenderer *m_pRenderer;
-	static CKeyboard *m_pKeyboard;
-	static CMouse *m_pMouse;
-	static CJoyPad *m_pJoyPad;
-	static CDebugProc *m_pDebugProc;
-	static CSound *m_pSound;
-	static CTexture *m_pTexture;
-	static CSceneManager *m_pSceneManager;
-	static int m_nFPS;
-
 	//メンバ変数
 	HINSTANCE m_Instance; 
 	BOOL m_Window;
+	CRenderer* m_pRenderer;
+	CKeyboard* m_pKeyboard;
+	CMouse* m_pMouse;
+	CJoyPad* m_pJoyPad;
+	CDebugProc* m_pDebugProc;
+	CSound* m_pSound;
+	CTexture* m_pTexture;
+	CSceneManager* m_pSceneManager;
+	CGameTime* m_pGameTime;
+	int m_nFPS;
 
 	//静的メンバ変数
+	static CManager* m_pManager;
 	static HWND m_Wnd;
 
 };

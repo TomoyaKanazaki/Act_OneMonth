@@ -28,6 +28,7 @@
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\field.cpp" />
     <ClCompile Include="source\gamemanager.cpp" />
+    <ClCompile Include="source\gametime.cpp" />
     <ClCompile Include="source\imgui\imgui.cpp" />
     <ClCompile Include="source\imgui\imgui_demo.cpp" />
     <ClCompile Include="source\imgui\imgui_draw.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\field.h" />
     <ClInclude Include="source\gamemanager.h" />
+    <ClInclude Include="source\gametime.h" />
     <ClInclude Include="source\imgui\imconfig.h" />
     <ClInclude Include="source\imgui\imgui.h" />
     <ClInclude Include="source\imgui\imgui_impl_dx9.h" />

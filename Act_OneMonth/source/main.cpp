@@ -70,14 +70,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 		NULL
 	);
 
-	//インスタンス生成
+	//ローカル変数宣言
 	CManager *pManager = NULL;
 
 	//メモリの確保
-	if (pManager == NULL)
-	{
-		pManager = new CManager;
-	}
+	pManager = CManager::GetManager();
 
 	//初期化処理
 	if (pManager != NULL)
@@ -137,7 +134,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 			{
 				//0.5秒経過
 				int nFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);
-				CManager::SetFPS(nFPS);
+				CManager::GetManager()->GetManager()->SetFPS(nFPS);
 				dwFPSLastTime = dwCurrentTime; //FPSを測定した時間
 				dwFrameCount = 0; //フレームカウントをクリア
 			}
@@ -184,8 +181,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hInstancePrev*/, LPSTR /*lpC
 	if (pManager != NULL)
 	{
 		pManager->Uninit();
-		delete pManager;
-		pManager = NULL;
+		CManager::Release();
 	}
 
 	return (int)msg.wParam;

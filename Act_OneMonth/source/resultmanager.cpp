@@ -46,7 +46,7 @@ HRESULT CResultManager::Init(void)
 void CResultManager::Uninit(void)
 {
 	//BGM‚Ì’âŽ~
-	CManager::GetSound()->Stop();
+	CManager::GetManager()->GetManager()->GetSound()->Stop();
 }
 
 //==========================================
@@ -58,9 +58,9 @@ void CResultManager::Update(void)
 	m_nCntScene++;
 
 	//‰æ–Ê‘JˆÚ
-	if (CManager::GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_nCntScene >= 1500)
+	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_nCntScene >= 1500)
 	{
-		CManager::GetSceneManager()->SetNext(CSceneManager::TITLE);
+		CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::TITLE);
 		return;
 	}
 }

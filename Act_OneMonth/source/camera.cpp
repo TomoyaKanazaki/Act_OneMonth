@@ -54,8 +54,8 @@ void CCamera::Uninit(void)
 //==========================================
 void CCamera::Update(void)
 {
-	CManager::GetDebugProc()->Print("視点 : ( %f, %f, %f )\n", m_posV.x, m_posV.y, m_posV.z);
-	CManager::GetDebugProc()->Print("注視点 : ( %f, %f, %f )\n", m_posR.x, m_posR.y, m_posR.z);
+	CManager::GetManager()->GetDebugProc()->Print("視点 : ( %f, %f, %f )\n", m_posV.x, m_posV.y, m_posV.z);
+	CManager::GetManager()->GetDebugProc()->Print("注視点 : ( %f, %f, %f )\n", m_posR.x, m_posR.y, m_posR.z);
 }
 
 //==========================================
@@ -65,7 +65,7 @@ void CCamera::SetCamera(void)
 {
 
 	//デバイスの所得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
 	//プロジェクションマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxProjection);
@@ -116,8 +116,8 @@ D3DXMATRIX CCamera::CreateViewMatrix(void)
 void CCamera::FirstPerson(void)
 {
 	//視点の値を更新
-	m_rot.x += CManager::GetMouse()->GetMouseMove().x;
-	m_rot.z += CManager::GetMouse()->GetMouseMove().y;
+	m_rot.x += CManager::GetManager()->GetManager()->GetMouse()->GetMouseMove().x;
+	m_rot.z += CManager::GetManager()->GetManager()->GetMouse()->GetMouseMove().y;
 
 	//角度の補正
 	if (m_rot.z > MAX_ROT)
@@ -152,7 +152,7 @@ void CCamera::ThirdPerson(void)
 	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetPos();
 
 	//視点の値を更新
-	m_rot.y += CManager::GetMouse()->GetMouseMove().x;
+	m_rot.y += CManager::GetManager()->GetManager()->GetMouse()->GetMouseMove().x;
 
 	//角度の補正
 	if (m_rot.y > D3DX_PI)

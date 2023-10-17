@@ -85,7 +85,7 @@ void COrbit::Update(void)
 void COrbit::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
 	//カリングをオフ
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);

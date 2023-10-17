@@ -36,10 +36,10 @@ CUi::~CUi()
 void CUi::Init(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
 	//ウィンドウハンドルの取得
-	m_hWnd = CManager::GetWindowHandle();
+	m_hWnd = CManager::GetManager()->GetWindowHandle();
 
 	//ImGui環境の設定
 	IMGUI_CHECKVERSION();
@@ -116,7 +116,7 @@ void CUi::Draw(void)
 	if (m_bUpdate)
 	{
 		//デバイスの取得
-		LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+		LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
 		//ライティングをオフ
 		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);

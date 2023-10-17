@@ -88,7 +88,7 @@ CFeild* CFeild::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DX
 	pField->Init();
 
 	//テクスチャの割り当て
-	pField->BindTexture(CManager::GetTexture()->GetAddress(CTexture::FIELD));
+	pField->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::FIELD));
 
 	//ポインタを返す
 	return pField;

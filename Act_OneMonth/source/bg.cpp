@@ -82,7 +82,7 @@ CBg* CBg::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	pBG->Init();
 
 	//テクスチャを割り当てる
-	pBG->BindTexture(CManager::GetTexture()->GetAddress(CTexture::BG));
+	pBG->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::BG));
 
 	return pBG;
 }

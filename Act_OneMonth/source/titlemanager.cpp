@@ -66,7 +66,7 @@ void CTitleManager::Uninit(void)
 	}
 
 	//BGM‚Ì’âŽ~
-	CManager::GetSound()->Stop();
+	CManager::GetManager()->GetSound()->Stop();
 }
 
 //==========================================
@@ -78,14 +78,14 @@ void CTitleManager::Update(void)
 	//m_nCntScene++;
 
 	//‰æ–Ê‘JˆÚ
-	if (CManager::GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || CManager::GetKeyboard()->GetTrigger(DIK_RETURN))
+	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || CManager::GetManager()->GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
-		CManager::GetSceneManager()->SetNext(CSceneManager::GAME);
+		CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::GAME);
 		return;
 	}
 	else if (m_nCntScene >= 900)
 	{
-		CManager::GetSceneManager()->SetNext(CSceneManager::RANKING);
+		CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::RANKING);
 		return;
 	}
 

@@ -17,19 +17,12 @@
 #include "layer.h"
 #include "motion.h"
 #include "scenemanager.h"
+#include "gametime.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
-CRenderer *CManager::m_pRenderer = NULL;
-CKeyboard *CManager::m_pKeyboard = NULL;
-CMouse *CManager::m_pMouse = NULL;
-CJoyPad *CManager::m_pJoyPad = NULL;
-CDebugProc *CManager::m_pDebugProc = NULL;
-CSound *CManager::m_pSound = NULL;
-CTexture *CManager::m_pTexture = NULL;
-CSceneManager *CManager::m_pSceneManager = NULL;
-int CManager::m_nFPS = 0;
+CManager* CManager::m_pManager = nullptr;
 HWND CManager::m_Wnd = NULL;
 
 //==========================================
@@ -37,7 +30,16 @@ HWND CManager::m_Wnd = NULL;
 //==========================================
 CManager::CManager()
 {
-
+	m_pRenderer = NULL;
+	m_pKeyboard = NULL;
+	m_pMouse = NULL;
+	m_pJoyPad = NULL;
+	m_pDebugProc = NULL;
+	m_pSound = NULL;
+	m_pTexture = NULL;
+	m_pSceneManager = NULL;
+	m_pGameTime = NULL;
+	m_nFPS = 0;
 }
 
 //==========================================
@@ -57,6 +59,13 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	m_Instance = hInstance;
 	m_Wnd = hWnd;
 	m_Window = bWindow;
+
+	//ゲームタイマーの生成
+	if (m_pGameTime == NULL)
+	{
+		m_pGameTime = new CGameTime;
+		m_pGameTime->Init();
+	}
 
 	//レンダラーの生成
 	if (m_pRenderer == NULL)
@@ -275,6 +284,12 @@ void CManager::Uninit(void)
 
 	//モーション情報の破棄
 	CMotion::UnLoad();
+
+	//ゲームタイマーの破棄
+	if (m_pGameTime != NULL)
+	{
+		m_pGameTime->Uninit();
+	}
 }
 
 //==========================================
@@ -282,6 +297,12 @@ void CManager::Uninit(void)
 //==========================================
 void CManager::Update(void)
 {
+	//ゲームタイマーの更新
+	if (m_pGameTime != NULL)
+	{
+		m_pGameTime->Update();
+	}
+
 	//キーボードの更新処理
 	if (m_pKeyboard != NULL)
 	{
@@ -329,4 +350,37 @@ void CManager::Draw(void)
 	{
 		m_pRenderer->Draw();
 	}
+}
+
+//==========================================
+//  マネージャの取得
+//==========================================
+CManager *CManager::GetManager(void)
+{
+	//インスタンス生成
+	if (m_pManager == NULL)
+	{
+		m_pManager = new CManager;
+	}
+
+	return m_pManager;
+}
+
+//==========================================
+//  リリース
+//==========================================
+HRESULT CManager::Release(void)
+{
+	if (m_pManager != nullptr)
+	{
+		//自身の破棄
+		delete m_pManager;
+		m_pManager = nullptr;
+	}
+	else
+	{
+		return E_FAIL;
+	}
+
+	return S_OK;
 }

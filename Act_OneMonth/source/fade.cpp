@@ -99,7 +99,7 @@ void CFade::Update(void)
 	m_nCounter++;
 
 	//デバッグ表示
-	CManager::GetDebugProc()->Print("透明度 : %f\n", fAlpha);
+	CManager::GetManager()->GetDebugProc()->Print("透明度 : %f\n", fAlpha);
 }
 
 //==========================================
