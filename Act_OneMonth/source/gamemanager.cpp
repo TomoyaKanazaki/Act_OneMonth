@@ -29,14 +29,15 @@
 CPlayer *CGameManager::m_pPlayer = NULL;
 CCamera *CGameManager::m_pCamera = NULL;
 CLight *CGameManager::m_pLight = NULL;
-CUi *CGameManager::m_pUi = NULL;
+CUi* CGameManager::m_pUi = NULL;
+CGameManager::State CGameManager::m_State = NONE;
 
 //==========================================
 //  コンストラクタ
 //==========================================
 CGameManager::CGameManager()
 {
-
+	
 }
 
 //==========================================
@@ -137,6 +138,16 @@ void CGameManager::Update(void)
 	//}
 
 #endif
+
+	//状態の切り替え
+	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100))
+	{
+		m_State = STATE_CONCENTRTTE;
+	}
+	else
+	{
+		m_State = STATE_NORMAL;
+	}
 
 	//ライトの更新
 	if (m_pLight != NULL)

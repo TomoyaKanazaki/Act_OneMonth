@@ -22,30 +22,18 @@
     <Filter Include="object">
       <UniqueIdentifier>{46374d73-4661-4a3e-bcc8-7506f34d427b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scene">
+      <UniqueIdentifier>{fb605146-40d9-4bfc-afb8-53877931018a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\resultmanager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\scene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\scenemanager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\titlemanager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\fade.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\gamemanager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\layer.cpp">
@@ -168,21 +156,27 @@
     <ClCompile Include="source\gametime.cpp">
       <Filter>system</Filter>
     </ClCompile>
+    <ClCompile Include="source\gamemanager.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\resultmanager.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenemanager.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\titlemanager.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\arrow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\bg.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\titlemanager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\scenemanager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\scene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\resultmanager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\player.h">
@@ -201,9 +195,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\layer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\gamemanager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\fade.h">
@@ -310,6 +301,24 @@
     </ClInclude>
     <ClInclude Include="source\gametime.h">
       <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gamemanager.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\resultmanager.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scenemanager.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\titlemanager.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\arrow.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

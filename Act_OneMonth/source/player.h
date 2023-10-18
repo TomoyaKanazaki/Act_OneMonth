@@ -14,6 +14,7 @@
 //==========================================
 class CModel;
 class CMotion;
+class CArrow;
 
 //==========================================
 //  プレイヤークラスの定義
@@ -30,6 +31,7 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 	D3DXVECTOR3 GetMove(void) { return m_move; }
+	D3DXVECTOR3 GetCenter(void) { return m_CenterPos; }
 
 	//静的メンバ関数
 	static CPlayer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
@@ -55,11 +57,13 @@ private:
 	void Hit(void);
 
 	//メンバ変数
+	D3DXVECTOR3 m_CenterPos; //中心座標
 	D3DXVECTOR3 m_vecStick; //前回の右スティック入力
 	float m_fDashAngle; //前回の右スティック入力
 	bool m_bRand;
 	bool m_bDash;
 	D3DXMATERIAL *m_pDefMat;
+	CArrow* m_pArrow;
 
 	//モデル情報
 	CModel **m_ppModel; //モデル情報

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\arrow.cpp" />
     <ClCompile Include="source\bg.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
@@ -72,6 +73,7 @@
     <ClCompile Include="source\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\arrow.h" />
     <ClInclude Include="source\bg.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />

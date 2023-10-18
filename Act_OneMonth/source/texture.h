@@ -26,6 +26,7 @@ public:
 		TITLE, //タイトル
 		RESULT, //リザルト
 		FIELD, //床
+		ARROW, //矢印
 		TEXTURE_MAX
 	};
 

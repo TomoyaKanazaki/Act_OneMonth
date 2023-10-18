@@ -23,6 +23,16 @@ class CGameManager : public CScene
 {
 public:
 
+	//ゲーム状態
+	enum State
+	{
+		STATE_NORMAL = 0, //通常状態
+		STATE_CONCENTRTTE, //集中状態
+		STATE_DASH, //ダッシュ状態
+		MAX,
+		NONE
+	};
+
 	CGameManager(); //コンストラクタ
 	~CGameManager(); //デストラクタ
 
@@ -31,12 +41,14 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 	void Draw(void) override;
+	
 
 	//静的メンバ関数
 	static CPlayer *GetPlayer(void) { return m_pPlayer; }
 	static CCamera *GetCamera(void) { return m_pCamera; }
 	static CLight *GetLight(void) { return m_pLight; }
-	static CUi *GetUi(void) { return m_pUi; }
+	static CUi* GetUi(void) { return m_pUi; }
+	static State GetState(void) { return m_State; }
 
 private:
 
@@ -47,6 +59,7 @@ private:
 	static CCamera *m_pCamera;
 	static CLight *m_pLight;
 	static CUi *m_pUi;
+	static State m_State; //ゲームの状態
 
 };
 

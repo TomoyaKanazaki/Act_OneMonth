@@ -19,12 +19,14 @@
 #include "orbit.h"
 #include "camera.h"
 #include "gametime.h"
+#include "arrow.h"
 
 //==========================================
 //  コンストラクタ
 //==========================================
 CPlayer::CPlayer(int nPriority) : CObject(nPriority)
 {
+	m_CenterPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecStick = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fDashAngle = 0.0f;
 	m_bRand = true;
@@ -33,6 +35,7 @@ CPlayer::CPlayer(int nPriority) : CObject(nPriority)
 	m_pLayer = NULL;
 	m_pMotion = NULL;
 	m_oldposModel = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_pArrow = nullptr;
 }
 
 //==========================================
@@ -82,6 +85,9 @@ HRESULT CPlayer::Init(void)
 	{
 		m_pMotion = new CMotion;
 	}
+
+	//中心座標を設定
+	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 	
 	return S_OK;
 }
@@ -122,8 +128,17 @@ void CPlayer::Uninit(void)
 //==========================================
 void CPlayer::Update(void)
 {
+	//中心座標を設定
+	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
+
 	//経過時間を取得する
 	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+
+	//ゲーム状態の取得
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRTTE)
+	{
+		m_fDeltaTime *= 0.0f;
+	}
 
 	//ダッシュ時の処理
 	Hit();
@@ -335,6 +350,18 @@ void CPlayer::Gravity(void)
 		m_move.y = 0.0f;
 		return;
 	}
+	else if (m_move.y <= -JUMP_MOVE)
+	{
+		m_move.y = -JUMP_MOVE;
+		return;
+	}
+
+	//集中状態の時
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRTTE)
+	{
+		m_move.y = 0.0f;
+		return;
+	}
 
 	//移動量の減少
 	m_move.y -= GRAVITY;
@@ -348,13 +375,30 @@ void CPlayer::Dash(void)
 	//ダッシュフラグのリセット
 	m_bDash = false;
 
+	//集中状態でのみ発動
+	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRTTE)
+	{
+		if (m_pArrow != nullptr)
+		{
+			m_pArrow->Uninit();
+			m_pArrow = nullptr;
+		}
+		return;
+	}
+
+	//矢印を生成
+	if (m_pArrow == nullptr)
+	{
+		m_pArrow = CArrow::Create();
+	}
+
 	//パッドの入力情報を取得
-	D3DXVECTOR3 move = CManager::GetManager()->GetJoyPad()->GetStickR(0.3f);
+	D3DXVECTOR3 move = CManager::GetManager()->GetJoyPad()->GetStickR(0.1f);
 
 	//入力角度を算出
 	float fAngle = atan2f(move.y, move.x);
 
-	if (m_vecStick == D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+	if (CManager::GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_RB))
 	{
 		if (move.x != 0.0f || move.y != 0.0f)
 		{
@@ -362,12 +406,6 @@ void CPlayer::Dash(void)
 			m_bDash = true;
 		}
 	}
-
-	//今回の入力情報を保存する
-	m_vecStick = CManager::GetManager()->GetJoyPad()->GetStickR(0.2f);
-
-	//入力角度を保存する
-	m_fDashAngle = fAngle;
 
 	//デバッグ用ダッシュ
 #ifdef _DEBUG
