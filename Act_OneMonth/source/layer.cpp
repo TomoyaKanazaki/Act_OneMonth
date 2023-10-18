@@ -120,13 +120,13 @@ void CLayer::Load(void)
 						fscanf(pFile, "%s", &aStr[0]); // ParentID
 						fscanf(pFile, "%d", &m_pData[nCntLayer].pParentID[nCntModel]);
 
-						//親モデルのインデックスを取得
+						//相対位置を取得
 						fscanf(pFile, "%s", &aStr[0]); // POS
 						fscanf(pFile, "%f", &m_pData[nCntLayer].pPos[nCntModel].x);
 						fscanf(pFile, "%f", &m_pData[nCntLayer].pPos[nCntModel].y);
 						fscanf(pFile, "%f", &m_pData[nCntLayer].pPos[nCntModel].z);
 
-						//親モデルのインデックスを取得
+						//相対角度を取得
 						fscanf(pFile, "%s", &aStr[0]); // ROT
 						fscanf(pFile, "%f", &m_pData[nCntLayer].pRot[nCntModel].x);
 						fscanf(pFile, "%f", &m_pData[nCntLayer].pRot[nCntModel].y);

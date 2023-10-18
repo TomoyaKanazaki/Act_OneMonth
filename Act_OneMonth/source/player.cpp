@@ -32,6 +32,7 @@ CPlayer::CPlayer(int nPriority) : CObject(nPriority)
 	m_ppModel = NULL;
 	m_pLayer = NULL;
 	m_pMotion = NULL;
+	m_oldposModel = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
 //==========================================
@@ -82,12 +83,6 @@ HRESULT CPlayer::Init(void)
 		m_pMotion = new CMotion;
 	}
 	
-	//モーション情報にモデルを追加する
-	m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::PLAYER_SHOT);
-
-	//腕を前方に向ける
-	m_ppModel[3]->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.5f, 0.0f));
-
 	return S_OK;
 }
 
@@ -130,8 +125,8 @@ void CPlayer::Update(void)
 	//経過時間を取得する
 	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
 
-	//前回座標を保存
-	m_oldPos = m_pos;
+	//ダッシュ時の処理
+	Hit();
 
 	//ダッシュの処理
 	Dash();
@@ -143,6 +138,9 @@ void CPlayer::Update(void)
 
 		//移動の処理
 		Move();
+
+		//回転の処理
+		Rotate();
 	}
 
 	//移動制限
@@ -169,8 +167,9 @@ void CPlayer::Update(void)
 	//重力
 	Gravity();
 
-	//ダッシュ時の処理
-	Hit();
+	//前回座標に保存
+	m_oldPos = m_pos;
+	m_oldposModel = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
 	//デバッグ表示
 	CManager::GetManager()->GetDebugProc()->Print("移動量 ( %f, %f )\n", m_move.x, m_move.y);
@@ -249,6 +248,61 @@ void CPlayer::Move(void)
 
 	//移動量を適用
 	m_pos += m_move * m_fDeltaTime;
+}
+
+//==========================================
+//  回転処理
+//==========================================
+void CPlayer::Rotate(void)
+{
+	//移動してない時は回転しない
+	if (m_move.x == 0.0f)
+	{
+		return;
+	}
+
+	//ローカル変数宣言
+	float fRotMove = m_rot.y; //現在の角度
+	float fRotDest = 0.0f; //目標の角度
+	float fRotDiff = 0.0f; //目標と現在の角度の差
+
+	//右に進む時は右を向く
+	if (m_move.x > 0.0f)
+	{
+		fRotDest = -D3DX_PI * 0.5f;
+	}
+
+	//左に進むときは左を向く
+	if (m_move.x < 0.0f)
+	{
+		fRotDest = D3DX_PI * 0.5f;
+	}
+
+	//移動補正
+	fRotDiff = fRotDest - fRotMove;	//目標までの移動方向の差分
+
+	//角度の補正
+	if (fRotDiff > D3DX_PI)
+	{
+		fRotDiff += (-D3DX_PI * 2);
+	}
+	else if (fRotDiff <= -D3DX_PI)
+	{
+		fRotDiff += (D3DX_PI * 2);
+	}
+
+	//方向転換
+	m_rot.y += fRotDiff * 0.2f;
+
+	//角度の補正
+	if (m_rot.y > D3DX_PI)
+	{
+		m_rot.y += (-D3DX_PI * 2);
+	}
+	else if (m_rot.y < -D3DX_PI)
+	{
+		m_rot.y += (D3DX_PI * 2);
+	}
 }
 
 //==========================================
@@ -350,6 +404,36 @@ void CPlayer::Dash(void)
 }
 
 //==========================================
+//  軌跡の発生
+//==========================================
+void CPlayer::Orbit(void)
+{
+	//ローカル変数宣言
+	D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス
+
+	//モデル情報の取得
+	D3DXMATRIX mtxWorld = m_ppModel[3]->GetMtx();
+	D3DXVECTOR3 pos = m_ppModel[3]->GetPos();
+	D3DXVECTOR3 oldpos;
+
+	//現在座標を抽出
+	pos = D3DXVECTOR3(mtxWorld._41, mtxWorld._42, mtxWorld._43);
+
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&mtxWorld);
+
+	//前回座標の反映
+	D3DXMatrixTranslation(&mtxTrans, m_oldposModel.x, m_oldposModel.y, m_oldposModel.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTrans);
+
+	//現在座標を抽出
+	oldpos = D3DXVECTOR3(mtxWorld._41, mtxWorld._42, mtxWorld._43);
+
+	//軌跡を生成
+	COrbit::Create(oldpos, pos, PLAYER_HEIGHT);
+}
+
+//==========================================
 //  敵を巻き込む処理
 //==========================================
 void CPlayer::Hit(void)
@@ -360,9 +444,10 @@ void CPlayer::Hit(void)
 		return;
 	}
 
-	//当たり判定の生成
-	COrbit::Create(m_oldPos, m_pos, PLAYER_HEIGHT);
+	//軌跡を発生
+	Orbit();
 
+	//当たり判定の生成
 	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
 	{
 		//先頭のアドレスを取得

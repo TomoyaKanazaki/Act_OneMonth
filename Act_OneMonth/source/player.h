@@ -47,9 +47,11 @@ private:
 	//メンバ関数
 	void Limit(void);
 	void Move(void);
+	void Rotate(void);
 	void Jump(void);
 	void Gravity(void);
 	void Dash(void);
+	void Orbit(void);
 	void Hit(void);
 
 	//メンバ変数
@@ -63,6 +65,7 @@ private:
 	CModel **m_ppModel; //モデル情報
 	CLayer::LAYERDATA *m_pLayer; //階層構造情報
 	CMotion *m_pMotion;
+	D3DXVECTOR3 m_oldposModel;
 
 };
 

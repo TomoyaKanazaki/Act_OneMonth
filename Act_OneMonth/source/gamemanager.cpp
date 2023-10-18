@@ -62,7 +62,7 @@ HRESULT CGameManager::Init(void)
 	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1500.0f, 0.0f, 1000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(10.0f, 10.0f));
 
 	////床の生成
-	CMap_Cube::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	//CMap_Cube::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	//カメラの生成
 	if (m_pCamera == NULL)
@@ -130,11 +130,11 @@ void CGameManager::Update(void)
 	}
 
 	//画面遷移テスト
-	if (CEnemy::GetNum() == 0)
-	{
-		CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
-		return;
-	}
+	//if (CEnemy::GetNum() == 0)
+	//{
+	//	CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+	//	return;
+	//}
 
 #endif
 
