@@ -22,7 +22,8 @@ public:
 	typedef enum
 	{
 		PLAYER_LAYER = 0, //プレイヤー構造
-		CUBE_LAYER, //普通の床の構造
+		BOSS_MAIN, //ボス構造
+		BOSS_SOB, //子分構造
 		LAYERS_MAX
 	}LAYERS;
 

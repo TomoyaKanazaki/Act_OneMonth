@@ -24,7 +24,8 @@
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
-CPlayer *CGameManager::m_pPlayer = NULL;
+CPlayer* CGameManager::m_pPlayer = NULL;
+CEnemy* CGameManager::m_pBoss = NULL;
 CCamera *CGameManager::m_pCamera = NULL;
 CLight *CGameManager::m_pLight = NULL;
 CUi* CGameManager::m_pUi = NULL;
@@ -54,8 +55,8 @@ HRESULT CGameManager::Init(void)
 	//プレイヤーの生成
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
-	CEnemy::Create(D3DXVECTOR3(150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
-	CEnemy::Create(D3DXVECTOR3(-150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+	//ボスの生成
+	m_pBoss = CEnemy::Create(D3DXVECTOR3(1000.0f, 30.0f, 0.0f), CEnemy::BOSS_MAIN);
 
 	//背景の生成
 	CBg::Create(D3DXVECTOR3(0.0f, 332.0f, 300.0f), D3DXVECTOR3(5000.0f, 0.0f, 800.0f), 5);
@@ -135,6 +136,12 @@ void CGameManager::Update(void)
 	if (m_pLight != NULL)
 	{
 		m_pLight->Update();
+	}
+
+	//ゲームクリア
+	if (m_pBoss == nullptr)
+	{
+		CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}
 }
 

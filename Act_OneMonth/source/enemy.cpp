@@ -7,6 +7,7 @@
 #include "enemy.h"
 #include "model.h"
 #include "motion.h"
+#include "boss_main.h"
 #include "enemy_normal.h"
 
 //==========================================
@@ -38,9 +39,6 @@ HRESULT CEnemy::Init(void)
 {
 	//ƒ^ƒCƒv‚ÌÝ’è
 	SetType(TYPE_ENEMY);
-
-	//ŠK‘w\‘¢î•ñ‚ð¶¬
-	m_pLayer = CLayer::Set(CLayer::PLAYER_LAYER);
 
 	return CObject_Char::Init();
 }
@@ -86,6 +84,10 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 			pEnemy = new CEnemy_Normal;
 			break;
 
+		case BOSS_MAIN:
+			pEnemy = new CBoss_Main;
+			break;
+
 		default:
 			pEnemy = nullptr;
 			break;
@@ -99,5 +101,5 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 	//‰Šú‰»ˆ—
 	pEnemy->Init();
 
-	return nullptr;
+	return pEnemy;
 }

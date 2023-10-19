@@ -168,11 +168,14 @@ void CPlayer::Limit(void)
 	if (m_pos.y < 0.0f)
 	{
 		m_pos.y = 0.0f;
-		m_bRand = true;
 	}
 	if (m_pos.y > 600.0f)
 	{
 		m_pos.y = 600.0f;
+	}
+	if (m_pos.y <= 0.0f)
+	{
+		m_bRand = true;
 	}
 }
 

@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_LAYER = 1
+NUM_LAYER = 3
 
 //==========================================
 //  階層構造の種類
@@ -83,4 +83,22 @@ LAYER_DATA //プレイヤーの構造
 	MODELID		13
 	ParentID	12
 	POS			0.155 -10.0 0.0
+	ROT			0.0 0.0 0.0
+
+LAYER_DATA //ボス敵の構造
+
+	NUM_MODEL 1
+	
+	MODELID		14
+	ParentID	-1
+	POS			0.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+
+LAYER_DATA //子分敵の構造
+
+	NUM_MODEL 1
+	
+	MODELID		15
+	ParentID	-1
+	POS			0.0 0.0 0.0
 	ROT			0.0 0.0 0.0

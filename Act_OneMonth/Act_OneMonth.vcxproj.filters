@@ -168,6 +168,9 @@
     <ClCompile Include="source\object_char.cpp">
       <Filter>object</Filter>
     </ClCompile>
+    <ClCompile Include="source\boss_main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\bg.h">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="source\object_char.h">
       <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="source\boss_main.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

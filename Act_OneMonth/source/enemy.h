@@ -19,6 +19,7 @@ public:
 	enum TYPE
 	{
 		NORMAL = 0, //í èÌÇÃìG
+		BOSS_MAIN, //É{ÉX
 		MAX,
 		NONE
 	};

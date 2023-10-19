@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="source\arrow.cpp" />
     <ClCompile Include="source\bg.cpp" />
+    <ClCompile Include="source\boss_main.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
@@ -73,6 +74,7 @@
   <ItemGroup>
     <ClInclude Include="source\arrow.h" />
     <ClInclude Include="source\bg.h" />
+    <ClInclude Include="source\boss_main.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
     <ClInclude Include="source\debugproc.h" />
