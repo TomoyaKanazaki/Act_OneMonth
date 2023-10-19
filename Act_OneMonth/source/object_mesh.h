@@ -46,6 +46,7 @@ public:
 	void BindTexture(const LPDIRECT3DTEXTURE9 pTexture) { m_pTexture = pTexture; }
 	void SetVtxPos(const D3DXVECTOR3 pos, const int nIdx);
 	void SetColor(D3DXCOLOR col);
+	void SetPatern(TexPatern patern) { m_Patern = patern; }
 
 protected:
 
@@ -60,9 +61,10 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexture; //テクスチャ情報
 	D3DXMATRIX m_mtxWorld; //ワールドマトリックス
 	D3DXCOLOR m_Color;
+	TexPatern m_Patern;
 
 	//メンバ関数
-	void SetVtx(TexPatern patern = NORMAL);
+	void SetVtx(void);
 	void SetIdx(void);
 	void CalcData(void);
 	bool CheckOnMesh(const D3DXVECTOR3 &posJudge, const D3DXVECTOR3 &posStart, const D3DXVECTOR3 &posEnd) const;

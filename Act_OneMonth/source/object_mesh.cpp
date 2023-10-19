@@ -27,6 +27,7 @@ CObject_Mesh::CObject_Mesh(int nPriority) : CObject(nPriority)
 	m_mtxWorld = {};
 	m_pTexture = NULL;
 	m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	m_Patern = NORMAL;
 }
 
 //==========================================
@@ -174,7 +175,7 @@ void CObject_Mesh::Draw(void)
 //==========================================
 //  頂点バッファの設定処理
 //==========================================
-void CObject_Mesh::SetVtx(TexPatern patern)
+void CObject_Mesh::SetVtx(void)
 {
 	//頂点バッファの呼び出し
 	VERTEX_3D *pVtx;
@@ -204,7 +205,7 @@ void CObject_Mesh::SetVtx(TexPatern patern)
 			);
 
 			//テクスチャ座標の設定
-			switch (patern)
+			switch (m_Patern)
 			{
 			case NORMAL:
 				pVtx[nCntVtxU + (nCntVtxV * m_Mesh.nNumVtx_U)].tex = D3DXVECTOR2((float)(nCntVtxU % m_Mesh.nNumVtx_U), (float)(nCntVtxV % m_Mesh.nNumVtx_V));

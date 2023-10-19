@@ -56,6 +56,12 @@ void CCameraGame::Update(void)
 		m_posR = posPlayer;
 	}
 
+	//‚‚³ãŒÀ
+	if (m_posR.y > 450.0f)
+	{
+		m_posR.y = 450.0f;
+	}
+
 	//Ž‹“_‚ðXV
 	m_posV = m_posR + D3DXVECTOR3(0.0f, HEIGHT, -CAMERA_DISTANCE);
 

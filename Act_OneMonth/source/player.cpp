@@ -170,6 +170,10 @@ void CPlayer::Limit(void)
 		m_pos.y = 0.0f;
 		m_bRand = true;
 	}
+	if (m_pos.y > 600.0f)
+	{
+		m_pos.y = 600.0f;
+	}
 }
 
 //==========================================
@@ -331,12 +335,10 @@ void CPlayer::Dash(void)
 
 	if (CManager::GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_RB))
 	{
-		if (move.x != 0.0f || move.y != 0.0f)
-		{
-			m_pos += D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
-			m_move = D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
-			m_bDash = true;
-		}
+		m_pos += D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
+		m_move = D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
+		m_bDash = true;
+		m_bRand = false;
 	}
 
 	//デバッグ用ダッシュ

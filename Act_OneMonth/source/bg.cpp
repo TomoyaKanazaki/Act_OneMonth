@@ -29,6 +29,9 @@ CBg::~CBg()
 //==========================================
 HRESULT CBg::Init(void)
 {
+	//テクスチャパターンの設定
+	SetPatern(CObject_Mesh::LOOP);
+
 	return CObject_Mesh::Init();
 }
 
