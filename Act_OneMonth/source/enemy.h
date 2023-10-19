@@ -36,13 +36,6 @@ public:
 	static CEnemy* Create(D3DXVECTOR3 pos, CEnemy::TYPE type);
 	static int GetNum(void) { return m_nNum; }
 
-protected:
-
-	//モデル情報
-	CModel** m_ppModel; //モデル情報
-	CLayer::LAYERDATA* m_pLayer; //階層構造情報
-	CMotion* m_pMotion;
-
 private:
 
 	//メンバ変数

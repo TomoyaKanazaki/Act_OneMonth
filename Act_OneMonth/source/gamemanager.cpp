@@ -54,8 +54,8 @@ HRESULT CGameManager::Init(void)
 	//ÉvÉåÉCÉÑÅ[ÇÃê∂ê¨
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
-	//CEnemy::Create(D3DXVECTOR3(150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
-	//CEnemy::Create(D3DXVECTOR3(-150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(-150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
 
 	//îwåiÇÃê∂ê¨
 	CBg::Create(D3DXVECTOR3(0.0f, 332.0f, 300.0f), D3DXVECTOR3(5000.0f, 0.0f, 800.0f), 5);
