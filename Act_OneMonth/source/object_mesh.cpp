@@ -118,15 +118,6 @@ void CObject_Mesh::Draw(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
-	//アルファブレンディングを加算合成に設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-
-	//Zテストの無効化
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
 	//ライティングを無効化
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
@@ -178,21 +169,12 @@ void CObject_Mesh::Draw(void)
 
 	//ライティングを有効化
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
-	//Zテストの有効化
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-	//アルファブレンディングの設定を元に戻す
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
 
 //==========================================
 //  頂点バッファの設定処理
 //==========================================
-void CObject_Mesh::SetVtx(void)
+void CObject_Mesh::SetVtx(TexPatern patern)
 {
 	//頂点バッファの呼び出し
 	VERTEX_3D *pVtx;
@@ -222,7 +204,17 @@ void CObject_Mesh::SetVtx(void)
 			);
 
 			//テクスチャ座標の設定
-			pVtx[nCntVtxU + (nCntVtxV * m_Mesh.nNumVtx_U)].tex = D3DXVECTOR2((float)(nCntVtxU % m_Mesh.nNumVtx_U), (float)(nCntVtxV % m_Mesh.nNumVtx_V));
+			switch (patern)
+			{
+			case NORMAL:
+				pVtx[nCntVtxU + (nCntVtxV * m_Mesh.nNumVtx_U)].tex = D3DXVECTOR2((float)(nCntVtxU % m_Mesh.nNumVtx_U), (float)(nCntVtxV % m_Mesh.nNumVtx_V));
+				break;
+			case LOOP:
+				pVtx[nCntVtxU + (nCntVtxV * m_Mesh.nNumVtx_U)].tex = D3DXVECTOR2((float)(nCntVtxU % 2), (float)(nCntVtxV % m_Mesh.nNumVtx_V));
+				break;
+			default:
+				break;
+			}
 		}
 	}
 

@@ -46,8 +46,6 @@
     <ClCompile Include="source\logo.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\manager.cpp" />
-    <ClCompile Include="source\map.cpp" />
-    <ClCompile Include="source\map_cube.cpp" />
     <ClCompile Include="source\model.cpp" />
     <ClCompile Include="source\motion.cpp" />
     <ClCompile Include="source\number.cpp" />
@@ -56,6 +54,7 @@
     <ClCompile Include="source\object2D_Anim.cpp" />
     <ClCompile Include="source\object3D.cpp" />
     <ClCompile Include="source\object3D_Anim.cpp" />
+    <ClCompile Include="source\object_char.cpp" />
     <ClCompile Include="source\object_mesh.cpp" />
     <ClCompile Include="source\orbit.cpp" />
     <ClCompile Include="source\player.cpp" />
@@ -70,7 +69,6 @@
     <ClCompile Include="source\sound.cpp" />
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="source\titlemanager.cpp" />
-    <ClCompile Include="source\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\arrow.h" />
@@ -99,8 +97,6 @@
     <ClInclude Include="source\light.h" />
     <ClInclude Include="source\logo.h" />
     <ClInclude Include="source\manager.h" />
-    <ClInclude Include="source\map.h" />
-    <ClInclude Include="source\map_cube.h" />
     <ClInclude Include="source\model.h" />
     <ClInclude Include="source\motion.h" />
     <ClInclude Include="source\number.h" />
@@ -109,6 +105,7 @@
     <ClInclude Include="source\object2D_Anim.h" />
     <ClInclude Include="source\object3D.h" />
     <ClInclude Include="source\object3D_Anim.h" />
+    <ClInclude Include="source\object_char.h" />
     <ClInclude Include="source\object_mesh.h" />
     <ClInclude Include="source\orbit.h" />
     <ClInclude Include="source\player.h" />
@@ -120,7 +117,6 @@
     <ClInclude Include="source\sound.h" />
     <ClInclude Include="source\texture.h" />
     <ClInclude Include="source\titlemanager.h" />
-    <ClInclude Include="source\ui.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D6D1A35B-7ED6-49E4-98AD-4764003301F5}</ProjectGuid>

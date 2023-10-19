@@ -14,6 +14,14 @@
 class CObject_Mesh : public CObject
 {
 public:
+
+	enum TexPatern
+	{
+		NORMAL = 0, //繋がる
+		LOOP, //連続
+		MAX
+	};
+
 	typedef struct
 	{
 		int nNumMesh; //総分割数(プリミティブ数)
@@ -54,7 +62,7 @@ private:
 	D3DXCOLOR m_Color;
 
 	//メンバ関数
-	void SetVtx(void);
+	void SetVtx(TexPatern patern = NORMAL);
 	void SetIdx(void);
 	void CalcData(void);
 	bool CheckOnMesh(const D3DXVECTOR3 &posJudge, const D3DXVECTOR3 &posStart, const D3DXVECTOR3 &posEnd) const;

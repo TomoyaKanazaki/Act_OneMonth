@@ -1,24 +1,31 @@
 //==========================================
 //
-//  基本のブロッククラス(map_cube.cpp)
+//  オブジェクトキャラクター(object_char.cpp)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "map_cube.h"
+#include "object_char.h"
+#include "manager.h"
+#include "renderer.h"
+#include "debugproc.h"
 #include "model.h"
+#include "motion.h"
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CMap_Cube::CMap_Cube()
+CObject_Char::CObject_Char(int nPriority) : CObject(nPriority)
 {
-
+	m_ppModel = NULL;
+	m_pLayer = NULL;
+	m_pMotion = NULL;
+	m_mtxWorld = {};
 }
 
 //==========================================
 //  デストラクタ
 //==========================================
-CMap_Cube::~CMap_Cube()
+CObject_Char::~CObject_Char()
 {
 
 }
@@ -26,14 +33,8 @@ CMap_Cube::~CMap_Cube()
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT CMap_Cube::Init(void)
+HRESULT CObject_Char::Init(void)
 {
-	//タイプの設定
-	SetType(TYPE_MAP);
-
-	//階層構造情報を生成
-	m_pLayer = CLayer::Set(CLayer::CUBE_LAYER);
-
 	//モデル用のメモリの確保
 	if (m_ppModel == NULL)
 	{
@@ -57,19 +58,10 @@ HRESULT CMap_Cube::Init(void)
 		}
 	}
 
-	//実体を移動する
-	if (m_ppModel != NULL)
+	//モーション情報の生成
+	if (m_pMotion == NULL)
 	{
-		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
-		{
-			if (m_ppModel[nCnt] != NULL)
-			{
-				if (m_ppModel[nCnt]->GetParent() == NULL)
-				{
-					m_ppModel[nCnt]->SetTransform(m_pos, m_rot);
-				}
-			}
-		}
+		m_pMotion = new CMotion;
 	}
 
 	return S_OK;
@@ -78,7 +70,7 @@ HRESULT CMap_Cube::Init(void)
 //==========================================
 //  終了処理
 //==========================================
-void CMap_Cube::Uninit(void)
+void CObject_Char::Uninit(void)
 {
 	//モデルのポインタを破棄
 	if (m_ppModel != NULL)
@@ -95,49 +87,60 @@ void CMap_Cube::Uninit(void)
 		m_ppModel = NULL;
 	}
 
+	//モーションのポインタを破棄
+	if (m_pMotion != NULL)
+	{
+		delete m_pMotion;
+		m_pMotion = NULL;
+	}
+
 	//自分自身の破棄
 	Release();
+
 }
 
 //==========================================
 //  更新処理
 //==========================================
-void CMap_Cube::Update(void)
+void CObject_Char::Update(void)
 {
-
+	//モーションを更新する
+	m_pMotion->Update();
 }
 
 //==========================================
 //  描画処理
 //==========================================
-void CMap_Cube::Draw(void)
+void CObject_Char::Draw(void)
 {
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetManager()->GetRenderer()->GetDevice();
 
-}
+	//ローカル変数宣言
+	D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス
 
-//==========================================
-//  生成処理
-//==========================================
-CMap_Cube* CMap_Cube::Create(D3DXVECTOR3 pos)
-{
-	//インスタンス生成
-	CMap_Cube* pCube  =nullptr;
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&m_mtxWorld);
 
-	//メモリを確保
-	if (pCube == nullptr)
+	//向きの反映
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
+
+	//位置の反映
+	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
+
+	//ワールドマトリックスの設定
+	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+
+	if (m_ppModel != NULL)
 	{
-		pCube = new CMap_Cube;
+		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
+		{
+			if (m_ppModel[nCnt] != NULL)
+			{
+				m_ppModel[nCnt]->Draw();
+			}
+		}
 	}
-	else
-	{
-		return nullptr;
-	}
-
-	//値を設定
-	pCube->m_pos = pos;
-
-	//初期化処理
-	pCube->Init();
-
-	return nullptr;
 }

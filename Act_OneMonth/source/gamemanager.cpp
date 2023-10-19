@@ -18,8 +18,6 @@
 #include "renderer.h"
 #include "debugproc.h"
 #include "bg.h"
-#include "map_cube.h"
-#include "ui.h"
 #include "enemy.h"
 #include "field.h"
 
@@ -56,14 +54,14 @@ HRESULT CGameManager::Init(void)
 	//プレイヤーの生成
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
-	CEnemy::Create(D3DXVECTOR3(150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
-	CEnemy::Create(D3DXVECTOR3(-150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+	//CEnemy::Create(D3DXVECTOR3(150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+	//CEnemy::Create(D3DXVECTOR3(-150.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+
+	//背景の生成
+	CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f), D3DXVECTOR3(1500.0f, 0.0f, 1000.0f), 2);
 
 	//床の生成
 	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(1500.0f, 0.0f, 1000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(10.0f, 10.0f));
-
-	////床の生成
-	//CMap_Cube::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	//カメラの生成
 	if (m_pCamera == NULL)
@@ -78,15 +76,6 @@ HRESULT CGameManager::Init(void)
 		m_pLight = new CLight;
 		m_pLight->Init();
 	}
-
-	//UIの生成
-#ifdef _DEBUG
-	if (m_pUi == NULL)
-	{
-		m_pUi = new CUi;
-		m_pUi->Init();
-	}
-#endif
 
 	return S_OK;
 }
@@ -105,13 +94,6 @@ void CGameManager::Uninit(void)
 	}
 
 	m_pCamera = NULL;
-
-	//UIの終了
-	if (m_pUi != NULL)
-	{
-		m_pUi->Uninit();
-		delete m_pUi;
-	}
 
 	//BGMの停止
 	CManager::GetManager()->GetManager()->GetSound()->Stop();
@@ -154,12 +136,6 @@ void CGameManager::Update(void)
 	{
 		m_pLight->Update();
 	}
-
-	//UIの更新
-	if (m_pUi != NULL)
-	{
-		m_pUi->Update();
-	}
 }
 
 //==========================================
@@ -167,9 +143,5 @@ void CGameManager::Update(void)
 //==========================================
 void CGameManager::Draw(void)
 {
-	//UIの更新
-	if (m_pUi != NULL)
-	{
-		m_pUi->Draw();
-	}
+
 }

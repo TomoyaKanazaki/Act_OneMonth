@@ -27,7 +27,7 @@ int CModel::m_nNum = 0;
 //==========================================
 //  コンストラクタ
 //==========================================
-CModel::CModel(int nPriority) : CObject(nPriority)
+CModel::CModel()
 {
 	m_Info.pTexture = NULL;
 	m_Info.pMesh = NULL;
@@ -60,8 +60,7 @@ HRESULT CModel::Init(void)
 //==========================================
 void CModel::Uninit(void)
 {
-	//自分自身の破棄
-	this->Release();
+	delete this;
 }
 
 //==========================================
@@ -103,15 +102,19 @@ void CModel::Draw(void)
 	if (m_pParent != NULL)
 	{
 		mtxParent = m_pParent->m_Info.mtxWorld;
-
-		//ワールドマトリックスと親マトリックスをかけ合わせる
-		D3DXMatrixMultiply
-		(
-			&m_Info.mtxWorld,
-			&m_Info.mtxWorld,
-			&mtxParent
-		);
 	}
+	else
+	{
+		pDevice->GetTransform(D3DTS_WORLD, &mtxParent);
+	}
+
+	//ワールドマトリックスと親マトリックスをかけ合わせる
+	D3DXMatrixMultiply
+	(
+		&m_Info.mtxWorld,
+		&m_Info.mtxWorld,
+		&mtxParent
+	);
 
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &m_Info.mtxWorld);

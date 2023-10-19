@@ -6,7 +6,6 @@
 //==========================================
 #ifndef _MODEL_H_
 #define _MODEL_H_
-#include "object.h"
 
 //==========================================
 //  マクロ定義
@@ -16,7 +15,7 @@
 //==========================================
 //  モデルクラス定義
 //==========================================
-class CModel : public CObject
+class CModel
 {
 public:
 	//モデル構造体定義
@@ -29,15 +28,19 @@ public:
 		D3DXMATRIX mtxWorld; //ワールドマトリックス
 	}MODEL;
 
-	CModel(int nPriority = 4); //コンストラクタ
+	CModel(); //コンストラクタ
 	~CModel(); //デストラクタ
 
 	//メンバ関数
-	HRESULT Init(void) override;
-	void Uninit(void) override;
-	void Update(void) override;
-	void Draw(void) override;
-	void SetTransform(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot) { m_pos = pos; m_pos.z = pos.z; m_rot = rot; }
+	HRESULT Init(void);
+	void Uninit(void);
+	void Update(void);
+	void Draw(void);
+	void SetTransform(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot) { m_pos += pos; m_rot = rot; }
+	D3DXVECTOR3 GetPos(void) { return m_pos; }
+	D3DXVECTOR3 GetRot(void) { return m_rot; }
+	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
+	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }
 	CModel *GetParent(void) { return m_pParent; }
 	D3DXMATRIX GetMtx(void) { return m_Info.mtxWorld; }
 
@@ -51,6 +54,8 @@ public:
 private:
 
 	//メンバ変数
+	D3DXVECTOR3 m_pos;
+	D3DXVECTOR3 m_rot;
 	MODEL m_Info;
 	CModel *m_pParent; //親モデルへのポインタ
 	int m_nSelfID;

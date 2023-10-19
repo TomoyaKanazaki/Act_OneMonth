@@ -6,19 +6,12 @@
 //==========================================
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
-#include "object.h"
-#include "layer.h"
-
-//==========================================
-//  前方宣言
-//==========================================
-class CModel;
-class CMotion;
+#include "object_char.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CEnemy : public CObject
+class CEnemy : public CObject_Char
 {
 public:
 

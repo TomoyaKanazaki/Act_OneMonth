@@ -17,7 +17,7 @@ int CEnemy::m_nNum = 0;
 //==========================================
 //  コンストラクタ
 //==========================================
-CEnemy::CEnemy(int nPriority) : CObject(nPriority)
+CEnemy::CEnemy(int nPriority) : CObject_Char(nPriority)
 {
 	m_type = NONE;
 	m_nNum++;
@@ -39,7 +39,10 @@ HRESULT CEnemy::Init(void)
 	//タイプの設定
 	SetType(TYPE_ENEMY);
 
-	return S_OK;
+	//階層構造情報を生成
+	m_pLayer = CLayer::Set(CLayer::PLAYER_LAYER);
+
+	return CObject_Char::Init();
 }
 
 //==========================================
@@ -47,29 +50,7 @@ HRESULT CEnemy::Init(void)
 //==========================================
 void CEnemy::Uninit(void)
 {
-	//モデルのポインタを破棄
-	if (m_ppModel != NULL)
-	{
-		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
-		{
-			if (m_ppModel[nCnt] != NULL)
-			{
-				m_ppModel[nCnt]->Uninit();
-				m_ppModel[nCnt] = NULL;
-			}
-		}
-		delete[] m_ppModel;
-		m_ppModel = NULL;
-	}
-
-	//モーションのポインタを破棄
-	if (m_pMotion != NULL)
-	{
-		delete m_pMotion;
-		m_pMotion = NULL;
-	}
-
-	Release();
+	CObject_Char::Uninit();
 }
 
 //==========================================
@@ -77,20 +58,7 @@ void CEnemy::Uninit(void)
 //==========================================
 void CEnemy::Update(void)
 {
-	//実体を移動する
-	if (m_ppModel != NULL)
-	{
-		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
-		{
-			if (m_ppModel[nCnt] != NULL)
-			{
-				if (m_ppModel[nCnt]->GetParent() == NULL)
-				{
-					m_ppModel[nCnt]->SetTransform(m_pos, m_rot);
-				}
-			}
-		}
-	}
+	CObject_Char::Update();
 }
 
 //==========================================
@@ -98,7 +66,7 @@ void CEnemy::Update(void)
 //==========================================
 void CEnemy::Draw(void)
 {
-
+	CObject_Char::Draw();
 }
 
 //==========================================

@@ -24,16 +24,13 @@
 //==========================================
 //  コンストラクタ
 //==========================================
-CPlayer::CPlayer(int nPriority) : CObject(nPriority)
+CPlayer::CPlayer(int nPriority) : CObject_Char(nPriority)
 {
 	m_CenterPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecStick = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fDashAngle = 0.0f;
 	m_bRand = true;
 	m_bDash = false;
-	m_ppModel = NULL;
-	m_pLayer = NULL;
-	m_pMotion = NULL;
 	m_oldposModel = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_pArrow = nullptr;
 }
@@ -57,39 +54,12 @@ HRESULT CPlayer::Init(void)
 	//階層構造情報を生成
 	m_pLayer = CLayer::Set(CLayer::PLAYER_LAYER);
 
-	//モデル用のメモリの確保
-	if (m_ppModel == NULL)
-	{
-		m_ppModel = new CModel*[m_pLayer->nNumModel];
-	}
-
-	//必要なモデルを生成
-	for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
-	{
-		//空にする
-		m_ppModel[nCnt] = NULL;
-
-		//親が存在しない場合
-		if (m_pLayer->pParentID[nCnt] == -1)
-		{
-			m_ppModel[nCnt] = CModel::Create(m_pLayer->pPos[nCnt], m_pLayer->pRot[nCnt], m_pLayer->pModelID[nCnt]);
-		}
-		else
-		{
-			m_ppModel[nCnt] = CModel::Create(m_pLayer->pPos[nCnt], m_pLayer->pRot[nCnt], m_pLayer->pModelID[nCnt], m_ppModel[m_pLayer->pParentID[nCnt]]);
-		}
-	}
-
-	//モーション情報の生成
-	if (m_pMotion == NULL)
-	{
-		m_pMotion = new CMotion;
-	}
+	HRESULT hr = CObject_Char::Init();
 
 	//中心座標を設定
 	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
-	
-	return S_OK;
+
+	return hr;
 }
 
 //==========================================
@@ -97,30 +67,7 @@ HRESULT CPlayer::Init(void)
 //==========================================
 void CPlayer::Uninit(void)
 {
-	//モデルのポインタを破棄
-	if (m_ppModel != NULL)
-	{
-		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
-		{
-			if (m_ppModel[nCnt] != NULL)
-			{
-				m_ppModel[nCnt]->Uninit();
-				m_ppModel[nCnt] = NULL;
-			}
-		}
-		delete[] m_ppModel;
-		m_ppModel = NULL;
-	}
-
-	//モーションのポインタを破棄
-	if (m_pMotion != NULL)
-	{
-		delete m_pMotion;
-		m_pMotion = NULL;
-	}
-
-	//自分自身の破棄
-	Release();
+	CObject_Char::Uninit();
 }
 
 //==========================================
@@ -161,24 +108,6 @@ void CPlayer::Update(void)
 	//移動制限
 	Limit();
 
-	//実体を移動する
-	if (m_ppModel != NULL)
-	{
-		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
-		{
-			if (m_ppModel[nCnt] != NULL)
-			{
-				if (m_ppModel[nCnt]->GetParent() == NULL)
-				{
-					m_ppModel[nCnt]->SetTransform(m_pos, m_rot);
-				}
-			}
-		}
-	}
-
-	//モーションを更新する
-	m_pMotion->Update();
-
 	//重力
 	Gravity();
 
@@ -189,6 +118,8 @@ void CPlayer::Update(void)
 	//デバッグ表示
 	CManager::GetManager()->GetDebugProc()->Print("移動量 ( %f, %f )\n", m_move.x, m_move.y);
 	CManager::GetManager()->GetDebugProc()->Print("座標 ( %f, %f )\n", m_pos.x, m_pos.y);
+
+	CObject_Char::Update();
 }
 
 //==========================================
@@ -196,7 +127,7 @@ void CPlayer::Update(void)
 //==========================================
 void CPlayer::Draw(void)
 {
-
+	CObject_Char::Draw();
 }
 
 //==========================================
@@ -403,6 +334,7 @@ void CPlayer::Dash(void)
 		if (move.x != 0.0f || move.y != 0.0f)
 		{
 			m_pos += D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
+			m_move = D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
 			m_bDash = true;
 		}
 	}

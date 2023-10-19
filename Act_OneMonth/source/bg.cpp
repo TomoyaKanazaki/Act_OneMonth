@@ -11,7 +11,7 @@
 //==========================================
 //  コンストラクタ
 //==========================================
-CBg::CBg()
+CBg::CBg(int nPriority) : CObject_Mesh(nPriority)
 {
 
 }
@@ -29,7 +29,7 @@ CBg::~CBg()
 //==========================================
 HRESULT CBg::Init(void)
 {
-	return CObject3D::Init();
+	return CObject_Mesh::Init();
 }
 
 //==========================================
@@ -37,7 +37,7 @@ HRESULT CBg::Init(void)
 //==========================================
 void CBg::Uninit(void)
 {
-	CObject3D::Uninit();
+	CObject_Mesh::Uninit();
 }
 
 //==========================================
@@ -45,7 +45,7 @@ void CBg::Uninit(void)
 //==========================================
 void CBg::Update(void)
 {
-	CObject3D::Update();
+	CObject_Mesh::Update();
 }
 
 //==========================================
@@ -53,13 +53,13 @@ void CBg::Update(void)
 //==========================================
 void CBg::Draw(void)
 {
-	CObject3D::Draw();
+	CObject_Mesh::Draw();
 }
 
 //==========================================
 //  生成処理
 //==========================================
-CBg* CBg::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
+CBg* CBg::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nNumPorygon)
 {
 	//インスタンス生成
 	CBg* pBG = nullptr;
@@ -77,6 +77,9 @@ CBg* CBg::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	//値を保存
 	pBG->m_pos = pos;
 	pBG->m_size = size;
+	pBG->m_Mesh.nNumMesh_U = nNumPorygon;
+	pBG->m_Mesh.nNumMesh_V = 1;
+	pBG->m_rot.x = -D3DX_PI * 0.5f;
 
 	//初期化
 	pBG->Init();

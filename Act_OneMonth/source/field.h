@@ -16,7 +16,7 @@ class CFeild : public CObject_Mesh
 public:
 
 	//ƒƒ“ƒoŠÖ”
-	CFeild(int nPriority = 1);
+	CFeild(int nPriority = 0);
 	~CFeild();
 
 	virtual HRESULT Init(void) override;

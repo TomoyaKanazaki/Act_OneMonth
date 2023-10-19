@@ -57,9 +57,6 @@
     <ClCompile Include="source\bg.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\map_cube.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\imgui\imgui.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
@@ -89,12 +86,6 @@
     </ClCompile>
     <ClCompile Include="source\imgui\implot_items.cpp">
       <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="source\map.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ui.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\debugproc.cpp">
       <Filter>system</Filter>
@@ -174,6 +165,9 @@
     <ClCompile Include="source\arrow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="source\object_char.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\bg.h">
@@ -206,9 +200,6 @@
     <ClInclude Include="source\camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="source\map_cube.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="source\imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -238,12 +229,6 @@
     </ClInclude>
     <ClInclude Include="source\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="source\map.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ui.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\debugproc.h">
       <Filter>system</Filter>
@@ -319,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="source\arrow.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\object_char.h">
+      <Filter>object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,11 +1,11 @@
 //==========================================
 //
-//  基本のブロッククラス(map_cube.h)
+//  オブジェクトキャラクター(object_char.h)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#ifndef _MAP_CUBE_H_
-#define _MAP_CUBE_H_
+#ifndef _OBJECT_CHAR_H_
+#define _OBJECT_CHAR_H_
 #include "object.h"
 #include "layer.h"
 
@@ -13,33 +13,36 @@
 //  前方宣言
 //==========================================
 class CModel;
+class CMotion;
 
 //==========================================
 //  クラス定義
 //==========================================
-class CMap_Cube : public CObject
+class CObject_Char : public CObject
 {
 public:
 
 	//メンバ関数
-	CMap_Cube();
-	~CMap_Cube();
+	CObject_Char(int nPriority = 4);
+	~CObject_Char();
 
-	HRESULT Init(void) override;
-	void Uninit(void) override;
-	void Update(void) override;
-	void Draw(void) override;
+	//メンバ関数
+	virtual HRESULT Init(void) override;
+	virtual void Uninit(void) override;
+	virtual void Update(void) override;
+	virtual void Draw(void) override;
 
-	//静的メンバ関数
-	static CMap_Cube* Create(D3DXVECTOR3 pos);
+protected:
+
+	//メンバ変数
+	CModel** m_ppModel; //モデル情報
+	CLayer::LAYERDATA* m_pLayer; //階層構造情報
+	CMotion* m_pMotion;
 
 private:
 
 	//メンバ変数
-
-	//モデル情報
-	CModel** m_ppModel; //モデル情報
-	CLayer::LAYERDATA* m_pLayer; //階層構造情報
+	D3DXMATRIX m_mtxWorld;
 
 };
 

@@ -6,17 +6,17 @@
 //==========================================
 #ifndef _BG_H_
 #define _BG_H_
-#include "object3D.h"
+#include "object_mesh.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CBg : public CObject3D
+class CBg : public CObject_Mesh
 {
 public:
 	
 	//メンバ関数
-	CBg();
+	CBg(int nPriority = 1);
 	~CBg();
 
 	virtual HRESULT Init(void);
@@ -25,7 +25,7 @@ public:
 	virtual void Draw(void);
 
 	//静的メンバ関数
-	static CBg* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size);
+	static CBg* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, int nNumPorygon);
 
 private:
 

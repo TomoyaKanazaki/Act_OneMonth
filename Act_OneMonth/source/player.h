@@ -6,20 +6,17 @@
 //==========================================
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
-#include "object.h"
-#include "layer.h"
+#include "object_char.h"
 
 //==========================================
 //  前方宣言
 //==========================================
-class CModel;
-class CMotion;
 class CArrow;
 
 //==========================================
 //  プレイヤークラスの定義
 //==========================================
-class CPlayer : public CObject
+class CPlayer : public CObject_Char
 {
 public:
 	CPlayer(int nPriority = 4); //コンストラクタ
@@ -66,9 +63,6 @@ private:
 	CArrow* m_pArrow;
 
 	//モデル情報
-	CModel **m_ppModel; //モデル情報
-	CLayer::LAYERDATA *m_pLayer; //階層構造情報
-	CMotion *m_pMotion;
 	D3DXVECTOR3 m_oldposModel;
 
 };

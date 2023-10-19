@@ -54,6 +54,9 @@ void CFeild::Update(void)
 //==========================================
 void CFeild::Draw(void)
 {
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+
 	CObject_Mesh::Draw();
 }
 
