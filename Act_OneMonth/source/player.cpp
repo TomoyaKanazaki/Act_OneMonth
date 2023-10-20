@@ -56,6 +56,9 @@ HRESULT CPlayer::Init(void)
 
 	HRESULT hr = CObject_Char::Init();
 
+	//モーション情報にモデルを渡す
+	m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::PLAYER_WAIT);
+
 	//中心座標を設定
 	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
@@ -93,23 +96,34 @@ void CPlayer::Update(void)
 	//ダッシュの処理
 	Dash();
 
-	if (!m_bDash)
+	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRTTE)
 	{
 		//ジャンプ!
 		Jump();
 
 		//移動の処理
 		Move();
-
-		//回転の処理
-		Rotate();
 	}
+
+	//回転の処理
+	Rotate();
 
 	//移動制限
 	Limit();
 
 	//重力
 	Gravity();
+
+	//状態が切り替わった瞬間にモーションを切り替える
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRTTE && CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
+	{
+		m_pMotion->Set(CMotion::PLAYER_IAI);
+	}
+	if (CGameManager::GetState() == CGameManager::STATE_NORMAL && CGameManager::GetOldState() != CGameManager::STATE_NORMAL)
+	{
+		m_pMotion->Set(CMotion::PLAYER_WAIT);
+	}
+
 
 	//前回座標に保存
 	m_oldPos = m_pos;
@@ -335,11 +349,11 @@ void CPlayer::Dash(void)
 
 	//入力角度を算出
 	float fAngle = atan2f(move.y, move.x);
+	m_move = D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
 
 	if (CManager::GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_RB))
 	{
 		m_pos += D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
-		m_move = D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
 		m_bDash = true;
 		m_bRand = false;
 	}

@@ -18,11 +18,16 @@ class CModel;
 class CMotion
 {
 public:
+
+	//定数定義
+#define MAX_NUM (32) //各種データの最大数
+
 	typedef enum
 	{
-		PLAYER_SHOT = 0, //弾を撃つ
+		PLAYER_WAIT = 0, //待機モーション
+		PLAYER_IAI, //居合モーション
 		MOTION_NONE
-	}CHARA;
+	}MOTION;
 
 	typedef struct
 	{
@@ -33,7 +38,7 @@ public:
 	typedef struct
 	{
 		int nFrame; //フレーム数
-		KEY *pKey; //キー情報
+		KEY aKey[MAX_NUM]; //キー情報
 	}KEY_INFO;
 
 	typedef struct
@@ -41,7 +46,7 @@ public:
 		bool bLoop; //ループの有無
 		int nNumKey; //キー数
 		int nNumModel; //モデル数
-		KEY_INFO *pKeyInfo; //キー情報
+		KEY_INFO aKeyInfo[MAX_NUM]; //キー情報
 	}INFO;
 
 	CMotion(); //コンストラクタ
@@ -49,8 +54,8 @@ public:
 
 	//メンバ関数
 	void Update(void);
-	void SetModel(CModel **ppModel, int nNum, CHARA type);
-	void Set(CHARA type);
+	void SetModel(CModel **ppModel, int nNum, MOTION type);
+	void Set(MOTION type);
 	
 	//静的メンバ関数
 	static void Load(void);
@@ -60,15 +65,15 @@ private:
 
 	//メンバ変数
 	CModel **m_ppModel;
-	int m_nMotion;
 	INFO m_Info;
 	KEY m_oldKey;
+	KEY m_startKey[MAX_NUM];
 	int m_nNumModel;
 	int m_nCntFrame;
 	int m_nCntKey;
 
 	//静的メンバ変数
-	static INFO *m_pInfo;
+	static INFO m_aInfo[MAX_NUM];
 	static int m_nNumMotion;
 
 };

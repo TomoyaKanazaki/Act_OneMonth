@@ -52,6 +52,7 @@ public:
 	static CLight *GetLight(void) { return m_pLight; }
 	static CUi* GetUi(void) { return m_pUi; }
 	static State GetState(void) { return m_State; }
+	static State GetOldState(void) { return m_oldState; }
 
 private:
 
@@ -64,6 +65,7 @@ private:
 	static CLight *m_pLight;
 	static CUi *m_pUi;
 	static State m_State; //ゲームの状態
+	static State m_oldState; //前フレームでのゲームの状態
 
 };
 

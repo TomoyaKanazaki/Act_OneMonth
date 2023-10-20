@@ -57,7 +57,7 @@ LAYER_DATA //プレイヤーの構造
 
 	MODELID		8
 	ParentID	0
-	POS			2.0 -4.5 0.5
+	POS			2.0 -3.8 0.5
 	ROT			0.0 0.0 0.0
 
 	MODELID		9
@@ -67,12 +67,12 @@ LAYER_DATA //プレイヤーの構造
 
 	MODELID		10
 	ParentID	9
-	POS			-0.16 -10.0 0.0
+	POS			-0.16 -10.0 0.5
 	ROT			0.0 0.0 0.0
 
 	MODELID		11
 	ParentID	0
-	POS			-2.0 -4.5 0.5
+	POS			-2.0 -3.8 0.5
 	ROT			0.0 0.0 0.0
 
 	MODELID		12
@@ -82,7 +82,7 @@ LAYER_DATA //プレイヤーの構造
 
 	MODELID		13
 	ParentID	12
-	POS			0.155 -10.0 0.0
+	POS			0.155 -10.0 0.5
 	ROT			0.0 0.0 0.0
 
 LAYER_DATA //ボス敵の構造

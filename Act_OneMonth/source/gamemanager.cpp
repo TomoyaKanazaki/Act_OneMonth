@@ -30,6 +30,7 @@ CCamera *CGameManager::m_pCamera = NULL;
 CLight *CGameManager::m_pLight = NULL;
 CUi* CGameManager::m_pUi = NULL;
 CGameManager::State CGameManager::m_State = NONE;
+CGameManager::State CGameManager::m_oldState = NONE;
 
 //==========================================
 //  コンストラクタ
@@ -105,6 +106,9 @@ void CGameManager::Uninit(void)
 //==========================================
 void CGameManager::Update(void)
 {
+	//前回の状態を保存する
+	m_oldState = m_State;
+
 #if _DEBUG
 	//画面遷移テスト
 	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN) && CManager::GetManager()->GetKeyboard()->GetPress(DIK_LSHIFT))
@@ -123,7 +127,7 @@ void CGameManager::Update(void)
 #endif
 
 	//状態の切り替え
-	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100))
+	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetManager()->GetKeyboard()->GetPress(DIK_LSHIFT))
 	{
 		m_State = STATE_CONCENTRTTE;
 	}

@@ -15,7 +15,7 @@
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
-CMotion::INFO *CMotion::m_pInfo = NULL;
+CMotion::INFO CMotion::m_aInfo[MAX_NUM] = {};
 int CMotion::m_nNumMotion = 0;
 
 //==========================================
@@ -24,8 +24,12 @@ int CMotion::m_nNumMotion = 0;
 CMotion::CMotion()
 {
 	m_ppModel = NULL;
-	m_nMotion = MOTION_NONE;
 	m_Info = {};
+	for (int nCnt = 0; nCnt < MAX_NUM; nCnt++)
+	{
+		m_startKey[nCnt].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		m_startKey[nCnt].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	}
 	m_nNumModel = 0;
 	m_nCntFrame = 0;
 	m_nCntKey = 0;
@@ -50,13 +54,9 @@ void CMotion::Update(void)
 		//キーの有無を確認
 		if (m_Info.nNumKey > 0)
 		{
-			int nNowMotion = m_nMotion; //現在のモーション番号
 			int nNowKey = m_nCntKey; // 現在のキー
 			int nNextkey = (nNowKey + 1) % m_Info.nNumKey; //次のキー
-			int nFrame = m_Info.pKeyInfo[nNowKey].nFrame;
-
-			//差分(割合)
-			float fFrame = ((float)m_nCntFrame / (float)nFrame);
+			int nFrame = m_Info.aKeyInfo[nNowKey].nFrame;
 
 			//モデル数分のモーションを設定
 			for (int nCntModel = 0; nCntModel < m_nNumModel; nCntModel++)
@@ -66,18 +66,17 @@ void CMotion::Update(void)
 				m_oldKey.rot = m_ppModel[nCntModel]->GetRot();
 
 				//差分を算出
-				D3DXVECTOR3 posDeff = D3DXVECTOR3
-				(
-					m_Info.pKeyInfo[nNextkey].pKey[nCntModel].pos.x - m_Info.pKeyInfo[nNowKey].pKey[nCntModel].pos.x,
-					m_Info.pKeyInfo[nNextkey].pKey[nCntModel].pos.y - m_Info.pKeyInfo[nNowKey].pKey[nCntModel].pos.y,
-					m_Info.pKeyInfo[nNextkey].pKey[nCntModel].pos.z - m_Info.pKeyInfo[nNowKey].pKey[nCntModel].pos.z
-				);
-				D3DXVECTOR3 rotDeff = D3DXVECTOR3
-				(
-					m_Info.pKeyInfo[nNextkey].pKey[nCntModel].rot.x - m_Info.pKeyInfo[nNowKey].pKey[nCntModel].rot.x,
-					m_Info.pKeyInfo[nNextkey].pKey[nCntModel].rot.y - m_Info.pKeyInfo[nNowKey].pKey[nCntModel].rot.y,
-					m_Info.pKeyInfo[nNextkey].pKey[nCntModel].rot.z - m_Info.pKeyInfo[nNowKey].pKey[nCntModel].rot.z
-				);
+				D3DXVECTOR3 posDeff, rotDeff;
+				if (m_nCntKey == -1)
+				{
+					posDeff = (m_Info.aKeyInfo[nNextkey].aKey[nCntModel].pos - m_startKey[nCntModel].pos);
+					rotDeff = (m_Info.aKeyInfo[nNextkey].aKey[nCntModel].rot - m_startKey[nCntModel].rot);
+				}
+				else
+				{
+					posDeff = (m_Info.aKeyInfo[nNextkey].aKey[nCntModel].pos - m_Info.aKeyInfo[nNowKey].aKey[nCntModel].pos) / (float)nFrame;
+					rotDeff = (m_Info.aKeyInfo[nNextkey].aKey[nCntModel].rot - m_Info.aKeyInfo[nNowKey].aKey[nCntModel].rot) / (float)nFrame;
+				}
 
 				//角度の補正
 				if (rotDeff.x < -D3DX_PI) //x
@@ -108,41 +107,56 @@ void CMotion::Update(void)
 				}
 
 				//現在の値を算出
-				D3DXVECTOR3 posDest = D3DXVECTOR3
-				(
-					m_oldKey.pos.x + m_Info.pKeyInfo[nNowKey].pKey[nCntModel].pos.x + posDeff.x * fFrame,
-					m_oldKey.pos.y + m_Info.pKeyInfo[nNowKey].pKey[nCntModel].pos.y + posDeff.y * fFrame,
-					m_oldKey.pos.z + m_Info.pKeyInfo[nNowKey].pKey[nCntModel].pos.z + posDeff.z * fFrame
-				);
-				D3DXVECTOR3 rotDest = D3DXVECTOR3
-				(
-					m_oldKey.rot.x + m_Info.pKeyInfo[nNowKey].pKey[nCntModel].rot.x + rotDeff.x * fFrame,
-					m_oldKey.rot.y + m_Info.pKeyInfo[nNowKey].pKey[nCntModel].rot.y + rotDeff.y * fFrame,
-					m_oldKey.rot.z + m_Info.pKeyInfo[nNowKey].pKey[nCntModel].rot.z + rotDeff.z * fFrame
-				);
+				D3DXVECTOR3 posDest, rotDest;
+				if (m_nCntKey == -1)
+				{
+					posDest = m_oldKey.pos + posDeff;
+					rotDest = m_oldKey.rot + rotDeff;
+				}
+				else
+				{
+					posDest = m_oldKey.pos + posDeff;
+					rotDest = m_oldKey.rot + rotDeff;
+				}
 
 				//算出した値の適用
-				m_ppModel[nCntModel]->SetPos(posDest);
-				m_ppModel[nCntModel]->SetRot(rotDest);
+				if (nCntModel == 0)
+				{
+					m_ppModel[nCntModel]->SetPos(posDest);
+					m_ppModel[nCntModel]->SetRot(rotDest);
+				}
+				else
+				{
+					m_ppModel[nCntModel]->SetRot(rotDest);
+				}
 			}
 
-			//フレームカウントを加算
-			m_nCntFrame++;
-
-			//キーの更新をチェック
-			if (m_Info.pKeyInfo[nNowKey].nFrame != 0)
+			if (m_nCntKey == -1)
 			{
-				if (m_nCntFrame == nFrame)
-				{
-					//キーの更新
-					m_nCntKey = nNextkey;
-					m_nCntFrame = 0;
-				}
+				//キーの更新
+				m_nCntKey = nNextkey;
+				m_nCntFrame = 0;
 			}
 			else
 			{
-				m_nCntKey = 0;
-				m_nCntFrame = 0;
+				//フレームカウントを加算
+				m_nCntFrame++;
+
+				//キーの更新をチェック
+				if (m_Info.aKeyInfo[nNowKey].nFrame != 0)
+				{
+					if (m_nCntFrame == nFrame)
+					{
+						//キーの更新
+						m_nCntKey = nNextkey;
+						m_nCntFrame = 0;
+					}
+				}
+				else
+				{
+					m_nCntKey = 0;
+					m_nCntFrame = 0;
+				}
 			}
 		}
 	}
@@ -151,7 +165,7 @@ void CMotion::Update(void)
 //==========================================
 //  モデルの設定処理
 //==========================================
-void CMotion::SetModel(CModel **ppModel, int nNum, CHARA type)
+void CMotion::SetModel(CModel **ppModel, int nNum, MOTION type)
 {
 	//モデルを記録
 	m_ppModel = ppModel;
@@ -159,26 +173,34 @@ void CMotion::SetModel(CModel **ppModel, int nNum, CHARA type)
 	//モデル数を記録
 	m_nNumModel = nNum;
 
-	//キャラクター情報を記録
-	m_nMotion = type;
-
 	//使用するモーションを設定
-	m_Info = m_pInfo[type];
+	m_Info = m_aInfo[type];
+
+	//モーション開始時の値を取得
+	for (int nCnt = 0; nCnt < m_Info.nNumModel; nCnt++)
+	{
+		m_startKey[nCnt].pos = m_ppModel[nCnt]->GetPos();
+		m_startKey[nCnt].rot = m_ppModel[nCnt]->GetRot();
+	}
 }
 
 //==========================================
 //  モーションの設定処理
 //==========================================
-void CMotion::Set(CHARA type)
+void CMotion::Set(MOTION type)
 {
-	//キャラクター情報を設定
-	m_nMotion = type;
-
 	//使用するモーションを設定
-	m_Info = m_pInfo[type];
+	m_Info = m_aInfo[type];
+
+	//モーション開始時の値を取得
+	for (int nCnt = 0; nCnt < m_Info.nNumModel; nCnt++)
+	{
+		m_startKey[nCnt].pos = m_ppModel[nCnt]->GetPos();
+		m_startKey[nCnt].rot = m_ppModel[nCnt]->GetRot();
+	}
 
 	//カウンターをリセット
-	m_nCntKey = 0;
+	m_nCntKey = -1;
 	m_nCntFrame = 0;
 }
 
@@ -208,42 +230,30 @@ void CMotion::Load(void)
 			{
 				fscanf(pFile, "%s", &aStr[0]); //=
 				fscanf(pFile, "%d", &m_nNumMotion); //モーション数取得
-
-				//モーション数のメモリを確保
-				m_pInfo = new INFO[m_nNumMotion];
 			}
 			else if (strcmp(&aStr[0], "LOOP") == 0)
 			{
 				//ループの有無を取得
 				fscanf(pFile, "%s", &aStr[0]); //=
-				fscanf(pFile, "%d", &m_pInfo[nCntInfo].bLoop);
+				fscanf(pFile, "%d", &m_aInfo[nCntInfo].bLoop);
 			}
 			else if (strcmp(&aStr[0], "NUM_KEY") == 0)
 			{
 				//キー数の取得
 				fscanf(pFile, "%s", &aStr[0]); //=
-				fscanf(pFile, "%d", &m_pInfo[nCntInfo].nNumKey);
-
-				//キー数分のメモリを確保
-				m_pInfo[nCntInfo].pKeyInfo = new KEY_INFO[m_pInfo[nCntInfo].nNumKey];
+				fscanf(pFile, "%d", &m_aInfo[nCntInfo].nNumKey);
 			}
 			else if (strcmp(&aStr[0], "NUM_MODEL") == 0)
 			{
 				//モデル数の取得
 				fscanf(pFile, "%s", &aStr[0]); //=
-				fscanf(pFile, "%d", &m_pInfo[nCntInfo].nNumModel);
-
-				//モデル数分のメモリを確保
-				for (int nCnt = 0; nCnt < m_pInfo[nCntInfo].nNumKey; nCnt++)
-				{
-					m_pInfo[nCntInfo].pKeyInfo[nCnt].pKey = new KEY[m_pInfo[nCntInfo].nNumModel];
-				}
+				fscanf(pFile, "%d", &m_aInfo[nCntInfo].nNumModel);
 			}
 			else if (strcmp(&aStr[0], "FRAME") == 0)
 			{
 				//フレーム数を取得
 				fscanf(pFile, "%s", &aStr[0]); //=
-				fscanf(pFile, "%d", &m_pInfo[nCntInfo].pKeyInfo[nCntKey].nFrame);
+				fscanf(pFile, "%d", &m_aInfo[nCntInfo].aKeyInfo[nCntKey].nFrame);
 			}
 			else if (strcmp(&aStr[0], "POS") == 0)
 			{
@@ -254,7 +264,7 @@ void CMotion::Load(void)
 				fscanf(pFile, "%f", &pos.y);
 				fscanf(pFile, "%f", &pos.z);
 
-				m_pInfo[nCntInfo].pKeyInfo[nCntKey].pKey[nCntModel].pos = pos;
+				m_aInfo[nCntInfo].aKeyInfo[nCntKey].aKey[nCntModel].pos = pos;
 			}
 			else if (strcmp(&aStr[0], "ROT") == 0)
 			{
@@ -265,7 +275,7 @@ void CMotion::Load(void)
 				fscanf(pFile, "%f", &rot.y);
 				fscanf(pFile, "%f", &rot.z);
 
-				m_pInfo[nCntInfo].pKeyInfo[nCntKey].pKey[nCntModel].rot = rot;
+				m_aInfo[nCntInfo].aKeyInfo[nCntKey].aKey[nCntModel].rot = rot;
 			}
 			else if (strcmp(&aStr[0], "END_MOTIONSET") == 0)
 			{
@@ -304,17 +314,5 @@ void CMotion::Load(void)
 //==========================================
 void CMotion::UnLoad(void)
 {
-	//モーション情報の破棄
-	for (int nCntMotion = 0; nCntMotion < m_nNumMotion; nCntMotion++)
-	{
-		for (int nCntKey = 0; nCntKey < m_pInfo[nCntMotion].nNumKey; nCntKey++)
-		{
-			delete[] m_pInfo[nCntMotion].pKeyInfo[nCntKey].pKey;
-			m_pInfo[nCntMotion].pKeyInfo[nCntKey].pKey = NULL;
-		}
-		delete[] m_pInfo[nCntMotion].pKeyInfo;
-		m_pInfo[nCntMotion].pKeyInfo = NULL;
-	}
-	delete[] m_pInfo;
-	m_pInfo = NULL;
+
 }
