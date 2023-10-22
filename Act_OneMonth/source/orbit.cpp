@@ -8,6 +8,8 @@
 #include "manager.h"
 #include "renderer.h"
 #include "debugproc.h"
+#include "texture.h"
+#include "slice.h"
 
 //==========================================
 //  コンストラクタ
@@ -50,6 +52,9 @@ HRESULT COrbit::Init(void)
 	//色を設定
 	SetCol(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 
+	//テクスチャを割り当てる
+	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::SLASH));
+
 	return hr;
 }
 
@@ -73,6 +78,9 @@ void COrbit::Update(void)
 	//小さくなったら消す
 	if (m_size.y <= 0.0f)
 	{
+		//斬撃の生成
+		CSlice::Create(m_pos, D3DXVECTOR3(m_size.x * 0.5f, m_size.x * 0.5f, m_size.x * 0.5f), m_rot);
+
 		Uninit();
 	}
 
@@ -90,8 +98,42 @@ void COrbit::Draw(void)
 	//カリングをオフ
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	//ライティングを無効化
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	//Zテストの無効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+	//アルファテストの有効化
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+
+	//アルファブレンディングを加算合成に設定
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
 	//描画
 	CObject3D::Draw();
+
+	//アルファブレンディングの設定を元に戻す
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	//アルファテストの無効化
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+
+	//Zテストの有効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+	//ライティングを有効化
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	//カリングをオン
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);

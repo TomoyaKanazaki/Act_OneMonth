@@ -46,6 +46,11 @@ HRESULT CCameraGame::Init(void)
 //==========================================
 void CCameraGame::Update(void)
 {
+	//ローカル変数宣言
+	D3DXVECTOR3 Pos = m_posR; //現在の角度
+	D3DXVECTOR3 Dest = {}; //目標の角度
+	D3DXVECTOR3 Diff = {}; //目標と現在の角度の差
+
 	//デバッグ中は更新しない
 	if (!m_bDebug)
 	{
@@ -53,7 +58,20 @@ void CCameraGame::Update(void)
 		D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetPos();
 
 		//注視点を更新
-		m_posR = posPlayer;
+		Dest = posPlayer;
+	}
+
+	//移動補正
+	Diff = Dest - Pos;	//目標までの移動方向の差分
+
+	//適用
+	if (CGameManager::GetState() == CGameManager::STATE_NORMAL)
+	{
+		m_posR += Diff;
+	}
+	else
+	{
+		m_posR += Diff * 0.1f;
 	}
 
 	//高さ上限

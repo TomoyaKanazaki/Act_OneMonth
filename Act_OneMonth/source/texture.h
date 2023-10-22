@@ -27,6 +27,8 @@ public:
 		RESULT, //リザルト
 		FIELD, //床
 		ARROW, //矢印
+		SLASH, //斬撃エフェクト
+		SLICE, //ｼﾞｬｷﾝｼﾞｬｷﾝ
 		TEXTURE_MAX
 	};
 
