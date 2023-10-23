@@ -72,9 +72,6 @@ void CEnemy_Normal::Update(void)
 		m_fMove = 0.0f;
 	}
 
-	//ˆÚ“®—Ê‚ð“K—p
-	m_pos += m_move;
-
 	CEnemy::Update();
 }
 

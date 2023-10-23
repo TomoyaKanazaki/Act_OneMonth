@@ -59,9 +59,6 @@ void CEnemy_Homing::Update(void)
 	//’Ç]ˆ—
 	Homing();
 
-	//ˆÚ“®—Ê‚Ì“K—p
-	m_pos += m_move;
-
 	CEnemy::Update();
 }
 

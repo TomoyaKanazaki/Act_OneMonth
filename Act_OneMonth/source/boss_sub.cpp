@@ -81,7 +81,6 @@ void CBoss_Sub::Update(void)
 		m_rot.z += (D3DX_PI * 2);
 	}
 
-	CManager::GetManager()->GetDebugProc()->Print("q•ªÀ•W ( %f, %f )\n", m_pos.x, m_pos.y);
 	CEnemy::Update();
 }
 

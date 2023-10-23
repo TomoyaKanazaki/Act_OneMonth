@@ -10,6 +10,7 @@
 #include "boss_main.h"
 #include "enemy_normal.h"
 #include "enemy_homing.h"
+#include "gamemanager.h"
 
 //==========================================
 //  静的メンバ変数
@@ -57,6 +58,15 @@ void CEnemy::Uninit(void)
 //==========================================
 void CEnemy::Update(void)
 {
+	//集中状態の時スローになる
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRTTE)
+	{
+		m_move *= 0.1f;
+	}
+
+	//移動量の適用
+	m_pos += m_move;
+
 	CObject_Char::Update();
 }
 
