@@ -26,6 +26,12 @@ public:
 
 private:
 
+	//ƒƒ“ƒo•Ï”
+	float m_fMove;
+	float m_fSpeed;
+
+	//Ã“Iƒƒ“ƒo•Ï”
+	static const float m_fScope; //ˆÚ“®”ÍˆÍ
 
 };
 
