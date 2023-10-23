@@ -453,11 +453,11 @@ void CPlayer::Hit(void)
 				D3DXVECTOR3 pos = pObj->GetPos();
 
 				//前回座標との距離を計算する
-				D3DXVECTOR3 vecToPosOld = m_oldPos - pos;
+				D3DXVECTOR3 vecToPosOld = m_oldposModel - pos;
 				float fLength = sqrtf(vecToPosOld.x * vecToPosOld.x + vecToPosOld.y * vecToPosOld.y);
 
 				//今回座標との距離を加算する
-				D3DXVECTOR3 vecToPos = m_pos - pos;
+				D3DXVECTOR3 vecToPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43)- pos;
 				fLength += sqrtf(vecToPos.x * vecToPos.x + vecToPos.y * vecToPos.y);
 
 				//判定内の判定を取る
