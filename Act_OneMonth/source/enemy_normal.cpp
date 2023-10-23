@@ -56,12 +56,6 @@ void CEnemy_Normal::Uninit(void)
 //==========================================
 void CEnemy_Normal::Update(void)
 {
-	//デルタタイムの取得
-	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
-
-	//移動
-	m_move.x = m_fSpeed * m_fDeltaTime;
-
 	//移動した距離を保存
 	m_fMove += m_move.x;
 
@@ -71,6 +65,12 @@ void CEnemy_Normal::Update(void)
 		m_fSpeed *= -1.0f;
 		m_fMove = 0.0f;
 	}
+
+	//デルタタイムの取得
+	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+
+	//移動
+	m_move.x = m_fSpeed * m_fDeltaTime;
 
 	CEnemy::Update();
 }

@@ -22,6 +22,7 @@ CCamera::CCamera()
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_diff = D3DXVECTOR3(0.0f, HEIGHT, CAMERA_DISTANCE);
+	m_fFov = DEFAULT_FAV;
 	m_bDebug = false;
 }
 
@@ -71,10 +72,11 @@ void CCamera::SetCamera(void)
 	D3DXMatrixIdentity(&m_mtxProjection);
 
 	//プロジェクションマトリックスを作成
+
 	D3DXMatrixPerspectiveFovLH
 	(
 		&m_mtxProjection,
-		D3DXToRadian(54.0f),
+		D3DXToRadian(m_fFov),
 		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
 		10.0f,
 		20000.0f

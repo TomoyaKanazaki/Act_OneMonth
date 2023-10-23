@@ -1,37 +1,35 @@
 //==========================================
 //
-//  ダッシュの軌跡クラス
+//  紋章クラス(icon.cpp)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "orbit.h"
+#include "icon.h"
 #include "manager.h"
 #include "renderer.h"
+#include "gamemanager.h"
+#include "player.h"
+#include "gametime.h"
 #include "debugproc.h"
 #include "texture.h"
-#include "slice.h"
-#include "gamemanager.h"
-#include "icon.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
-const float COrbit::m_fDefaultHeight = 40.0f;
+const float CIcon::m_fMaxLife = 5.0f;
 
 //==========================================
 //  コンストラクタ
 //==========================================
-COrbit::COrbit(int nPriority) : CObject3D(nPriority)
+CIcon::CIcon(int nPriority)
 {
-	m_offset[0] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_offset[1] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_fHeight = 0.0f;
+
 }
 
 //==========================================
 //  デストラクタ
 //==========================================
-COrbit::~COrbit()
+CIcon::~CIcon()
 {
 
 }
@@ -39,37 +37,25 @@ COrbit::~COrbit()
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT COrbit::Init(void)
+HRESULT CIcon::Init(void)
 {
-	//角度を設定する
-	D3DXVECTOR3 vec = m_offset[1] - m_offset[0];
-	m_rot.z = atan2f(vec.y, vec.x);
+	//座標を設定
+	m_pos = CGameManager::GetPlayer()->GetCenter();
 
-	//サイズを設定する
-	float fLength = sqrtf(vec.x * vec.x + vec.y * vec.y);
-	m_size.x = fLength;
-	m_fHeight = m_fDefaultHeight * CGameManager::GetIcon()->GetLIfe();
-	m_size.y = m_fHeight;
+	//寿命を設定
+	m_fLife = m_fMaxLife;
 
-	//位置を設定
-	m_pos = (m_offset[0] + m_offset[1]) * 0.5f;
+	//サイズを設定
+	m_size = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
+	m_size *= m_fLife;
 
-	//初期化
-	HRESULT hr = CObject3D::Init();
-
-	//色を設定
-	SetCol(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-
-	//テクスチャを割り当てる
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::SLASH));
-
-	return hr;
+	return CObject3D::Init();
 }
 
 //==========================================
 //  終了処理
 //==========================================
-void COrbit::Uninit(void)
+void CIcon::Uninit(void)
 {
 	CObject3D::Uninit();
 }
@@ -77,20 +63,22 @@ void COrbit::Uninit(void)
 //==========================================
 //  更新処理
 //==========================================
-void COrbit::Update(void)
+void CIcon::Update(void)
 {
-	//小さくする
-	m_fHeight = m_fDefaultHeight * CGameManager::GetIcon()->GetLIfe();
-	m_size.y = m_fHeight;
-
-	//小さくなったら消す
-	if (m_size.y <= 0.0f)
+	//寿命0なら殺す
+	if (m_fLife <= 0.0f)
 	{
-		//斬撃の生成
-		CSlice::Create(m_pos, D3DXVECTOR3(m_size.x * 0.5f, m_size.x * 0.5f, m_size.x * 0.5f), m_rot);
-
 		Uninit();
 	}
+
+	//寿命を減少
+	m_fLife -= CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+
+	//サイズを減少
+	m_size = D3DXVECTOR3(50.0f, 50.0f, 0.0f) * m_fLife;
+
+	//座標を設定
+	m_pos = CGameManager::GetPlayer()->GetCenter();
 
 	CObject3D::Update();
 }
@@ -98,20 +86,10 @@ void COrbit::Update(void)
 //==========================================
 //  描画処理
 //==========================================
-void COrbit::Draw(void)
+void CIcon::Draw(void)
 {
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
-
-	//カリングをオフ
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	//ライティングを無効化
-	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-	//Zテストの無効化
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 	//アルファテストの有効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -123,7 +101,6 @@ void COrbit::Draw(void)
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-	//描画
 	CObject3D::Draw();
 
 	//アルファブレンディングの設定を元に戻す
@@ -135,38 +112,24 @@ void COrbit::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
-
-	//Zテストの有効化
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-	//ライティングを有効化
-	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
-	//カリングをオン
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 //==========================================
 //  生成処理
 //==========================================
-COrbit* COrbit::Create(D3DXVECTOR3 offset0, D3DXVECTOR3 offset1)
+CIcon* CIcon::Create(void)
 {
 	//変数宣言
-	COrbit* pOrbit = nullptr;
+	CIcon* pIcon = nullptr;
 
-	//メモリを確保
-	if (pOrbit == nullptr)
-	{
-		pOrbit = new COrbit;
-	}
-
-	//値を設定
-	pOrbit->m_offset[0] = offset0;
-	pOrbit->m_offset[1] = offset1;
+	//インスタンス生成
+	pIcon = new CIcon;
 
 	//初期化処理
-	pOrbit->Init();
+	pIcon->Init();
 
-	return pOrbit;
+	//テクスチャを割り当て
+	pIcon->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::KATANA));
+
+	return pIcon;
 }

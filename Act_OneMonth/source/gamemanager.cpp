@@ -20,6 +20,8 @@
 #include "bg.h"
 #include "enemy.h"
 #include "field.h"
+#include "gametime.h"
+#include "icon.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -28,9 +30,9 @@ CPlayer* CGameManager::m_pPlayer = NULL;
 CEnemy* CGameManager::m_pBoss = NULL;
 CCamera *CGameManager::m_pCamera = NULL;
 CLight *CGameManager::m_pLight = NULL;
-CUi* CGameManager::m_pUi = NULL;
 CGameManager::State CGameManager::m_State = NONE;
 CGameManager::State CGameManager::m_oldState = NONE;
+CIcon* CGameManager::m_pIcon = nullptr;
 
 //==========================================
 //  コンストラクタ
@@ -53,6 +55,9 @@ CGameManager::~CGameManager()
 //==========================================
 HRESULT CGameManager::Init(void)
 {
+	//状態の初期化
+	m_State = STATE_NORMAL;
+
 	//プレイヤーの生成
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
@@ -66,10 +71,10 @@ HRESULT CGameManager::Init(void)
 	CEnemy::Create(D3DXVECTOR3(-150.0f, 150.0f, 0.0f), CEnemy::HOMING);
 
 	//背景の生成
-	CBg::Create(D3DXVECTOR3(0.0f, 332.0f, 300.0f), D3DXVECTOR3(5000.0f, 0.0f, 800.0f), 5);
+	CBg::Create(D3DXVECTOR3(0.0f, 400.0f, 300.0f), D3DXVECTOR3(6000.0f, 0.0f, 960.0f), 5);
 
 	//床の生成
-	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(5000.0f, 0.0f, 600.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 6.0f));
+	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(6000.0f, 0.0f, 720.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 6.0f));
 
 	//カメラの生成
 	if (m_pCamera == NULL)
@@ -133,13 +138,28 @@ void CGameManager::Update(void)
 #endif
 
 	//状態の切り替え
-	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetManager()->GetKeyboard()->GetPress(DIK_LSHIFT))
+	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
 	{
-		m_State = STATE_CONCENTRTTE;
+		if (m_State == STATE_NORMAL)
+		{
+			m_State = STATE_CONCENTRATE;
+
+			//紋章を召喚
+			if (m_pIcon == nullptr)
+			{
+				m_pIcon = CIcon::Create();
+			}
+		}
 	}
-	else
+
+	//状態を更新
+	if (m_pIcon != nullptr)
 	{
-		m_State = STATE_NORMAL;
+		if (m_pIcon->GetLIfe() <= 0.0f && m_State == STATE_CONCENTRATE)
+		{
+			m_State = STATE_NORMAL;
+			m_pIcon = nullptr;
+		}
 	}
 
 	//ライトの更新

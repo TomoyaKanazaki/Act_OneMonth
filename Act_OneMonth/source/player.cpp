@@ -78,14 +78,11 @@ void CPlayer::Uninit(void)
 //==========================================
 void CPlayer::Update(void)
 {
-	//中心座標を設定
-	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
-
 	//経過時間を取得する
 	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
 
 	//ゲーム状態の取得
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRTTE)
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
 	{
 		m_fDeltaTime *= 0.0f;
 	}
@@ -96,7 +93,7 @@ void CPlayer::Update(void)
 	//ダッシュの処理
 	Dash();
 
-	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRTTE)
+	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
 	{
 		//ジャンプ!
 		Jump();
@@ -115,7 +112,7 @@ void CPlayer::Update(void)
 	Gravity();
 
 	//状態が切り替わった瞬間にモーションを切り替える
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRTTE && CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE && CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
 	{
 		m_pMotion->Set(CMotion::PLAYER_IAI);
 	}
@@ -128,6 +125,9 @@ void CPlayer::Update(void)
 	//前回座標に保存
 	m_oldPos = m_pos;
 	m_oldposModel = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
+
+	//中心座標を設定
+	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
 	//デバッグ表示
 	CManager::GetManager()->GetDebugProc()->Print("移動量 ( %f, %f )\n", m_move.x, m_move.y);
@@ -309,7 +309,7 @@ void CPlayer::Gravity(void)
 	}
 
 	//集中状態の時
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRTTE)
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
 	{
 		m_move.y = 0.0f;
 		return;
@@ -328,7 +328,7 @@ void CPlayer::Dash(void)
 	m_bDash = false;
 
 	//集中状態でのみ発動
-	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRTTE)
+	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
 	{
 		if (m_pArrow != nullptr)
 		{
@@ -419,7 +419,7 @@ void CPlayer::Orbit(void)
 	oldpos = D3DXVECTOR3(mtxWorld._41, mtxWorld._42, mtxWorld._43);
 
 	//軌跡を生成
-	COrbit::Create(oldpos, pos, PLAYER_HEIGHT);
+	COrbit::Create(oldpos, pos);
 }
 
 //==========================================

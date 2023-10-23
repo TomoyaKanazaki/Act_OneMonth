@@ -29,6 +29,7 @@ public:
 		ARROW, //矢印
 		SLASH, //斬撃エフェクト
 		SLICE, //ｼﾞｬｷﾝｼﾞｬｷﾝ
+		KATANA, //刀
 		TEXTURE_MAX
 	};
 

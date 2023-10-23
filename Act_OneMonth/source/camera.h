@@ -37,6 +37,9 @@ protected:
 #define HEIGHT (100.0f) //視点の高さ
 #define MAX_ROT (D3DX_PI * 0.99f) //視点の限界角
 #define MIN_ROT (D3DX_PI * 0.01f) //視点の限界角
+#define DEFAULT_FAV (45.0f) //視野角の規定値
+#define MAX_FAV (70.0f) //視野角の規定値
+#define REVISION_SPEED (0.1f) //補正速度
 
 	//メンバ関数
 	void FirstPerson(void);
