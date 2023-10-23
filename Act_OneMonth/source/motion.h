@@ -25,6 +25,9 @@ public:
 	typedef enum
 	{
 		PLAYER_WAIT = 0, //待機モーション
+		PLAYER_WALK, //歩行モーション
+		PLAYER_JUMP, //ジャンプモーション
+		PLAYER_FALL, //落下モーション
 		PLAYER_IAI, //居合モーション
 		MOTION_NONE
 	}MOTION;
@@ -71,6 +74,7 @@ private:
 	int m_nNumModel;
 	int m_nCntFrame;
 	int m_nCntKey;
+	bool m_bMotion;
 
 	//静的メンバ変数
 	static INFO m_aInfo[MAX_NUM];

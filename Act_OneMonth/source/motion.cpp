@@ -33,6 +33,7 @@ CMotion::CMotion()
 	m_nNumModel = 0;
 	m_nCntFrame = 0;
 	m_nCntKey = 0;
+	m_bMotion = false;
 }
 
 //==========================================
@@ -51,6 +52,12 @@ void CMotion::Update(void)
 	//NULLチェック
 	if (m_ppModel != NULL)
 	{
+		//モーションが完了していたら抜ける
+		if (m_bMotion)
+		{
+			return;
+		}
+
 		//キーの有無を確認
 		if (m_Info.nNumKey > 0)
 		{
@@ -148,14 +155,16 @@ void CMotion::Update(void)
 					if (m_nCntFrame == nFrame)
 					{
 						//キーの更新
-						m_nCntKey = nNextkey;
-						m_nCntFrame = 0;
+						if (m_Info.bLoop)
+						{
+							m_nCntKey = nNextkey;
+							m_nCntFrame = 0;
+						}
+						else
+						{
+							m_bMotion = true;
+						}
 					}
-				}
-				else
-				{
-					m_nCntKey = 0;
-					m_nCntFrame = 0;
 				}
 			}
 		}
@@ -202,6 +211,7 @@ void CMotion::Set(MOTION type)
 	//カウンターをリセット
 	m_nCntKey = -1;
 	m_nCntFrame = 0;
+	m_bMotion = false;
 }
 
 //==========================================

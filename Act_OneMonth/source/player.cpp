@@ -33,6 +33,7 @@ CPlayer::CPlayer(int nPriority) : CObject_Char(nPriority)
 	m_bDash = false;
 	m_oldposModel = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_pArrow = nullptr;
+	m_State = NEUTRAL;
 }
 
 //==========================================
@@ -115,12 +116,61 @@ void CPlayer::Update(void)
 	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE && CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
 	{
 		m_pMotion->Set(CMotion::PLAYER_IAI);
+		m_State = IAI;
 	}
 	if (CGameManager::GetState() == CGameManager::STATE_NORMAL && CGameManager::GetOldState() != CGameManager::STATE_NORMAL)
 	{
 		m_pMotion->Set(CMotion::PLAYER_WAIT);
+		m_State = NEUTRAL;
 	}
 
+	//集中状態じゃない時にだけ状態を更新できる
+	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
+	{
+		//現在の状態を保存
+		State oldState = m_State;
+
+		//状態更新
+		if (!m_bRand) //着地してない状態
+		{
+			if (m_move.y > 0.0f)
+			{
+				m_State = JUMP;
+			}
+			else
+			{
+				m_State = FALL;
+			}
+		}
+		else if(m_move.x != 0.0f) //移動している状態
+		{
+			m_State = WALK;
+		}
+		else //上記のどれでもない状態
+		{
+			m_State = NEUTRAL;
+		}
+
+		//モーションを更新
+		if (m_State != oldState)
+		{
+			switch (m_State)
+			{
+			case JUMP:
+				m_pMotion->Set(CMotion::PLAYER_JUMP);
+				break;
+			case FALL:
+				m_pMotion->Set(CMotion::PLAYER_FALL);
+				break;
+			case WALK:
+				m_pMotion->Set(CMotion::PLAYER_WALK);
+				break;
+			case NEUTRAL:
+				m_pMotion->Set(CMotion::PLAYER_WAIT);
+				break;
+			}
+		}
+	}
 
 	//前回座標に保存
 	m_oldPos = m_pos;
@@ -198,6 +248,9 @@ void CPlayer::Limit(void)
 //==========================================
 void CPlayer::Move(void)
 {
+	//前回の移動量を保存
+	float fOldMove = m_move.x;
+
 	//パッド移動量を取得
 	D3DXVECTOR3 move = CManager::GetManager()->GetJoyPad()->GetStickL(0.1f);
 
@@ -205,6 +258,12 @@ void CPlayer::Move(void)
 	if (move.x == 0.0f)
 	{
 		move = CManager::GetManager()->GetKeyboard()->GetWASD();
+	}
+
+	//歩行モーションの適用
+	if (fOldMove == 0.0f && m_move.x != 0.0f)
+	{
+		m_pMotion->Set(CMotion::PLAYER_WALK);
 	}
 
 	//移動量の適用

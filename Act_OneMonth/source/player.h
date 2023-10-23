@@ -35,8 +35,19 @@ public:
 
 private:
 
+	//状態定義
+	enum State
+	{
+		NEUTRAL = 0, //待機状態
+		WALK, //歩行状態
+		JUMP, //ジャンプ状態
+		FALL, //落下状態
+		IAI, //居合状態
+		MAX
+	};
+
 	//定数定義
-#define PLAYER_SPEED (400.0f) //プレイヤーの移動速度
+#define PLAYER_SPEED (350.0f) //プレイヤーの移動速度
 #define PLAYER_HEIGHT (40.0f) //プレイヤーの高さ
 #define DASH_DISTANCE (300.0f) //ダッシュの移動距離
 #define HIT_RANGE (350.0f) //ヒットする範囲
@@ -61,6 +72,7 @@ private:
 	bool m_bDash;
 	D3DXMATERIAL *m_pDefMat;
 	CArrow* m_pArrow;
+	State m_State;
 
 	//モデル情報
 	D3DXVECTOR3 m_oldposModel;
