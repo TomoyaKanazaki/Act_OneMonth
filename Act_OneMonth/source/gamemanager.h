@@ -46,7 +46,7 @@ public:
 
 	//Ã“Iƒƒ“ƒoŠÖ”
 	static CPlayer* GetPlayer(void) { return m_pPlayer; }
-	static CEnemy* GetEnemy(void) { return m_pBoss; }
+	static CEnemy* GetBoss(void) { return m_pBoss; }
 	static void KillBoss(void) { m_pBoss = nullptr; }
 	static CCamera *GetCamera(void) { return m_pCamera; }
 	static CLight *GetLight(void) { return m_pLight; }

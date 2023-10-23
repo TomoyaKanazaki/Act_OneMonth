@@ -9,13 +9,14 @@
 #include "debugproc.h"
 #include "layer.h"
 #include "gamemanager.h"
+#include "boss_sub.h"
 
 //==========================================
 //  コンストラクタ
 //==========================================
 CBoss_Main::CBoss_Main(int nPriority)
 {
-
+	m_state = DEFAULT;
 }
 
 //==========================================
@@ -34,7 +35,13 @@ HRESULT CBoss_Main::Init(void)
 	//階層構造情報を生成
 	m_pLayer = CLayer::Set(CLayer::BOSS_MAIN);
 
-	return CEnemy::Init();
+	//初期化
+	HRESULT hr = CEnemy::Init();
+
+	//ボスフラグ
+	SetType(TYPE_BOSS);
+
+	return hr;
 }
 
 //==========================================
@@ -51,7 +58,33 @@ void CBoss_Main::Uninit(void)
 //==========================================
 void CBoss_Main::Update(void)
 {
-	CManager::GetManager()->GetDebugProc()->Print("ボス座標 ( %f, %f )\n", m_pos.x, m_pos.y);
+	//子分を生成
+	if (m_state == DEFAULT && !m_bSub)
+	{
+		//おともの生成
+		for (int nCnt = 0; nCnt < 4; nCnt++)
+		{
+			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.5f * nCnt - 1.0f)), 150.0f);
+		}
+
+		//生成フラグを立てる
+		m_bSub = true;
+	}
+
+	//子分が0になったら生成フラグをリセット
+	if (CBoss_Sub::GetNum() == 0)
+	{
+		//ボスの状態を進める
+		m_state = (State)((int)m_state + 1);
+		m_bSub = false;
+	}
+
+	//撃破可能状態になったら普通の敵扱いにする
+	if (m_state == CRUSH)
+	{
+		SetType(TYPE_ENEMY);
+	}
+
 	CEnemy::Update();
 }
 

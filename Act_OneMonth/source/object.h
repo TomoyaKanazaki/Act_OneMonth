@@ -23,6 +23,7 @@ public:
 		TYPE_NONE = 0, //不使用
 		TYPE_PLAYER, //プレイヤー
 		TYPE_ENEMY, //敵
+		TYPE_BOSS, //ボス
 		TYPE_BG, //背景
 		TYPE_MAP, //地形
 		TYPE_NUMBER, //数字
@@ -69,6 +70,7 @@ protected:
 
 	//メンバ関数
 	void Release(void);
+	void SetDeath(const bool frag) { m_bDeath = frag; }
 
 	//メンバ変数
 	D3DXVECTOR3 m_pos; //オブジェクトの中心座標
