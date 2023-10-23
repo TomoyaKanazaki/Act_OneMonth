@@ -27,6 +27,7 @@
     <ClCompile Include="source\camera_game.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
     <ClCompile Include="source\enemy.cpp" />
+    <ClCompile Include="source\enemy_homing.cpp" />
     <ClCompile Include="source\enemy_normal.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\field.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="source\camera_game.h" />
     <ClInclude Include="source\debugproc.h" />
     <ClInclude Include="source\enemy.h" />
+    <ClInclude Include="source\enemy_homing.h" />
     <ClInclude Include="source\enemy_normal.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\field.h" />

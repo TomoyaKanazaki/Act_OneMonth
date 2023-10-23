@@ -24,7 +24,8 @@ public:
 		PLAYER_LAYER = 0, //プレイヤー構造
 		BOSS_MAIN, //ボス構造
 		BOSS_SUB, //子分構造
-		ENEMY_00, //ザコ敵
+		ENEMY_NORMAL, //ザコ敵
+		ENEMY_HOMING, //ストーカー
 		LAYERS_MAX
 	}LAYERS;
 

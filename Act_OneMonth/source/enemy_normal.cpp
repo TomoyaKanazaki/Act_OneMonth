@@ -38,7 +38,7 @@ CEnemy_Normal::~CEnemy_Normal()
 HRESULT CEnemy_Normal::Init(void)
 {
 	//階層構造情報を生成
-	m_pLayer = CLayer::Set(CLayer::ENEMY_00);
+	m_pLayer = CLayer::Set(CLayer::ENEMY_NORMAL);
 
 	return CEnemy::Init();
 }
@@ -56,12 +56,6 @@ void CEnemy_Normal::Uninit(void)
 //==========================================
 void CEnemy_Normal::Update(void)
 {
-	//スクリーン外なら更新しない
-	if (!OnScreen())
-	{
-		return;
-	}
-
 	//デルタタイムの取得
 	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
 

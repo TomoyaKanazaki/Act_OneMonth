@@ -9,6 +9,7 @@
 #include "motion.h"
 #include "boss_main.h"
 #include "enemy_normal.h"
+#include "enemy_homing.h"
 
 //==========================================
 //  Ã“Iƒƒ“ƒo•Ï”
@@ -82,6 +83,10 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 		{
 		case NORMAL:
 			pEnemy = new CEnemy_Normal;
+			break;
+
+		case HOMING:
+			pEnemy = new CEnemy_Homing;
 			break;
 
 		case BOSS_MAIN:
