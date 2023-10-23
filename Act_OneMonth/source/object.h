@@ -69,6 +69,7 @@ public:
 protected:
 
 	//ƒƒ“ƒoŠÖ”
+	bool OnScreen(void);
 	void Release(void);
 	void SetDeath(const bool frag) { m_bDeath = frag; }
 

@@ -58,6 +58,12 @@ void CBoss_Main::Uninit(void)
 //==========================================
 void CBoss_Main::Update(void)
 {
+	//スクリーン外なら更新しない
+	if (!OnScreen())
+	{
+		return;
+	}
+
 	//子分を生成
 	if (m_state == DEFAULT && !m_bSub)
 	{

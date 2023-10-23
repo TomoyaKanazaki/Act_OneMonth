@@ -48,6 +48,12 @@ void CEnemy_Normal::Uninit(void)
 //==========================================
 void CEnemy_Normal::Update(void)
 {
+	//スクリーン外なら更新しない
+	if (!OnScreen())
+	{
+		return;
+	}
+
 	CEnemy::Update();
 }
 

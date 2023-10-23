@@ -222,6 +222,49 @@ void CObject::DrawAll(void)
 }
 
 //==========================================
+//  スクリーンに入っているか否か
+//==========================================
+bool CObject::OnScreen(void)
+{
+	//内部判定フラグ
+	bool bIn = false;
+
+	//ビューポートの設定
+	D3DVIEWPORT9 vp = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f };
+
+	//計算用変数宣言
+	D3DXMATRIX mtxView = CManager::GetManager()->GetSceneManager()->GetCamera()->CreateViewMatrix(); //ビューマトリックス
+	D3DXMATRIX mtxWorld; //ワールドマトリックス
+
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&mtxWorld);
+
+	//スクリーン座標を算出
+	D3DXVECTOR3 screenPos;
+	D3DXMATRIX mtxProjection = CManager::GetManager()->GetSceneManager()->GetCamera()->GetMtxPro();
+	D3DXVec3Project
+	(
+		&screenPos,
+		&m_pos,
+		&vp,
+		&mtxProjection,
+		&mtxView,
+		&mtxWorld
+	);
+
+	if (screenPos.x >= 0.0f && screenPos.x <= FLOAT_SCREEN_WIDTH)
+	{
+		if (screenPos.y >= 0.0f && screenPos.y <= FLOAT_SCREEN_HEIGHT)
+		{
+			bIn = true;
+		}
+	}
+
+	//値を返す
+	return bIn;
+}
+
+//==========================================
 //  単体の破棄
 //==========================================
 void CObject::Release(void)
