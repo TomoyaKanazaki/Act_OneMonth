@@ -30,7 +30,7 @@ CEnemy_Normal::~CEnemy_Normal()
 HRESULT CEnemy_Normal::Init(void)
 {
 	//ŠK‘w\‘¢î•ñ‚ğ¶¬
-	m_pLayer = CLayer::Set(CLayer::PLAYER_LAYER);
+	m_pLayer = CLayer::Set(CLayer::ENEMY_00);
 
 	return CEnemy::Init();
 }

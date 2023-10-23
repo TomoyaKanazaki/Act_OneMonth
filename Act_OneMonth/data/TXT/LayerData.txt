@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_LAYER = 3
+NUM_LAYER = 4
 
 //==========================================
 //  階層構造の種類
@@ -99,6 +99,15 @@ LAYER_DATA //子分敵の構造
 	NUM_MODEL 1
 	
 	MODELID		15
+	ParentID	-1
+	POS			0.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+LAYER_DATA //雑魚敵
+
+	NUM_MODEL 1
+	
+	MODELID		16
 	ParentID	-1
 	POS			0.0 0.0 0.0
 	ROT			0.0 0.0 0.0
