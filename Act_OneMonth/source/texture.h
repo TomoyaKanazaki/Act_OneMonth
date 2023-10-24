@@ -31,6 +31,8 @@ public:
 		SLICE, //ｼﾞｬｷﾝｼﾞｬｷﾝ
 		KATANA, //刀
 		MARKER, //マーカー
+		WATER, //水
+		SKY, //空
 		TEXTURE_MAX
 	};
 

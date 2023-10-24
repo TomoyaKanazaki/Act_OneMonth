@@ -79,7 +79,7 @@ void CCamera::SetCamera(void)
 		D3DXToRadian(m_fFov),
 		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
 		10.0f,
-		20000.0f
+		50000.0f
 	);
 
 	//プロジェクションマトリックスの設定

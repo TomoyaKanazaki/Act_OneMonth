@@ -123,10 +123,169 @@ LAYER_DATA //追従敵
 
 LAYER_DATA //建物
 
-	NUM_MODEL 1
+	NUM_MODEL 33
 	
 	MODELID		18
 	ParentID	-1
-	POS			0.0 0.0 0.0
+	POS			0.0 0.0 150.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-200.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			200.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-400.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			400.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-600.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			600.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-800.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			800.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-1000.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			1000.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-1200.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			1200.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-1400.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			1400.0 0.0 0.0
 	ROT			0.0 0.0 0.0
 
+	MODELID		18
+	ParentID	0
+	POS			-1600.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			1600.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-1800.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			1800.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-2000.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			2000.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-2200.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			2200.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-2400.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			2400.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-2600.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			2600.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			-2800.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			2800.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+
+	MODELID		18
+	ParentID	0
+	POS			-3000.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		18
+	ParentID	0
+	POS			3000.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+
+	MODELID		19
+	ParentID	0
+	POS			8000.0 -3000.0 12000.0
+	ROT			0.0 -2.355 0.0
+	
+	MODELID		19
+	ParentID	0
+	POS			-8000.0 -3000.0 12000.0
+	ROT			0.0 2.355 0.0

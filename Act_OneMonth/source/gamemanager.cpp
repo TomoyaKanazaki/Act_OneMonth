@@ -76,10 +76,13 @@ HRESULT CGameManager::Init(void)
 	CBuild::Create();
 
 	//îwåiÇÃê∂ê¨
-	CBg::Create(D3DXVECTOR3(0.0f, 400.0f, 300.0f), D3DXVECTOR3(6000.0f, 0.0f, 960.0f), 5);
+	CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 20000.0f), D3DXVECTOR3(60000.0f, 0.0f, 40000.0f), 1);
 
 	//è∞ÇÃê∂ê¨
-	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(6000.0f, 0.0f, 720.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 6.0f));
+	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(6000.0f, 0.0f, 720.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 6.0f), CFeild::SOIL);
+	
+	//êÖÇÃê∂ê¨
+	CFeild::Create(D3DXVECTOR3(0.0f, -3000.0f, 0.0f), D3DXVECTOR3(60000.0f, 0.0f, 60000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 50.0f), CFeild::WATER);
 
 	//ÉJÉÅÉâÇÃê∂ê¨
 	if (m_pCamera == NULL)

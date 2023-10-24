@@ -15,6 +15,13 @@ class CFeild : public CObject_Mesh
 {
 public:
 
+	enum type
+	{
+		WATER = 0, //…
+		SOIL, //“y
+		MAX
+	};
+
 	//ƒƒ“ƒoŠÖ”
 	CFeild(int nPriority = 0);
 	~CFeild();
@@ -25,7 +32,7 @@ public:
 	virtual void Draw(void) override;
 
 	//Ã“Iƒƒ“ƒoŠÖ”
-	static CFeild* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, D3DXVECTOR2 uv);
+	static CFeild* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, D3DXVECTOR2 uv, type type);
 
 private: 
 

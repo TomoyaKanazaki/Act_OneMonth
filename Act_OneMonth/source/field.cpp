@@ -63,7 +63,7 @@ void CFeild::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CFeild* CFeild::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, D3DXVECTOR2 uv)
+CFeild* CFeild::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, D3DXVECTOR2 uv, type type)
 {
 	//インスタンス生成
 	CFeild* pField = NULL;
@@ -91,7 +91,15 @@ CFeild* CFeild::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DX
 	pField->Init();
 
 	//テクスチャの割り当て
-	pField->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::FIELD));
+	switch (type)
+	{
+	case WATER:
+		pField->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::WATER));
+		break;
+	case SOIL:
+		pField->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::FIELD));
+		break;
+	}
 
 	//ポインタを返す
 	return pField;
