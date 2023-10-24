@@ -23,6 +23,7 @@
     <ClCompile Include="source\bg.cpp" />
     <ClCompile Include="source\boss_main.cpp" />
     <ClCompile Include="source\boss_sub.cpp" />
+    <ClCompile Include="source\build.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="source\bg.h" />
     <ClInclude Include="source\boss_main.h" />
     <ClInclude Include="source\boss_sub.h" />
+    <ClInclude Include="source\build.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
     <ClInclude Include="source\debugproc.h" />

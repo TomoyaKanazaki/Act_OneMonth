@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_MODEL = 18
+NUM_MODEL = 19
 
 //==========================================
 //  xファイル名
@@ -28,3 +28,4 @@ MODEL_FILENAME = boss_main.x				//[14]ボス
 MODEL_FILENAME = boss_sub.x					//[15]子分
 MODEL_FILENAME = enemy_00.x					//[16]通常敵
 MODEL_FILENAME = enemy_01.x					//[17]追従敵
+MODEL_FILENAME = build_00.x					//[18]建物
