@@ -65,7 +65,18 @@ void CEnemy::Update(void)
 	}
 
 	//ˆÚ“®—Ê‚Ì“K—p
-	m_pos += m_move;
+	if (m_ObjState == MARKING)
+	{
+		if (CGameManager::GetState() == CGameManager::STATE_DASH)
+		{
+			Uninit();
+			return;
+		}
+	}
+	else
+	{
+		m_pos += m_move;
+	}
 
 	CObject_Char::Update();
 }

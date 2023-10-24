@@ -30,6 +30,7 @@ public:
 		SLASH, //斬撃エフェクト
 		SLICE, //ｼﾞｬｷﾝｼﾞｬｷﾝ
 		KATANA, //刀
+		MARKER, //マーカー
 		TEXTURE_MAX
 	};
 

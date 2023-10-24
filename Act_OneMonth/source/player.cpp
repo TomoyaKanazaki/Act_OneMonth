@@ -20,6 +20,7 @@
 #include "camera.h"
 #include "gametime.h"
 #include "arrow.h"
+#include "marker.h"
 
 //==========================================
 //  コンストラクタ
@@ -536,21 +537,25 @@ void CPlayer::Hit(void)
 
 			if (pObj->GetType() == CObject::TYPE_ENEMY) //敵の場合
 			{
-				//対象の座標を取得する
-				D3DXVECTOR3 pos = pObj->GetPos();
-
-				//前回座標との距離を計算する
-				D3DXVECTOR3 vecToPosOld = m_oldposModel - pos;
-				float fLength = sqrtf(vecToPosOld.x * vecToPosOld.x + vecToPosOld.y * vecToPosOld.y);
-
-				//今回座標との距離を加算する
-				D3DXVECTOR3 vecToPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43)- pos;
-				fLength += sqrtf(vecToPos.x * vecToPos.x + vecToPos.y * vecToPos.y);
-
-				//判定内の判定を取る
-				if (HIT_RANGE >= fLength)
+				if (pObj->GetObjState() == CObject::NORMAL)
 				{
-					pObj->Uninit();
+					//対象の座標を取得する
+					D3DXVECTOR3 pos = pObj->GetPos();
+
+					//前回座標との距離を計算する
+					D3DXVECTOR3 vecToPosOld = m_oldposModel - pos;
+					float fLength = sqrtf(vecToPosOld.x * vecToPosOld.x + vecToPosOld.y * vecToPosOld.y);
+
+					//今回座標との距離を加算する
+					D3DXVECTOR3 vecToPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43) - pos;
+					fLength += sqrtf(vecToPos.x * vecToPos.x + vecToPos.y * vecToPos.y);
+
+					//判定内の判定を取る
+					if (HIT_RANGE >= fLength)
+					{
+						CMarker::Create(pos);
+						pObj->SetState(CObject::MARKING);
+					}
 				}
 			}
 

@@ -48,6 +48,7 @@ CObject::CObject(int nPriority)
 	m_nPriority = nPriority;
 	m_fDeltaTime = 0.0f;
 	m_type = TYPE_NONE;
+	m_ObjState = NORMAL;
 	m_nNumObject++;
 	m_bDeath = false;
 	m_bMap = false;

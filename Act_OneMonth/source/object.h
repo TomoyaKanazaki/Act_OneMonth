@@ -32,6 +32,13 @@ public:
 		METHOD_MAX
 	}TYPE;
 
+	enum STATE
+	{
+		NORMAL = 0, //通常状態
+		MARKING, //マーキング状態
+		MAX
+	};
+
 	CObject(int nPriority = 3); //コンストラクタ
 	virtual ~CObject(); //デストラクタ
 
@@ -49,6 +56,7 @@ public:
 	D3DXVECTOR3 GetOldRot(void) { return m_oldRot; }
 	D3DXVECTOR3 GetSize(void) { return m_size; }
 	TYPE GetType(void) { return m_type; }
+	STATE GetObjState(void) { return m_ObjState; }
 	bool GetMap(void) { return m_bMap; }
 	void SetPos(const D3DXVECTOR3 pos) { m_pos = pos; }
 	void SetRot(const D3DXVECTOR3 rot) { m_rot = rot; }
@@ -56,8 +64,7 @@ public:
 	void SetSize(const D3DXVECTOR3 size) { m_size = size; }
 	void SetType(TYPE type) { m_type = type; }
 	void SetMap(void) { m_bMap = true; }
-
-	virtual int GetCombo() { return NULL; } //敵のコンボ数の取得
+	void SetState(STATE state) { m_ObjState = state; }
 
 	//静的メンバ関数
 	static CObject *GetTop(int nPriority) { return m_apTop[nPriority]; }
@@ -81,6 +88,7 @@ protected:
 	D3DXVECTOR3 m_oldPos; //オブジェクトの前回座標
 	D3DXVECTOR3 m_oldRot; //オブジェクトの前回角度
 	float m_fDeltaTime; //前回の更新からかかった時間
+	STATE m_ObjState; //状態
 
 private:
 

@@ -1,23 +1,23 @@
 //==========================================
 //
-//  斬撃エフェクトクラス(slice.h)
+//  ヒットマーカー(marker.h)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#ifndef _SLICE_H_
-#define _SLICE_H_
-#include "object3D_Anim.h"
+#ifndef _MARKER_H_
+#define _MARKER_H_
+#include "object3D.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CSlice : public CObject3D_Anim
+class CMarker : public CObject3D
 {
 public:
 
 	//メンバ関数
-	CSlice(int nPriority = 3); //コンストラクタ
-	~CSlice(); //デストラクタ
+	CMarker(int nPriority = 3); //コンストラクタ
+	~CMarker(); //デストラクタ
 
 	HRESULT Init(void) override;
 	void Uninit(void) override;
@@ -25,11 +25,12 @@ public:
 	void Draw(void) override;
 
 	//静的メンバ関数
-	static CSlice* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size);
+	static CMarker* Create(const D3DXVECTOR3 pos);
 
 private:
 
-	//メンバ変数
+	//静的メンバ変数
+	static const D3DXVECTOR3 mc_size;
 
 };
 

@@ -69,7 +69,17 @@ void CBoss_Sub::Update(void)
 	m_pos = pos + D3DXVECTOR3(cosf(m_rot.z) * m_fLength, sinf(m_rot.z) * m_fLength, 0.0f);
 
 	//Šp“x‚ÌXV
-	m_rot.z += 0.01f;
+	if (m_ObjState != MARKING)
+	{
+		if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
+		{
+			m_rot.z += 0.001f;
+		}
+		else
+		{
+			m_rot.z += 0.01f;
+		}
+	}
 
 	//Šp“x‚Ì•â³
 	if (m_rot.z > D3DX_PI)

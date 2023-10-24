@@ -53,7 +53,7 @@ void CCameraGame::Update(void)
 		float fDiff = MAX_FAV - m_fFov; //差分
 
 		//差分を加算
-		m_fFov += fDiff * REVISION_SPEED;
+		m_fFov += fDiff * REVISION_BIG;
 
 		//ダッシュ中
 		if (CGameManager::GetState() == CGameManager::STATE_DASH)
@@ -69,7 +69,7 @@ void CCameraGame::Update(void)
 		float fDiff = DEFAULT_FAV - m_fFov; //差分
 
 		//差分を加算
-		m_fFov += fDiff * REVISION_SPEED;
+		m_fFov += fDiff * REVISION_SMALL;
 	}
 
 	//プレイヤーを向く

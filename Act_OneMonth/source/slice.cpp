@@ -74,7 +74,7 @@ void CSlice::Draw(void)
 //==========================================
 //  ¶¬ˆ—
 //==========================================
-CSlice* CSlice::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot)
+CSlice* CSlice::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size)
 {
 	//•Ï”éŒ¾
 	CSlice* pSlice = nullptr;
@@ -85,7 +85,6 @@ CSlice* CSlice::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DX
 	//’l‚ð•Û‘¶
 	pSlice->m_pos = pos;
 	pSlice->m_size = size;
-	pSlice->m_rot = rot;
 
 	//‰Šú‰»ˆ—
 	pSlice->Init();

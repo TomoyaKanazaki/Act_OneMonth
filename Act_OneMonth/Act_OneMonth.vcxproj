@@ -40,6 +40,7 @@
     <ClCompile Include="source\logo.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\manager.cpp" />
+    <ClCompile Include="source\marker.cpp" />
     <ClCompile Include="source\model.cpp" />
     <ClCompile Include="source\motion.cpp" />
     <ClCompile Include="source\number.cpp" />
@@ -86,6 +87,7 @@
     <ClInclude Include="source\light.h" />
     <ClInclude Include="source\logo.h" />
     <ClInclude Include="source\manager.h" />
+    <ClInclude Include="source\marker.h" />
     <ClInclude Include="source\model.h" />
     <ClInclude Include="source\motion.h" />
     <ClInclude Include="source\number.h" />
