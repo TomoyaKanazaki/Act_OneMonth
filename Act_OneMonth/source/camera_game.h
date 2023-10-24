@@ -24,6 +24,9 @@ public:
 
 private:
 
+	//ƒƒ“ƒoŠÖ”
+	void MovePlayer(void);
+
 };
 
 #endif

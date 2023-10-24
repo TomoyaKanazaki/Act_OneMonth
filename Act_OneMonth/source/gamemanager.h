@@ -56,7 +56,11 @@ public:
 
 private:
 
+	//ƒƒ“ƒo•Ï”
+	float m_fTimer;
+
 	//Ã“Iƒƒ“ƒo•Ï”
+	static const float m_fDashTime;
 	static CPlayer* m_pPlayer;
 	static CEnemy* m_pBoss;
 	static CCamera *m_pCamera;

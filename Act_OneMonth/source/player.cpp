@@ -241,6 +241,34 @@ void CPlayer::Limit(void)
 	{
 		m_bRand = true;
 	}
+
+	//集中状態中の移動制限
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
+	{
+		//基準点の取得
+		D3DXVECTOR3 pos = CGameManager::GetCamera()->GetPosR();
+
+		//基準点からプレイヤーのベクトルを取得
+		D3DXVECTOR3 vec = pos - m_pos;
+
+		//基準点から離れていたら引き戻す
+		if (vec.x < -CAMERA_WIDTH)
+		{
+			m_pos.x = pos.x + CAMERA_WIDTH;
+		}
+		if (vec.x > CAMERA_WIDTH)
+		{
+			m_pos.x = pos.x - CAMERA_WIDTH;
+		}
+		if (vec.y < -CAMERA_HEIGHT)
+		{
+			m_pos.y = pos.y + CAMERA_HEIGHT;
+		}
+		if (vec.y > CAMERA_HEIGHT)
+		{
+			m_pos.y = pos.y - CAMERA_HEIGHT;
+		}
+	}
 }
 
 //==========================================

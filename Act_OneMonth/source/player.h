@@ -53,6 +53,8 @@ private:
 #define HIT_RANGE (350.0f) //ヒットする範囲
 #define JUMP_MOVE (1000.0f) //ジャンプ力
 #define GRAVITY (25.0f) //重力
+#define CAMERA_WIDTH (420.0f) //カメラから離れられる範囲
+#define CAMERA_HEIGHT (220.0f) //カメラから離れられる範囲
 
 	//メンバ関数
 	void Limit(void);

@@ -26,11 +26,12 @@ public:
 	float GetLIfe(void) { return m_fLife; }
 
 	//静的メンバ関数
-	static CIcon* Create(void);
+	static CIcon* Create(D3DXVECTOR3 size);
 
 private:
 
 	//メンバ変数
+	D3DXVECTOR3 m_Default;
 	float m_fLife;
 
 	//静的メンバ変数

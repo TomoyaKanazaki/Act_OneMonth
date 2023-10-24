@@ -86,9 +86,6 @@ void COrbit::Update(void)
 	//è¨Ç≥Ç≠Ç»Ç¡ÇΩÇÁè¡Ç∑
 	if (m_size.y <= 0.0f)
 	{
-		//éaåÇÇÃê∂ê¨
-		CSlice::Create(m_pos, D3DXVECTOR3(m_size.x * 0.5f, m_size.x * 0.5f, m_size.x * 0.5f), m_rot);
-
 		Uninit();
 	}
 

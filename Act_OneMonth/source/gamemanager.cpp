@@ -26,6 +26,7 @@
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
+const float CGameManager::m_fDashTime = 0.8f;
 CPlayer* CGameManager::m_pPlayer = NULL;
 CEnemy* CGameManager::m_pBoss = NULL;
 CCamera *CGameManager::m_pCamera = NULL;
@@ -39,7 +40,7 @@ CIcon* CGameManager::m_pIcon = nullptr;
 //==========================================
 CGameManager::CGameManager()
 {
-	
+	m_fTimer = 0.0f;
 }
 
 //==========================================
@@ -128,13 +129,6 @@ void CGameManager::Update(void)
 		return;
 	}
 
-	//画面遷移テスト
-	//if (CEnemy::GetNum() == 0)
-	//{
-	//	CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
-	//	return;
-	//}
-
 #endif
 
 	//状態の切り替え
@@ -147,7 +141,8 @@ void CGameManager::Update(void)
 			//紋章を召喚
 			if (m_pIcon == nullptr)
 			{
-				m_pIcon = CIcon::Create();
+				D3DXVECTOR3 size = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
+				m_pIcon = CIcon::Create(size);
 			}
 		}
 	}
@@ -157,9 +152,20 @@ void CGameManager::Update(void)
 	{
 		if (m_pIcon->GetLIfe() <= 0.0f && m_State == STATE_CONCENTRATE)
 		{
-			m_State = STATE_NORMAL;
+			m_State = STATE_DASH;
 			m_pIcon = nullptr;
 		}
+	}
+
+	//状態を更新
+	if (m_State == STATE_DASH)
+	{
+		if (m_fTimer >= m_fDashTime)
+		{
+			m_fTimer = 0.0f;
+			m_State = STATE_NORMAL;
+		}
+		m_fTimer += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
 	}
 
 	//ライトの更新

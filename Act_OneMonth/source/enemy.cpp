@@ -59,7 +59,7 @@ void CEnemy::Uninit(void)
 void CEnemy::Update(void)
 {
 	//W’†ó‘Ô‚ÌƒXƒ[‚É‚È‚é
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE || CGameManager::GetState() == CGameManager::STATE_DASH)
 	{
 		m_move *= 0.1f;
 	}

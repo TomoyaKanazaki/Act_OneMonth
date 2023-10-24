@@ -23,7 +23,7 @@ const float CIcon::m_fMaxLife = 5.0f;
 //==========================================
 CIcon::CIcon(int nPriority)
 {
-
+	m_Default = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
 //==========================================
@@ -46,7 +46,7 @@ HRESULT CIcon::Init(void)
 	m_fLife = m_fMaxLife;
 
 	//サイズを設定
-	m_size = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
+	m_size = m_Default;
 	m_size *= m_fLife;
 
 	return CObject3D::Init();
@@ -75,10 +75,10 @@ void CIcon::Update(void)
 	m_fLife -= CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
 
 	//サイズを減少
-	m_size = D3DXVECTOR3(50.0f, 50.0f, 0.0f) * m_fLife;
+	m_size = m_Default * m_fLife;
 
 	//座標を設定
-	m_pos = CGameManager::GetPlayer()->GetCenter();
+	//m_pos = CGameManager::GetPlayer()->GetCenter();
 
 	CObject3D::Update();
 }
@@ -117,13 +117,16 @@ void CIcon::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CIcon* CIcon::Create(void)
+CIcon* CIcon::Create(D3DXVECTOR3 size)
 {
 	//変数宣言
 	CIcon* pIcon = nullptr;
 
 	//インスタンス生成
 	pIcon = new CIcon;
+
+	//値を設定
+	pIcon->m_Default = size;
 
 	//初期化処理
 	pIcon->Init();
