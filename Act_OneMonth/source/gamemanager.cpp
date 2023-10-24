@@ -22,6 +22,7 @@
 #include "field.h"
 #include "gametime.h"
 #include "icon.h"
+#include "build.h"
 
 //==========================================
 //  Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -70,6 +71,9 @@ HRESULT CGameManager::Init(void)
 	CEnemy::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), CEnemy::NORMAL);
 	CEnemy::Create(D3DXVECTOR3(300.0f, 150.0f, 0.0f), CEnemy::NORMAL);
 	CEnemy::Create(D3DXVECTOR3(-150.0f, 150.0f, 0.0f), CEnemy::HOMING);
+
+	//Œš•¨‚Ì¶¬
+	CBuild::Create();
 
 	//”wŒi‚Ì¶¬
 	CBg::Create(D3DXVECTOR3(0.0f, 400.0f, 300.0f), D3DXVECTOR3(6000.0f, 0.0f, 960.0f), 5);

@@ -27,7 +27,13 @@ CBuild::~CBuild()
 //==========================================
 HRESULT CBuild::Init(void)
 {
-	return E_NOTIMPL;
+	//タイプの設定
+	SetType(TYPE_MAP);
+
+	//階層構造情報を生成
+	m_pLayer = CLayer::Set(CLayer::MAP_LAYER);
+
+	return CObject_Char::Init();
 }
 
 //==========================================
@@ -35,7 +41,7 @@ HRESULT CBuild::Init(void)
 //==========================================
 void CBuild::Uninit(void)
 {
-
+	CObject_Char::Uninit();
 }
 
 //==========================================
@@ -43,7 +49,7 @@ void CBuild::Uninit(void)
 //==========================================
 void CBuild::Update(void)
 {
-
+	CObject_Char::Update();
 }
 
 //==========================================
@@ -51,7 +57,7 @@ void CBuild::Update(void)
 //==========================================
 void CBuild::Draw(void)
 {
-
+	CObject_Char::Draw();
 }
 
 //==========================================
@@ -59,5 +65,14 @@ void CBuild::Draw(void)
 //==========================================
 CBuild* CBuild::Create(void)
 {
-	return nullptr;
+	//変数宣言
+	CBuild* pBuild = nullptr;
+
+	//インスタンス生成
+	pBuild = new CBuild;
+
+	//初期化処理
+	pBuild->Init();
+
+	return pBuild;
 }
