@@ -33,6 +33,7 @@ public:
 		MARKER, //マーカー
 		WATER, //水
 		SKY, //空
+		ENEMY_00, //敵
 		TEXTURE_MAX
 	};
 

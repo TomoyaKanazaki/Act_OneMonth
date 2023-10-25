@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_TEXTURE = 12
+NUM_TEXTURE = 13
 
 //==========================================
 //  テクスチャファイル名
@@ -22,3 +22,4 @@ TEXTURE_FILENAME = KATANA.png			//[8]刀
 TEXTURE_FILENAME = marker.png			//[9]マーカー
 TEXTURE_FILENAME = water.png			//[10]水
 TEXTURE_FILENAME = sky.png				//[11]空
+TEXTURE_FILENAME = enemy_00.png			//[12]敵

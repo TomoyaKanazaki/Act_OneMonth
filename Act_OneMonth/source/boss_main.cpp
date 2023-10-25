@@ -10,11 +10,12 @@
 #include "layer.h"
 #include "gamemanager.h"
 #include "boss_sub.h"
+#include "texture.h"
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CBoss_Main::CBoss_Main(int nPriority)
+CBoss_Main::CBoss_Main()
 {
 	m_state = DEFAULT;
 }
@@ -32,14 +33,18 @@ CBoss_Main::~CBoss_Main()
 //==========================================
 HRESULT CBoss_Main::Init(void)
 {
-	//階層構造情報を生成
-	m_pLayer = CLayer::Set(CLayer::BOSS_MAIN);
+	//サイズを設定
+	m_size = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
 
 	//初期化
 	HRESULT hr = CEnemy::Init();
 
 	//ボスフラグ
 	SetType(TYPE_BOSS);
+
+	//テクスチャの割り当て
+	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_00));
+	SetAnim(4, 10, true, TYPE_U);
 
 	return hr;
 }

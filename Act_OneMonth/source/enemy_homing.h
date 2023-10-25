@@ -16,7 +16,7 @@ class CEnemy_Homing : public CEnemy
 public:
 
 	//ƒƒ“ƒoŠÖ”
-	CEnemy_Homing(int nPriority = 3);
+	CEnemy_Homing();
 	~CEnemy_Homing();
 
 	HRESULT Init(void) override;

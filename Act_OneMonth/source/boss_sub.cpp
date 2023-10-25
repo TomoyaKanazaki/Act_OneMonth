@@ -9,6 +9,7 @@
 #include "boss_main.h"
 #include "manager.h"
 #include "debugproc.h"
+#include "texture.h"
 
 //==========================================
 //  静的メンバ変数
@@ -18,7 +19,7 @@ int CBoss_Sub::m_nNum = 0;
 //==========================================
 //  コンストラクタ
 //==========================================
-CBoss_Sub::CBoss_Sub(int nPriority)
+CBoss_Sub::CBoss_Sub()
 {
 	m_nNum++;
 	m_fLength = 0.0f;
@@ -37,8 +38,8 @@ CBoss_Sub::~CBoss_Sub()
 //==========================================
 HRESULT CBoss_Sub::Init(void)
 {
-	//階層構造情報を生成
-	m_pLayer = CLayer::Set(CLayer::BOSS_SUB);
+	//サイズを設定
+	m_size = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
 
 	//ボスの位置を取得
 	D3DXVECTOR3 pos = CGameManager::GetBoss()->GetPos();
@@ -46,7 +47,14 @@ HRESULT CBoss_Sub::Init(void)
 	//座標を設定
 	m_pos = pos + D3DXVECTOR3(cosf(m_rot.z) * m_fLength, sinf(m_rot.z)* m_fLength, 0.0f);
 
-	return CEnemy::Init();
+	//初期化処理
+	HRESULT hr = CEnemy::Init();
+
+	//テクスチャの割り当て
+	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_00));
+	SetAnim(4, 10, true, TYPE_U);
+
+	return hr;
 }
 
 //==========================================

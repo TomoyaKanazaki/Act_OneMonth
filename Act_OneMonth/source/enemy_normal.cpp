@@ -9,6 +9,7 @@
 #include "motion.h"
 #include "manager.h"
 #include "gametime.h"
+#include "texture.h"
 
 //==========================================
 //  静的メンバ変数
@@ -18,7 +19,7 @@ const float CEnemy_Normal::m_fScope = 300.0f;
 //==========================================
 //  コンストラクタ
 //==========================================
-CEnemy_Normal::CEnemy_Normal(int nPriority) : CEnemy(nPriority)
+CEnemy_Normal::CEnemy_Normal()
 {
 	m_fMove = 0.0f;
 	m_fSpeed = 100.0f;
@@ -37,10 +38,17 @@ CEnemy_Normal::~CEnemy_Normal()
 //==========================================
 HRESULT CEnemy_Normal::Init(void)
 {
-	//階層構造情報を生成
-	m_pLayer = CLayer::Set(CLayer::ENEMY_NORMAL);
+	//サイズを設定
+	m_size = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
 
-	return CEnemy::Init();
+	//初期化処理
+	HRESULT hr = CEnemy::Init();
+
+	//テクスチャの割り当て
+	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_00));
+	SetAnim(4, 10, true, TYPE_U);
+
+	return hr;
 }
 
 //==========================================

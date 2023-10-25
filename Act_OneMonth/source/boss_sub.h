@@ -16,7 +16,7 @@ class CBoss_Sub : public CEnemy
 public:
 
 	//ƒƒ“ƒoŠÖ”
-	CBoss_Sub(int nPriority = 3);
+	CBoss_Sub();
 	~CBoss_Sub();
 
 	HRESULT Init(void) override;

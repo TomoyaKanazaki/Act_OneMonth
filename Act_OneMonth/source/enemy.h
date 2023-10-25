@@ -6,12 +6,12 @@
 //==========================================
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
-#include "object_char.h"
+#include "object3D_Anim.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CEnemy : public CObject_Char
+class CEnemy : public CObject3D_Anim
 {
 public:
 
@@ -26,7 +26,7 @@ public:
 	};
 
 	//メンバ関数
-	CEnemy(int nPriority = 3);
+	CEnemy(int nPriority = 5);
 	~CEnemy();
 
 	virtual HRESULT Init(void) override;

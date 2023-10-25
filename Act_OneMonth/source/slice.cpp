@@ -12,7 +12,7 @@
 //==========================================
 //  コンストラクタ
 //==========================================
-CSlice::CSlice(int nPriority)
+CSlice::CSlice(int nPriority) : CObject3D_Anim(nPriority)
 {
 }
 

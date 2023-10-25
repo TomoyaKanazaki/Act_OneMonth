@@ -22,10 +22,6 @@ public:
 	typedef enum
 	{
 		PLAYER_LAYER = 0, //プレイヤー構造
-		BOSS_MAIN, //ボス構造
-		BOSS_SUB, //子分構造
-		ENEMY_NORMAL, //ザコ敵
-		ENEMY_HOMING, //ストーカー
 		MAP_LAYER, //マップのやつ
 		LAYERS_MAX
 	}LAYERS;

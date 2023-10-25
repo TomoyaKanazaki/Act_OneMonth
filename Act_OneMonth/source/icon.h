@@ -16,7 +16,7 @@ class CIcon : CObject3D
 public:
 
 	//ƒƒ“ƒoŠÖ”
-	CIcon(int nPriority = 7);
+	CIcon(int nPriority = 6);
 	~CIcon();
 
 	HRESULT Init(void) override;

@@ -21,7 +21,7 @@ const float CIcon::m_fMaxLife = 5.0f;
 //==========================================
 //  コンストラクタ
 //==========================================
-CIcon::CIcon(int nPriority)
+CIcon::CIcon(int nPriority) : CObject3D(nPriority)
 {
 	m_Default = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
@@ -76,9 +76,6 @@ void CIcon::Update(void)
 
 	//サイズを減少
 	m_size = m_Default * m_fLife;
-
-	//座標を設定
-	//m_pos = CGameManager::GetPlayer()->GetCenter();
 
 	CObject3D::Update();
 }

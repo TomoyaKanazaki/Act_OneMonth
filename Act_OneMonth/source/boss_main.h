@@ -24,7 +24,7 @@ public:
 	};
 
 	//ƒƒ“ƒoŠÖ”
-	CBoss_Main(int nPriority = 3);
+	CBoss_Main();
 	~CBoss_Main();
 
 	HRESULT Init(void) override;

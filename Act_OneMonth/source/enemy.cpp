@@ -11,6 +11,8 @@
 #include "enemy_normal.h"
 #include "enemy_homing.h"
 #include "gamemanager.h"
+#include "manager.h"
+#include "renderer.h"
 
 //==========================================
 //  静的メンバ変数
@@ -20,7 +22,7 @@ int CEnemy::m_nNum = 0;
 //==========================================
 //  コンストラクタ
 //==========================================
-CEnemy::CEnemy(int nPriority) : CObject_Char(nPriority)
+CEnemy::CEnemy(int nPriority) : CObject3D_Anim(nPriority)
 {
 	m_type = NONE;
 	m_nNum++;
@@ -42,7 +44,7 @@ HRESULT CEnemy::Init(void)
 	//タイプの設定
 	SetType(TYPE_ENEMY);
 
-	return CObject_Char::Init();
+	return CObject3D_Anim::Init();
 }
 
 //==========================================
@@ -50,7 +52,7 @@ HRESULT CEnemy::Init(void)
 //==========================================
 void CEnemy::Uninit(void)
 {
-	CObject_Char::Uninit();
+	CObject3D_Anim::Uninit();
 }
 
 //==========================================
@@ -78,7 +80,7 @@ void CEnemy::Update(void)
 		m_pos += m_move;
 	}
 
-	CObject_Char::Update();
+	CObject3D_Anim::Update();
 }
 
 //==========================================
@@ -86,7 +88,20 @@ void CEnemy::Update(void)
 //==========================================
 void CEnemy::Draw(void)
 {
-	CObject_Char::Draw();
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+
+	//アルファテストの有効化
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+
+	CObject3D_Anim::Draw();
+
+	//アルファテストの無効化
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 }
 
 //==========================================

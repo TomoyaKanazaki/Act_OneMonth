@@ -16,7 +16,7 @@ class COrbit : public CObject3D
 public:
 
 	//メンバ関数
-	COrbit(int nPriority = 5); //コンストラクタ
+	COrbit(int nPriority = 6); //コンストラクタ
 	~COrbit(); //デストラクタ
 
 	//メンバ関数

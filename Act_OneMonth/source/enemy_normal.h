@@ -16,7 +16,7 @@ class CEnemy_Normal : public CEnemy
 public:
 
 	//ƒƒ“ƒoŠÖ”
-	CEnemy_Normal(int nPriority = 3);
+	CEnemy_Normal();
 	~CEnemy_Normal();
 
 	HRESULT Init(void) override;

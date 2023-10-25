@@ -16,7 +16,7 @@ class CSlice : public CObject3D_Anim
 public:
 
 	//メンバ関数
-	CSlice(int nPriority = 3); //コンストラクタ
+	CSlice(int nPriority = 6); //コンストラクタ
 	~CSlice(); //デストラクタ
 
 	HRESULT Init(void) override;

@@ -16,7 +16,7 @@ class CMarker : public CObject3D
 public:
 
 	//メンバ関数
-	CMarker(int nPriority = 3); //コンストラクタ
+	CMarker(int nPriority = 6); //コンストラクタ
 	~CMarker(); //デストラクタ
 
 	HRESULT Init(void) override;
