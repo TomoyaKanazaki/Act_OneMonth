@@ -503,6 +503,27 @@ void CObject_Mesh::SetColor(D3DXCOLOR col)
 }
 
 //==========================================
+//  テクスチャ座標の更新
+//==========================================
+void CObject_Mesh::AddTexPos(D3DXVECTOR2 AddTex)
+{
+	//頂点バッファの呼び出し
+	VERTEX_3D* pVtx;
+
+	//頂点バッファをロック
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//テクスチャ座標を加算
+	for (int nCnt = 0; nCnt < m_Mesh.nNumVtx; nCnt++)
+	{
+		pVtx[nCnt].tex += AddTex;
+	}
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+}
+
+//==========================================
 //  判定
 //==========================================
 bool CObject_Mesh::CheckOnMesh(const D3DXVECTOR3 &posJudge, const D3DXVECTOR3 &posStart, const D3DXVECTOR3 &posEnd) const

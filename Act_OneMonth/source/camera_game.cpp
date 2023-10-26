@@ -55,12 +55,6 @@ void CCameraGame::Update(void)
 		//差分を加算
 		m_fFov += fDiff * REVISION_BIG;
 
-		//ダッシュ中
-		if (CGameManager::GetState() == CGameManager::STATE_DASH)
-		{
-			MovePlayer();
-		}
-
 		return;
 	}
 	else
@@ -87,12 +81,17 @@ void CCameraGame::MovePlayer(void)
 	D3DXVECTOR3 Pos = m_posR; //現在の位置
 	D3DXVECTOR3 Dest = CGameManager::GetPlayer()->GetPos(); //目標の位置
 	D3DXVECTOR3 Diff = {}; //目標と現在の位置の差
+	D3DXVECTOR3 rot = CGameManager::GetPlayer()->GetRot(); //プレイヤーの方向
+	float fDistance = sinf(rot.y) * PLAYER_DISTANCE;
+
+	//差分を調整
+	Dest.x -= fDistance;
 
 	//移動補正
 	Diff = Dest - Pos;	//目標までの移動方向の差分
 
 	//適用
-	m_posR += Diff * 0.3f;
+	m_posR += Diff * 0.1f;
 
 	//高さ上限
 	if (m_posR.y > 450.0f)

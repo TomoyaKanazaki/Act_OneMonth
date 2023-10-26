@@ -30,7 +30,7 @@ CBg::~CBg()
 HRESULT CBg::Init(void)
 {
 	//テクスチャパターンの設定
-	SetPatern(CObject_Mesh::LOOP);
+	SetPatern(CObject_Mesh::NORMAL);
 
 	return CObject_Mesh::Init();
 }
@@ -48,6 +48,10 @@ void CBg::Uninit(void)
 //==========================================
 void CBg::Update(void)
 {
+	//テクスチャ座標を更新
+	D3DXVECTOR2 tex = D3DXVECTOR2(0.00001f, 0.0f);
+	AddTexPos(tex);
+
 	CObject_Mesh::Update();
 }
 

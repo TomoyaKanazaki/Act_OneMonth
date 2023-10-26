@@ -14,7 +14,7 @@
 //==========================================
 CFeild::CFeild(int nPriority) : CObject_Mesh(nPriority)
 {
-
+	m_type = MAX;
 }
 
 //==========================================
@@ -46,6 +46,13 @@ void CFeild::Uninit(void)
 //==========================================
 void CFeild::Update(void)
 {
+	//テクスチャ座標を更新
+	if (m_type == WATER)
+	{
+		D3DXVECTOR2 tex = D3DXVECTOR2(0.003f, 0.0f);
+		AddTexPos(tex);
+	}
+
 	CObject_Mesh::Update();
 }
 
@@ -86,6 +93,7 @@ CFeild* CFeild::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DX
 	pField->m_pos = pos;
 	pField->m_size = size;
 	pField->m_rot = rot;
+	pField->m_type = type;
 
 	//初期化
 	pField->Init();

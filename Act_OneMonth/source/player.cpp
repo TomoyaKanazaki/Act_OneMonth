@@ -255,7 +255,7 @@ void CPlayer::Limit(void)
 	}
 
 	//W’†ó‘Ô’†‚ÌˆÚ“®§ŒÀ
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE || CGameManager::GetState() == CGameManager::STATE_DASH)
 	{
 		//Šî€“_‚ÌŽæ“¾
 		D3DXVECTOR3 pos = CGameManager::GetCamera()->GetPosR();
@@ -272,13 +272,16 @@ void CPlayer::Limit(void)
 		{
 			m_pos.x = pos.x - CAMERA_WIDTH;
 		}
-		if (vec.y < -CAMERA_HEIGHT)
+		if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
 		{
-			m_pos.y = pos.y + CAMERA_HEIGHT;
-		}
-		if (vec.y > CAMERA_HEIGHT)
-		{
-			m_pos.y = pos.y - CAMERA_HEIGHT;
+			if (vec.y < -CAMERA_HEIGHT)
+			{
+				m_pos.y = pos.y + CAMERA_HEIGHT;
+			}
+			if (vec.y > CAMERA_HEIGHT)
+			{
+				m_pos.y = pos.y - CAMERA_HEIGHT;
+			}
 		}
 	}
 }

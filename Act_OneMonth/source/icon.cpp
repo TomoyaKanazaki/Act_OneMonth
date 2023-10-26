@@ -98,7 +98,15 @@ void CIcon::Draw(void)
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
+	//Zテストの無効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
 	CObject3D::Draw();
+
+	//Zテストの有効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
 	//アルファブレンディングの設定を元に戻す
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);

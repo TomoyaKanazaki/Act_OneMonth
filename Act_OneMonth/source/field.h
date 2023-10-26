@@ -36,6 +36,9 @@ public:
 
 private: 
 
+	//ƒƒ“ƒo•Ï”
+	type m_type;
+
 };
 
 #endif

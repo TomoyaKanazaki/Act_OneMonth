@@ -47,6 +47,7 @@ public:
 	void SetVtxPos(const D3DXVECTOR3 pos, const int nIdx);
 	void SetColor(D3DXCOLOR col);
 	void SetPatern(TexPatern patern) { m_Patern = patern; }
+	void AddTexPos(D3DXVECTOR2 texpos);
 
 protected:
 
