@@ -49,7 +49,7 @@ void CBg::Uninit(void)
 void CBg::Update(void)
 {
 	//テクスチャ座標を更新
-	D3DXVECTOR2 tex = D3DXVECTOR2(0.00001f, 0.0f);
+	D3DXVECTOR2 tex = D3DXVECTOR2(0.00002f, 0.0f);
 	AddTexPos(tex);
 
 	CObject_Mesh::Update();

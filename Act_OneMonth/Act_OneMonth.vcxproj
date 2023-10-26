@@ -26,6 +26,8 @@
     <ClCompile Include="source\build.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
+    <ClCompile Include="source\cut.cpp" />
+    <ClCompile Include="source\cut_polygon.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
     <ClCompile Include="source\enemy.cpp" />
     <ClCompile Include="source\enemy_homing.cpp" />
@@ -75,6 +77,8 @@
     <ClInclude Include="source\build.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
+    <ClInclude Include="source\cut.h" />
+    <ClInclude Include="source\cut_polygon.h" />
     <ClInclude Include="source\debugproc.h" />
     <ClInclude Include="source\enemy.h" />
     <ClInclude Include="source\enemy_homing.h" />

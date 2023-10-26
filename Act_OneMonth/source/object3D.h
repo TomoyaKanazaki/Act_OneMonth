@@ -24,6 +24,7 @@ public:
 	virtual void Draw(void) override;
 	void BindTexture(const LPDIRECT3DTEXTURE9 pTexture) { m_pTexture = pTexture; }
 	void SetTex(D3DXVECTOR2 min, D3DXVECTOR2 max);
+	D3DXCOLOR GetCol(void) { return m_col; }
 	void SetCol(const D3DXCOLOR col);
 	void SetAlpha(const float fAlpha);
 	void SwitchBillboard(void) { m_bBillboard = !m_bBillboard; }

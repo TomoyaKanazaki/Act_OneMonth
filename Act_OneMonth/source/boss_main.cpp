@@ -43,6 +43,7 @@ HRESULT CBoss_Main::Init(void)
 	SetType(TYPE_BOSS);
 
 	//テクスチャの割り当て
+	SetTex(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_00));
 	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_00));
 	SetAnim(4, 10, true, TYPE_U);
 

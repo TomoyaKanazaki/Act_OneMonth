@@ -49,8 +49,8 @@ private:
 	//定数定義
 #define PLAYER_SPEED (350.0f) //プレイヤーの移動速度
 #define PLAYER_HEIGHT (40.0f) //プレイヤーの高さ
-#define DASH_DISTANCE (300.0f) //ダッシュの移動距離
-#define HIT_RANGE (350.0f) //ヒットする範囲
+#define DASH_DISTANCE (200.0f) //ダッシュの移動距離
+#define HIT_RANGE (220.0f) //ヒットする範囲
 #define JUMP_MOVE (1000.0f) //ジャンプ力
 #define GRAVITY (25.0f) //重力
 #define CAMERA_WIDTH (420.0f) //カメラから離れられる範囲
