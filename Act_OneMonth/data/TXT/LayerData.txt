@@ -87,7 +87,7 @@ LAYER_DATA //プレイヤーの構造
 
 LAYER_DATA //建物
 
-	NUM_MODEL 33
+	NUM_MODEL 35
 	
 	MODELID		14
 	ParentID	-1
@@ -253,3 +253,13 @@ LAYER_DATA //建物
 	ParentID	0
 	POS			-8000.0 -3000.0 12000.0
 	ROT			0.0 2.355 0.0
+	
+	MODELID		16
+	ParentID	0
+	POS			-2300.0 0.0 -150.0
+	ROT			0.0 1.57 0.0
+	
+	MODELID		16
+	ParentID	0
+	POS			2300.0 0.0 -150.0
+	ROT			0.0 1.57 0.0

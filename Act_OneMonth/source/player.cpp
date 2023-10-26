@@ -230,6 +230,17 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 //==========================================
 void CPlayer::Limit(void)
 {
+	//Xç¿ïWÇÃêßå¿
+	if (m_pos.x < -2250.0f)
+	{
+		m_pos.x = -2250.0f;
+	}
+	if (m_pos.x > 2250.0f)
+	{
+		m_pos.x = 2250.0f;
+	}
+
+	//Yç¿ïWÇÃêßå¿
 	if (m_pos.y < 0.0f)
 	{
 		m_pos.y = 0.0f;

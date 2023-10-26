@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_MODEL = 16
+NUM_MODEL = 17
 
 //==========================================
 //  xファイル名
@@ -26,3 +26,4 @@ MODEL_FILENAME = 168\\12_rightshin.x		//[12]右脛
 MODEL_FILENAME = 168\\13_rightshoes.x		//[13]右靴
 MODEL_FILENAME = build_00.x					//[14]建物
 MODEL_FILENAME = build_01.x					//[15]建物
+MODEL_FILENAME = build_02.x					//[16]建物

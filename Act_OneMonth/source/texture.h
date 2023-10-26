@@ -34,6 +34,7 @@ public:
 		WATER, //…
 		SKY, //‹ó
 		ENEMY_00, //“G
+		ENEMY_01, //“G
 		TEXTURE_MAX
 	};
 

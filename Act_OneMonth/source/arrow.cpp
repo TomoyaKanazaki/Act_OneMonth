@@ -20,7 +20,7 @@ const D3DXVECTOR3 CArrow::m_cSize = D3DXVECTOR3(30.0f, 10.0f, 0.0f);
 //==========================================
 //  コンストラクタ
 //==========================================
-CArrow::CArrow(int nPriority)
+CArrow::CArrow(int nPriority) : CObject3D(nPriority)
 {
 
 }

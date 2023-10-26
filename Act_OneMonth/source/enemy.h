@@ -40,6 +40,9 @@ public:
 
 private:
 
+	//ƒƒ“ƒoŠÖ”
+	void Rotate(void);
+
 	//ƒƒ“ƒo•Ï”
 	CEnemy::TYPE m_type;
 

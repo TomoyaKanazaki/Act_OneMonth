@@ -16,7 +16,7 @@ class CArrow : public CObject3D
 public:
 
 	//ƒƒ“ƒoŠÖ”
-	CArrow(int nPriority = 5);
+	CArrow(int nPriority = 7);
 	~CArrow();
 
 	//ƒƒ“ƒoŠÖ”

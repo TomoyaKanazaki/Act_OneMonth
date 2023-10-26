@@ -80,6 +80,9 @@ void CEnemy::Update(void)
 		m_pos += m_move;
 	}
 
+	//回転
+	Rotate();
+
 	CObject3D_Anim::Update();
 }
 
@@ -96,7 +99,13 @@ void CEnemy::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
+	//カリングをオフ
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	CObject3D_Anim::Draw();
+
+	//カリングをオン
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	//アルファテストの無効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -143,4 +152,28 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 	pEnemy->Init();
 
 	return pEnemy;
+}
+
+//==========================================
+//  移動方向を向く
+//==========================================
+void CEnemy::Rotate(void)
+{
+	//移動してない時は回転しない
+	if (m_move.x == 0.0f)
+	{
+		return;
+	}
+
+	//右に進む時は右を向く
+	if (m_move.x > 0.0f)
+	{
+		m_rot.y = D3DX_PI;
+	}
+
+	//左に進むときは左を向く
+	if (m_move.x < 0.0f)
+	{
+		m_rot.y = 0.0f;
+	}
 }
