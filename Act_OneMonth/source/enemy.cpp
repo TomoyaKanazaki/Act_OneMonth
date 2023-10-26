@@ -73,7 +73,7 @@ void CEnemy::Update(void)
 	{
 		if (CGameManager::GetState() == CGameManager::STATE_DASH)
 		{
-			CCut::Create(m_pos, m_size, pTexturePass);
+			CCut::Create(m_pos, m_size, pTexturePass, GetAnimPattern());
 			Uninit();
 			return;
 		}

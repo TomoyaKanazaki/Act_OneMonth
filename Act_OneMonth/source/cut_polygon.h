@@ -25,12 +25,13 @@ public:
 	void Draw(void) override;
 
 	//Ã“Iƒƒ“ƒoŠÖ”
-	static CCutPolygon* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 move, LPDIRECT3DTEXTURE9 tex);
+	static CCutPolygon* Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 move, LPDIRECT3DTEXTURE9 tex, int nPattern = 1);
 
 private:
 
 	//ƒƒ“ƒo•Ï”
 	D3DXVECTOR3 m_move;
+	int m_nPattern;
 
 };
 

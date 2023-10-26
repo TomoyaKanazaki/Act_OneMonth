@@ -18,6 +18,7 @@ const float CCut::m_fSpeed = 3.0f;
 CCut::CCut()
 {
 	tex = nullptr;
+	m_nPattern = 1;
 }
 
 //==========================================
@@ -62,11 +63,11 @@ HRESULT CCut::Init(void)
 	{
 		if (move.y > 0.0f)
 		{
-			CCutPolygon::Create(posUp, size, move, tex);
+			CCutPolygon::Create(posUp, size, move, tex, m_nPattern);
 		}
 		if (move.y < 0.0f)
 		{
-			CCutPolygon::Create(posDawn, size, move, tex);
+			CCutPolygon::Create(posDawn, size, move, tex, m_nPattern);
 		}
 		move *= -1.0f;
 	}
@@ -102,7 +103,7 @@ void CCut::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CCut* CCut::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, LPDIRECT3DTEXTURE9 tex)
+CCut* CCut::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, LPDIRECT3DTEXTURE9 tex, int nPattern)
 {
 	//インスタンス生成
 	CCut* pCut = new CCut;
@@ -111,6 +112,7 @@ CCut* CCut::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, LPDIRECT3DTEXTURE9 tex)
 	pCut->m_pos = pos;
 	pCut->m_size = size;
 	pCut->tex = tex;
+	pCut->m_nPattern = nPattern;
 
 	//初期化処理
 	pCut->Init();

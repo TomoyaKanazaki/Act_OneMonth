@@ -14,6 +14,7 @@
 CCutPolygon::CCutPolygon(int nPriority) : CObject3D(nPriority)
 {
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_nPattern = 1;
 }
 
 //==========================================
@@ -32,14 +33,17 @@ HRESULT CCutPolygon::Init(void)
 	//初期化
 	HRESULT hr = CObject3D::Init();
 
+	//X座標の設定
+	float fPattern = 1.0f / (float)m_nPattern;
+
 	//テクスチャ座標の設定
 	if (m_move.y > 0.0f)
 	{
-		SetTex(D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(1.0f, 0.5f));
+		SetTex(D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(fPattern, 0.5f));
 	}
 	if (m_move.y < 0.0f)
 	{
-		SetTex(D3DXVECTOR2(0.0f, 0.5f), D3DXVECTOR2(1.0f, 1.0f));
+		SetTex(D3DXVECTOR2(0.0f, 0.5f), D3DXVECTOR2(fPattern, 1.0f));
 	}
 
 	return hr;
@@ -92,17 +96,7 @@ void CCutPolygon::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
-	//アルファブレンディングを減算合成に設定
-	//pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_SUBTRACT);
-	//pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-
 	CObject3D::Draw();
-
-	//アルファブレンディングの設定を元に戻す
-	//pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	//pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	//アルファテストの無効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -113,7 +107,7 @@ void CCutPolygon::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CCutPolygon* CCutPolygon::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 move, LPDIRECT3DTEXTURE9 tex)
+CCutPolygon* CCutPolygon::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 move, LPDIRECT3DTEXTURE9 tex, int nPattern)
 {
 	//インスタンス生成
 	CCutPolygon* pCut = new CCutPolygon;
@@ -122,6 +116,7 @@ CCutPolygon* CCutPolygon::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, D3DXVECTOR3 
 	pCut->m_pos = pos;
 	pCut->m_size = size;
 	pCut->m_move = move;
+	pCut->m_nPattern = nPattern;
 
 	//初期化処理
 	pCut->Init();

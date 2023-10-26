@@ -30,6 +30,7 @@ public:
 	virtual void Update(void) override;
 	virtual void Draw(void) override;
 	void SetAnim(int nPattern, int nInterval, bool bLoop, UVTYPE type);
+	int GetAnimPattern(void) { return m_nNumPattern; }
 	HRESULT SetTexPos(void);
 
 private:
