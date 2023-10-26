@@ -8,6 +8,11 @@
 #include "cut_polygon.h"
 
 //==========================================
+//  静的メンバ変数宣言
+//==========================================
+const float CCut::m_fSpeed = 3.0f;
+
+//==========================================
 //  コンストラクタ
 //==========================================
 CCut::CCut()
@@ -32,8 +37,12 @@ HRESULT CCut::Init(void)
 	D3DXVECTOR3 move;
 	while (1)
 	{
-		float fRot = atan2f((float)rand(), (float)rand());
-		move = D3DXVECTOR3(cosf(fRot), sinf(fRot), 0.0f);
+		//乱数生成
+		move = D3DXVECTOR3((float)rand(), (float)rand(), 0.0f);
+
+		//正規化
+		D3DXVec3Normalize(&move, &move);
+
 		if (move.y != 0.0f)
 		{
 			break;

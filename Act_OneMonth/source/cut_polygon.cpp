@@ -62,7 +62,7 @@ void CCutPolygon::Update(void)
 	m_pos += m_move;
 
 	//慣性による移動の停止
-	m_move.x += (0.0f - m_move.x) * 0.1f;
+	//m_move.x += (0.0f - m_move.x) * 0.1f;
 
 	//透明度を下げる
 	D3DXCOLOR col = GetCol();
@@ -93,16 +93,16 @@ void CCutPolygon::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 
 	//アルファブレンディングを減算合成に設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_SUBTRACT);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	//pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_SUBTRACT);
+	//pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 	CObject3D::Draw();
 
 	//アルファブレンディングの設定を元に戻す
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	//pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	//アルファテストの無効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);

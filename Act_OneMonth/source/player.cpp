@@ -21,6 +21,7 @@
 #include "gametime.h"
 #include "arrow.h"
 #include "marker.h"
+#include "slice.h"
 
 //==========================================
 //  コンストラクタ
@@ -568,6 +569,7 @@ void CPlayer::Hit(void)
 					if (HIT_RANGE >= fLength)
 					{
 						CMarker::Create(pos);
+						CSlice::Create(pos, m_size * 3.0f);
 						pObj->SetState(CObject::MARKING);
 					}
 				}

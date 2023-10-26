@@ -9,7 +9,6 @@
 #include "texture.h"
 #include "renderer.h"
 #include "gamemanager.h"
-#include "slice.h"
 
 //==========================================
 //  Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -65,7 +64,6 @@ void CMarker::Update(void)
 	//W’†ó‘Ô’†‚Ì‚İ
 	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
 	{
-		CSlice::Create(m_pos, m_size * 3.0f);
 		Uninit();
 	}
 

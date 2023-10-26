@@ -31,6 +31,9 @@ private:
 
 	//ƒƒ“ƒo•Ï”
 	LPDIRECT3DTEXTURE9 tex;
+
+	//’è”’è‹`
+	static const float m_fSpeed;
 };
 
 #endif
