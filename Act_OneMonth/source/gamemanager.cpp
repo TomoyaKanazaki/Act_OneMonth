@@ -58,10 +58,10 @@ CGameManager::~CGameManager()
 HRESULT CGameManager::Init(void)
 {
 	//状態の初期化
-	m_State = STATE_NORMAL;
+	m_State = STATE_START;
 
 	//プレイヤーの生成
-	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, 0.1f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
+	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
 	//ボスの生成
 	m_pBoss = CEnemy::Create(D3DXVECTOR3(1000.0f, 30.0f, 0.0f), CEnemy::BOSS_MAIN);
@@ -70,7 +70,6 @@ HRESULT CGameManager::Init(void)
 	CEnemy::Create(D3DXVECTOR3(300.0f, 50.0f, 0.0f), CEnemy::NORMAL);
 	CEnemy::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), CEnemy::NORMAL);
 	CEnemy::Create(D3DXVECTOR3(300.0f, 150.0f, 0.0f), CEnemy::NORMAL);
-	CEnemy::Create(D3DXVECTOR3(-150.0f, 150.0f, 0.0f), CEnemy::HOMING);
 
 	//建物の生成
 	CBuild::Create();
@@ -183,6 +182,12 @@ void CGameManager::Update(void)
 		m_fTimer += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
 	}
 
+	//状態を更新
+	if (m_State == STATE_START && m_pPlayer->GetPos().x >= -2250.0f)
+	{
+		m_State = STATE_NORMAL;
+	}
+
 	//ライトの更新
 	if (m_pLight != NULL)
 	{
@@ -191,6 +196,12 @@ void CGameManager::Update(void)
 
 	//ゲームクリア
 	if (m_pBoss == nullptr)
+	{
+		m_State = STATE_END;
+	}
+
+	//リザルトに遷移
+	if (m_pPlayer->GetPos().x >= 2300.0f)
 	{
 		CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}

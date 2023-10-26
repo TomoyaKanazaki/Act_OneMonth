@@ -27,9 +27,11 @@ public:
 	//ゲーム状態
 	enum State
 	{
-		STATE_NORMAL = 0, //通常状態
+		STATE_START = 0, //ゲーム開始
+		STATE_NORMAL, //通常状態
 		STATE_CONCENTRATE, //集中状態
 		STATE_DASH, //ダッシュ状態
+		STATE_END, //ゲーム終了
 		MAX,
 		NONE
 	};

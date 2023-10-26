@@ -232,13 +232,16 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 void CPlayer::Limit(void)
 {
 	//X座標の制限
-	if (m_pos.x < -2250.0f)
+	if (CGameManager::GetState() != CGameManager::STATE_START && CGameManager::GetState() != CGameManager::STATE_END)
 	{
-		m_pos.x = -2250.0f;
-	}
-	if (m_pos.x > 2250.0f)
-	{
-		m_pos.x = 2250.0f;
+		if (m_pos.x < -2250.0f)
+		{
+			m_pos.x = -2250.0f;
+		}
+		if (m_pos.x > 2250.0f)
+		{
+			m_pos.x = 2250.0f;
+		}
 	}
 
 	//Y座標の制限
@@ -302,6 +305,13 @@ void CPlayer::Move(void)
 	if (move.x == 0.0f)
 	{
 		move = CManager::GetManager()->GetKeyboard()->GetWASD();
+	}
+
+	//自動歩行
+	if (CGameManager::GetState() == CGameManager::STATE_START || CGameManager::GetState() == CGameManager::STATE_END)
+	{
+		move.x = 1.0f;
+		move.y = 0.0f;
 	}
 
 	//歩行モーションの適用
