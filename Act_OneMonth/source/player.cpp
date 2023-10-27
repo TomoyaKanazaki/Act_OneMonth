@@ -323,9 +323,6 @@ void CPlayer::Limit(void)
 //==========================================
 void CPlayer::Move(void)
 {
-	//‘O‰ñ‚ÌˆÚ“®—Ê‚ğ•Û‘¶
-	float fOldMove = m_move.x;
-
 	//ƒ[ƒJƒ‹•Ï”éŒ¾
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 

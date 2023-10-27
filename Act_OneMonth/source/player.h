@@ -29,6 +29,7 @@ public:
 	void Draw(void) override;
 	D3DXVECTOR3 GetMove(void) { return m_move; }
 	D3DXVECTOR3 GetCenter(void) { return m_CenterPos; }
+	bool GetDeath(void) { return m_State == DEATH ? true : false; }
 
 	//Ã“Iƒƒ“ƒoŠÖ”
 	static CPlayer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
