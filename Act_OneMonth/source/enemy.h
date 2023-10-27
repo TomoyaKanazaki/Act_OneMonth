@@ -34,8 +34,6 @@ public:
 	virtual void Update(void) override;
 	virtual void Draw(void) override;
 
-	void SetTex(LPDIRECT3DTEXTURE9 tex) { pTexturePass = tex; }
-
 	//静的メンバ関数
 	static CEnemy* Create(D3DXVECTOR3 pos, CEnemy::TYPE type);
 	static int GetNum(void) { return m_nNum; }
@@ -47,7 +45,6 @@ private:
 
 	//メンバ変数
 	CEnemy::TYPE m_type;
-	LPDIRECT3DTEXTURE9 pTexturePass;
 
 	//静的メンバ変数
 	static int m_nNum;

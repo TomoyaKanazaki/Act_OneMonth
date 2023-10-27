@@ -11,13 +11,14 @@
 #include "camera.h"
 #include "light.h"
 #include "sound.h"
-#include "logo.h"
+#include "title.h"
 #include "texture.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
-CLight *CTitleManager::m_pLight = NULL;
+CLight* CTitleManager::m_pLight = NULL;
+CTitle* CTitleManager::m_pTitle = NULL;
 
 //==========================================
 //  コンストラクタ
@@ -40,7 +41,8 @@ CTitleManager::~CTitleManager()
 //==========================================
 HRESULT CTitleManager::Init(void)
 {
-	CLogo::Create(D3DXVECTOR3(CENTER_WIDTH, CENTER_HEIGHT, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f), CTexture::TITLE);
+	//タイトルロゴ
+	m_pTitle =  CTitle::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f));
 
 	//ライトの生成
 	if (m_pLight == NULL)
@@ -74,13 +76,13 @@ void CTitleManager::Uninit(void)
 //==========================================
 void CTitleManager::Update(void)
 {
-	//シーン経過時間を加算
-	//m_nCntScene++;
-
 	//画面遷移
 	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || CManager::GetManager()->GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
-		CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::GAME);
+		if (CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::GAME))
+		{
+			m_pTitle->CutTitle();
+		}
 		return;
 	}
 	else if (m_nCntScene >= 900)

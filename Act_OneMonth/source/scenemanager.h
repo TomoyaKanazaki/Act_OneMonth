@@ -38,7 +38,7 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void SetNext(SCENE next);
+	bool SetNext(SCENE next);
 
 	//Ã“Iƒƒ“ƒoŠÖ”
 	static CScene *GetScene(void) { return m_pScene; }

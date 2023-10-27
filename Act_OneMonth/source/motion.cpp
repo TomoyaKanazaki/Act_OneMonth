@@ -63,7 +63,11 @@ void CMotion::Update(void)
 		{
 			int nNowKey = m_nCntKey; // 現在のキー
 			int nNextkey = (nNowKey + 1) % m_Info.nNumKey; //次のキー
-			int nFrame = m_Info.aKeyInfo[nNowKey].nFrame;
+			int nFrame = 0;
+			if (nNowKey != -1)
+			{
+				nFrame = m_Info.aKeyInfo[nNowKey].nFrame;
+			}
 
 			//モデル数分のモーションを設定
 			for (int nCntModel = 0; nCntModel < m_nNumModel; nCntModel++)

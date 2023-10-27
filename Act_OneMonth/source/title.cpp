@@ -1,24 +1,20 @@
 //==========================================
 //
-//  ヒットマーカー(marker.cpp)
+//  タイトルのロゴ(title.cpp)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "marker.h"
+#include "title.h"
 #include "manager.h"
-#include "texture.h"
 #include "renderer.h"
-#include "gamemanager.h"
-
-//==========================================
-//  静的メンバ変数宣言
-//==========================================
-const D3DXVECTOR3 CMarker::mc_size = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
+#include "texture.h"
+#include "input.h"
+#include "cut.h"
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CMarker::CMarker(int nPriority) : CObject3D(nPriority)
+CTitle::CTitle(int nPriority) : CObject3D(nPriority)
 {
 
 }
@@ -26,7 +22,7 @@ CMarker::CMarker(int nPriority) : CObject3D(nPriority)
 //==========================================
 //  デストラクタ
 //==========================================
-CMarker::~CMarker()
+CTitle::~CTitle()
 {
 
 }
@@ -34,24 +30,15 @@ CMarker::~CMarker()
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT CMarker::Init(void)
+HRESULT CTitle::Init(void)
 {
-	//サイズの設定
-	m_size = mc_size;
-
-	//初期化
-	HRESULT hr = CObject3D::Init();
-
-	//カラーの設定
-	SetCol(D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f));
-
-	return hr;
+	return CObject3D::Init();
 }
 
 //==========================================
 //  終了処理
 //==========================================
-void CMarker::Uninit(void)
+void CTitle::Uninit(void)
 {
 	CObject3D::Uninit();
 }
@@ -59,21 +46,15 @@ void CMarker::Uninit(void)
 //==========================================
 //  更新処理
 //==========================================
-void CMarker::Update(void)
+void CTitle::Update(void)
 {
-	//集中状態中のみ
-	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
-	{
-		Uninit();
-	}
-
 	CObject3D::Update();
 }
 
 //==========================================
 //  描画処理
 //==========================================
-void CMarker::Draw(void)
+void CTitle::Draw(void)
 {
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
@@ -123,24 +104,31 @@ void CMarker::Draw(void)
 }
 
 //==========================================
+//  ポリゴンを斬る
+//==========================================
+void CTitle::CutTitle(void)
+{
+	CCut::Create(m_pos, m_size, m_pTexture);
+	Uninit();
+}
+
+//==========================================
 //  生成処理
 //==========================================
-CMarker* CMarker::Create(const D3DXVECTOR3 pos)
+CTitle* CTitle::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 {
-	//変数宣言
-	CMarker* pMarker = nullptr;
-
 	//インスタンス生成
-	pMarker = new CMarker;
+	CTitle *pTitle = new CTitle;
 
 	//値を設定
-	pMarker->m_pos = pos;
+	pTitle->m_pos = pos;
+	pTitle->m_size = size;
 
 	//初期化処理
-	pMarker->Init();
+	pTitle->Init();
 
-	//テクスチャを割り当て
-	pMarker->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::MARKER));
+	//テクスチャ割り当て
+	pTitle->BindTexture(CManager::GetManager()->GetTexture()->GetAddress(CTexture::TITLE));
 
-	return pMarker;
+	return pTitle;
 }

@@ -52,8 +52,8 @@ HRESULT CCut::Init(void)
 
 	//生成する座標を決定
 	D3DXVECTOR3 posUp = m_pos, posDawn = m_pos;
-	posUp.y += m_size.y * 0.5f;
-	posDawn.y -= m_size.y * 0.5f;
+	posUp.y += m_size.y * 0.25f;
+	posDawn.y -= m_size.y * 0.25f;
 
 	//生成するポリゴンのサイズ
 	D3DXVECTOR3 size = D3DXVECTOR3(m_size.x, m_size.y * 0.5f, m_size.z);

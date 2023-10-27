@@ -200,7 +200,7 @@ void CSceneManager::Draw(void)
 //==========================================
 //  İ’èˆ—
 //==========================================
-void CSceneManager::SetNext(SCENE next)
+bool CSceneManager::SetNext(SCENE next)
 {
 	//Ÿ‚ÌƒV[ƒ“‚ğ‹L˜^
 	m_Next = next;
@@ -209,7 +209,10 @@ void CSceneManager::SetNext(SCENE next)
 	if (m_pFade == NULL)
 	{
 		m_pFade = CFade::Create(60, CFade::MODE_OUT);
+		return true;
 	}
+
+	return false;
 }
 
 //==========================================

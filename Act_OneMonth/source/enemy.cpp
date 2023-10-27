@@ -26,7 +26,6 @@ int CEnemy::m_nNum = 0;
 CEnemy::CEnemy(int nPriority) : CObject3D_Anim(nPriority)
 {
 	m_type = NONE;
-	pTexturePass = nullptr;
 	m_nNum++;
 }
 
@@ -73,7 +72,7 @@ void CEnemy::Update(void)
 	{
 		if (CGameManager::GetState() == CGameManager::STATE_DASH)
 		{
-			CCut::Create(m_pos, m_size, pTexturePass, GetAnimPattern());
+			CCut::Create(m_pos, m_size, m_pTexture, GetAnimPattern());
 			Uninit();
 			return;
 		}

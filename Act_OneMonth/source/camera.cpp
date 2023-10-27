@@ -17,11 +17,11 @@
 //==========================================
 CCamera::CCamera()
 {
-	m_posV = D3DXVECTOR3(0.0f, HEIGHT, CAMERA_DISTANCE);
+	m_posV = D3DXVECTOR3(0.0f, 0.0f, -CAMERA_DISTANCE);
 	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_diff = D3DXVECTOR3(0.0f, HEIGHT, CAMERA_DISTANCE);
+	m_diff = D3DXVECTOR3(0.0f, 0.0f, -CAMERA_DISTANCE);
 	m_fFov = DEFAULT_FAV;
 	m_bDebug = false;
 }

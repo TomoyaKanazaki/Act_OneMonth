@@ -32,6 +32,9 @@ public:
 
 protected:
 
+	//ƒƒ“ƒo•Ï”
+	LPDIRECT3DTEXTURE9 m_pTexture;
+
 	//ƒƒ“ƒoŠÖ”
 	LPDIRECT3DVERTEXBUFFER9 GetVtx(void) { return m_pVtxBuff; }
 	bool Collision(CObject::TYPE type);
@@ -41,7 +44,6 @@ private:
 
 	//ƒƒ“ƒo•Ï”
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
-	LPDIRECT3DTEXTURE9 m_pTexture;
 	D3DXMATRIX m_mtxWorld;
 	D3DXCOLOR m_col;
 	float m_fLength;
