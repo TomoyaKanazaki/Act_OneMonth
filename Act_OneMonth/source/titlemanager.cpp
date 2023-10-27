@@ -13,12 +13,18 @@
 #include "sound.h"
 #include "title.h"
 #include "texture.h"
+#include "doll.h"
+#include "icon.h"
+#include "bg.h"
+#include "field.h"
+#include "build.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
 CLight* CTitleManager::m_pLight = NULL;
 CTitle* CTitleManager::m_pTitle = NULL;
+CDoll* CTitleManager::m_pDoll = NULL;
 
 //==========================================
 //  コンストラクタ
@@ -42,7 +48,22 @@ CTitleManager::~CTitleManager()
 HRESULT CTitleManager::Init(void)
 {
 	//タイトルロゴ
-	m_pTitle =  CTitle::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(500.0f, 300.0f, 0.0f));
+	m_pTitle =  CTitle::Create(D3DXVECTOR3(0.0f, 20.0f, 0.0f), D3DXVECTOR3(300.0f, 25.0f, 0.0f));
+
+	//人形を設置
+	m_pDoll = CDoll::Create(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
+
+	//建物の生成
+	CBuild::Create();
+
+	//背景の生成
+	CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 20000.0f), D3DXVECTOR3(60000.0f, 0.0f, 20000.0f), 1);
+
+	//床の生成
+	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(6000.0f, 0.0f, 720.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 6.0f), CFeild::SOIL);
+
+	//水の生成
+	CFeild::Create(D3DXVECTOR3(0.0f, -3000.0f, 0.0f), D3DXVECTOR3(60000.0f, 0.0f, 60000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 50.0f), CFeild::WATER);
 
 	//ライトの生成
 	if (m_pLight == NULL)
@@ -82,6 +103,7 @@ void CTitleManager::Update(void)
 		if (CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::GAME))
 		{
 			m_pTitle->CutTitle();
+			m_pDoll->Dash();
 		}
 		return;
 	}

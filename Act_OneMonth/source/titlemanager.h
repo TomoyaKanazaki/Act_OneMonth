@@ -13,6 +13,7 @@
 //==========================================
 class CLight;
 class CTitle;
+class CDoll;
 
 //==========================================
 //  タイトルマネージャクラス定義
@@ -37,6 +38,7 @@ private:
 	//静的メンバ変数
 	static CLight *m_pLight;
 	static CTitle *m_pTitle;
+	static CDoll *m_pDoll;
 
 };
 

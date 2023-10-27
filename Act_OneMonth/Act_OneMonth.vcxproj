@@ -29,6 +29,7 @@
     <ClCompile Include="source\cut.cpp" />
     <ClCompile Include="source\cut_polygon.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
+    <ClCompile Include="source\doll.cpp" />
     <ClCompile Include="source\enemy.cpp" />
     <ClCompile Include="source\enemy_homing.cpp" />
     <ClCompile Include="source\enemy_normal.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="source\cut.h" />
     <ClInclude Include="source\cut_polygon.h" />
     <ClInclude Include="source\debugproc.h" />
+    <ClInclude Include="source\doll.h" />
     <ClInclude Include="source\enemy.h" />
     <ClInclude Include="source\enemy_homing.h" />
     <ClInclude Include="source\enemy_normal.h" />

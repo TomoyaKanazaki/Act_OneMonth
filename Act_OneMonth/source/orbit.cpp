@@ -16,7 +16,7 @@
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
-const float COrbit::m_fDefaultHeight = 40.0f;
+const float COrbit::m_fDefaultHeight = 20.0f;
 
 //==========================================
 //  コンストラクタ
@@ -45,10 +45,16 @@ HRESULT COrbit::Init(void)
 	D3DXVECTOR3 vec = m_offset[1] - m_offset[0];
 	m_rot.z = atan2f(vec.y, vec.x);
 
-	//サイズを設定する
+	//長さを設定する
 	float fLength = sqrtf(vec.x * vec.x + vec.y * vec.y);
 	m_size.x = fLength;
-	m_fHeight = m_fDefaultHeight * CGameManager::GetIcon()->GetLIfe();
+
+	//高さを設定する
+	m_fHeight = m_fDefaultHeight;
+	if (CGameManager::GetIcon() != nullptr)
+	{
+		m_fHeight *= CGameManager::GetIcon()->GetLIfe();
+	}
 	m_size.y = m_fHeight;
 
 	//位置を設定
@@ -80,7 +86,10 @@ void COrbit::Uninit(void)
 void COrbit::Update(void)
 {
 	//小さくする
-	m_fHeight = m_fDefaultHeight * CGameManager::GetIcon()->GetLIfe();
+	if (CGameManager::GetIcon() != nullptr)
+	{
+		m_fHeight = m_fDefaultHeight * CGameManager::GetIcon()->GetLIfe();
+	}
 	m_size.y = m_fHeight;
 
 	//小さくなったら消す
