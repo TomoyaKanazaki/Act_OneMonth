@@ -24,6 +24,11 @@
 #include "slice.h"
 
 //==========================================
+//  静的メンバ変数宣言
+//==========================================
+const float CPlayer::m_fHitLength = 25.0f;
+
+//==========================================
 //  コンストラクタ
 //==========================================
 CPlayer::CPlayer(int nPriority) : CObject_Char(nPriority)
@@ -36,6 +41,7 @@ CPlayer::CPlayer(int nPriority) : CObject_Char(nPriority)
 	m_oldposModel = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_pArrow = nullptr;
 	m_State = NEUTRAL;
+	m_oldState = NEUTRAL;
 }
 
 //==========================================
@@ -114,65 +120,11 @@ void CPlayer::Update(void)
 	//重力
 	Gravity();
 
-	//状態が切り替わった瞬間にモーションを切り替える
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE && CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
-	{
-		m_pMotion->Set(CMotion::PLAYER_IAI);
-		m_State = IAI;
-	}
-	if (CGameManager::GetState() == CGameManager::STATE_NORMAL && CGameManager::GetOldState() != CGameManager::STATE_NORMAL)
-	{
-		m_pMotion->Set(CMotion::PLAYER_WAIT);
-		m_State = NEUTRAL;
-	}
+	//モーション
+	Motion();
 
-	//集中状態じゃない時にだけ状態を更新できる
-	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
-	{
-		//現在の状態を保存
-		State oldState = m_State;
-
-		//状態更新
-		if (!m_bRand) //着地してない状態
-		{
-			if (m_move.y > 0.0f)
-			{
-				m_State = JUMP;
-			}
-			else
-			{
-				m_State = FALL;
-			}
-		}
-		else if(m_move.x != 0.0f) //移動している状態
-		{
-			m_State = WALK;
-		}
-		else //上記のどれでもない状態
-		{
-			m_State = NEUTRAL;
-		}
-
-		//モーションを更新
-		if (m_State != oldState)
-		{
-			switch (m_State)
-			{
-			case JUMP:
-				m_pMotion->Set(CMotion::PLAYER_JUMP);
-				break;
-			case FALL:
-				m_pMotion->Set(CMotion::PLAYER_FALL);
-				break;
-			case WALK:
-				m_pMotion->Set(CMotion::PLAYER_WALK);
-				break;
-			case NEUTRAL:
-				m_pMotion->Set(CMotion::PLAYER_WAIT);
-				break;
-			}
-		}
-	}
+	//殺す
+	Death();
 
 	//前回座標に保存
 	m_oldPos = m_pos;
@@ -186,6 +138,17 @@ void CPlayer::Update(void)
 	CManager::GetManager()->GetDebugProc()->Print("座標 ( %f, %f )\n", m_pos.x, m_pos.y);
 
 	CObject_Char::Update();
+
+#ifdef _DEBUG
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_Q))
+	{
+		m_State = NEUTRAL;
+	}
+	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_1))
+	{
+		m_State = DEATH;
+	}
+#endif
 }
 
 //==========================================
@@ -224,6 +187,75 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 
 	//ポインタを返す
 	return pPlayer;
+}
+
+//==========================================
+//  モーションの更新
+//==========================================
+void CPlayer::Motion(void)
+{
+	//状態が切り替わった瞬間にモーションを切り替える
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE && CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
+	{
+		m_State = IAI;
+	}
+	if (CGameManager::GetState() == CGameManager::STATE_NORMAL && CGameManager::GetOldState() != CGameManager::STATE_NORMAL)
+	{
+		m_State = NEUTRAL;
+	}
+
+	//状態更新
+	if (m_State == DEATH || CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
+	{
+		//更新しない
+	}
+	else if (!m_bRand) //着地してない状態
+	{
+		if (m_move.y > 0.0f)
+		{
+			m_State = JUMP;
+		}
+		else
+		{
+			m_State = FALL;
+		}
+	}
+	else if (m_move.x != 0.0f) //移動している状態
+	{
+		m_State = WALK;
+	}
+	else //上記のどれでもない状態
+	{
+		m_State = NEUTRAL;
+	}
+
+	//モーションを更新
+	if (m_State != m_oldState)
+	{
+		switch (m_State)
+		{
+		case IAI:
+			m_pMotion->Set(CMotion::PLAYER_IAI);
+			break;
+		case JUMP:
+			m_pMotion->Set(CMotion::PLAYER_JUMP);
+			break;
+		case FALL:
+			m_pMotion->Set(CMotion::PLAYER_FALL);
+			break;
+		case WALK:
+			m_pMotion->Set(CMotion::PLAYER_WALK);
+			break;
+		case NEUTRAL:
+			m_pMotion->Set(CMotion::PLAYER_WAIT);
+			break;
+		case DEATH:
+			m_pMotion->Set(CMotion::PLAYER_WAIT);
+		}
+	}
+
+	//現在の状態を保存
+	m_oldState = m_State;
 }
 
 //==========================================
@@ -282,10 +314,6 @@ void CPlayer::Limit(void)
 			{
 				m_pos.y = pos.y + CAMERA_HEIGHT;
 			}
-			if (vec.y > CAMERA_HEIGHT)
-			{
-				m_pos.y = pos.y - CAMERA_HEIGHT;
-			}
 		}
 	}
 }
@@ -298,13 +326,19 @@ void CPlayer::Move(void)
 	//前回の移動量を保存
 	float fOldMove = m_move.x;
 
-	//パッド移動量を取得
-	D3DXVECTOR3 move = CManager::GetManager()->GetJoyPad()->GetStickL(0.1f);
+	//ローカル変数宣言
+	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	//キーボード移動量の取得
-	if (move.x == 0.0f)
+	if (m_State != DEATH)
 	{
-		move = CManager::GetManager()->GetKeyboard()->GetWASD();
+		//パッド移動量を取得
+		move = CManager::GetManager()->GetJoyPad()->GetStickL(0.1f);
+
+		//キーボード移動量の取得
+		if (move.x == 0.0f)
+		{
+			move = CManager::GetManager()->GetKeyboard()->GetWASD();
+		}
 	}
 
 	//自動歩行
@@ -312,12 +346,6 @@ void CPlayer::Move(void)
 	{
 		move.x = 1.0f;
 		move.y = 0.0f;
-	}
-
-	//歩行モーションの適用
-	if (fOldMove == 0.0f && m_move.x != 0.0f)
-	{
-		m_pMotion->Set(CMotion::PLAYER_WALK);
 	}
 
 	//移動量の適用
@@ -390,6 +418,15 @@ void CPlayer::Rotate(void)
 //==========================================
 void CPlayer::Jump(void)
 {
+	if (m_State == DEATH)
+	{
+		return;
+	}
+	if (CGameManager::GetState() == CGameManager::STATE_START || CGameManager::GetState() == CGameManager::STATE_END)
+	{
+		return;
+	}
+
 	//着地フラグがオフの時
 	if (!m_bRand)
 	{
@@ -582,6 +619,61 @@ void CPlayer::Hit(void)
 						CSlice::Create(pos, m_size * 3.0f);
 						pObj->SetState(CObject::MARKING);
 					}
+				}
+			}
+
+			//次のアドレスにずらす
+			pObj = pNext;
+		}
+	}
+}
+
+//==========================================
+//  殺す
+//==========================================
+void CPlayer::Death(void)
+{
+	//通常状態でしか死なない
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
+	{
+		return;
+	}
+	if (CGameManager::GetState() == CGameManager::STATE_DASH)
+	{
+		return;
+	}
+	if (CGameManager::GetState() == CGameManager::STATE_START)
+	{
+		return;
+	}
+	if (CGameManager::GetState() == CGameManager::STATE_END)
+	{
+		return;
+	}
+
+	//当たり判定の生成
+	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
+	{
+		//先頭のアドレスを取得
+		CObject* pObj = CObject::GetTop(nCntPriority);
+
+		while (pObj != NULL)
+		{
+			//次のアドレスを保存
+			CObject* pNext = pObj->GetNext();
+
+			if (pObj->GetType() == CObject::TYPE_ENEMY) //敵の場合
+			{
+				//対象の座標を取得する
+				D3DXVECTOR3 pos = pObj->GetPos();
+
+				//ベクトルの算出
+				D3DXVECTOR3 vec = m_CenterPos - pos;
+
+				//ベクトルの大きさを比較する
+				if (m_fHitLength * m_fHitLength >= (vec.x * vec.x + vec.y * vec.y))
+				{
+					m_State = DEATH;
 				}
 			}
 

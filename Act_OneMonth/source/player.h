@@ -43,6 +43,7 @@ private:
 		JUMP, //ジャンプ状態
 		FALL, //落下状態
 		IAI, //居合状態
+		DEATH, //死亡状態
 		MAX
 	};
 
@@ -57,6 +58,7 @@ private:
 #define CAMERA_HEIGHT (220.0f) //カメラから離れられる範囲
 
 	//メンバ関数
+	void Motion(void);
 	void Limit(void);
 	void Move(void);
 	void Rotate(void);
@@ -65,6 +67,7 @@ private:
 	void Dash(void);
 	void Orbit(void);
 	void Hit(void);
+	void Death(void);
 
 	//メンバ変数
 	D3DXVECTOR3 m_CenterPos; //中心座標
@@ -75,9 +78,13 @@ private:
 	D3DXMATERIAL *m_pDefMat;
 	CArrow* m_pArrow;
 	State m_State;
+	State m_oldState;
 
 	//モデル情報
 	D3DXVECTOR3 m_oldposModel;
+
+	//静的メンバ変数
+	static const float m_fHitLength;
 
 };
 
