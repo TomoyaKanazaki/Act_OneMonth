@@ -44,6 +44,8 @@ public:
 	static CScene *GetScene(void) { return m_pScene; }
 	static CCamera *GetCamera(void) { return m_pCamera; }
 	static CSceneManager *Create(SCENE scene = TITLE);
+	static bool GetClear(void) { return m_bClear; }
+	static void SetClear(bool bClear) { m_bClear = bClear; }
 
 private:
 
@@ -55,6 +57,7 @@ private:
 	//静的メンバ変数
 	static CScene *m_pScene; //シーンのポインタ
 	static CCamera *m_pCamera; //カメラのポインタ
+	static bool m_bClear; //クリアフラグ
 
 };
 

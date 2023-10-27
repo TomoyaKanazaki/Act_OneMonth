@@ -21,6 +21,7 @@
 //==========================================
 CScene *CSceneManager::m_pScene = NULL;
 CCamera *CSceneManager::m_pCamera = NULL;
+bool CSceneManager::m_bClear = true;
 
 //==========================================
 //  コンストラクタ

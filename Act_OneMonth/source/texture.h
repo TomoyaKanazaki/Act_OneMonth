@@ -24,7 +24,8 @@ public:
 		BG = 0, //背景
 		NUMBER, //数字
 		TITLE, //タイトル
-		RESULT, //リザルト
+		CLEAR, //ゲームクリア
+		OVER, //ゲームオーバー
 		FIELD, //床
 		ARROW, //矢印
 		SLASH, //斬撃エフェクト

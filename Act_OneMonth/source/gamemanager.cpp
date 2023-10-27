@@ -203,6 +203,15 @@ void CGameManager::Update(void)
 	//ƒŠƒUƒ‹ƒg‚É‘JˆÚ
 	if (m_pPlayer->GetPos().x >= 2300.0f || m_pPlayer->GetDeath())
 	{
+		if (m_pPlayer->GetDeath())
+		{
+			CSceneManager::SetClear(false);
+		}
+		else if (m_pPlayer->GetPos().x >= 2300.0f)
+		{
+			CSceneManager::SetClear(true);
+		}
+
 		CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}
 }

@@ -6,6 +6,7 @@
 //==========================================
 #include "resultmanager.h"
 #include "manager.h"
+#include "gametime.h"
 #include "debugproc.h"
 #include "scenemanager.h"
 #include "input.h"
@@ -18,7 +19,7 @@
 //==========================================
 CResultManager::CResultManager()
 {
-	m_nCntScene = 0;
+	m_fCntScene = 0.0f;
 	m_nRank = 0;
 }
 
@@ -35,7 +36,14 @@ CResultManager::~CResultManager()
 //==========================================
 HRESULT CResultManager::Init(void)
 {
-	CLogo::Create(D3DXVECTOR3(CENTER_WIDTH, CENTER_HEIGHT, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f), CTexture::RESULT);
+	if (CSceneManager::GetClear())
+	{
+		CLogo::Create(D3DXVECTOR3(CENTER_WIDTH, CENTER_HEIGHT, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f), CTexture::CLEAR);
+	}
+	else
+	{
+		CLogo::Create(D3DXVECTOR3(CENTER_WIDTH, CENTER_HEIGHT, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f), CTexture::OVER);
+	}
 
 	return S_OK;
 }
@@ -55,10 +63,10 @@ void CResultManager::Uninit(void)
 void CResultManager::Update(void)
 {
 	//ƒV[ƒ“Œo‰ßŽžŠÔ‚ð‰ÁŽZ
-	m_nCntScene++;
+	m_fCntScene += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
 
 	//‰æ–Ê‘JˆÚ
-	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_nCntScene >= 1500)
+	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_fCntScene >= 15.0f || CManager::GetManager()->GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
 		CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::TITLE);
 		return;

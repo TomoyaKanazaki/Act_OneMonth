@@ -26,7 +26,7 @@ public:
 private:
 
 	//ƒƒ“ƒo•Ï”
-	int m_nCntScene;
+	float m_fCntScene;
 	int m_nRank;
 
 };
