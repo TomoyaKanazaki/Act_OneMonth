@@ -14,7 +14,7 @@
 //  静的メンバ変数宣言
 //==========================================
 const float CTutorial::mc_fHeight = 80.0f;
-const D3DXVECTOR3 CTutorial::mc_size = D3DXVECTOR3(270.0f, 40.0f, 0.0f);
+const D3DXVECTOR3 CTutorial::mc_size = D3DXVECTOR3(405.0f, 60.0f, 0.0f);
 
 //==========================================
 //  コンストラクタ

@@ -180,7 +180,14 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//ジョイパッドの初期化
 	if (m_pJoyPad != NULL)
 	{
-		m_pJoyPad->Init(hInstance, hWnd);
+		if (FAILED(m_pJoyPad->Init(hInstance, hWnd)))
+		{
+			MessageBox(hWnd, "Cannot play this game \nbecause the controller is not connected", "Not found. Error.", MB_ICONWARNING);
+
+#ifndef _DEBUG
+			return E_FAIL;
+#endif
+		}
 	}
 
 	//シーンマネージャの生成
