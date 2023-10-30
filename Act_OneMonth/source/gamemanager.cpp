@@ -208,7 +208,7 @@ void CGameManager::Update(void)
 	}
 
 	//チュートリアルの進行
-	if (m_pPlayer->GetPos().x >= -1500.0f)
+	if (m_pPlayer->GetPos().x >= -1500.0f && m_Progress == TUTORIAL_ENEMY)
 	{
 		//チュートリアルの生成
 		if (m_pTutorial == nullptr)
@@ -217,28 +217,31 @@ void CGameManager::Update(void)
 			m_Progress = TUTORIAL_ARROW;
 		}
 	}
-	if (m_Progress == TUTORIAL_ARROW)
+	if (m_pTutorial != nullptr)
 	{
-		if (m_State == STATE_CONCENTRATE)
+		if (m_Progress == TUTORIAL_ARROW)
 		{
-			m_pTutorial->NextProgress();
-			m_Progress = TUTORIAL_DASH;
+			if (m_State == STATE_CONCENTRATE)
+			{
+				m_pTutorial->NextProgress();
+				m_Progress = TUTORIAL_DASH;
+			}
 		}
-	}
-	if (m_Progress == TUTORIAL_DASH)
-	{
-		if (CManager::GetManager()->GetJoyPad()->GetStickR(0.3f) != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+		if (m_Progress == TUTORIAL_DASH)
 		{
-			m_pTutorial->NextProgress();
-			m_Progress = END;
+			if (CManager::GetManager()->GetJoyPad()->GetStickR(0.3f) != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+			{
+				m_pTutorial->NextProgress();
+				m_Progress = END;
+			}
 		}
-	}
-	if (m_Progress == END)
-	{
-		if (m_State == STATE_NORMAL)
+		if (m_Progress == END)
 		{
-			m_pTutorial->NextProgress();
-			m_pTutorial = nullptr;
+			if (m_State == STATE_NORMAL)
+			{
+				m_pTutorial->NextProgress();
+				m_pTutorial = nullptr;
+			}
 		}
 	}
 
