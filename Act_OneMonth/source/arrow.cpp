@@ -10,12 +10,13 @@
 #include "player.h"
 #include "input.h"
 #include "texture.h"
+#include "renderer.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
 const float CArrow::m_fPlayerLenge = 50.0f;
-const D3DXVECTOR3 CArrow::m_cSize = D3DXVECTOR3(30.0f, 10.0f, 0.0f);
+const D3DXVECTOR3 CArrow::m_cSize = D3DXVECTOR3(120.0f, 40.0f, 0.0f);
 
 //==========================================
 //  コンストラクタ
@@ -52,7 +53,13 @@ HRESULT CArrow::Init(void)
 	//サイズを設定
 	m_size = m_cSize;
 
-	return CObject3D::Init();
+	//初期化処理
+	HRESULT hr = CObject3D::Init();
+
+	//色の設定
+	SetCol(D3DXCOLOR(-1.0f, 1.0f, 0.3f, 1.0f));
+
+	return hr;
 }
 
 //==========================================
@@ -87,7 +94,51 @@ void CArrow::Update(void)
 //==========================================
 void CArrow::Draw(void)
 {
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+
+	//カリングをオフ
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	//ライティングを無効化
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	//Zテストの無効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+	//アルファテストの有効化
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+
+	//アルファブレンディングを加算合成に設定
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
+	//描画
 	CObject3D::Draw();
+
+	//アルファブレンディングの設定を元に戻す
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	//アルファテストの無効化
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+
+	//Zテストの有効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+	//ライティングを有効化
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	//カリングをオン
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 //==========================================

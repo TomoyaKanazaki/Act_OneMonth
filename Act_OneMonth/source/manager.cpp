@@ -195,7 +195,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		m_pSceneManager = CSceneManager::Create(CSceneManager::TITLE);
 	}
 #endif
-
 	return S_OK;
 }
 

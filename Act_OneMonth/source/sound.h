@@ -16,7 +16,7 @@ public:
 	//ƒTƒEƒ“ƒhˆê——
 	typedef enum
 	{
-		SOUND_LABEL_NONE = 0, //BGM0
+		SOUND_LABEL_BGM = 0, //BGM0
 		SOUND_LABEL_MAX,
 	} SOUND_LABEL;
 

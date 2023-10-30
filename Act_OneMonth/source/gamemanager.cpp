@@ -23,6 +23,7 @@
 #include "gametime.h"
 #include "icon.h"
 #include "build.h"
+#include "tutorial.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -34,7 +35,9 @@ CCamera *CGameManager::m_pCamera = NULL;
 CLight *CGameManager::m_pLight = NULL;
 CGameManager::State CGameManager::m_State = NONE;
 CGameManager::State CGameManager::m_oldState = NONE;
+CGameManager::Progress CGameManager::m_Progress = TUTORIAL_ENEMY;
 CIcon* CGameManager::m_pIcon = nullptr;
+CTutorial* CGameManager::m_pTutorial = nullptr;
 
 //==========================================
 //  コンストラクタ
@@ -66,10 +69,8 @@ HRESULT CGameManager::Init(void)
 	//ボスの生成
 	m_pBoss = CEnemy::Create(D3DXVECTOR3(2000.0f, 30.0f, 0.0f), CEnemy::BOSS_MAIN);
 
-	//雑魚敵の生成
-	CEnemy::Create(D3DXVECTOR3(300.0f, 50.0f, 0.0f), CEnemy::NORMAL);
-	CEnemy::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), CEnemy::NORMAL);
-	CEnemy::Create(D3DXVECTOR3(300.0f, 150.0f, 0.0f), CEnemy::NORMAL);
+	//敵の配置
+	CEnemy::Create(D3DXVECTOR3(-1300.0f, 50.0f, 0.0f), CEnemy::NORMAL);
 
 	//建物の生成
 	CBuild::Create();
@@ -198,6 +199,40 @@ void CGameManager::Update(void)
 	if (m_pBoss == nullptr)
 	{
 		m_State = STATE_END;
+	}
+
+	//チュートリアルの進行
+	if (m_pPlayer->GetPos().x >= -1500.0f)
+	{
+		//チュートリアルの生成
+		if (m_pTutorial == nullptr)
+		{
+			m_pTutorial = CTutorial::Create();
+			m_Progress = TUTORIAL_ARROW;
+		}
+	}
+	if (m_Progress == TUTORIAL_ARROW)
+	{
+		if (m_State == STATE_CONCENTRATE)
+		{
+			m_pTutorial->NextProgress();
+			m_Progress = TUTORIAL_DASH;
+		}
+	}
+	if (m_Progress == TUTORIAL_DASH)
+	{
+		if (CManager::GetManager()->GetJoyPad()->GetStickR(0.3f) != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+		{
+			m_pTutorial->NextProgress();
+			m_Progress = END;
+		}
+	}
+	if (m_Progress == END)
+	{
+		if (m_State == STATE_NORMAL)
+		{
+			m_pTutorial->NextProgress();
+		}
 	}
 
 	//リザルトに遷移

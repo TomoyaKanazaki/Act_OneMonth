@@ -11,7 +11,7 @@
 //==========================================
 CSound::SOUNDINFO CSound::m_aSoundInfo[SOUND_LABEL_MAX] =
 {
-	{ "NONE", -1 }, 
+	{ "data\\BGM\\BGM.wav", -1 }, 
 };
 
 //==========================================

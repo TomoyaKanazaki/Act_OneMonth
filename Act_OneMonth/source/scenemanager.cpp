@@ -15,6 +15,7 @@
 #include "manager.h"
 #include "debugproc.h"
 #include "camera.h"
+#include "sound.h"
 
 //==========================================
 //  Ã“Iƒƒ“ƒo•Ï”éŒ¾

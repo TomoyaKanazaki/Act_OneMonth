@@ -16,6 +16,7 @@ class CEnemy;
 class CCamera;
 class CLight;
 class CIcon;
+class CTutorial;
 
 //==========================================
 //  ゲームマネージャクラス定義
@@ -34,6 +35,16 @@ public:
 		STATE_END, //ゲーム終了
 		MAX,
 		NONE
+	};
+
+	//ゲーム進行
+	enum Progress
+	{
+		START = 0,
+		TUTORIAL_ENEMY, //敵を発見
+		TUTORIAL_ARROW, //敵を向いて
+		TUTORIAL_DASH, //斬ってみて
+		END
 	};
 
 	CGameManager(); //コンストラクタ
@@ -69,7 +80,9 @@ private:
 	static CLight *m_pLight;
 	static State m_State; //ゲームの状態
 	static State m_oldState; //前フレームでのゲームの状態
+	static Progress m_Progress; //進行状況
 	static CIcon *m_pIcon;
+	static CTutorial *m_pTutorial;
 
 };
 
