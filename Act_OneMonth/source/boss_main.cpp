@@ -75,7 +75,7 @@ void CBoss_Main::Update(void)
 		//Ç®Ç∆Ç‡ÇÃê∂ê¨
 		for (int nCnt = 0; nCnt < 4; nCnt++)
 		{
-			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.5f * nCnt - 1.0f)), 150.0f);
+			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.5f * nCnt - 1.0f)), 100.0f);
 		}
 
 		//ê∂ê¨ÉtÉâÉOÇóßÇƒÇÈ

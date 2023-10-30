@@ -39,6 +39,7 @@ public:
 		TUTORIAL_00, //チュートリアル00
 		TUTORIAL_01, //チュートリアル01
 		TUTORIAL_02, //チュートリアル02
+		LEAF, //葉っぱ
 		TEXTURE_MAX
 	};
 

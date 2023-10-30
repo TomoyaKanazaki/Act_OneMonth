@@ -51,8 +51,8 @@ HRESULT CBoss_Sub::Init(void)
 	HRESULT hr = CEnemy::Init();
 
 	//テクスチャの割り当て
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_00));
-	SetAnim(4, 10, true, TYPE_U);
+	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::LEAF));
+	SetAnim(1, 10, true, TYPE_U);
 
 	return hr;
 }
