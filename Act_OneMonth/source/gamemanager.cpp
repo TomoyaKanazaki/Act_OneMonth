@@ -45,6 +45,7 @@ CTutorial* CGameManager::m_pTutorial = nullptr;
 CGameManager::CGameManager()
 {
 	m_fTimer = 0.0f;
+	m_Progress = TUTORIAL_ENEMY;
 }
 
 //==========================================
@@ -76,6 +77,11 @@ HRESULT CGameManager::Init(void)
 	CEnemy::Create(D3DXVECTOR3(-900.0f, 150.0f, 0.0f), CEnemy::NORMAL);
 	CEnemy::Create(D3DXVECTOR3(-300.0f, 100.0f, 0.0f), CEnemy::HOMING);
 	CEnemy::Create(D3DXVECTOR3(-300.0f, 200.0f, 0.0f), CEnemy::HOMING);
+	CEnemy::Create(D3DXVECTOR3(0.0f, 50.0f, 0.0f), CEnemy::INVINCIBLE);
+	CEnemy::Create(D3DXVECTOR3(0.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
+	CEnemy::Create(D3DXVECTOR3(0.0f, 150.0f, 0.0f), CEnemy::INVINCIBLE);
+	CEnemy::Create(D3DXVECTOR3(0.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
+
 
 	//åöï®ÇÃê∂ê¨
 	CBuild::Create();

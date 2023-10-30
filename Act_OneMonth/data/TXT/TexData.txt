@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_TEXTURE = 21
+NUM_TEXTURE = 22
 
 //==========================================
 //  テクスチャファイル名
@@ -27,7 +27,8 @@ TEXTURE_FILENAME = enemy_00.png			//[13]敵
 TEXTURE_FILENAME = enemy_01.png			//[14]敵
 TEXTURE_FILENAME = enemy_02.png			//[15]敵
 TEXTURE_FILENAME = enemy_03.png			//[16]敵
-TEXTURE_FILENAME = tutorial_00.png		//[17]チュートリアル00
-TEXTURE_FILENAME = tutorial_01.png		//[18]チュートリアル01
-TEXTURE_FILENAME = tutorial_02.png		//[19]チュートリアル02
-TEXTURE_FILENAME = leaf.png				//[20]はっぱ
+TEXTURE_FILENAME = enemy_04.png			//[17]敵
+TEXTURE_FILENAME = tutorial_00.png		//[18]チュートリアル00
+TEXTURE_FILENAME = tutorial_01.png		//[19]チュートリアル01
+TEXTURE_FILENAME = tutorial_02.png		//[20]チュートリアル02
+TEXTURE_FILENAME = leaf.png				//[21]はっぱ

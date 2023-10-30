@@ -21,6 +21,7 @@ public:
 		NORMAL = 0, //’Êí‚Ì“G
 		STOP, //’âŽ~‚µ‚Ä‚¢‚é“G
 		HOMING, //’Ç]‚Ì“G
+		INVINCIBLE, //Á‚¦‚é“G
 		BOSS_MAIN, //ƒ{ƒX
 		MAX,
 		NONE

@@ -11,6 +11,7 @@
 #include "enemy_normal.h"
 #include "enemy_homing.h"
 #include "enemy_stop.h"
+#include "enemy_invincible.h"
 #include "gamemanager.h"
 #include "manager.h"
 #include "renderer.h"
@@ -139,6 +140,10 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 
 		case HOMING:
 			pEnemy = new CEnemy_Homing;
+			break;
+
+		case INVINCIBLE:
+			pEnemy = new CEnemy_Invincible;
 			break;
 
 		case BOSS_MAIN:

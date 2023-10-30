@@ -47,6 +47,7 @@ HRESULT CBoss_Main::Init(void)
 	//テクスチャの割り当て
 	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_01));
 	SetAnim(4, 10, true, TYPE_U);
+	SetCol(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f));
 
 	return hr;
 }
@@ -120,6 +121,7 @@ void CBoss_Main::Update(void)
 	//撃破可能状態になったら普通の敵扱いにする
 	if (m_state == CRUSH)
 	{
+		SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		SetType(TYPE_ENEMY);
 	}
 

@@ -32,6 +32,7 @@
     <ClCompile Include="source\doll.cpp" />
     <ClCompile Include="source\enemy.cpp" />
     <ClCompile Include="source\enemy_homing.cpp" />
+    <ClCompile Include="source\enemy_invincible.cpp" />
     <ClCompile Include="source\enemy_normal.cpp" />
     <ClCompile Include="source\enemy_stop.cpp" />
     <ClCompile Include="source\fade.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="source\doll.h" />
     <ClInclude Include="source\enemy.h" />
     <ClInclude Include="source\enemy_homing.h" />
+    <ClInclude Include="source\enemy_invincible.h" />
     <ClInclude Include="source\enemy_normal.h" />
     <ClInclude Include="source\enemy_stop.h" />
     <ClInclude Include="source\fade.h" />
