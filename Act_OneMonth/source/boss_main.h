@@ -37,6 +37,7 @@ private:
 	//ƒƒ“ƒo•Ï”
 	State m_state;
 	bool m_bSub;
+	float m_fMove;
 
 };
 

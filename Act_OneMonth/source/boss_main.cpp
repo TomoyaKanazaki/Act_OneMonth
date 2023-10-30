@@ -11,6 +11,7 @@
 #include "gamemanager.h"
 #include "boss_sub.h"
 #include "texture.h"
+#include "gametime.h"
 
 //==========================================
 //  コンストラクタ
@@ -18,6 +19,7 @@
 CBoss_Main::CBoss_Main()
 {
 	m_state = DEFAULT;
+	m_fMove = 0.0f;
 }
 
 //==========================================
@@ -43,7 +45,7 @@ HRESULT CBoss_Main::Init(void)
 	SetType(TYPE_BOSS);
 
 	//テクスチャの割り当て
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_00));
+	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_01));
 	SetAnim(4, 10, true, TYPE_U);
 
 	return hr;
@@ -63,24 +65,22 @@ void CBoss_Main::Uninit(void)
 //==========================================
 void CBoss_Main::Update(void)
 {
-	//スクリーン外なら更新しない
-	if (!OnScreen())
-	{
-		return;
-	}
-
 	//子分を生成
 	if (m_state == DEFAULT && !m_bSub)
 	{
 		//おともの生成
 		for (int nCnt = 0; nCnt < 4; nCnt++)
 		{
-			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.5f * nCnt - 1.0f)), 100.0f);
+			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.5f * nCnt - 1.0f)), 60.0f);
 		}
 
 		//生成フラグを立てる
 		m_bSub = true;
 	}
+
+	//移動する
+	m_fMove += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+	m_move.y = sinf(m_fMove);
 
 	//子分が0になったら生成フラグをリセット
 	if (CBoss_Sub::GetNum() == 0)

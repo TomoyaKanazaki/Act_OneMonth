@@ -67,7 +67,7 @@ HRESULT CGameManager::Init(void)
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
 	//ボスの生成
-	m_pBoss = CEnemy::Create(D3DXVECTOR3(2000.0f, 30.0f, 0.0f), CEnemy::BOSS_MAIN);
+	m_pBoss = CEnemy::Create(D3DXVECTOR3(2000.0f, 100.0f, 0.0f), CEnemy::BOSS_MAIN);
 
 	//敵の配置
 	CEnemy::Create(D3DXVECTOR3(-1300.0f, 50.0f, 0.0f), CEnemy::NORMAL);
@@ -112,6 +112,12 @@ void CGameManager::Uninit(void)
 		m_pLight->Uninit();
 		delete m_pLight;
 		m_pLight = NULL;
+	}
+
+	//チュートリアルを終了
+	if (m_pTutorial != nullptr)
+	{
+		m_pTutorial = nullptr;
 	}
 
 	m_pCamera = NULL;
@@ -232,6 +238,7 @@ void CGameManager::Update(void)
 		if (m_State == STATE_NORMAL)
 		{
 			m_pTutorial->NextProgress();
+			m_pTutorial = nullptr;
 		}
 	}
 

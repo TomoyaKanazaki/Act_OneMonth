@@ -659,7 +659,7 @@ void CPlayer::Death(void)
 			//ŽŸ‚ÌƒAƒhƒŒƒX‚ð•Û‘¶
 			CObject* pNext = pObj->GetNext();
 
-			if (pObj->GetType() == CObject::TYPE_ENEMY) //“G‚Ìê‡
+			if (pObj->GetType() == CObject::TYPE_ENEMY || pObj->GetType() == CObject::TYPE_BOSS) //“G‚Ìê‡
 			{
 				//‘ÎÛ‚ÌÀ•W‚ðŽæ“¾‚·‚é
 				D3DXVECTOR3 pos = pObj->GetPos();
