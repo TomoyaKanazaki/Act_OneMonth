@@ -29,6 +29,7 @@ public:
 		PLAYER_JUMP, //ジャンプモーション
 		PLAYER_FALL, //落下モーション
 		PLAYER_IAI, //居合モーション
+		PLAYER_DEATH, //死亡モーション
 		MOTION_NONE
 	}MOTION;
 

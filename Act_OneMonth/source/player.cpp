@@ -250,7 +250,7 @@ void CPlayer::Motion(void)
 			m_pMotion->Set(CMotion::PLAYER_WAIT);
 			break;
 		case DEATH:
-			m_pMotion->Set(CMotion::PLAYER_WAIT);
+			m_pMotion->Set(CMotion::PLAYER_DEATH);
 		}
 	}
 
