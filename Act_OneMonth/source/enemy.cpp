@@ -10,6 +10,7 @@
 #include "boss_main.h"
 #include "enemy_normal.h"
 #include "enemy_homing.h"
+#include "enemy_stop.h"
 #include "gamemanager.h"
 #include "manager.h"
 #include "renderer.h"
@@ -130,6 +131,10 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 		{
 		case NORMAL:
 			pEnemy = new CEnemy_Normal;
+			break;
+
+		case STOP:
+			pEnemy = new CEnemy_Stop;
 			break;
 
 		case HOMING:

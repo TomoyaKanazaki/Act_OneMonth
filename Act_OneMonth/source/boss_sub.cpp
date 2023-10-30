@@ -81,11 +81,11 @@ void CBoss_Sub::Update(void)
 	{
 		if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
 		{
-			m_rot.z += 0.001f;
+			m_rot.z -= 0.001f;
 		}
 		else
 		{
-			m_rot.z += 0.01f;
+			m_rot.z -= 0.01f;
 		}
 	}
 

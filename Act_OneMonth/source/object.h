@@ -29,6 +29,7 @@ public:
 		TYPE_NUMBER, //数字
 		TYPE_FIELD, //床
 		TYPE_FADE, //フェード
+		TYPE_ORBIT, //軌跡
 		METHOD_MAX
 	}TYPE;
 

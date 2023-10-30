@@ -24,6 +24,7 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 	float GetLIfe(void) { return m_fLife; }
+	void SetLife(float fLife = 0.0f) { m_fLife = fLife; }
 
 	//Ã“Iƒƒ“ƒoŠÖ”
 	static CIcon* Create(D3DXVECTOR3 size);

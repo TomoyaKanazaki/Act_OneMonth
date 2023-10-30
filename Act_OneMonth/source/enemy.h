@@ -19,6 +19,7 @@ public:
 	enum TYPE
 	{
 		NORMAL = 0, //’Êí‚Ì“G
+		STOP, //’âŽ~‚µ‚Ä‚¢‚é“G
 		HOMING, //’Ç]‚Ì“G
 		BOSS_MAIN, //ƒ{ƒX
 		MAX,

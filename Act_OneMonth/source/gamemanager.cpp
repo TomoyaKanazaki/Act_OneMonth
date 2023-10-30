@@ -70,7 +70,12 @@ HRESULT CGameManager::Init(void)
 	m_pBoss = CEnemy::Create(D3DXVECTOR3(2000.0f, 100.0f, 0.0f), CEnemy::BOSS_MAIN);
 
 	//敵の配置
-	CEnemy::Create(D3DXVECTOR3(-1300.0f, 50.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(-1300.0f, 50.0f, 0.0f), CEnemy::STOP);
+	CEnemy::Create(D3DXVECTOR3(-900.0f, 50.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(-750.0f, 100.0f, 0.0f), CEnemy::STOP);
+	CEnemy::Create(D3DXVECTOR3(-900.0f, 150.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(-300.0f, 100.0f, 0.0f), CEnemy::HOMING);
+	CEnemy::Create(D3DXVECTOR3(-300.0f, 200.0f, 0.0f), CEnemy::HOMING);
 
 	//建物の生成
 	CBuild::Create();
@@ -115,10 +120,7 @@ void CGameManager::Uninit(void)
 	}
 
 	//チュートリアルを終了
-	if (m_pTutorial != nullptr)
-	{
-		m_pTutorial = nullptr;
-	}
+	m_pTutorial = nullptr;
 
 	m_pCamera = NULL;
 
@@ -151,6 +153,39 @@ void CGameManager::Update(void)
 	}
 
 #endif
+
+	//状態の切り替え
+	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_RT, 100) || CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
+	{
+		if (m_State == STATE_CONCENTRATE)
+		{
+			//紋章を召喚
+			if (m_pIcon != nullptr)
+			{
+				m_pIcon->SetLife();
+			}
+
+			for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
+			{
+				//先頭のアドレスを取得
+				CObject* pObj = CObject::GetTop(nCntPriority);
+
+				while (pObj != NULL)
+				{
+					//次のアドレスを保存
+					CObject* pNext = pObj->GetNext();
+
+					if (pObj->GetType() == CObject::TYPE_ORBIT)
+					{
+						pObj->Uninit();;
+					}
+
+					//次のアドレスにずらす
+					pObj = pNext;
+				}
+			}
+		}
+	}
 
 	//状態の切り替え
 	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LSHIFT))

@@ -65,6 +65,16 @@ void CBoss_Main::Uninit(void)
 //==========================================
 void CBoss_Main::Update(void)
 {
+	//Y座標の制限
+	if (m_pos.y < 0.0f)
+	{
+		m_pos.y = 0.0f;
+	}
+	if (m_pos.y > 200.0f)
+	{
+		m_pos.y = 200.0f;
+	}
+
 	//子分を生成
 	if (m_state == DEFAULT && !m_bSub)
 	{
@@ -77,10 +87,27 @@ void CBoss_Main::Update(void)
 		//生成フラグを立てる
 		m_bSub = true;
 	}
+	if (m_state == SECOND && !m_bSub)
+	{
+		//おともの生成
+		for (int nCnt = 0; nCnt < 4; nCnt++)
+		{
+			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.5f * nCnt - 1.0f)), 60.0f);
+		}
+		//おともの生成
+		for (int nCnt = 0; nCnt < 8; nCnt++)
+		{
+			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.25f * nCnt - 1.0f)), 120.0f);
+		}
+
+		//生成フラグを立てる
+		m_bSub = true;
+	}
 
 	//移動する
 	m_fMove += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
 	m_move.y = sinf(m_fMove);
+	m_move.x = cosf(m_fMove * 2.0f);
 
 	//子分が0になったら生成フラグをリセット
 	if (CBoss_Sub::GetNum() == 0)

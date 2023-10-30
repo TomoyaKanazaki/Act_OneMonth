@@ -41,6 +41,9 @@ COrbit::~COrbit()
 //==========================================
 HRESULT COrbit::Init(void)
 {
+	//í—Ş‚Ìİ’è
+	SetType(CObject::TYPE_ORBIT);
+
 	//Šp“x‚ğİ’è‚·‚é
 	D3DXVECTOR3 vec = m_offset[1] - m_offset[0];
 	m_rot.z = atan2f(vec.y, vec.x);

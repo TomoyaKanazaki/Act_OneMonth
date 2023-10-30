@@ -36,6 +36,8 @@ public:
 		SKY, //空
 		ENEMY_00, //敵
 		ENEMY_01, //敵
+		ENEMY_02, //敵
+		ENEMY_03, //敵
 		TUTORIAL_00, //チュートリアル00
 		TUTORIAL_01, //チュートリアル01
 		TUTORIAL_02, //チュートリアル02

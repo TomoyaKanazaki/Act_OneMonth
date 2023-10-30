@@ -39,7 +39,7 @@ HRESULT CEnemy_Homing::Init(void)
 	HRESULT hr = CEnemy::Init();
 
 	//テクスチャの割り当て
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_01));
+	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_03));
 	SetAnim(4, 10, true, TYPE_U);
 
 	return hr;
@@ -58,8 +58,14 @@ void CEnemy_Homing::Uninit(void)
 //==========================================
 void CEnemy_Homing::Update(void)
 {
-	//画面内判定
-	if (!OnScreen())
+	//対象の座標を取得する
+	D3DXVECTOR3 pos = CGameManager::GetPlayer()->GetPos();
+
+	//ベクトルの算出
+	D3DXVECTOR3 vec = m_pos - pos;
+
+	//ベクトルの大きさを比較する
+	if (500.0f * 500.0f <= (vec.x * vec.x + vec.y * vec.y))
 	{
 		return;
 	}
