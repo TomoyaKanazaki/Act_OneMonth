@@ -58,9 +58,9 @@ void CEnemy_Invincible::Uninit(void)
 void CEnemy_Invincible::Update(void)
 {
 	//F‚ÌXV
-	if (CGameManager::GetState() == CGameManager::STATE_NORMAL)
+	if (CGameManager::GetState() == CGameManager::STATE_NORMAL && OnScreen())
 	{
-		m_fClear += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+		m_fClear += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat() * 2.0f;
 	}
 	float fAlpha = (sinf(m_fClear) + 1.0f) * 0.5f;
 	D3DXCOLOR col = GetCol();

@@ -16,7 +16,14 @@ public:
 	//サウンド一覧
 	typedef enum
 	{
-		SOUND_LABEL_BGM = 0, //BGM0
+		SOUND_LABEL_TITLE = 0, //タイトル
+		SOUND_LABEL_GAME, //ゲーム
+		SOUND_LABEL_RESULT, //リザルト
+		SOUND_LABEL_DASH, //ダッシュ
+		SOUND_LABEL_DEATH, //死ぬ
+		SOUND_LABEL_END, //終了
+		SOUND_LABEL_SLASH, //斬撃
+		SOUND_LABEL_SLICE, //斬撃
 		SOUND_LABEL_MAX,
 	} SOUND_LABEL;
 

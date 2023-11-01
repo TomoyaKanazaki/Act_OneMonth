@@ -68,20 +68,21 @@ HRESULT CGameManager::Init(void)
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
 	//ボスの生成
-	m_pBoss = CEnemy::Create(D3DXVECTOR3(2000.0f, 100.0f, 0.0f), CEnemy::BOSS_MAIN);
+	m_pBoss = CEnemy::Create(D3DXVECTOR3(1800.0f, 100.0f, 0.0f), CEnemy::BOSS_MAIN);
 
 	//敵の配置
-	CEnemy::Create(D3DXVECTOR3(-1300.0f, 50.0f, 0.0f), CEnemy::STOP);
-	CEnemy::Create(D3DXVECTOR3(-900.0f, 50.0f, 0.0f), CEnemy::NORMAL);
-	CEnemy::Create(D3DXVECTOR3(-750.0f, 100.0f, 0.0f), CEnemy::STOP);
-	CEnemy::Create(D3DXVECTOR3(-900.0f, 150.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(-1300.0f, 100.0f, 0.0f), CEnemy::STOP);
+	CEnemy::Create(D3DXVECTOR3(-900.0f, 100.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(-750.0f, 150.0f, 0.0f), CEnemy::STOP);
+	CEnemy::Create(D3DXVECTOR3(-900.0f, 200.0f, 0.0f), CEnemy::NORMAL);
 	CEnemy::Create(D3DXVECTOR3(-300.0f, 100.0f, 0.0f), CEnemy::HOMING);
 	CEnemy::Create(D3DXVECTOR3(-300.0f, 200.0f, 0.0f), CEnemy::HOMING);
-	CEnemy::Create(D3DXVECTOR3(0.0f, 50.0f, 0.0f), CEnemy::INVINCIBLE);
-	CEnemy::Create(D3DXVECTOR3(0.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
-	CEnemy::Create(D3DXVECTOR3(0.0f, 150.0f, 0.0f), CEnemy::INVINCIBLE);
-	CEnemy::Create(D3DXVECTOR3(0.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
-
+	CEnemy::Create(D3DXVECTOR3(-200.0f, 100.0f, 0.0f), CEnemy::HOMING);
+	CEnemy::Create(D3DXVECTOR3(-100.0f, 200.0f, 0.0f), CEnemy::HOMING);
+	CEnemy::Create(D3DXVECTOR3(-50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
+	CEnemy::Create(D3DXVECTOR3(-50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
+	CEnemy::Create(D3DXVECTOR3(50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
+	CEnemy::Create(D3DXVECTOR3(50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
 
 	//建物の生成
 	CBuild::Create();
@@ -108,6 +109,9 @@ HRESULT CGameManager::Init(void)
 		m_pLight = new CLight;
 		m_pLight->Init();
 	}
+
+	//BGMの再生
+	CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_GAME);
 
 	return S_OK;
 }
@@ -196,15 +200,18 @@ void CGameManager::Update(void)
 	//状態の切り替え
 	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
 	{
-		if (m_State == STATE_NORMAL)
+		if (m_pPlayer->GetState() != CPlayer::DEATH)
 		{
-			m_State = STATE_CONCENTRATE;
-
-			//紋章を召喚
-			if (m_pIcon == nullptr)
+			if (m_State == STATE_NORMAL)
 			{
-				D3DXVECTOR3 size = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
-				m_pIcon = CIcon::Create(size);
+				m_State = STATE_CONCENTRATE;
+
+				//紋章を召喚
+				if (m_pIcon == nullptr)
+				{
+					D3DXVECTOR3 size = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
+					m_pIcon = CIcon::Create(size);
+				}
 			}
 		}
 	}
@@ -214,6 +221,7 @@ void CGameManager::Update(void)
 	{
 		if (m_pIcon->GetLIfe() <= 0.0f && m_State == STATE_CONCENTRATE)
 		{
+			CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_DASH);
 			m_State = STATE_DASH;
 			m_pIcon = nullptr;
 		}

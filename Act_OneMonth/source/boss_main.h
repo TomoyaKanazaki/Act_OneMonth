@@ -20,6 +20,7 @@ public:
 	{
 		DEFAULT = 0, //無敵状態
 		SECOND, //第二形態
+		THIRD, //第三形態
 		CRUSH, //撃破可能
 		MAX
 	};

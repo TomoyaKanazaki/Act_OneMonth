@@ -11,7 +11,15 @@
 //==========================================
 CSound::SOUNDINFO CSound::m_aSoundInfo[SOUND_LABEL_MAX] =
 {
-	{ "data\\BGM\\BGM.wav", -1 }, 
+	{ "data\\BGM\\BGM_TITLE.wav", -1 },
+	{ "data\\BGM\\BGM_GAME.wav", -1 },
+	{ "data\\BGM\\BGM_RESULT.wav", -1 },
+	{ "data\\SE\\dash.wav", 0 },
+	{ "data\\SE\\death.wav", 0 },
+	{ "data\\SE\\end.wav", 0 },
+	{ "data\\SE\\slash.wav", 0 },
+	{ "data\\SE\\slice.wav", 0 },
+
 };
 
 //==========================================

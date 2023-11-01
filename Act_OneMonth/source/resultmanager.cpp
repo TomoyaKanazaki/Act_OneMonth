@@ -45,6 +45,9 @@ HRESULT CResultManager::Init(void)
 		CLogo::Create(D3DXVECTOR3(CENTER_WIDTH, CENTER_HEIGHT, 0.0f), D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f), CTexture::OVER);
 	}
 
+	//BGM‚ÌÄ¶
+	CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_RESULT);
+
 	return S_OK;
 }
 
@@ -69,6 +72,7 @@ void CResultManager::Update(void)
 	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_fCntScene >= 15.0f || CManager::GetManager()->GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
 		CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::TITLE);
+		CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_END);
 		return;
 	}
 }

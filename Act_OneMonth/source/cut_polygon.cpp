@@ -7,6 +7,7 @@
 #include "cut_polygon.h"
 #include "manager.h"
 #include "renderer.h"
+#include "sound.h"
 
 //==========================================
 //  コンストラクタ
@@ -45,6 +46,8 @@ HRESULT CCutPolygon::Init(void)
 	{
 		SetTex(D3DXVECTOR2(0.0f, 0.5f), D3DXVECTOR2(fPattern, 1.0f));
 	}
+
+	CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_SLASH);
 
 	return hr;
 }

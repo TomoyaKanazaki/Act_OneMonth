@@ -72,6 +72,9 @@ HRESULT CTitleManager::Init(void)
 		m_pLight->Init();
 	}
 
+	//BGM‚ÌÄ¶
+	CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_TITLE);
+
 	return S_OK;
 }
 
@@ -100,6 +103,7 @@ void CTitleManager::Update(void)
 	//‰æ–Ê‘JˆÚ
 	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || CManager::GetManager()->GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
+		CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_END);
 		if (CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::GAME))
 		{
 			m_pTitle->CutTitle();

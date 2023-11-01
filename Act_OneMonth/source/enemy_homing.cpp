@@ -90,7 +90,7 @@ void CEnemy_Homing::Draw(void)
 void CEnemy_Homing::Homing(void)
 {
 	//プレイヤーの位置を取得
-	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetPos();
+	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetCenter();
 
 	//プレイヤーへのベクトルを算出
 	D3DXVECTOR3 vecToPlayer = posPlayer - m_pos;

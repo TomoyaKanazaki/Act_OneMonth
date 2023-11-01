@@ -612,6 +612,7 @@ void CPlayer::Hit(void)
 					//”»’è“à‚Ì”»’è‚ðŽæ‚é
 					if (HIT_RANGE >= fLength)
 					{
+						CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
 						CMarker::Create(pos);
 						CSlice::Create(pos, m_size * 3.0f);
 						pObj->SetState(CObject::MARKING);
@@ -670,6 +671,7 @@ void CPlayer::Death(void)
 				//ƒxƒNƒgƒ‹‚Ì‘å‚«‚³‚ð”äŠr‚·‚é
 				if (m_fHitLength * m_fHitLength >= (vec.x * vec.x + vec.y * vec.y))
 				{
+					CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
 					m_State = DEATH;
 				}
 			}

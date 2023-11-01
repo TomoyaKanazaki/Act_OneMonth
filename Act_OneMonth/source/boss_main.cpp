@@ -12,6 +12,7 @@
 #include "boss_sub.h"
 #include "texture.h"
 #include "gametime.h"
+#include "player.h"
 
 //==========================================
 //  コンストラクタ
@@ -67,9 +68,9 @@ void CBoss_Main::Uninit(void)
 void CBoss_Main::Update(void)
 {
 	//Y座標の制限
-	if (m_pos.y < 0.0f)
+	if (m_pos.y < 120.0f)
 	{
-		m_pos.y = 0.0f;
+		m_pos.y = 120.0f;
 	}
 	if (m_pos.y > 200.0f)
 	{
@@ -84,6 +85,10 @@ void CBoss_Main::Update(void)
 		{
 			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.5f * nCnt - 1.0f)), 60.0f);
 		}
+		CEnemy::Create(D3DXVECTOR3(m_pos.x - 100.0f, 50.0f, 0.0f), CEnemy::NORMAL);
+		CEnemy::Create(D3DXVECTOR3(m_pos.x - 100.0f, 100.0f, 0.0f), CEnemy::NORMAL);
+		CEnemy::Create(D3DXVECTOR3(m_pos.x - 100.0f, 150.0f, 0.0f), CEnemy::NORMAL);
+		CEnemy::Create(D3DXVECTOR3(m_pos.x - 100.0f, 200.0f, 0.0f), CEnemy::NORMAL);
 
 		//生成フラグを立てる
 		m_bSub = true;
@@ -100,6 +105,30 @@ void CBoss_Main::Update(void)
 		{
 			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.25f * nCnt - 1.0f)), 120.0f);
 		}
+		CEnemy::Create(D3DXVECTOR3(CGameManager::GetPlayer()->GetCenter().x - 200.0f, 200.0f, 0.0f), CEnemy::HOMING);
+		CEnemy::Create(D3DXVECTOR3(CGameManager::GetPlayer()->GetCenter().x - 300.0f, 100.0f, 0.0f), CEnemy::HOMING);
+		CEnemy::Create(D3DXVECTOR3(CGameManager::GetPlayer()->GetCenter().x + 200.0f, 200.0f, 0.0f), CEnemy::HOMING);
+		CEnemy::Create(D3DXVECTOR3(CGameManager::GetPlayer()->GetCenter().x + 300.0f, 100.0f, 0.0f), CEnemy::HOMING);
+
+		//生成フラグを立てる
+		m_bSub = true;
+	}
+	if (m_state == THIRD && !m_bSub)
+	{
+		//おともの生成
+		for (int nCnt = 0; nCnt < 4; nCnt++)
+		{
+			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.5f * nCnt - 1.0f)), 60.0f);
+		}
+		//おともの生成
+		for (int nCnt = 0; nCnt < 8; nCnt++)
+		{
+			CBoss_Sub::Create(D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * (0.25f * nCnt - 1.0f)), 120.0f);
+		}
+		CEnemy::Create(D3DXVECTOR3(CGameManager::GetPlayer()->GetCenter().x - 100.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
+		CEnemy::Create(D3DXVECTOR3(CGameManager::GetPlayer()->GetCenter().x - 150.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
+		CEnemy::Create(D3DXVECTOR3(CGameManager::GetPlayer()->GetCenter().x + 100.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
+		CEnemy::Create(D3DXVECTOR3(CGameManager::GetPlayer()->GetCenter().x + 150.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
 
 		//生成フラグを立てる
 		m_bSub = true;
