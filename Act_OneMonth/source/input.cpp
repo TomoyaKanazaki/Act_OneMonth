@@ -489,11 +489,11 @@ void CJoyPad::Update(void)
 			//バイブ状態の更新
 			switch (m_VibrationState)
 			{
-			case VIBRATIONSTATE_PLAYER_EXPLOSION:
+			case VIBRATIONSTATE_ENEMY_HIT:
 				m_Vibration.wLeftMotorSpeed -= (short)(USHRT_MAX * 0.01f);
 				m_Vibration.wRightMotorSpeed -= (short)(USHRT_MAX * 0.01f);
 				break;
-			case VIBRATIONSTATE_ENEMY_EXPLOSION:
+			case VIBRATIONSTATE_ENEMY_DEAD:
 				m_Vibration.wLeftMotorSpeed = (m_Vibration.wLeftMotorSpeed == USHRT_MAX / 2) ? USHRT_MAX : USHRT_MAX / 2;
 				m_Vibration.wRightMotorSpeed = (m_Vibration.wRightMotorSpeed == USHRT_MAX / 2) ? USHRT_MAX : USHRT_MAX / 2;
 				break;
@@ -632,12 +632,12 @@ void CJoyPad::VibrationJoyPad(VIBRATION VibrationState)
 	//バイブレーションの設定
 	switch (m_VibrationState)
 	{
-	case VIBRATIONSTATE_PLAYER_EXPLOSION:
+	case VIBRATIONSTATE_ENEMY_DEAD:
 		m_Vibration.wLeftMotorSpeed = USHRT_MAX;
 		m_Vibration.wRightMotorSpeed = USHRT_MAX;
 		m_VibrationTimer = 100;
 		break;
-	case VIBRATIONSTATE_ENEMY_EXPLOSION:
+	case VIBRATIONSTATE_ENEMY_HIT:
 		m_Vibration.wLeftMotorSpeed = USHRT_MAX / 2;
 		m_Vibration.wRightMotorSpeed = USHRT_MAX / 2;
 		m_VibrationTimer = 100;

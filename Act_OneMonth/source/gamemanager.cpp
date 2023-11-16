@@ -214,7 +214,7 @@ void CGameManager::Update(void)
 				}
 			}
 		}
-	}
+	
 
 	//ó‘Ô‚ğXV
 	if (m_pIcon != nullptr)
