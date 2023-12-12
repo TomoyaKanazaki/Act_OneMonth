@@ -16,7 +16,6 @@
 #include "scenemanager.h"
 #include "model.h"
 #include "renderer.h"
-#include "debugproc.h"
 #include "bg.h"
 #include "enemy.h"
 #include "field.h"

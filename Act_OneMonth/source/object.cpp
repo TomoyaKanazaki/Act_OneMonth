@@ -193,7 +193,7 @@ void CObject::UpdateAll(void)
 		}
 	}
 
-	CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("オブジェクト数 : %d\n", m_nNumObject);
+	DebugProc::Print("オブジェクト数 : %d\n", m_nNumObject);
 }
 
 //==========================================

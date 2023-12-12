@@ -182,16 +182,16 @@ void CSceneManager::Draw(void)
 	switch (m_Scene)
 	{
 	case TITLE:
-		CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("現在のシーン : タイトル\n");
+		DebugProc::Print("現在のシーン : タイトル\n");
 		break;
 	case GAME:
-		CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("現在のシーン : ゲーム\n");
+		DebugProc::Print("現在のシーン : ゲーム\n");
 		break;
 	case RESULT:
-		CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("現在のシーン : リザルト\n");
+		DebugProc::Print("現在のシーン : リザルト\n");
 		break;
 	case RANKING:
-		CManager::GetManager()->GetManager()->GetManager()->GetDebugProc()->Print("現在のシーン : ランキング\n");
+		DebugProc::Print("現在のシーン : ランキング\n");
 		break;
 	default:
 		break;

@@ -19,7 +19,6 @@ class CRenderer;
 class CKeyboard;
 class CMouse;
 class CJoyPad;
-class CDebugProc;
 class CSound;
 class CTexture;
 class CSceneManager;
@@ -54,7 +53,6 @@ public:
 	CKeyboard* GetKeyboard(void) { return m_pKeyboard; }
 	CMouse* GetMouse(void) { return m_pMouse; }
 	CJoyPad* GetJoyPad(void) { return m_pJoyPad; }
-	CDebugProc* GetDebugProc(void) { return m_pDebugProc; }
 	CSound* GetSound(void) { return m_pSound; }
 	CTexture* GetTexture(void) { return m_pTexture; }
 	CSceneManager* GetSceneManager(void) { return m_pSceneManager; }
@@ -76,7 +74,6 @@ private:
 	CKeyboard* m_pKeyboard;
 	CMouse* m_pMouse;
 	CJoyPad* m_pJoyPad;
-	CDebugProc* m_pDebugProc;
 	CSound* m_pSound;
 	CTexture* m_pTexture;
 	CSceneManager* m_pSceneManager;

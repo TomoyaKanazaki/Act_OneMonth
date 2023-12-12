@@ -11,37 +11,25 @@
 #include "manager.h"
 #include "renderer.h"
 
-// 静的メンバ変数宣言
-LPD3DXFONT CDebugProc::m_pFont = NULL;	// デバッグフォントへのポインタ
-
-//**********************************************************
-//マクロ定義
-//**********************************************************
-#define MAX_FLOATNUM	(4)		//小数点以下の表示桁数
-
-//==========================================================
-// コンストラクタ
-//==========================================================
-CDebugProc::CDebugProc()
+//==========================================
+//  静的変数宣言
+//==========================================
+namespace
 {
-	//デバッグ表示情報のクリア
-	m_bDisp = false;
-	m_pFont = NULL;
-	memset(&m_aStr[0], NULL, sizeof(m_aStr));
-}
+	// 静的変数
+	LPD3DXFONT m_pFont = nullptr; // デバッグフォントへのポインタ
+	char m_aStr[MAX_DEBUGSTRING] = {}; //デバッグ表示用の文字列
+	bool m_bDisp = false; //デバッグ表示のON/OFF
 
-//==========================================================
-// デストラクタ
-//==========================================================
-CDebugProc::~CDebugProc()
-{
-	
+	// 定数定義
+	const int MAX_FLOATNUM = 4; //小数点以下の表示桁数
+	const char* pFONT_PASS = "Terminal"; // 使用するフォント
 }
 
 //==========================================================
 //デバッグ表示の初期化処理
 //==========================================================
-void CDebugProc::Init(void)
+void DebugProc::Init()
 {
 	LPDIRECT3DDEVICE9 pDevice;		//デバイスへのポインタ
 
@@ -49,7 +37,7 @@ void CDebugProc::Init(void)
 	pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
 
 	//デバッグ表示用フォントの生成
-	D3DXCreateFont(pDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "Terminal", &m_pFont);
+	D3DXCreateFont(pDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, pFONT_PASS, &m_pFont);
 
 	//初期表示設定
 #if _DEBUG
@@ -62,7 +50,7 @@ void CDebugProc::Init(void)
 //==========================================================
 //デバッグ表示の終了処理
 //==========================================================
-void CDebugProc::Uninit(void)
+void DebugProc::Uninit(void)
 {
 	//デバッグ表示用フォントの廃棄
 	if (m_pFont != NULL)
@@ -75,7 +63,7 @@ void CDebugProc::Uninit(void)
 //==========================================================
 //デバッグ表示の更新処理
 //==========================================================
-void CDebugProc::Update(void)
+void DebugProc::Update(void)
 {
 	CKeyboard *pKeyboard = CManager::GetManager()->GetKeyboard();	// キーボードのポインタ
 
@@ -88,7 +76,7 @@ void CDebugProc::Update(void)
 //==========================================================
 //デバッグ表示の描画処理
 //==========================================================
-void CDebugProc::Draw(void)
+void DebugProc::Draw(void)
 {
 	RECT rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
@@ -105,7 +93,7 @@ void CDebugProc::Draw(void)
 //==========================================================
 //デバッグ表示の設定処理
 //==========================================================
-void CDebugProc::Print(const char *fmt, ...)
+void DebugProc::Print(const char *fmt, ...)
 {
 #ifdef _DEBUG
 	va_list args;

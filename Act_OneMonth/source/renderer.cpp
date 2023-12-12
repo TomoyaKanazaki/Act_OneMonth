@@ -191,11 +191,8 @@ void CRenderer::Draw(void)
 		}
 
 		//デバッグ表示
-		if (CManager::GetManager()->GetDebugProc() != NULL)
-		{
-			CManager::GetManager()->GetDebugProc()->Print("FPS : %d\n", CManager::GetManager()->GetFPS());
-			CManager::GetManager()->GetDebugProc()->Draw();
-		}
+		DebugProc::Print("FPS : %d\n", CManager::GetManager()->GetFPS());
+		DebugProc::Draw();
 
 		//描画終了
 		m_pD3DDevice->EndScene();

@@ -65,8 +65,8 @@ void CGameTime::Update(void)
 	m_fDelta = (float)m_nDeltaTime / 1000.0f;
 
 	//デバッグ表示
-	CManager::GetManager()->GetDebugProc()->Print("前回時刻 : %d\n", m_nOldTime);
-	CManager::GetManager()->GetDebugProc()->Print("現在時刻 : %d\n", m_nCurrentTime);
-	CManager::GetManager()->GetDebugProc()->Print("経過時間 : %d\n", m_nDeltaTime);
-	CManager::GetManager()->GetDebugProc()->Print("経過割合 : %f\n", m_fDelta);
+	DebugProc::Print("前回時刻 : %d\n", m_nOldTime);
+	DebugProc::Print("現在時刻 : %d\n", m_nCurrentTime);
+	DebugProc::Print("経過時間 : %d\n", m_nDeltaTime);
+	DebugProc::Print("経過割合 : %f\n", m_fDelta);
 }

@@ -11,7 +11,7 @@
 //==========================================
 //  コンストラクタ
 //==========================================
-CDoll::CDoll(int nPriority)
+CDoll::CDoll(int nPriority) : CObject_Char(nPriority)
 {
 
 }

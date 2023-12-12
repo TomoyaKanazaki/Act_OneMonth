@@ -28,18 +28,20 @@ HWND CManager::m_Wnd = NULL;
 //==========================================
 //  コンストラクタ
 //==========================================
-CManager::CManager()
+CManager::CManager() :
+m_pRenderer(NULL),
+m_pKeyboard(NULL),
+m_pMouse(NULL),
+m_pJoyPad(NULL),
+m_pSound(NULL),
+m_pTexture(NULL),
+m_pSceneManager(NULL),
+m_pGameTime(NULL),
+m_Instance(NULL),
+m_Window(true),
+m_nFPS(0)
 {
-	m_pRenderer = NULL;
-	m_pKeyboard = NULL;
-	m_pMouse = NULL;
-	m_pJoyPad = NULL;
-	m_pDebugProc = NULL;
-	m_pSound = NULL;
-	m_pTexture = NULL;
-	m_pSceneManager = NULL;
-	m_pGameTime = NULL;
-	m_nFPS = 0;
+
 }
 
 //==========================================
@@ -127,19 +129,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//モーション情報を読み込む
 	CMotion::Load();
 
-#ifdef _DEBUG
-	//デバッグ表示の生成
-	if (m_pDebugProc == NULL)
-	{
-		m_pDebugProc = new CDebugProc;
-	}
-#endif
-
 	//デバッグ表示の初期化
-	if (m_pDebugProc != NULL)
-	{
-		m_pDebugProc->Init();
-	}
+	DebugProc::Init();
 
 	//キーボードの生成
 	if (m_pKeyboard == NULL)
@@ -239,12 +230,7 @@ void CManager::Uninit(void)
 	}
 
 	//デバッグ表示の終了、破棄
-	if (m_pDebugProc != NULL)
-	{
-		m_pDebugProc->Uninit();
-		delete m_pDebugProc;
-		m_pDebugProc = NULL;
-	}
+	DebugProc::Uninit();
 
 	//キーボードの終了、破棄
 	if (m_pKeyboard != NULL)
@@ -335,10 +321,7 @@ void CManager::Update(void)
 	}
 
 	//デバッグ表示の更新処理
-	if (m_pDebugProc != NULL)
-	{
-		m_pDebugProc->Update();
-	}
+	DebugProc::Update();
 
 	//シーンマネージャの更新
 	if (m_pSceneManager != NULL)

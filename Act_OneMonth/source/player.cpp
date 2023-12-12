@@ -134,8 +134,8 @@ void CPlayer::Update(void)
 	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
 	//デバッグ表示
-	CManager::GetManager()->GetDebugProc()->Print("移動量 ( %f, %f )\n", m_move.x, m_move.y);
-	CManager::GetManager()->GetDebugProc()->Print("座標 ( %f, %f )\n", m_pos.x, m_pos.y);
+	DebugProc::Print("移動量 ( %f, %f )\n", m_move.x, m_move.y);
+	DebugProc::Print("座標 ( %f, %f )\n", m_pos.x, m_pos.y);
 
 	CObject_Char::Update();
 

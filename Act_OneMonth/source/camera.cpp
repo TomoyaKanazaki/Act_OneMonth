@@ -55,8 +55,8 @@ void CCamera::Uninit(void)
 //==========================================
 void CCamera::Update(void)
 {
-	CManager::GetManager()->GetDebugProc()->Print("視点 : ( %f, %f, %f )\n", m_posV.x, m_posV.y, m_posV.z);
-	CManager::GetManager()->GetDebugProc()->Print("注視点 : ( %f, %f, %f )\n", m_posR.x, m_posR.y, m_posR.z);
+	DebugProc::Print("視点 : ( %f, %f, %f )\n", m_posV.x, m_posV.y, m_posV.z);
+	DebugProc::Print("注視点 : ( %f, %f, %f )\n", m_posR.x, m_posR.y, m_posR.z);
 }
 
 //==========================================
