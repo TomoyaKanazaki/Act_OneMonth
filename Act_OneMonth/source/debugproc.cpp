@@ -2,6 +2,7 @@
 //
 // デバッグ表示処理 [debugproc.cpp]
 // Author : Ibuki Okusada
+// Aded by Tomoya Kanazaki
 //
 //==========================================================
 #include "debugproc.h"
@@ -16,14 +17,15 @@
 //==========================================
 namespace
 {
+	// 定数定義
+	const int MAX_FLOATNUM = 4; // 小数点以下の表示桁数
+	const int MAX_DEBUGSTRING = 2048; // デバッグ表示の最大文字数
+	const char* pFONT_PASS = "Terminal"; // 使用するフォント
+
 	// 静的変数
 	LPD3DXFONT m_pFont = nullptr; // デバッグフォントへのポインタ
-	char m_aStr[MAX_DEBUGSTRING] = {}; //デバッグ表示用の文字列
-	bool m_bDisp = false; //デバッグ表示のON/OFF
-
-	// 定数定義
-	const int MAX_FLOATNUM = 4; //小数点以下の表示桁数
-	const char* pFONT_PASS = "Terminal"; // 使用するフォント
+	char m_aStr[MAX_DEBUGSTRING] = {}; // デバッグ表示用の文字列
+	bool m_bDisp = false; // デバッグ表示のON/OFF
 }
 
 //==========================================================
