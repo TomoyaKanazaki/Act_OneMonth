@@ -21,7 +21,8 @@ const float CIcon::m_fMaxLife = 5.0f;
 //==========================================
 //  コンストラクタ
 //==========================================
-CIcon::CIcon(int nPriority) : CObject3D(nPriority)
+CIcon::CIcon(int nPriority) : CObject3D(nPriority),
+	m_fLife(0.0f)
 {
 	m_Default = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
