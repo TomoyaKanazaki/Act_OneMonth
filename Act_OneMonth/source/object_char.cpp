@@ -113,7 +113,7 @@ void CObject_Char::Update(void)
 void CObject_Char::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetInstance()->GetRenderer()->GetDevice();
 
 	//ローカル変数宣言
 	D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス

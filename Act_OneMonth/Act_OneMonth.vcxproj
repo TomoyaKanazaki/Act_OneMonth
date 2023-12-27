@@ -37,6 +37,7 @@
     <ClCompile Include="source\enemy_stop.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\field.cpp" />
+    <ClCompile Include="source\fog.cpp" />
     <ClCompile Include="source\gamemanager.cpp" />
     <ClCompile Include="source\gametime.cpp" />
     <ClCompile Include="source\icon.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="source\enemy_stop.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\field.h" />
+    <ClInclude Include="source\fog.h" />
     <ClInclude Include="source\gamemanager.h" />
     <ClInclude Include="source\gametime.h" />
     <ClInclude Include="source\icon.h" />

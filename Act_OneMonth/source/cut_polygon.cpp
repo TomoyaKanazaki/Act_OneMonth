@@ -47,7 +47,7 @@ HRESULT CCutPolygon::Init(void)
 		SetTex(D3DXVECTOR2(0.0f, 0.5f), D3DXVECTOR2(fPattern, 1.0f));
 	}
 
-	CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_SLASH);
+	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLASH);
 
 	return hr;
 }
@@ -92,7 +92,7 @@ void CCutPolygon::Update(void)
 void CCutPolygon::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//アルファテストの有効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);

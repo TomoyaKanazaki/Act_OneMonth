@@ -63,7 +63,7 @@ void CTutorialWall::Update(void)
 void CTutorialWall::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//カリングをオフ
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -89,7 +89,7 @@ CTutorialWall* CTutorialWall::Create()
 	pBlock->Init();
 
 	//テクスチャを割り当て
-	pBlock->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::OHUDA));
+	pBlock->BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::OHUDA));
 
 	// 値を返す
 	return pBlock;

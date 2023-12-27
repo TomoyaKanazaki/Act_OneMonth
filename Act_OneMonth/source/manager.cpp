@@ -345,7 +345,7 @@ void CManager::Draw(void)
 //==========================================
 //  マネージャの取得
 //==========================================
-CManager *CManager::GetManager(void)
+CManager *CManager::GetInstance(void)
 {
 	//インスタンス生成
 	if (m_pManager == NULL)

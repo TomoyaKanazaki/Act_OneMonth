@@ -96,7 +96,7 @@ void CEnemy::Update(void)
 void CEnemy::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//アルファテストの有効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);

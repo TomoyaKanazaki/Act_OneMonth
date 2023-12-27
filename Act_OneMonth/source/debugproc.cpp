@@ -36,7 +36,7 @@ void DebugProc::Init()
 	LPDIRECT3DDEVICE9 pDevice;		//デバイスへのポインタ
 
 	//デバイスの取得
-	pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//デバッグ表示用フォントの生成
 	D3DXCreateFont(pDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, pFONT_PASS, &m_pFont);
@@ -67,7 +67,7 @@ void DebugProc::Uninit(void)
 //==========================================================
 void DebugProc::Update(void)
 {
-	CKeyboard *pKeyboard = CManager::GetManager()->GetKeyboard();	// キーボードのポインタ
+	CKeyboard *pKeyboard = CManager::GetInstance()->GetKeyboard();	// キーボードのポインタ
 
 	if(pKeyboard->GetTrigger(DIK_F1) == true)
 	{//F1キーが押されたとき

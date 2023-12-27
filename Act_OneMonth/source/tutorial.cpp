@@ -97,7 +97,7 @@ CTutorial* CTutorial::Create(void)
 	pTutorial->Init();
 
 	//テクスチャを割り当て
-	pTutorial->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::TUTORIAL_00));
+	pTutorial->BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL_00));
 
 	return pTutorial;
 }
@@ -108,20 +108,20 @@ CTutorial* CTutorial::Create(void)
 void CTutorial::NextProgress(void)
 {
 	//終わる
-	if (m_pTexture == CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::TUTORIAL_02))
+	if (m_pTexture == CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL_02))
 	{
 		Uninit();
 	}
 
 	//進める
-	if (m_pTexture == CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::TUTORIAL_01))
+	if (m_pTexture == CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL_01))
 	{
-		BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::TUTORIAL_02));
+		BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL_02));
 	}
 
 	//進める
-	if (m_pTexture == CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::TUTORIAL_00))
+	if (m_pTexture == CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL_00))
 	{
-		BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::TUTORIAL_01));
+		BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL_01));
 	}
 }

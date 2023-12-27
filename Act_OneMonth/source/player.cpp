@@ -88,7 +88,7 @@ void CPlayer::Uninit(void)
 void CPlayer::Update(void)
 {
 	//経過時間を取得する
-	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
 	//ゲーム状態の取得
 	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
@@ -140,11 +140,11 @@ void CPlayer::Update(void)
 	CObject_Char::Update();
 
 #ifdef _DEBUG
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_Q))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_Q))
 	{
 		m_State = NEUTRAL;
 	}
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_1))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_1))
 	{
 		m_State = DEATH;
 	}
@@ -338,12 +338,12 @@ void CPlayer::Move(void)
 	if (m_State != DEATH)
 	{
 		//パッド移動量を取得
-		move = CManager::GetManager()->GetJoyPad()->GetStickL(0.1f);
+		move = CManager::GetInstance()->GetJoyPad()->GetStickL(0.1f);
 
 		//キーボード移動量の取得
 		if (move.x == 0.0f)
 		{
-			move = CManager::GetManager()->GetKeyboard()->GetWASD();
+			move = CManager::GetInstance()->GetKeyboard()->GetWASD();
 		}
 	}
 
@@ -440,7 +440,7 @@ void CPlayer::Jump(void)
 	}
 
 	//ジャンプ!
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_LB))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_LB))
 	{
 		m_move.y = JUMP_MOVE;
 		m_bRand = false;
@@ -501,13 +501,13 @@ void CPlayer::Dash(void)
 	}
 
 	//パッドの入力情報を取得
-	D3DXVECTOR3 move = CManager::GetManager()->GetJoyPad()->GetStickR(0.1f);
+	D3DXVECTOR3 move = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
 
 	//入力角度を算出
 	float fAngle = atan2f(move.y, move.x);
 	m_move = D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
 
-	if (CManager::GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_RB))
+	if (CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_RB))
 	{
 		m_pos += D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
 		m_bDash = true;
@@ -516,22 +516,22 @@ void CPlayer::Dash(void)
 
 	//デバッグ用ダッシュ
 #ifdef _DEBUG
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_UP))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_UP))
 	{
 		m_pos.y += DASH_DISTANCE;
 		m_bDash = true;
 	}
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_DOWN))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_DOWN))
 	{
 		m_pos.y -= DASH_DISTANCE;
 		m_bDash = true;
 	}
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_RIGHT))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RIGHT))
 	{
 		m_pos.x += DASH_DISTANCE;
 		m_bDash = true;
 	}
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LEFT))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LEFT))
 	{
 		m_pos.x -= DASH_DISTANCE;
 		m_bDash = true;
@@ -621,7 +621,7 @@ void CPlayer::Hit(void)
 					//判定内の判定を取る
 					if (HIT_RANGE >= fLength)
 					{
-						CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
+						CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
 						CMarker::Create(pos);
 						CSlice::Create(pos, m_size * 3.0f);
 						pObj->SetState(CObject::MARKING);
@@ -680,7 +680,7 @@ void CPlayer::Death(void)
 				//ベクトルの大きさを比較する
 				if (m_fHitLength * m_fHitLength >= (vec.x * vec.x + vec.y * vec.y))
 				{
-					CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
+					CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
 					m_State = DEATH;
 				}
 			}

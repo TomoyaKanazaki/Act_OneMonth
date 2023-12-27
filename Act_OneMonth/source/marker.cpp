@@ -76,7 +76,7 @@ void CMarker::Update(void)
 void CMarker::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//カリングをオフ
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -140,7 +140,7 @@ CMarker* CMarker::Create(const D3DXVECTOR3 pos)
 	pMarker->Init();
 
 	//テクスチャを割り当て
-	pMarker->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::MARKER));
+	pMarker->BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::MARKER));
 
 	return pMarker;
 }

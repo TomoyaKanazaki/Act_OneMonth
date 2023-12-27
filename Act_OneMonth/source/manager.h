@@ -61,7 +61,7 @@ public:
 	void SetFPS(int nFPS) { m_nFPS = nFPS; }
 
 	//Ã“Iƒƒ“ƒoŠÖ”
-	static CManager* GetManager(void);
+	static CManager* GetInstance(void);
 	static HRESULT Release(void);
 	static HWND GetWindowHandle(void) { return m_Wnd; }
 

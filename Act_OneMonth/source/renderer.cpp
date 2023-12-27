@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "debugproc.h"
 #include "model.h"
+#include "fog.h"
 
 //==========================================
 //  コンストラクタ
@@ -172,6 +173,9 @@ void CRenderer::Draw(void)
 	//描画開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{
+		//フォグの描画
+		Fog::Draw();
+
 		//カメラの取得
 		CCamera *pCamera = CSceneManager::GetCamera();
 
@@ -185,13 +189,13 @@ void CRenderer::Draw(void)
 		CObject::DrawAll();
 
 		//シーンマネージャを描画
-		if (CManager::GetManager()->GetSceneManager() != NULL)
+		if (CManager::GetInstance()->GetSceneManager() != NULL)
 		{
-			CManager::GetManager()->GetSceneManager()->Draw();
+			CManager::GetInstance()->GetSceneManager()->Draw();
 		}
 
 		//デバッグ表示
-		DebugProc::Print("FPS : %d\n", CManager::GetManager()->GetFPS());
+		DebugProc::Print("FPS : %d\n", CManager::GetInstance()->GetFPS());
 		DebugProc::Draw();
 
 		//描画終了

@@ -57,7 +57,7 @@ void CTitle::Update(void)
 void CTitle::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//カリングをオフ
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -118,7 +118,7 @@ CTitle* CTitle::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size)
 	pTitle->Init();
 
 	//テクスチャ割り当て
-	pTitle->BindTexture(CManager::GetManager()->GetTexture()->GetAddress(CTexture::TITLE));
+	pTitle->BindTexture(CManager::GetInstance()->GetTexture()->GetAddress(CTexture::TITLE));
 
 	return pTitle;
 }

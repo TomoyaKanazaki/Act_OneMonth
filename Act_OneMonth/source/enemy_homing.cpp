@@ -39,7 +39,7 @@ HRESULT CEnemy_Homing::Init(void)
 	HRESULT hr = CEnemy::Init();
 
 	//テクスチャの割り当て
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_03));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ENEMY_03));
 	SetAnim(4, 10, true, TYPE_U);
 
 	return hr;
@@ -99,7 +99,7 @@ void CEnemy_Homing::Homing(void)
 	D3DXVec3Normalize(&vecToPlayer, &vecToPlayer);
 
 	//デルタタイムの取得
-	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
 	//最終的な移動量を算出
 	m_move = vecToPlayer * m_fSpeed * m_fDeltaTime;

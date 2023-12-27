@@ -46,7 +46,7 @@ HRESULT CResultManager::Init(void)
 	}
 
 	//BGM‚ÌÄ¶
-	CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_RESULT);
+	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_RESULT);
 
 	return S_OK;
 }
@@ -57,7 +57,7 @@ HRESULT CResultManager::Init(void)
 void CResultManager::Uninit(void)
 {
 	//BGM‚Ì’âŽ~
-	CManager::GetManager()->GetManager()->GetSound()->Stop();
+	CManager::GetInstance()->GetInstance()->GetSound()->Stop();
 }
 
 //==========================================
@@ -66,13 +66,13 @@ void CResultManager::Uninit(void)
 void CResultManager::Update(void)
 {
 	//ƒV[ƒ“Œo‰ßŽžŠÔ‚ð‰ÁŽZ
-	m_fCntScene += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+	m_fCntScene += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
 	//‰æ–Ê‘JˆÚ
-	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_fCntScene >= 15.0f || CManager::GetManager()->GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN))
+	if (CManager::GetInstance()->GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_fCntScene >= 15.0f || CManager::GetInstance()->GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
-		CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::TITLE);
-		CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_END);
+		CManager::GetInstance()->GetInstance()->GetSceneManager()->SetNext(CSceneManager::TITLE);
+		CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_END);
 		return;
 	}
 }

@@ -234,7 +234,7 @@ bool CObject::OnScreen(void)
 	D3DVIEWPORT9 vp = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f };
 
 	//計算用変数宣言
-	D3DXMATRIX mtxView = CManager::GetManager()->GetSceneManager()->GetCamera()->CreateViewMatrix(); //ビューマトリックス
+	D3DXMATRIX mtxView = CManager::GetInstance()->GetSceneManager()->GetCamera()->CreateViewMatrix(); //ビューマトリックス
 	D3DXMATRIX mtxWorld; //ワールドマトリックス
 
 	//ワールドマトリックスの初期化
@@ -242,7 +242,7 @@ bool CObject::OnScreen(void)
 
 	//スクリーン座標を算出
 	D3DXVECTOR3 screenPos;
-	D3DXMATRIX mtxProjection = CManager::GetManager()->GetSceneManager()->GetCamera()->GetMtxPro();
+	D3DXMATRIX mtxProjection = CManager::GetInstance()->GetSceneManager()->GetCamera()->GetMtxPro();
 	D3DXVec3Project
 	(
 		&screenPos,

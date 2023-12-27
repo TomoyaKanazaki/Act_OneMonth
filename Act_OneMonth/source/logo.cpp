@@ -74,7 +74,7 @@ CLogo* CLogo::Create(D3DXVECTOR3 pos, D3DXVECTOR3 size, CTexture::TEXTURE tex)
 	pLogo->Init();
 
 	//テクスチャを割り当て
-	pLogo->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(tex));
+	pLogo->BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(tex));
 
 	return nullptr;
 }

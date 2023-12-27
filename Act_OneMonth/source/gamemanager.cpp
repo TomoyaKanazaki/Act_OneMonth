@@ -24,6 +24,7 @@
 #include "build.h"
 #include "tutorial.h"
 #include "tutorial_wall.h"
+#include "fog.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -112,7 +113,10 @@ HRESULT CGameManager::Init(void)
 	}
 
 	//BGMの再生
-	CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_GAME);
+	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_GAME);
+
+	// フォグを生成
+	Fog::Set(true);
 
 	return S_OK;
 }
@@ -136,7 +140,7 @@ void CGameManager::Uninit(void)
 	m_pCamera = NULL;
 
 	//BGMの停止
-	CManager::GetManager()->GetManager()->GetSound()->Stop();
+	CManager::GetInstance()->GetInstance()->GetSound()->Stop();
 }
 
 //==========================================
@@ -149,24 +153,30 @@ void CGameManager::Update(void)
 
 #if _DEBUG
 	//画面遷移テスト
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN) && CManager::GetManager()->GetKeyboard()->GetPress(DIK_LSHIFT))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN) && CManager::GetInstance()->GetKeyboard()->GetPress(DIK_LSHIFT))
 	{
-		CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 		return;
 	}
 
 	//敵
-	if (CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_E))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_E))
 	{
 		CEnemy::Create(D3DXVECTOR3(300.0f, 50.0f, 0.0f), CEnemy::NORMAL);
 		CEnemy::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), CEnemy::NORMAL);
 		CEnemy::Create(D3DXVECTOR3(300.0f, 150.0f, 0.0f), CEnemy::NORMAL);
 	}
 
+	// フォグの切り替え
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_F))
+	{
+		Fog::Set(!Fog::Get());
+	}
+
 #endif
 
 	//状態の切り替え
-	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_RT, 100) || CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
+	if (CManager::GetInstance()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_RT, 100) || CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
 	{
 		if (m_State == STATE_CONCENTRATE)
 		{
@@ -199,7 +209,7 @@ void CGameManager::Update(void)
 	}
 
 	//状態の切り替え
-	if (CManager::GetManager()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetManager()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
+	if (CManager::GetInstance()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
 	{
 		if (m_pPlayer->GetState() != CPlayer::DEATH)
 		{
@@ -222,7 +232,7 @@ void CGameManager::Update(void)
 	{
 		if (m_pIcon->GetLIfe() <= 0.0f && m_State == STATE_CONCENTRATE)
 		{
-			CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_DASH);
+			CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DASH);
 			m_State = STATE_DASH;
 			m_pIcon = nullptr;
 		}
@@ -236,7 +246,7 @@ void CGameManager::Update(void)
 			m_fTimer = 0.0f;
 			m_State = STATE_NORMAL;
 		}
-		m_fTimer += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+		m_fTimer += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 	}
 
 	//状態を更新
@@ -285,7 +295,7 @@ void CGameManager::Update(void)
 		}
 		if (m_Progress == TUTORIAL_DASH)
 		{
-			if (CManager::GetManager()->GetJoyPad()->GetStickR(0.3f) != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+			if (CManager::GetInstance()->GetJoyPad()->GetStickR(0.3f) != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 			{
 				m_pTutorial->NextProgress();
 				m_Progress = END;
@@ -320,7 +330,7 @@ void CGameManager::Update(void)
 			CSceneManager::SetClear(true);
 		}
 
-		CManager::GetManager()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}
 }
 

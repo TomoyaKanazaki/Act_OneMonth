@@ -36,7 +36,7 @@ HRESULT CEnemy_Stop::Init(void)
 	HRESULT hr = CEnemy::Init();
 
 	//テクスチャの割り当て
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_02));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ENEMY_02));
 	SetAnim(4, 10, true, TYPE_U);
 
 	return hr;

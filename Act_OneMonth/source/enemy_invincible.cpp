@@ -38,7 +38,7 @@ HRESULT CEnemy_Invincible::Init(void)
 	HRESULT hr = CEnemy::Init();
 
 	//テクスチャの割り当て
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_04));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ENEMY_04));
 	SetAnim(4, 10, true, TYPE_U);
 
 	return hr;
@@ -60,7 +60,7 @@ void CEnemy_Invincible::Update(void)
 	//色の更新
 	if (CGameManager::GetState() == CGameManager::STATE_NORMAL && OnScreen())
 	{
-		m_fClear += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat() * 2.0f;
+		m_fClear += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat() * 2.0f;
 	}
 	float fAlpha = (sinf(m_fClear) + 1.0f) * 0.5f;
 	D3DXCOLOR col = GetCol();

@@ -33,7 +33,7 @@ CObject2D::~CObject2D()
 HRESULT CObject2D::Init(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetInstance()->GetRenderer()->GetDevice();
 
 	//ローカル変数宣言
 	m_fLength = sqrtf(m_size.x * m_size.x + m_size.y * m_size.y) * 0.5f;
@@ -175,7 +175,7 @@ void CObject2D::Update(void)
 void CObject2D::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetInstance()->GetRenderer()->GetDevice();
 
 	//Zテストの無効化
 	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);

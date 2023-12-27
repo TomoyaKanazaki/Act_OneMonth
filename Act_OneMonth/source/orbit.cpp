@@ -70,7 +70,7 @@ HRESULT COrbit::Init(void)
 	SetCol(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 
 	//テクスチャを割り当てる
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::SLASH));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::SLASH));
 
 	return hr;
 }
@@ -110,7 +110,7 @@ void COrbit::Update(void)
 void COrbit::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//カリングをオフ
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);

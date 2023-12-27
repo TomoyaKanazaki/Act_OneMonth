@@ -45,7 +45,7 @@ HRESULT CEnemy_Normal::Init(void)
 	HRESULT hr = CEnemy::Init();
 
 	//テクスチャの割り当て
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_00));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ENEMY_00));
 	SetAnim(4, 10, true, TYPE_U);
 
 	return hr;
@@ -75,7 +75,7 @@ void CEnemy_Normal::Update(void)
 	}
 
 	//デルタタイムの取得
-	m_fDeltaTime = CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
 	//移動
 	m_move.x = m_fSpeed * m_fDeltaTime;

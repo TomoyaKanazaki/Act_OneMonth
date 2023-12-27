@@ -46,7 +46,7 @@ HRESULT CBoss_Main::Init(void)
 	SetType(TYPE_BOSS);
 
 	//テクスチャの割り当て
-	BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ENEMY_01));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ENEMY_01));
 	SetAnim(4, 10, true, TYPE_U);
 	SetCol(D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f));
 
@@ -135,7 +135,7 @@ void CBoss_Main::Update(void)
 	}
 
 	//移動する
-	m_fMove += CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+	m_fMove += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 	m_move.y = sinf(m_fMove);
 	m_move.x = cosf(m_fMove * 2.0f);
 

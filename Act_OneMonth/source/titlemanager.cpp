@@ -73,7 +73,7 @@ HRESULT CTitleManager::Init(void)
 	}
 
 	//BGM‚ÌÄ¶
-	CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_TITLE);
+	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_TITLE);
 
 	return S_OK;
 }
@@ -92,7 +92,7 @@ void CTitleManager::Uninit(void)
 	}
 
 	//BGM‚Ì’âŽ~
-	CManager::GetManager()->GetSound()->Stop();
+	CManager::GetInstance()->GetSound()->Stop();
 }
 
 //==========================================
@@ -101,10 +101,10 @@ void CTitleManager::Uninit(void)
 void CTitleManager::Update(void)
 {
 	//‰æ–Ê‘JˆÚ
-	if (CManager::GetManager()->GetManager()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || CManager::GetManager()->GetManager()->GetKeyboard()->GetTrigger(DIK_RETURN))
+	if (CManager::GetInstance()->GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || CManager::GetInstance()->GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
-		CManager::GetManager()->GetSound()->Play(CSound::SOUND_LABEL_END);
-		if (CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::GAME))
+		CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_END);
+		if (CManager::GetInstance()->GetInstance()->GetSceneManager()->SetNext(CSceneManager::GAME))
 		{
 			m_pTitle->CutTitle();
 			m_pDoll->Dash();
@@ -113,7 +113,7 @@ void CTitleManager::Update(void)
 	}
 	else if (m_nCntScene >= 900)
 	{
-		CManager::GetManager()->GetManager()->GetSceneManager()->SetNext(CSceneManager::RANKING);
+		CManager::GetInstance()->GetInstance()->GetSceneManager()->SetNext(CSceneManager::RANKING);
 		return;
 	}
 

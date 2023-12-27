@@ -73,7 +73,7 @@ void CIcon::Update(void)
 	}
 
 	//寿命を減少
-	m_fLife -= CManager::GetManager()->GetGameTime()->GetDeltaTimeFloat();
+	m_fLife -= CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
 	//サイズを減少
 	m_size = m_Default * m_fLife;
@@ -87,7 +87,7 @@ void CIcon::Update(void)
 void CIcon::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//アルファテストの有効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -138,7 +138,7 @@ CIcon* CIcon::Create(D3DXVECTOR3 size)
 	pIcon->Init();
 
 	//テクスチャを割り当て
-	pIcon->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::KATANA));
+	pIcon->BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::KATANA));
 
 	return pIcon;
 }

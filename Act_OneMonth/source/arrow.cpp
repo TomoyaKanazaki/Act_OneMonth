@@ -40,7 +40,7 @@ CArrow::~CArrow()
 HRESULT CArrow::Init(void)
 {
 	//スティックの角度を取得
-	D3DXVECTOR3 vecStick = CManager::GetManager()->GetJoyPad()->GetStickR(0.1f);
+	D3DXVECTOR3 vecStick = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
 	float fAngle = atan2f(vecStick.y, vecStick.x);
 	m_rot.z = atan2f(vecStick.x, vecStick.y);
 
@@ -76,7 +76,7 @@ void CArrow::Uninit(void)
 void CArrow::Update(void)
 {
 	//スティックの角度を取得
-	D3DXVECTOR3 vecStick = CManager::GetManager()->GetJoyPad()->GetStickR(0.1f);
+	D3DXVECTOR3 vecStick = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
 	float fAngle = atan2f(vecStick.y, vecStick.x);
 	m_rot.z = -fAngle;
 
@@ -95,7 +95,7 @@ void CArrow::Update(void)
 void CArrow::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//カリングをオフ
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -156,7 +156,7 @@ CArrow* CArrow::Create()
 	pArrow->Init();
 
 	//テクスチャの割り当て
-	pArrow->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::ARROW));
+	pArrow->BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ARROW));
 
 	return pArrow;
 }

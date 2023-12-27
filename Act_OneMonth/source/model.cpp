@@ -76,7 +76,7 @@ void CModel::Update(void)
 void CModel::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetInstance()->GetRenderer()->GetDevice();
 
 	//ローカル変数宣言
 	D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス
@@ -227,7 +227,7 @@ HRESULT CModel::Load(void)
 			}
 
 			//デバイスの取得
-			LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetManager()->GetRenderer()->GetDevice();
+			LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetInstance()->GetRenderer()->GetDevice();
 
 			//モデルの読み込み
 			for (int nCnt = 0; nCnt < nNumModel; nCnt++)
@@ -278,10 +278,10 @@ HRESULT CModel::Load(void)
 					if (pMat[nCntMat].pTextureFilename != NULL)
 					{
 						//テクスチャを保存し、管理番号を取得する
-						int nNumTexID = CManager::GetManager()->GetManager()->GetTexture()->Regist(pMat[nCntMat].pTextureFilename);
+						int nNumTexID = CManager::GetInstance()->GetInstance()->GetTexture()->Regist(pMat[nCntMat].pTextureFilename);
 
 						//テクスチャを割り当てる
-						m_Model[nCnt].pTexture[nCntMat] = CManager::GetManager()->GetManager()->GetTexture()->GetAddress(nNumTexID);
+						m_Model[nCnt].pTexture[nCntMat] = CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(nNumTexID);
 
 						D3DXCreateTextureFromFile
 						(

@@ -56,7 +56,7 @@ void CSlice::Update(void)
 void CSlice::Draw(void)
 {
 	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetManager()->GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
 	//アルファテストの有効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -90,7 +90,7 @@ CSlice* CSlice::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size)
 	pSlice->Init();
 
 	//テクスチャを割り当て
-	pSlice->BindTexture(CManager::GetManager()->CManager::GetManager()->GetManager()->GetTexture()->GetAddress(CTexture::SLICE));
+	pSlice->BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::SLICE));
 
 	return pSlice;
 }
