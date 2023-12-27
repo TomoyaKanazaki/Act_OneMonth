@@ -23,6 +23,7 @@
 #include "icon.h"
 #include "build.h"
 #include "tutorial.h"
+#include "tutorial_wall.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -37,6 +38,7 @@ CGameManager::State CGameManager::m_oldState = NONE;
 CGameManager::Progress CGameManager::m_Progress = TUTORIAL_ENEMY;
 CIcon* CGameManager::m_pIcon = nullptr;
 CTutorial* CGameManager::m_pTutorial = nullptr;
+CTutorialWall* CGameManager::m_pTutorialWall = nullptr;
 
 //==========================================
 //  コンストラクタ
@@ -263,6 +265,11 @@ void CGameManager::Update(void)
 		{
 			m_pTutorial = CTutorial::Create();
 			m_Progress = TUTORIAL_ARROW;
+
+			// 移動制限を生成
+			D3DXVECTOR3 pos = m_pPlayer->GetPos();
+			pos.x += 500.0f;
+			m_pTutorialWall = CTutorialWall::Create();
 		}
 	}
 	if (m_pTutorial != nullptr)
@@ -272,6 +279,7 @@ void CGameManager::Update(void)
 			if (m_State == STATE_CONCENTRATE)
 			{
 				m_pTutorial->NextProgress();
+
 				m_Progress = TUTORIAL_DASH;
 			}
 		}
@@ -289,6 +297,13 @@ void CGameManager::Update(void)
 			{
 				m_pTutorial->NextProgress();
 				m_pTutorial = nullptr;
+
+				// 移動制限を解除
+				if (m_pTutorialWall != nullptr)
+				{
+					m_pTutorialWall->Uninit();
+					m_pTutorialWall = nullptr;
+				}
 			}
 		}
 	}

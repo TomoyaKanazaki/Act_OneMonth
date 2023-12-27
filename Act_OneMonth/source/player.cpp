@@ -22,7 +22,7 @@
 #include "arrow.h"
 #include "marker.h"
 #include "slice.h"
-
+#include "tutorial_wall.h"
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
@@ -263,6 +263,15 @@ void CPlayer::Motion(void)
 //==========================================
 void CPlayer::Limit(void)
 {
+	// チュートリアル状態の制限
+	if (CGameManager::GetTutorialWall() != nullptr)
+	{
+		if (m_pos.x > CGameManager::GetTutorialWall()->GetPos().x)
+		{
+			m_pos.x = CGameManager::GetTutorialWall()->GetPos().x;
+		}
+	}
+
 	//X座標の制限
 	if (CGameManager::GetState() != CGameManager::STATE_START && CGameManager::GetState() != CGameManager::STATE_END)
 	{

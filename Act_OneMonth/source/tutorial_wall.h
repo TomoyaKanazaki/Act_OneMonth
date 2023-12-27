@@ -1,23 +1,23 @@
 //==========================================
 //
-//  チュートリアル状態での壁(tutorial_block.h)
+//  チュートリアル状態での壁(tutorial_wall.h)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#ifndef _TUTORIAL_BLOCK_H_
-#define _TUTORIAL_BLOCK_H_
+#ifndef _TUTORIAL_WALL_H_
+#define _TUTORIAL_WALL_H_
 #include "object3D.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CTutorialBlock : public CObject3D
+class CTutorialWall : public CObject3D
 {
 public:
 
 	// メンバ関数
-	CTutorialBlock();
-	~CTutorialBlock();
+	CTutorialWall();
+	~CTutorialWall();
 
 	HRESULT Init(void) override;
 	void Uninit(void) override;
@@ -25,7 +25,7 @@ public:
 	void Draw(void) override;
 
 	// 静的メンバ変数宣言
-	static CTutorialBlock* Create(D3DXVECTOR3 pos);
+	static CTutorialWall* Create();
 
 private:
 

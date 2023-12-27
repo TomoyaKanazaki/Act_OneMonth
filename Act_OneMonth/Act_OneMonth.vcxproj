@@ -73,7 +73,7 @@
     <ClCompile Include="source\title.cpp" />
     <ClCompile Include="source\titlemanager.cpp" />
     <ClCompile Include="source\tutorial.cpp" />
-    <ClCompile Include="source\tutorial_block.cpp" />
+    <ClCompile Include="source\tutorial_wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\arrow.h" />
@@ -126,7 +126,7 @@
     <ClInclude Include="source\title.h" />
     <ClInclude Include="source\titlemanager.h" />
     <ClInclude Include="source\tutorial.h" />
-    <ClInclude Include="source\tutorial_block.h" />
+    <ClInclude Include="source\tutorial_wall.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D6D1A35B-7ED6-49E4-98AD-4764003301F5}</ProjectGuid>

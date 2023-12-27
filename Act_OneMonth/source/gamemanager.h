@@ -17,6 +17,7 @@ class CCamera;
 class CLight;
 class CIcon;
 class CTutorial;
+class CTutorialWall;
 
 //==========================================
 //  ゲームマネージャクラス定義
@@ -67,6 +68,7 @@ public:
 	static State GetOldState(void) { return m_oldState; }
 	static CIcon *GetIcon(void) { return m_pIcon; }
 	static CTutorial* GetTutorial() { return m_pTutorial; }
+	static CTutorialWall* GetTutorialWall() { return m_pTutorialWall; }
 
 private:
 
@@ -84,6 +86,7 @@ private:
 	static Progress m_Progress; //進行状況
 	static CIcon *m_pIcon;
 	static CTutorial *m_pTutorial;
+	static CTutorialWall* m_pTutorialWall;
 
 };
 
