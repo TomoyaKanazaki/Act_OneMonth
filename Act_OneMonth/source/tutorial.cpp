@@ -9,6 +9,7 @@
 #include "player.h"
 #include "manager.h"
 #include "texture.h"
+#include "tutorial_block.h"
 
 //==========================================
 //  Ã“Iƒƒ“ƒo•Ï”éŒ¾

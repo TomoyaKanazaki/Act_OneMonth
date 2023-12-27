@@ -177,7 +177,7 @@
     <ClCompile Include="source\enemy_invincible.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="tutorial_blobk.cpp">
+    <ClCompile Include="source\tutorial_block.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -332,7 +332,7 @@
     <ClInclude Include="source\enemy_invincible.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="tutorial_blobk.h">
+    <ClInclude Include="source\tutorial_block.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

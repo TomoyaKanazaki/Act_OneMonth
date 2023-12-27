@@ -4,7 +4,7 @@
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "tutorial_blobk.h"
+#include "tutorial_block.h"
 #include "manager.h"
 #include "texture.h"
 
@@ -29,7 +29,7 @@ CTutorialBlock::~CTutorialBlock()
 //==========================================
 HRESULT CTutorialBlock::Init(void)
 {
-	CTutorialBlock::Init();
+	CObject3D::Init();
 	return E_NOTIMPL;
 }
 
@@ -38,7 +38,7 @@ HRESULT CTutorialBlock::Init(void)
 //==========================================
 void CTutorialBlock::Uninit(void)
 {
-	CTutorialBlock::Uninit();
+	CObject3D::Uninit();
 }
 
 //==========================================
@@ -46,7 +46,7 @@ void CTutorialBlock::Uninit(void)
 //==========================================
 void CTutorialBlock::Update(void)
 {
-	CTutorialBlock::Update();
+	CObject3D::Update();
 }
 
 //==========================================
@@ -54,7 +54,7 @@ void CTutorialBlock::Update(void)
 //==========================================
 void CTutorialBlock::Draw(void)
 {
-	CTutorialBlock::Draw();
+	CObject3D::Draw();
 }
 
 //==========================================

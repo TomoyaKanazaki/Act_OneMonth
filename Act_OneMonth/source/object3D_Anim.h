@@ -14,12 +14,12 @@
 class CObject3D_Anim : public CObject3D
 {
 public:
-	typedef enum
+	enum UVTYPE
 	{
 		TYPE_NONE = 0,
 		TYPE_U, //横方向のアニメーション
 		TYPE_V //縦方向のアニメーション
-	}UVTYPE;
+	};
 
 	CObject3D_Anim(int nPriority = 3); //コンストラクタ
 	~CObject3D_Anim(); //デストラクタ

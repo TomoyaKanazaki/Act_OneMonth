@@ -66,6 +66,7 @@ public:
 	static State GetState(void) { return m_State; }
 	static State GetOldState(void) { return m_oldState; }
 	static CIcon *GetIcon(void) { return m_pIcon; }
+	static CTutorial* GetTutorial() { return m_pTutorial; }
 
 private:
 
