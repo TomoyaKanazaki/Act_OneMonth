@@ -8,6 +8,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "debugproc.h"
+#include "input.h"
 
 //==========================================
 //  変数宣言
@@ -84,6 +85,77 @@ void Fog::Draw()
 		//霧を無効化
 		pDevice->SetRenderState(D3DRS_FOGENABLE, FALSE);
 	}
+
+	// デバッグ機能
+#ifdef _DEBUG
+	
+	// 切り替え
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_F))
+	{
+		Fog::Set(!Fog::Get());
+	}
+
+	// 距離を広げる
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_UP))
+	{
+		m_fStart += 1.0f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_DOWN))
+	{
+		m_fStart -= 1.0f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_LEFT))
+	{
+		m_fEnd += 1.0f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_RIGHT))
+	{
+		m_fEnd-= 1.0f;
+	}
+
+	// rの調整
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_NUMPAD1))
+	{
+		m_col.r -= 0.01f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_NUMPAD7))
+	{
+		m_col.r += 0.01f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_NUMPAD4))
+	{
+		m_col.r = 0.0f;
+	}
+
+	// gの調整
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_NUMPAD2))
+	{
+		m_col.g -= 0.01f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_NUMPAD8))
+	{
+		m_col.g += 0.01f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_NUMPAD5))
+	{
+		m_col.g = 0.0f;
+	}
+
+	// bの調整
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_NUMPAD3))
+	{
+		m_col.b -= 0.01f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_NUMPAD9))
+	{
+		m_col.b += 0.01f;
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_NUMPAD6))
+	{
+		m_col.b = 0.0f;
+	}
+
+#endif
 }
 
 //==========================================

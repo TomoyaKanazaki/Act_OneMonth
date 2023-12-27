@@ -42,6 +42,15 @@ CTutorial* CGameManager::m_pTutorial = nullptr;
 CTutorialWall* CGameManager::m_pTutorialWall = nullptr;
 
 //==========================================
+//  定数定義
+//==========================================
+namespace
+{
+	const float END_FOG = 560.0f;
+	const float START_FOG = 150.0f;
+}
+
+//==========================================
 //  コンストラクタ
 //==========================================
 CGameManager::CGameManager()
@@ -63,6 +72,9 @@ CGameManager::~CGameManager()
 //==========================================
 HRESULT CGameManager::Init(void)
 {
+	Fog::SetStart(START_FOG);
+	Fog::SetEnd(END_FOG);
+
 	//状態の初期化
 	m_State = STATE_START;
 
@@ -115,9 +127,6 @@ HRESULT CGameManager::Init(void)
 	//BGMの再生
 	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_GAME);
 
-	// フォグを生成
-	Fog::Set(true);
-
 	return S_OK;
 }
 
@@ -165,12 +174,6 @@ void CGameManager::Update(void)
 		CEnemy::Create(D3DXVECTOR3(300.0f, 50.0f, 0.0f), CEnemy::NORMAL);
 		CEnemy::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), CEnemy::NORMAL);
 		CEnemy::Create(D3DXVECTOR3(300.0f, 150.0f, 0.0f), CEnemy::NORMAL);
-	}
-
-	// フォグの切り替え
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_F))
-	{
-		Fog::Set(!Fog::Get());
 	}
 
 #endif
