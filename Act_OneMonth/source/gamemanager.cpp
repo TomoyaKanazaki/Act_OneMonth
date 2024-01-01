@@ -72,6 +72,7 @@ CGameManager::~CGameManager()
 //==========================================
 HRESULT CGameManager::Init(void)
 {
+	// フォグの距離を設定
 	Fog::SetStart(START_FOG);
 	Fog::SetEnd(END_FOG);
 
@@ -175,10 +176,9 @@ void CGameManager::Update(void)
 		CEnemy::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), CEnemy::NORMAL);
 		CEnemy::Create(D3DXVECTOR3(300.0f, 150.0f, 0.0f), CEnemy::NORMAL);
 	}
-
 #endif
 
-	//状態の切り替え
+	// 集中状態を強制終了
 	if (CManager::GetInstance()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_RT, 100) || CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
 	{
 		if (m_State == STATE_CONCENTRATE)
@@ -211,7 +211,7 @@ void CGameManager::Update(void)
 		}
 	}
 
-	//状態の切り替え
+	// 集中状態に遷移
 	if (CManager::GetInstance()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
 	{
 		if (m_pPlayer->GetState() != CPlayer::DEATH)
@@ -226,11 +226,14 @@ void CGameManager::Update(void)
 					D3DXVECTOR3 size = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
 					m_pIcon = CIcon::Create(size);
 				}
+
+				// フォグを発生
+				Fog::Set(true);
 			}
 		}
 	}
 
-	//状態を更新
+	// 集中状態のタイムアップ
 	if (m_pIcon != nullptr)
 	{
 		if (m_pIcon->GetLIfe() <= 0.0f && m_State == STATE_CONCENTRATE)
@@ -241,7 +244,7 @@ void CGameManager::Update(void)
 		}
 	}
 
-	//状態を更新
+	// ダッシュ状態から通常状態に遷移
 	if (m_State == STATE_DASH)
 	{
 		if (m_fTimer >= m_fDashTime)
@@ -250,9 +253,12 @@ void CGameManager::Update(void)
 			m_State = STATE_NORMAL;
 		}
 		m_fTimer += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
+		// フォグを終了
+		Fog::Set(false);
 	}
 
-	//状態を更新
+	// ゲームをスタート
 	if (m_State == STATE_START && m_pPlayer->GetPos().x >= -2250.0f)
 	{
 		m_State = STATE_NORMAL;
@@ -270,7 +276,40 @@ void CGameManager::Update(void)
 		m_State = STATE_END;
 	}
 
+#ifndef _DEBUG
 	//チュートリアルの進行
+	TaskTutorial();
+#endif
+
+	//リザルトに遷移
+	if (m_pPlayer->GetPos().x >= 2300.0f || m_pPlayer->GetDeath())
+	{
+		if (m_pPlayer->GetDeath())
+		{
+			CSceneManager::SetClear(false);
+		}
+		else if (m_pPlayer->GetPos().x >= 2300.0f)
+		{
+			CSceneManager::SetClear(true);
+		}
+
+		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+	}
+}
+
+//==========================================
+//  描画処理
+//==========================================
+void CGameManager::Draw(void)
+{
+
+}
+
+//==========================================
+//  チュートリアル処理
+//==========================================
+void CGameManager::TaskTutorial()
+{
 	if (m_pPlayer->GetPos().x >= -1500.0f && m_Progress == TUTORIAL_ENEMY)
 	{
 		//チュートリアルの生成
@@ -320,27 +359,4 @@ void CGameManager::Update(void)
 			}
 		}
 	}
-
-	//リザルトに遷移
-	if (m_pPlayer->GetPos().x >= 2300.0f || m_pPlayer->GetDeath())
-	{
-		if (m_pPlayer->GetDeath())
-		{
-			CSceneManager::SetClear(false);
-		}
-		else if (m_pPlayer->GetPos().x >= 2300.0f)
-		{
-			CSceneManager::SetClear(true);
-		}
-
-		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
-	}
-}
-
-//==========================================
-//  描画処理
-//==========================================
-void CGameManager::Draw(void)
-{
-
 }

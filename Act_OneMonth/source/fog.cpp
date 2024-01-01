@@ -45,7 +45,7 @@ void Fog::Draw()
 	//デバッグ表示
 	if (m_bUse)
 	{
-		DebugProc::Print("フォグ 【 ON 】\n");
+		DebugProc::Print("フォグ 【 ON 】F\n");
 		DebugProc::Print
 		(
 			"フォグ手前 : %f\n"
@@ -58,7 +58,7 @@ void Fog::Draw()
 	}
 	else
 	{
-		DebugProc::Print("\n\nフォグ 【 OFF 】\n");
+		DebugProc::Print("\n\nフォグ 【 OFF 】F\n");
 	}
 
 	//デバイスの取得

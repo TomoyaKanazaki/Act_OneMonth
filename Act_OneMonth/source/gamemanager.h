@@ -72,6 +72,9 @@ public:
 
 private:
 
+	// ƒƒ“ƒoŠÖ”
+	void TaskTutorial();
+
 	//ƒƒ“ƒo•Ï”
 	float m_fTimer;
 
