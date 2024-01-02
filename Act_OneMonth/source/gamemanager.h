@@ -73,7 +73,8 @@ public:
 private:
 
 	// メンバ関数
-	void TaskTutorial();
+	void TaskTutorial(); // チュートリアルの処理
+	void TaskState(); // 状態管理
 
 	//メンバ変数
 	float m_fTimer;
