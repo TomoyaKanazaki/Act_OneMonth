@@ -289,11 +289,13 @@ void CGameManager::TaskState()
 		if (m_State == STATE_NORMAL) // 集中
 		{
 			m_State = STATE_CONCENTRATE;
+			Fog::Set(true); // フォグを設定
 		}
 		else if (m_State == STATE_CONCENTRATE) // ダッシュ
 		{
 			m_State = STATE_DASH;
 			m_fTimer = 0.0f; // 時間のリセット
+			Fog::Set(false); // フォグを設定
 		}
 	}
 
