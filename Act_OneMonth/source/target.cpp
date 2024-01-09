@@ -1,37 +1,25 @@
 //==========================================
 //
-//  ダッシュの軌跡クラス
+//  ターゲットクラス(target.cpp)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "orbit.h"
+#include "target.h"
 #include "manager.h"
 #include "renderer.h"
-#include "debugproc.h"
-#include "texture.h"
-#include "slice.h"
-#include "gamemanager.h"
-#include "icon.h"
-
-//==========================================
-//  静的メンバ変数宣言
-//==========================================
-const float COrbit::m_fDefaultHeight = 20.0f;
 
 //==========================================
 //  コンストラクタ
 //==========================================
-COrbit::COrbit(int nPriority) : CObject3D(nPriority)
+CTarget::CTarget(int nPriority)
 {
-	m_offset[0] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_offset[1] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_fHeight = 0.0f;
+
 }
 
 //==========================================
 //  デストラクタ
 //==========================================
-COrbit::~COrbit()
+CTarget::~CTarget()
 {
 
 }
@@ -39,81 +27,37 @@ COrbit::~COrbit()
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT COrbit::Init(void)
+HRESULT CTarget::Init(void)
 {
-	//種類の設定
-	SetType(CObject::TYPE_ORBIT);
-
-	//角度を設定する
-	D3DXVECTOR3 vec = m_offset[1] - m_offset[0];
-	m_rot.z = atan2f(vec.y, vec.x);
-
-	//長さを設定する
-	float fLength = sqrtf(vec.x * vec.x + vec.y * vec.y);
-	m_size.x = fLength;
-
-	//高さを設定する
-	m_fHeight = m_fDefaultHeight;
-	if (CGameManager::GetIcon() != nullptr)
-	{
-		m_fHeight *= CGameManager::GetIcon()->GetLIfe();
-	}
-	m_size.y = m_fHeight;
-
-	//位置を設定
-	m_pos = (m_offset[0] + m_offset[1]) * 0.5f;
-
-	//初期化
-	HRESULT hr = CObject3D::Init();
-
-	//色を設定
-	SetCol(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-
-	//テクスチャを割り当てる
-	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::SLASH));
-
-	return hr;
+	// 初期化
+	return CObject3D::Init();
 }
 
 //==========================================
 //  終了処理
 //==========================================
-void COrbit::Uninit(void)
+void CTarget::Uninit(void)
 {
+	// 終了
 	CObject3D::Uninit();
 }
 
 //==========================================
 //  更新処理
 //==========================================
-void COrbit::Update(void)
+void CTarget::Update(void)
 {
-	//小さくする
-	if (CGameManager::GetIcon() != nullptr)
-	{
-		m_fHeight = m_fDefaultHeight * CGameManager::GetIcon()->GetLIfe();
-	}
-	m_size.y = m_fHeight;
-
-	//小さくなったら消す
-	if (m_size.y <= 0.0f)
-	{
-		Uninit();
-	}
-
+	// 更新
 	CObject3D::Update();
 }
 
 //==========================================
 //  描画処理
 //==========================================
-void COrbit::Draw(void)
+void CTarget::Draw(void)
 {
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
-
-	//カリングをオフ
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//ライティングを無効化
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -151,31 +95,25 @@ void COrbit::Draw(void)
 
 	//ライティングを有効化
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
-	//カリングをオン
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 //==========================================
 //  生成処理
 //==========================================
-COrbit* COrbit::Create(D3DXVECTOR3 offset0, D3DXVECTOR3 offset1)
+CTarget* CTarget::Create(const D3DXVECTOR3 pos)
 {
-	//変数宣言
-	COrbit* pOrbit = nullptr;
+	// インスタンス生成
+	CTarget* pTarget = new CTarget;
 
-	//メモリを確保
-	if (pOrbit == nullptr)
-	{
-		pOrbit = new COrbit;
-	}
+	// NULLチェック
+	if (pTarget == nullptr) { return nullptr; }
 
-	//値を設定
-	pOrbit->m_offset[0] = offset0;
-	pOrbit->m_offset[1] = offset1;
+	// 値を設定
+	pTarget->m_pos = pos;
 
-	//初期化処理
-	pOrbit->Init();
+	// 初期化処理
+	pTarget->Init();
 
-	return pOrbit;
+	// 値を返す
+	return pTarget;
 }

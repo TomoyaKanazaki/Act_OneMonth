@@ -16,7 +16,6 @@
 #include "motion.h"
 #include "layer.h"
 #include "gamemanager.h"
-#include "orbit.h"
 #include "camera.h"
 #include "gametime.h"
 #include "arrow.h"
@@ -511,36 +510,6 @@ void CPlayer::Dash(void)
 }
 
 //==========================================
-//  軌跡の発生
-//==========================================
-void CPlayer::Orbit(void)
-{
-	//ローカル変数宣言
-	D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス
-
-	//モデル情報の取得
-	D3DXMATRIX mtxWorld = m_ppModel[3]->GetMtx();
-	D3DXVECTOR3 pos = m_ppModel[3]->GetPos();
-	D3DXVECTOR3 oldpos;
-
-	//現在座標を抽出
-	pos = D3DXVECTOR3(mtxWorld._41, mtxWorld._42, mtxWorld._43);
-
-	//ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&mtxWorld);
-
-	//前回座標の反映
-	D3DXMatrixTranslation(&mtxTrans, m_oldposModel.x, m_oldposModel.y, m_oldposModel.z);
-	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTrans);
-
-	//現在座標を抽出
-	oldpos = D3DXVECTOR3(mtxWorld._41, mtxWorld._42, mtxWorld._43);
-
-	//軌跡を生成
-	COrbit::Create(oldpos, pos);
-}
-
-//==========================================
 //  敵を巻き込む処理
 //==========================================
 void CPlayer::Hit(void)
@@ -550,9 +519,6 @@ void CPlayer::Hit(void)
 	{
 		return;
 	}
-
-	//軌跡を発生
-	Orbit();
 
 	//当たり判定の生成
 	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)

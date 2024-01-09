@@ -14,7 +14,6 @@
 #include "title.h"
 #include "texture.h"
 #include "doll.h"
-#include "icon.h"
 #include "bg.h"
 #include "field.h"
 #include "build.h"

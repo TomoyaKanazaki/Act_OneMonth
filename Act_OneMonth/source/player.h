@@ -68,7 +68,6 @@ private:
 	void Jump(void);
 	void Gravity(void);
 	void Dash(void);
-	void Orbit(void);
 	void Hit(void);
 	void Death(void);
 

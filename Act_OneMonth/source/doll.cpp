@@ -6,7 +6,6 @@
 //==========================================
 #include "doll.h"
 #include "motion.h"
-#include "orbit.h"
 
 //==========================================
 //  コンストラクタ
@@ -80,9 +79,6 @@ void CDoll::Dash(void)
 	//位置を保存
 	D3DXVECTOR3 pos = m_pos;
 	m_pos *= -1.0f;
-
-	//軌跡を生成
-	COrbit::Create(D3DXVECTOR3(pos.x, 20.0f, pos.z), D3DXVECTOR3(m_pos.x, 20.0f, m_pos.z));
 }
 
 //==========================================

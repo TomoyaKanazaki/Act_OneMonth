@@ -20,7 +20,6 @@
 #include "enemy.h"
 #include "field.h"
 #include "gametime.h"
-#include "icon.h"
 #include "build.h"
 #include "tutorial.h"
 #include "tutorial_wall.h"

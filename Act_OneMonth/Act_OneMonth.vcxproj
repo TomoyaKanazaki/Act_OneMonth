@@ -41,7 +41,6 @@
     <ClCompile Include="source\fog.cpp" />
     <ClCompile Include="source\gamemanager.cpp" />
     <ClCompile Include="source\gametime.cpp" />
-    <ClCompile Include="source\icon.cpp" />
     <ClCompile Include="source\input.cpp" />
     <ClCompile Include="source\layer.cpp" />
     <ClCompile Include="source\light.cpp" />
@@ -59,7 +58,6 @@
     <ClCompile Include="source\object3D_Anim.cpp" />
     <ClCompile Include="source\object_char.cpp" />
     <ClCompile Include="source\object_mesh.cpp" />
-    <ClCompile Include="source\orbit.cpp" />
     <ClCompile Include="source\player.cpp" />
     <ClCompile Include="source\precompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -71,6 +69,7 @@
     <ClCompile Include="source\scenemanager.cpp" />
     <ClCompile Include="source\slice.cpp" />
     <ClCompile Include="source\sound.cpp" />
+    <ClCompile Include="source\target.cpp" />
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="source\title.cpp" />
     <ClCompile Include="source\titlemanager.cpp" />
@@ -100,7 +99,6 @@
     <ClInclude Include="source\fog.h" />
     <ClInclude Include="source\gamemanager.h" />
     <ClInclude Include="source\gametime.h" />
-    <ClInclude Include="source\icon.h" />
     <ClInclude Include="source\input.h" />
     <ClInclude Include="source\layer.h" />
     <ClInclude Include="source\light.h" />
@@ -117,7 +115,6 @@
     <ClInclude Include="source\object3D_Anim.h" />
     <ClInclude Include="source\object_char.h" />
     <ClInclude Include="source\object_mesh.h" />
-    <ClInclude Include="source\orbit.h" />
     <ClInclude Include="source\player.h" />
     <ClInclude Include="source\precompile.h" />
     <ClInclude Include="source\renderer.h" />
@@ -126,6 +123,7 @@
     <ClInclude Include="source\scenemanager.h" />
     <ClInclude Include="source\slice.h" />
     <ClInclude Include="source\sound.h" />
+    <ClInclude Include="source\target.h" />
     <ClInclude Include="source\texture.h" />
     <ClInclude Include="source\title.h" />
     <ClInclude Include="source\titlemanager.h" />

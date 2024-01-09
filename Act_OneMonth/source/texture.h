@@ -45,7 +45,6 @@ public:
 		LEAF, //葉っぱ
 		OHUDA, // お札
 		EFFECT, // エフェクト
-		TARGET, // ターゲット
 		TEXTURE_MAX
 	};
 
