@@ -193,10 +193,10 @@ void CGameManager::Update(void)
 		m_State = STATE_END;
 	}
 
-#ifndef _DEBUG
+//#ifndef _DEBUG
 	//チュートリアルの進行
 	TaskTutorial();
-#endif
+//#endif
 
 	//リザルトに遷移
 	if (m_pPlayer->GetPos().x >= 2300.0f || m_pPlayer->GetDeath())
