@@ -298,33 +298,6 @@ void CPlayer::Limit(void)
 	{
 		m_bRand = true;
 	}
-
-	//集中状態中の移動制限
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE || CGameManager::GetState() == CGameManager::STATE_DASH)
-	{
-		//基準点の取得
-		D3DXVECTOR3 pos = CGameManager::GetCamera()->GetPosR();
-
-		//基準点からプレイヤーのベクトルを取得
-		D3DXVECTOR3 vec = pos - m_pos;
-
-		//基準点から離れていたら引き戻す
-		if (vec.x < -CAMERA_WIDTH)
-		{
-			m_pos.x = pos.x + CAMERA_WIDTH;
-		}
-		if (vec.x > CAMERA_WIDTH)
-		{
-			m_pos.x = pos.x - CAMERA_WIDTH;
-		}
-		if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
-		{
-			if (vec.y < -CAMERA_HEIGHT)
-			{
-				m_pos.y = pos.y + CAMERA_HEIGHT;
-			}
-		}
-	}
 }
 
 //==========================================
@@ -486,18 +459,7 @@ void CPlayer::Dash(void)
 	//集中状態でのみ発動
 	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
 	{
-		if (m_pArrow != nullptr)
-		{
-			m_pArrow->Uninit();
-			m_pArrow = nullptr;
-		}
 		return;
-	}
-
-	//矢印を生成
-	if (m_pArrow == nullptr)
-	{
-		m_pArrow = CArrow::Create();
 	}
 
 	//パッドの入力情報を取得

@@ -193,10 +193,10 @@ void CGameManager::Update(void)
 		m_State = STATE_END;
 	}
 
-//#ifndef _DEBUG
+#ifndef _DEBUG
 	//チュートリアルの進行
 	TaskTutorial();
-//#endif
+#endif
 
 	//リザルトに遷移
 	if (m_pPlayer->GetPos().x >= 2300.0f || m_pPlayer->GetDeath())
@@ -283,84 +283,31 @@ void CGameManager::TaskTutorial()
 //==========================================
 void CGameManager::TaskState()
 {
-	// 集中状態を強制終了
-	if (CManager::GetInstance()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_RT, 100) || CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
+	// 状態の切り替え
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
 	{
-		if (m_State == STATE_CONCENTRATE)
+		if (m_State == STATE_NORMAL) // 集中
 		{
-			//紋章を召喚
-			if (m_pIcon != nullptr)
-			{
-				m_pIcon->SetLife();
-			}
-
-			for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
-			{
-				//先頭のアドレスを取得
-				CObject* pObj = CObject::GetTop(nCntPriority);
-
-				while (pObj != NULL)
-				{
-					//次のアドレスを保存
-					CObject* pNext = pObj->GetNext();
-
-					if (pObj->GetType() == CObject::TYPE_ORBIT)
-					{
-						pObj->Uninit();;
-					}
-
-					//次のアドレスにずらす
-					pObj = pNext;
-				}
-			}
+			m_State = STATE_CONCENTRATE;
 		}
-	}
-
-	// 集中状態に遷移
-	if (CManager::GetInstance()->GetJoyPad()->GetLTRT(CJoyPad::BUTTON_LT, 100) || CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
-	{
-		if (m_pPlayer->GetState() != CPlayer::DEATH)
+		else if (m_State == STATE_CONCENTRATE) // ダッシュ
 		{
-			if (m_State == STATE_NORMAL)
-			{
-				m_State = STATE_CONCENTRATE;
-
-				//紋章を召喚
-				if (m_pIcon == nullptr)
-				{
-					D3DXVECTOR3 size = D3DXVECTOR3(100.0f, 100.0f, 0.0f);
-					m_pIcon = CIcon::Create(size);
-				}
-
-				// フォグを発生
-				Fog::Set(true);
-			}
-		}
-	}
-
-	// 集中状態のタイムアップ
-	if (m_pIcon != nullptr)
-	{
-		if (m_pIcon->GetLIfe() <= 0.0f && m_State == STATE_CONCENTRATE)
-		{
-			CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DASH);
 			m_State = STATE_DASH;
-			m_pIcon = nullptr;
+			m_fTimer = 0.0f; // 時間のリセット
 		}
 	}
 
-	// ダッシュ状態から通常状態に遷移
+	// ダッシュの解除
 	if (m_State == STATE_DASH)
 	{
-		if (m_fTimer >= m_fDashTime)
-		{
-			m_fTimer = 0.0f;
-			m_State = STATE_NORMAL;
-		}
+		// 経過時間を加算
 		m_fTimer += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
-		// フォグを終了
-		Fog::Set(false);
+		// 制限時間で通常状態に変更
+		if (m_fDashTime <= m_fTimer)
+		{
+			m_State = STATE_NORMAL;
+		}
 	}
 
 	// ゲームをスタート
