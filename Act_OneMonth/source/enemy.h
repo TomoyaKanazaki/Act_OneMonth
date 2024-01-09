@@ -9,6 +9,11 @@
 #include "object3D_Anim.h"
 
 //==========================================
+//  前方宣言
+//==========================================
+class CEffect3D;
+
+//==========================================
 //  クラス定義
 //==========================================
 class CEnemy : public CObject3D_Anim
@@ -47,6 +52,7 @@ private:
 
 	//メンバ変数
 	CEnemy::TYPE m_type;
+	CEffect3D* m_pEffect;
 
 	//静的メンバ変数
 	static int m_nNum;

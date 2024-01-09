@@ -27,7 +27,7 @@ public:
 	D3DXCOLOR GetCol(void) { return m_col; }
 	void SetCol(const D3DXCOLOR col);
 	void SetAlpha(const float fAlpha);
-	void SwitchBillboard(void) { m_bBillboard = !m_bBillboard; }
+	void SwitchBillboard(bool BillBoard = false) { m_bBillboard = BillBoard; }
 	float GetHeight(const D3DXVECTOR3 TargetPos);
 
 protected:

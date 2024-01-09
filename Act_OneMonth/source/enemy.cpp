@@ -16,6 +16,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "cut.h"
+#include "effect3D.h"
 
 //==========================================
 //  静的メンバ変数
@@ -25,7 +26,9 @@ int CEnemy::m_nNum = 0;
 //==========================================
 //  コンストラクタ
 //==========================================
-CEnemy::CEnemy(int nPriority) : CObject3D_Anim(nPriority)
+CEnemy::CEnemy(int nPriority) :
+	CObject3D_Anim(nPriority),
+	m_pEffect(nullptr)
 {
 	m_type = NONE;
 	m_nNum++;
@@ -55,6 +58,14 @@ HRESULT CEnemy::Init(void)
 //==========================================
 void CEnemy::Uninit(void)
 {
+	// エフェクトを終了
+	if (m_pEffect != nullptr)
+	{
+		m_pEffect->Uninit();
+		m_pEffect = nullptr;
+	}
+
+	// 終了
 	CObject3D_Anim::Uninit();
 }
 
@@ -67,6 +78,28 @@ void CEnemy::Update(void)
 	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE || CGameManager::GetState() == CGameManager::STATE_DASH)
 	{
 		m_move *= 0.1f;
+
+		// エフェクトを生成
+		if (m_pEffect == nullptr)
+		{
+			m_pEffect = CEffect3D::Create(m_pos, true);
+			m_pEffect->SetSize(m_size * 2.0f);
+		}
+		else
+		{
+			// 移動
+			m_pEffect->SetPos(m_pos);
+		}
+	}
+
+	// エフェクトの削除
+	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
+	{
+		if (m_pEffect != nullptr)
+		{
+			m_pEffect->Uninit();
+			m_pEffect = nullptr;
+		}
 	}
 
 	//移動量の適用

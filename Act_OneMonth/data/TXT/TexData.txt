@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_TEXTURE = 23
+NUM_TEXTURE = 24
 
 //==========================================
 //  テクスチャファイル名
@@ -33,3 +33,4 @@ TEXTURE_FILENAME = tutorial_01.png		//[19]チュートリアル01
 TEXTURE_FILENAME = tutorial_02.png		//[20]チュートリアル02
 TEXTURE_FILENAME = leaf.png				//[21]はっぱ
 TEXTURE_FILENAME = block.jpeg			//[22]お札
+TEXTURE_FILENAME = effect.png			//[23]エフェクト

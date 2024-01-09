@@ -44,6 +44,7 @@ public:
 		TUTORIAL_02, //チュートリアル02
 		LEAF, //葉っぱ
 		OHUDA, // お札
+		EFFECT, // エフェクト
 		TEXTURE_MAX
 	};
 
