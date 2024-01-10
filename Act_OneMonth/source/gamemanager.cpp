@@ -24,6 +24,7 @@
 #include "tutorial.h"
 #include "tutorial_wall.h"
 #include "fog.h"
+#include "target.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -39,6 +40,7 @@ CGameManager::Progress CGameManager::m_Progress = TUTORIAL_ENEMY;
 CIcon* CGameManager::m_pIcon = nullptr;
 CTutorial* CGameManager::m_pTutorial = nullptr;
 CTutorialWall* CGameManager::m_pTutorialWall = nullptr;
+CTarget* CGameManager::m_pTarget = nullptr;
 
 //==========================================
 //  定数定義
@@ -143,9 +145,16 @@ void CGameManager::Uninit(void)
 		m_pLight = NULL;
 	}
 
+	// ターゲットを終了
+	if (m_pTarget != nullptr)
+	{
+		m_pTarget = nullptr;
+	}
+
 	//チュートリアルを終了
 	m_pTutorial = nullptr;
 
+	// カメラの終了
 	m_pCamera = NULL;
 
 	//BGMの停止
@@ -289,12 +298,25 @@ void CGameManager::TaskState()
 		{
 			m_State = STATE_CONCENTRATE;
 			Fog::Set(true); // フォグを設定
+
+			// ターゲットを生成
+			if (m_pTarget == nullptr)
+			{
+				m_pTarget = CTarget::Create(1);
+			}
 		}
 		else if (m_State == STATE_CONCENTRATE) // ダッシュ
 		{
 			m_State = STATE_DASH;
 			m_fTimer = 0.0f; // 時間のリセット
 			Fog::Set(false); // フォグを設定
+
+			// ターゲットを終了
+			if (m_pTarget != nullptr)
+			{
+				m_pTarget->Uninit();
+				m_pTarget = nullptr;
+			}
 		}
 	}
 

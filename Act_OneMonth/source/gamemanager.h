@@ -18,6 +18,7 @@ class CLight;
 class CIcon;
 class CTutorial;
 class CTutorialWall;
+class CTarget;
 
 //==========================================
 //  ゲームマネージャクラス定義
@@ -69,6 +70,7 @@ public:
 	static CIcon *GetIcon(void) { return m_pIcon; }
 	static CTutorial* GetTutorial() { return m_pTutorial; }
 	static CTutorialWall* GetTutorialWall() { return m_pTutorialWall; }
+	static CTarget* GetTarget() { return m_pTarget; }
 
 private:
 
@@ -91,6 +93,7 @@ private:
 	static CIcon *m_pIcon;
 	static CTutorial *m_pTutorial;
 	static CTutorialWall* m_pTutorialWall;
+	static CTarget* m_pTarget;
 
 };
 

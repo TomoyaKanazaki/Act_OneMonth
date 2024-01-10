@@ -25,13 +25,19 @@ public:
 	void Draw(void) override;
 
 	//静的メンバ関数
-	static CTarget* Create(const D3DXVECTOR3 pos);
+	static CTarget* Create(const int nNum);
 
 private:
 
+	// メンバ関数
+	void Move(); // 移動処理
+	void SetMove(); // 移動先の設定
+
 	// メンバ変数
 	D3DXVECTOR3* m_pPosMove; // 移動先のポイント
+	D3DXVECTOR3 m_move; // 移動量
 	int m_nNumCount; // 移動可能回数
+	int m_nNextIdx; // 次に座標を保存する先
 
 };
 

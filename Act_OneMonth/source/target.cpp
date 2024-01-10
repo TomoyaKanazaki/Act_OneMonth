@@ -7,11 +7,29 @@
 #include "target.h"
 #include "manager.h"
 #include "renderer.h"
+#include "gamemanager.h"
+#include "player.h"
+#include "texture.h"
+#include "input.h"
+#include "gametime.h"
+#include "debugproc.h"
+
+//==========================================
+//  定数定義
+//==========================================
+namespace
+{
+	const D3DXVECTOR3 POLYGON_SIZE = D3DXVECTOR3(100.0f, 100.0f, 100.0f);
+}
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CTarget::CTarget(int nPriority)
+CTarget::CTarget(int nPriority) : CObject3D(nPriority),
+m_pPosMove(nullptr),
+m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+m_nNumCount(0),
+m_nNextIdx(0)
 {
 
 }
@@ -29,6 +47,33 @@ CTarget::~CTarget()
 //==========================================
 HRESULT CTarget::Init(void)
 {
+	// サイズを設定
+	m_size = POLYGON_SIZE;
+
+	// 初期位置をプレイヤー座標に設定する
+	m_pos = CGameManager::GetPlayer()->GetPos();
+
+	// 移動可能回数 + 1 の座標データを生成する
+	if (m_pPosMove == nullptr)
+	{
+		m_pPosMove = new D3DXVECTOR3[m_nNumCount];
+
+		// 値を初期化する
+		for (int i = 0; i < m_nNumCount; ++i)
+		{
+			m_pPosMove[i] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		}
+
+		// 始点をプレイヤー座標に設定する
+		m_pPosMove[0] = m_pos;
+
+		// 保存先インデックスを１つ進める
+		++m_nNextIdx;
+	}
+
+	// テクスチャ割り当て
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::KATANA));
+
 	// 初期化
 	return CObject3D::Init();
 }
@@ -38,6 +83,13 @@ HRESULT CTarget::Init(void)
 //==========================================
 void CTarget::Uninit(void)
 {
+	// 座標データの削除
+	if (m_pPosMove != nullptr)
+	{
+		delete m_pPosMove;
+		m_pPosMove = nullptr;
+	}
+
 	// 終了
 	CObject3D::Uninit();
 }
@@ -47,8 +99,30 @@ void CTarget::Uninit(void)
 //==========================================
 void CTarget::Update(void)
 {
+	// 前回からの経過時間を取得
+	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
+	// 移動
+	Move();
+
+	// 移動先設定
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		SetMove();
+	}
+
 	// 更新
 	CObject3D::Update();
+
+	// デバッグ表示
+	DebugProc::Print("ターゲット座標 : ( %f, %f, %f )\n", m_pos.x, m_pos.y, m_pos.z);
+	DebugProc::Print("保存先インデックス [ %d ]\n", m_nNextIdx);
+	DebugProc::Print("保存できる座標 [ %d ]\n", m_nNumCount);
+	for (int i = 0; i < m_nNumCount; ++i)
+	{
+		DebugProc::Print("保存された座標 [ %d ] : ( %f, %f, %f )\n", i, m_pPosMove[i].x, m_pPosMove[i].y, m_pPosMove[i].z);
+	}
+	DebugProc::Print("\n");
 }
 
 //==========================================
@@ -100,7 +174,7 @@ void CTarget::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CTarget* CTarget::Create(const D3DXVECTOR3 pos)
+CTarget* CTarget::Create(const int nNum)
 {
 	// インスタンス生成
 	CTarget* pTarget = new CTarget;
@@ -109,11 +183,54 @@ CTarget* CTarget::Create(const D3DXVECTOR3 pos)
 	if (pTarget == nullptr) { return nullptr; }
 
 	// 値を設定
-	pTarget->m_pos = pos;
+	pTarget->m_nNumCount = nNum + 1;
 
 	// 初期化処理
 	pTarget->Init();
 
 	// 値を返す
 	return pTarget;
+}
+
+//==========================================
+//  移動の処理
+//==========================================
+void CTarget::Move(void)
+{
+	//ローカル変数宣言
+	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	//パッド移動量を取得
+	move = CManager::GetInstance()->GetJoyPad()->GetStickL(0.1f);
+
+	//キーボード移動量の取得
+	if (move == D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+	{
+		move = CManager::GetInstance()->GetKeyboard()->GetWASD();
+	}
+
+	//移動量の適用
+	m_move.x = move.x * PLAYER_SPEED;
+	m_move.y = move.z * PLAYER_SPEED;
+
+	//移動量を適用
+	m_pos += m_move * m_fDeltaTime;
+}
+
+//==========================================
+//  移動先の設定
+//==========================================
+void CTarget::SetMove()
+{
+	// 設定可能数と次のインデックスを比較
+	if (m_nNumCount <= m_nNextIdx)
+	{
+		return;
+	}
+
+	// 現在の座標を次の移動先に保存する
+	m_pPosMove[m_nNextIdx] = m_pos;
+
+	// 保存先インデックスを１つ進める
+	++m_nNextIdx;
 }
