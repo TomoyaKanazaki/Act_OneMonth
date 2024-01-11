@@ -17,11 +17,20 @@
 #include "renderer.h"
 #include "cut.h"
 #include "effect3D.h"
+#include "slice.h"
 
 //==========================================
 //  静的メンバ変数
 //==========================================
 int CEnemy::m_nNum = 0;
+
+//==========================================
+//  定数定義
+//==========================================
+namespace
+{
+	const float SLICE_SCALE = 1.0f;
+}
 
 //==========================================
 //  コンストラクタ
@@ -107,6 +116,7 @@ void CEnemy::Update(void)
 	{
 		if (CGameManager::GetState() == CGameManager::STATE_DASH)
 		{
+			CSlice::Create(m_pos, m_size * SLICE_SCALE);
 			CCut::Create(m_pos, m_size, m_pTexture, GetAnimPattern());
 			Uninit();
 			return;

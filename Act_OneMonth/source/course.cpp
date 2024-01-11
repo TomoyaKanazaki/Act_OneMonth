@@ -9,7 +9,6 @@
 #include "renderer.h"
 #include "texture.h"
 #include "sound.h"
-#include "slice.h"
 #include "marker.h"
 #include "gamemanager.h"
 
@@ -20,7 +19,6 @@ namespace
 {
 	const float POLYGON_HEIGHT = 40.0f;
 	const float HIT_LENGTH = 300.0f;
-	const float SLICE_SCALE = 5.0f;
 }
 
 //==========================================
@@ -226,7 +224,6 @@ void CCourse::Hit()
 							// “–‚½‚Á‚Ä‚¢‚½Žž‚Ì‰‰oŒnˆ—
 							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
 							CMarker::Create(pos);
-							CSlice::Create(pos, pObj->GetSize() * SLICE_SCALE);
 							pObj->SetState(CObject::MARKING);
 						}
 					}
