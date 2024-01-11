@@ -88,17 +88,17 @@ HRESULT CGameManager::Init(void)
 
 	//敵の配置
 	CEnemy::Create(D3DXVECTOR3(-1300.0f, 100.0f, 0.0f), CEnemy::STOP);
-	CEnemy::Create(D3DXVECTOR3(-900.0f, 100.0f, 0.0f), CEnemy::NORMAL);
-	CEnemy::Create(D3DXVECTOR3(-750.0f, 150.0f, 0.0f), CEnemy::STOP);
-	CEnemy::Create(D3DXVECTOR3(-900.0f, 200.0f, 0.0f), CEnemy::NORMAL);
-	CEnemy::Create(D3DXVECTOR3(-300.0f, 100.0f, 0.0f), CEnemy::HOMING);
-	CEnemy::Create(D3DXVECTOR3(-300.0f, 200.0f, 0.0f), CEnemy::HOMING);
-	CEnemy::Create(D3DXVECTOR3(-200.0f, 100.0f, 0.0f), CEnemy::HOMING);
-	CEnemy::Create(D3DXVECTOR3(-100.0f, 200.0f, 0.0f), CEnemy::HOMING);
-	CEnemy::Create(D3DXVECTOR3(-50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
-	CEnemy::Create(D3DXVECTOR3(-50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
-	CEnemy::Create(D3DXVECTOR3(50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
-	CEnemy::Create(D3DXVECTOR3(50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
+	//CEnemy::Create(D3DXVECTOR3(-900.0f, 100.0f, 0.0f), CEnemy::NORMAL);
+	//CEnemy::Create(D3DXVECTOR3(-750.0f, 150.0f, 0.0f), CEnemy::STOP);
+	//CEnemy::Create(D3DXVECTOR3(-900.0f, 200.0f, 0.0f), CEnemy::NORMAL);
+	//CEnemy::Create(D3DXVECTOR3(-300.0f, 100.0f, 0.0f), CEnemy::HOMING);
+	//CEnemy::Create(D3DXVECTOR3(-300.0f, 200.0f, 0.0f), CEnemy::HOMING);
+	//CEnemy::Create(D3DXVECTOR3(-200.0f, 100.0f, 0.0f), CEnemy::HOMING);
+	//CEnemy::Create(D3DXVECTOR3(-100.0f, 200.0f, 0.0f), CEnemy::HOMING);
+	//CEnemy::Create(D3DXVECTOR3(-50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
+	//CEnemy::Create(D3DXVECTOR3(-50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
+	//CEnemy::Create(D3DXVECTOR3(50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
+	//CEnemy::Create(D3DXVECTOR3(50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
 
 	//建物の生成
 	CBuild::Create();
@@ -302,7 +302,7 @@ void CGameManager::TaskState()
 			// ターゲットを生成
 			if (m_pTarget == nullptr)
 			{
-				m_pTarget = CTarget::Create(10);
+				m_pTarget = CTarget::Create(3);
 			}
 		}
 		else if (m_State == STATE_CONCENTRATE) // ダッシュ

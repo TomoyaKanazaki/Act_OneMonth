@@ -31,9 +31,11 @@ private:
 
 	// ƒƒ“ƒoŠÖ”
 	void SetInfo(D3DXVECTOR3 start, D3DXVECTOR3 end); // ƒ|ƒŠƒSƒ“‚Ìî•ñ‚ğİ’è
+	void Hit(); // “G‚Æ‚Ì“–‚½‚è”»’è
 
 	// ƒƒ“ƒo•Ï”
-
+	D3DXVECTOR3 m_start;
+	D3DXVECTOR3 m_end;
 
 };
 

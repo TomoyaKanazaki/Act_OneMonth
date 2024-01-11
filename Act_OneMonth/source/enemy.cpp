@@ -158,36 +158,36 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 	//変数宣言
 	CEnemy* pEnemy = nullptr;
 
-	//メモリを確保[
-	if (pEnemy == nullptr)
+	//メモリを確保
+	switch (type)
 	{
-		switch (type)
-		{
-		case NORMAL:
-			pEnemy = new CEnemy_Normal;
-			break;
+	case NORMAL:
+		pEnemy = new CEnemy_Normal;
+		break;
 
-		case STOP:
-			pEnemy = new CEnemy_Stop;
-			break;
+	case STOP:
+		pEnemy = new CEnemy_Stop;
+		break;
 
-		case HOMING:
-			pEnemy = new CEnemy_Homing;
-			break;
+	case HOMING:
+		pEnemy = new CEnemy_Homing;
+		break;
 
-		case INVINCIBLE:
-			pEnemy = new CEnemy_Invincible;
-			break;
+	case INVINCIBLE:
+		pEnemy = new CEnemy_Invincible;
+		break;
 
-		case BOSS_MAIN:
-			pEnemy = new CBoss_Main;
-			break;
+	case BOSS_MAIN:
+		pEnemy = new CBoss_Main;
+		break;
 
-		default:
-			pEnemy = nullptr;
-			break;
-		}
+	default:
+		pEnemy = nullptr;
+		break;
 	}
+
+	// NULLチェック
+	if (pEnemy == nullptr) { return nullptr; }
 
 	//値を設定
 	pEnemy->m_pos = pos;

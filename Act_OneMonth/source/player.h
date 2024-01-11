@@ -59,6 +59,7 @@ private:
 #define GRAVITY (25.0f) //重力
 #define CAMERA_WIDTH (420.0f) //カメラから離れられる範囲
 #define CAMERA_HEIGHT (220.0f) //カメラから離れられる範囲
+#define MAX_LEVEL (10) // レベル上限
 
 	//メンバ関数
 	void Motion(void);
@@ -68,7 +69,6 @@ private:
 	void Jump(void);
 	void Gravity(void);
 	void Dash(void);
-	void Hit(void);
 	void Death(void);
 
 	//メンバ変数
@@ -81,6 +81,7 @@ private:
 	CArrow* m_pArrow;
 	State m_State;
 	State m_oldState;
+	int m_nLevel; // プレイヤーのレベル
 
 	//モデル情報
 	D3DXVECTOR3 m_oldposModel;

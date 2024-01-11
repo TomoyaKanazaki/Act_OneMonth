@@ -22,6 +22,7 @@
 #include "marker.h"
 #include "slice.h"
 #include "tutorial_wall.h"
+
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
@@ -94,9 +95,6 @@ void CPlayer::Update(void)
 	{
 		m_fDeltaTime *= 0.0f;
 	}
-
-	//ダッシュ時の処理
-	Hit();
 
 	//ダッシュの処理
 	Dash();
@@ -506,60 +504,6 @@ void CPlayer::Dash(void)
 	if (m_oldPos == m_pos)
 	{
 		m_bDash = false;
-	}
-}
-
-//==========================================
-//  敵を巻き込む処理
-//==========================================
-void CPlayer::Hit(void)
-{
-	//ダッシュしてない場合
-	if (!m_bDash)
-	{
-		return;
-	}
-
-	//当たり判定の生成
-	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
-	{
-		//先頭のアドレスを取得
-		CObject* pObj = CObject::GetTop(nCntPriority);
-
-		while (pObj != NULL)
-		{
-			//次のアドレスを保存
-			CObject* pNext = pObj->GetNext();
-
-			if (pObj->GetType() == CObject::TYPE_ENEMY) //敵の場合
-			{
-				if (pObj->GetObjState() == CObject::NORMAL)
-				{
-					//対象の座標を取得する
-					D3DXVECTOR3 pos = pObj->GetPos();
-
-					//前回座標との距離を計算する
-					D3DXVECTOR3 vecToPosOld = m_oldposModel - pos;
-					float fLength = sqrtf(vecToPosOld.x * vecToPosOld.x + vecToPosOld.y * vecToPosOld.y);
-
-					//今回座標との距離を加算する
-					D3DXVECTOR3 vecToPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43) - pos;
-					fLength += sqrtf(vecToPos.x * vecToPos.x + vecToPos.y * vecToPos.y);
-
-					//判定内の判定を取る
-					if (HIT_RANGE >= fLength)
-					{
-						CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
-						CMarker::Create(pos);
-						CSlice::Create(pos, m_size * 3.0f);
-						pObj->SetState(CObject::MARKING);
-					}
-				}
-			}
-
-			//次のアドレスにずらす
-			pObj = pNext;
-		}
 	}
 }
 
