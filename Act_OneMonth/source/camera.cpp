@@ -194,3 +194,84 @@ void CCamera::Move(void)
 	m_posR -= m_diff;
 	m_posR.y = pos.y;
 }
+
+//==========================================
+//  スクリーン内の判定
+//==========================================
+bool CCamera::OnScreen(const D3DXVECTOR3 pos) const
+{
+	// 返り値用の変数
+	bool bIn = false;
+
+	// スクリーン座標の取得
+	D3DXVECTOR3 screenPos = WorldToScreen(pos);
+
+	// 判定
+	if (screenPos.x >= 0.0f && screenPos.x <= SCREEN_WIDTH &&
+		screenPos.y >= 0.0f && screenPos.y <= SCREEN_HEIGHT &&
+		screenPos.z < 1.0f)
+	{
+		bIn = true;
+	}
+
+	// 返す
+	return bIn;
+}
+
+//==========================================
+//  ワールド座標をスクリーン座標に変換
+//==========================================
+D3DXVECTOR3 CCamera::WorldToScreen(const D3DXVECTOR3& posWorld) const
+{
+	//ビューポートの設定
+	D3DVIEWPORT9 vp = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f };
+
+	//計算用変数宣言
+	D3DXMATRIX mtxWorld; //ワールドマトリックス
+
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&mtxWorld);
+
+	//スクリーン座標を算出
+	D3DXVECTOR3 screenPos;
+	D3DXVec3Project
+	(
+		&screenPos,
+		&posWorld,
+		&vp,
+		&m_mtxProjection,
+		&m_mtxView,
+		&mtxWorld
+	);
+
+	// スクリーン座標
+	return screenPos;
+}
+
+//==========================================
+//  スクリーン座標をワールド座標に変換
+//==========================================
+//D3DXVECTOR3 CCamera::ScreenToWorld(const D3DXVECTOR3& posScreen) const
+//{
+//	// 変数宣言
+//	D3DXVECTOR3 posWorld; // ワールド座標
+//	float fZ;  // 射影空間でのZ値（0～1）
+//	D3DXMATRIX mtxViewInv; // ビューマトリックスの逆
+//	D3DXMATRIX mtxProjectionInv; // プロジェクションマトリックスの逆
+//	D3DXMATRIX VP;
+//	D3DXMATRIX InvViewport;
+//	D3DXMatrixInverse(&mtxViewInv, NULL, &m_mtxView);
+//	D3DXMatrixInverse(&mtxProjectionInv, NULL, &m_mtxProjection);
+//	D3DXMatrixIdentity(&VP);
+//	VP._11 = SCREEN_WIDTH * 0.5f;
+//	VP._22 = -SCREEN_HEIGHT * 0.5f;
+//	VP._41 = SCREEN_WIDTH * 0.5f;
+//	VP._42 = SCREEN_HEIGHT * 0.5f;
+//	D3DXMatrixInverse(&InvViewport, NULL, &VP);
+//
+//	// 逆変換
+//	D3DXMATRIX tmp = InvViewport * mtxProjectionInv * mtxViewInv;
+//	D3DXVec3TransformCoord(&posWorld, &D3DXVECTOR3(posScreen.x, posScreen.y, fZ), &tmp);
+//
+//	return posWorld;
+//}

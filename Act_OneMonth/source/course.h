@@ -1,23 +1,23 @@
 //==========================================
 //
-//  ターゲットクラス(target.h)
+//  移動を繋ぐ線(course.h)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#ifndef _TARGET_H_
-#define _TARGET_H_
+#ifndef _COURSE_H_
+#define _COURSE_H_
 #include "object3D.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CTarget : public CObject3D
+class CCourse : public CObject3D
 {
 public:
 
 	//メンバ関数
-	CTarget(int nPriority = 6); //コンストラクタ
-	~CTarget(); //デストラクタ
+	CCourse(int nPriority = 6); //コンストラクタ
+	~CCourse(); //デストラクタ
 
 	HRESULT Init(void) override;
 	void Uninit(void) override;
@@ -25,20 +25,15 @@ public:
 	void Draw(void) override;
 
 	//静的メンバ関数
-	static CTarget* Create(const int nNum);
+	static CCourse* Create(D3DXVECTOR3 start, D3DXVECTOR3 end);
 
 private:
 
 	// メンバ関数
-	void Move(); // 移動処理
-	void SetMove(); // 移動先の設定
-	void Limit(); // 移動制限
+	void SetInfo(D3DXVECTOR3 start, D3DXVECTOR3 end); // ポリゴンの情報を設定
 
 	// メンバ変数
-	D3DXVECTOR3* m_pPosMove; // 移動先のポイント
-	D3DXVECTOR3 m_move; // 移動量
-	int m_nNumCount; // 移動可能回数
-	int m_nNextIdx; // 次に座標を保存する先
+
 
 };
 

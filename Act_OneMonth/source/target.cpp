@@ -13,13 +13,16 @@
 #include "input.h"
 #include "gametime.h"
 #include "debugproc.h"
+#include "camera.h"
+#include "course.h"
 
 //==========================================
 //  定数定義
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 POLYGON_SIZE = D3DXVECTOR3(100.0f, 100.0f, 100.0f);
+	const D3DXVECTOR3 POLYGON_SIZE = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
+	const float MOVE_SPEED = 350.0f;
 }
 
 //==========================================
@@ -210,11 +213,14 @@ void CTarget::Move(void)
 	}
 
 	//移動量の適用
-	m_move.x = move.x * PLAYER_SPEED;
-	m_move.y = move.z * PLAYER_SPEED;
+	m_move.x = move.x * MOVE_SPEED;
+	m_move.y = move.z * MOVE_SPEED;
 
 	//移動量を適用
 	m_pos += m_move * m_fDeltaTime;
+
+	// 移動制限
+	Limit();
 }
 
 //==========================================
@@ -231,6 +237,27 @@ void CTarget::SetMove()
 	// 現在の座標を次の移動先に保存する
 	m_pPosMove[m_nNextIdx] = m_pos;
 
+	// 移動の軌跡を生成
+	CCourse::Create(m_pPosMove[m_nNextIdx - 1], m_pPosMove[m_nNextIdx]);
+
 	// 保存先インデックスを１つ進める
 	++m_nNextIdx;
+}
+
+//==========================================
+//  移動制限
+//==========================================
+void CTarget::Limit()
+{
+	// y軸の0未満を補正
+	if (m_pos.y < 0.0f)
+	{
+		m_pos.y = 0.0f;
+	}
+
+	// スクリーン外の判定
+	if (!CGameManager::GetCamera()->OnScreen(m_pos))
+	{
+		m_pos = m_oldPos;
+	}
 }

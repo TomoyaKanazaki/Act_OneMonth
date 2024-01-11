@@ -302,7 +302,7 @@ void CGameManager::TaskState()
 			// ターゲットを生成
 			if (m_pTarget == nullptr)
 			{
-				m_pTarget = CTarget::Create(1);
+				m_pTarget = CTarget::Create(10);
 			}
 		}
 		else if (m_State == STATE_CONCENTRATE) // ダッシュ

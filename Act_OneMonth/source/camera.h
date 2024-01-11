@@ -30,6 +30,9 @@ public:
 	D3DXMATRIX CreateViewMatrix(void);
 	void SwitchDebug(void) { m_bDebug = !m_bDebug; }
 	bool GetDebug(void) { return m_bDebug; }
+	bool OnScreen(const D3DXVECTOR3 pos) const; // ÉXÉNÉäÅ[Éìì‡ÇÃîªíË
+	D3DXVECTOR3 WorldToScreen(const D3DXVECTOR3& posWorld) const;
+	//D3DXVECTOR3 ScreenToWorld(const D3DXVECTOR3& posScreen) const;
 
 protected:
 
