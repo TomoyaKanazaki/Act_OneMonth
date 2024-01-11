@@ -43,7 +43,9 @@ public:
 
 	//Ã“Iƒƒ“ƒoŠÖ”
 	static CEnemy* Create(D3DXVECTOR3 pos, CEnemy::TYPE type);
-	static int GetNum(void) { return m_nNum; }
+	static int GetNum(void) { return m_nNum; } // “G‚Ì”‚Ìæ“¾
+	static int GetDeath() { return m_nDeath; } // “G‚ÌŒ‚”j”‚Ìæ“¾
+	static void ResetDeath() { m_nDeath = 0; } // Œ‚”j”‚ÌƒŠƒZƒbƒg
 
 private:
 
@@ -56,6 +58,7 @@ private:
 
 	//Ã“Iƒƒ“ƒo•Ï”
 	static int m_nNum;
+	static int m_nDeath; // Œ‚”j”
 
 };
 

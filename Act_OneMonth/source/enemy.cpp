@@ -23,6 +23,7 @@
 //  静的メンバ変数
 //==========================================
 int CEnemy::m_nNum = 0;
+int CEnemy::m_nDeath = 0;
 
 //==========================================
 //  定数定義
@@ -111,18 +112,19 @@ void CEnemy::Update(void)
 		}
 	}
 
-	//移動量の適用
-	if (m_ObjState == MARKING)
+	// 状態毎の処理
+	if (m_ObjState == MARKING) // マーキングされたとき
 	{
 		if (CGameManager::GetState() == CGameManager::STATE_DASH)
 		{
 			CSlice::Create(m_pos, m_size * SLICE_SCALE);
 			CCut::Create(m_pos, m_size, m_pTexture, GetAnimPattern());
+			++m_nDeath;
 			Uninit();
 			return;
 		}
 	}
-	else
+	else // その他
 	{
 		m_pos += m_move;
 	}

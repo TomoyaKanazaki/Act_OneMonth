@@ -77,9 +77,11 @@ private:
 	// メンバ関数
 	void TaskTutorial(); // チュートリアルの処理
 	void TaskState(); // 状態管理
+	void TaskLevel(); // レベルの管理
 
 	//メンバ変数
-	float m_fTimer;
+	float m_fTimer; // 状態遷移用タイマー
+	int m_nLevel; // プレイヤーのレベル
 
 	//静的メンバ変数
 	static const float m_fDashTime;

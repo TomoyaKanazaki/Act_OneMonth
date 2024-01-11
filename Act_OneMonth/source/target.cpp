@@ -54,7 +54,7 @@ HRESULT CTarget::Init(void)
 	m_size = POLYGON_SIZE;
 
 	// 初期位置をプレイヤー座標に設定する
-	m_pos = CGameManager::GetPlayer()->GetPos();
+	m_pos = CGameManager::GetPlayer()->GetCenter();
 
 	// 移動可能回数 + 1 の座標データを生成する
 	if (m_pPosMove == nullptr)

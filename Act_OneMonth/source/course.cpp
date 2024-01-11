@@ -18,7 +18,7 @@
 namespace
 {
 	const float POLYGON_HEIGHT = 40.0f;
-	const float HIT_LENGTH = 300.0f;
+	const float HIT_LENGTH = 50.0f;
 }
 
 //==========================================
@@ -203,8 +203,8 @@ void CCourse::Hit()
 					D3DXVECTOR3 vecToPos = pos - m_start;
 
 					// 各ベクトルの大きさを求める
-					float lengthLine = sqrtf(vecLine.x * vecLine.x) + (vecLine.y * vecLine.y);
-					float lengthToPos = sqrtf(vecToPos.x * vecToPos.x) + (vecToPos.y * vecToPos.y);
+					float lengthLine = sqrtf((vecLine.x * vecLine.x) + (vecLine.y * vecLine.y));
+					float lengthToPos = sqrtf((vecToPos.x * vecToPos.x) + (vecToPos.y * vecToPos.y));
 
 					// 媒介変数tを求める
 					float t = (lengthLine * lengthToPos) / (lengthLine * lengthLine);

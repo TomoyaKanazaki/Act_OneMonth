@@ -81,7 +81,6 @@ private:
 	CArrow* m_pArrow;
 	State m_State;
 	State m_oldState;
-	int m_nLevel; // プレイヤーのレベル
 
 	//モデル情報
 	D3DXVECTOR3 m_oldposModel;

@@ -54,7 +54,8 @@ namespace
 //==========================================
 //  コンストラクタ
 //==========================================
-CGameManager::CGameManager()
+CGameManager::CGameManager() :
+	m_nLevel(1)
 {
 	m_fTimer = 0.0f;
 	m_Progress = TUTORIAL_ENEMY;
@@ -99,6 +100,9 @@ HRESULT CGameManager::Init(void)
 	//CEnemy::Create(D3DXVECTOR3(-50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
 	//CEnemy::Create(D3DXVECTOR3(50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
 	//CEnemy::Create(D3DXVECTOR3(50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
+
+	// 敵の撃破数をリセット
+	CEnemy::ResetDeath();
 
 	//建物の生成
 	CBuild::Create();
@@ -156,6 +160,9 @@ void CGameManager::Uninit(void)
 
 	// カメラの終了
 	m_pCamera = NULL;
+
+	// 敵の撃破数をリセット
+	CEnemy::ResetDeath();
 
 	//BGMの停止
 	CManager::GetInstance()->GetInstance()->GetSound()->Stop();
@@ -302,7 +309,7 @@ void CGameManager::TaskState()
 			// ターゲットを生成
 			if (m_pTarget == nullptr)
 			{
-				m_pTarget = CTarget::Create(3);
+				m_pTarget = CTarget::Create(m_nLevel);
 			}
 		}
 		else if (m_State == STATE_CONCENTRATE) // ダッシュ
@@ -330,6 +337,9 @@ void CGameManager::TaskState()
 		if (m_fDashTime <= m_fTimer)
 		{
 			m_State = STATE_NORMAL;
+
+			// レベルの管理
+			TaskLevel();
 		}
 	}
 
@@ -337,5 +347,21 @@ void CGameManager::TaskState()
 	if (m_State == STATE_START && m_pPlayer->GetPos().x >= -2250.0f)
 	{
 		m_State = STATE_NORMAL;
+	}
+}
+
+//==========================================
+//  レベルの管理
+//==========================================
+void CGameManager::TaskLevel()
+{
+	// 敵の撃破数を取得する
+	int nDeath = CEnemy::GetDeath();
+
+	// レベルが上がる条件を達成
+	if (nDeath >= m_nLevel * m_nLevel)
+	{
+		++m_nLevel;
+		CEnemy::ResetDeath();
 	}
 }
