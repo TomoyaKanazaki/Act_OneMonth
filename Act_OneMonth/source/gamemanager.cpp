@@ -292,7 +292,7 @@ void CGameManager::TaskTutorial()
 void CGameManager::TaskState()
 {
 	// èÛë‘ÇÃêÿÇËë÷Ç¶
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT) || CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A))
 	{
 		if (m_State == STATE_NORMAL) // èWíÜ
 		{

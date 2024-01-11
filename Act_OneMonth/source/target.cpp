@@ -109,7 +109,9 @@ void CTarget::Update(void)
 	Move();
 
 	// 移動先設定
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN))
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN) ||
+		CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_RB)||
+		CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_LB))
 	{
 		SetMove();
 	}
@@ -204,7 +206,7 @@ void CTarget::Move(void)
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	//パッド移動量を取得
-	move = CManager::GetInstance()->GetJoyPad()->GetStickL(0.1f);
+	move = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
 
 	//キーボード移動量の取得
 	if (move == D3DXVECTOR3(0.0f, 0.0f, 0.0f))
