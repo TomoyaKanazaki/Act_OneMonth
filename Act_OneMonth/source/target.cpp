@@ -114,6 +114,7 @@ void CTarget::Update(void)
 		CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_LB))
 	{
 		SetMove();
+		CGameManager::GetPlayer()->SetMovePos(m_pos);
 	}
 
 	// XV

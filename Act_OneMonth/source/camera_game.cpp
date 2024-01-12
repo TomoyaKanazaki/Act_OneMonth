@@ -47,7 +47,7 @@ HRESULT CCameraGame::Init(void)
 void CCameraGame::Update(void)
 {
 	//W’†ó‘Ô‚Å‹–ìŠp‚ÌŠg’£
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE || CGameManager::GetState() == CGameManager::STATE_DASH)
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE/* || CGameManager::GetState() == CGameManager::STATE_DASH*/)
 	{
 		//ƒ[ƒJƒ‹•Ï”éŒ¾
 		float fDiff = MAX_FAV - m_fFov; //·•ª

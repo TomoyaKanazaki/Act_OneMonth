@@ -24,14 +24,21 @@
 #include "tutorial_wall.h"
 
 //==========================================
-//  静的メンバ変数宣言
+//  定数定義
 //==========================================
-const float CPlayer::m_fHitLength = 25.0f;
+namespace
+{
+	const float HIT_LENGTH = 25.0f; // 敵との接触に使う判定の大きさ
+	const float MOVE_TIME = 0.3f; // ダッシュ状態で移動するまでの時間
+}
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CPlayer::CPlayer(int nPriority) : CObject_Char(nPriority)
+CPlayer::CPlayer(int nPriority) : CObject_Char(nPriority),
+m_nLevel(1),
+m_nCntMove(0),
+m_fMoveTimer(0.0f)
 {
 	m_CenterPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecStick = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -99,7 +106,7 @@ void CPlayer::Update(void)
 	//ダッシュの処理
 	Dash();
 
-	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
+	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE && CGameManager::GetState() != CGameManager::STATE_DASH)
 	{
 		//ジャンプ!
 		Jump();
@@ -131,8 +138,8 @@ void CPlayer::Update(void)
 	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
 	//デバッグ表示
-	DebugProc::Print("移動量 ( %f, %f )\n", m_move.x, m_move.y);
-	DebugProc::Print("座標 ( %f, %f )\n", m_pos.x, m_pos.y);
+	DebugProc::Print("移動タイマー : %f\n", m_fMoveTimer);
+	DebugProc::Print("ダッシュフラグ : %d\n", m_nCntMove);
 
 	CObject_Char::Update();
 
@@ -154,6 +161,42 @@ void CPlayer::Update(void)
 void CPlayer::Draw(void)
 {
 	CObject_Char::Draw();
+}
+
+//==========================================
+//  レベルアップ
+//==========================================
+void CPlayer::AddLevel(int nAdd)
+{
+	// 上限の場合関数を抜ける
+	if (m_nLevel == MAX_LEVEL) { return; }
+
+	// レベルを加算
+	m_nLevel += nAdd;
+
+	// 上限値の設定
+	if (m_nLevel > MAX_LEVEL)
+	{
+		m_nLevel = MAX_LEVEL;
+	}
+}
+
+//==========================================
+//  移動先の設定
+//==========================================
+void CPlayer::SetMovePos(const D3DXVECTOR3 posMove)
+{
+	// 現在のレベルと同数までしか保存しない
+	if (m_nLevel <= m_nCntMove) { return; }
+
+	// 移動先を保存
+	m_posMove[m_nCntMove] = posMove;
+
+	// ダッシュするよフラグ
+	m_bDash = true;
+
+	// 保存先を変更
+	++m_nCntMove;
 }
 
 //==========================================
@@ -224,6 +267,11 @@ void CPlayer::Motion(void)
 	else //上記のどれでもない状態
 	{
 		m_State = NEUTRAL;
+	}
+
+	if (CGameManager::GetState() == CGameManager::STATE_DASH)
+	{
+		m_State = IAI;
 	}
 
 	//モーションを更新
@@ -435,7 +483,7 @@ void CPlayer::Gravity(void)
 	}
 
 	//集中状態の時
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
+	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE && CGameManager::GetState() == CGameManager::STATE_DASH)
 	{
 		m_move.y = 0.0f;
 		return;
@@ -450,60 +498,52 @@ void CPlayer::Gravity(void)
 //==========================================
 void CPlayer::Dash(void)
 {
-	//ダッシュフラグのリセット
-	m_bDash = false;
+	// 状態遷移でカウンターをリセット
+	if (CGameManager::GetState() == CGameManager::STATE_DASH && CGameManager::GetOldState() == CGameManager::STATE_CONCENTRATE)
+	{
+		// タイマーのリセット
+		m_fMoveTimer = 0.0f;
+		m_nCntMove = 0;
+	}
 
-	//集中状態でのみ発動
-	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE)
+	// ダッシュ状態でなければ抜ける
+	if (CGameManager::GetState() != CGameManager::STATE_DASH) { return; }
+
+	// ダッシュフラグの判定
+	if (!m_bDash)
 	{
 		return;
 	}
 
-	//パッドの入力情報を取得
-	D3DXVECTOR3 move = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
+	// タイマーを加算
+	m_fMoveTimer += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
-	//入力角度を算出
-	float fAngle = atan2f(move.y, move.x);
-	m_move = D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
-
-	if (CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_RB))
+	// 設定情報がなくなったら終了する
+	if ((m_posMove[m_nCntMove] == D3DXVECTOR3(0.0f, 0.0f, 1.0f) || m_nLevel == m_nCntMove) && m_fMoveTimer >= MOVE_TIME)
 	{
-		m_pos += D3DXVECTOR3(cosf(fAngle) * DASH_DISTANCE, -sinf(fAngle) * DASH_DISTANCE, 0.0f);
-		m_bDash = true;
-		m_bRand = false;
-	}
-
-	//デバッグ用ダッシュ
-#ifdef _DEBUG
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_UP))
-	{
-		m_pos.y += DASH_DISTANCE;
-		m_bDash = true;
-	}
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_DOWN))
-	{
-		m_pos.y -= DASH_DISTANCE;
-		m_bDash = true;
-	}
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RIGHT))
-	{
-		m_pos.x += DASH_DISTANCE;
-		m_bDash = true;
-	}
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LEFT))
-	{
-		m_pos.x -= DASH_DISTANCE;
-		m_bDash = true;
-	}
-#endif
-
-	//移動制限
-	Limit();
-
-	//移動がなかった場合はダッシュをキャンセル
-	if (m_oldPos == m_pos)
-	{
+		m_nCntMove = 0;
 		m_bDash = false;
+
+		// 移動先をリセット
+		for (int i = 0; i < MAX_LEVEL; ++i)
+		{
+			m_posMove[i] = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+		}
+
+		return;
+	}
+
+	// タイマーが一定時間経過していたら
+	if (m_fMoveTimer >= MOVE_TIME)
+	{
+		// 次の移動先に座標を変更
+		m_pos = m_posMove[m_nCntMove];
+
+		// 移動先回数を加算
+		++m_nCntMove;
+
+		// タイマーをリセット
+		m_fMoveTimer = 0.0f;
 	}
 }
 
@@ -550,7 +590,7 @@ void CPlayer::Death(void)
 				D3DXVECTOR3 vec = m_CenterPos - pos;
 
 				//ベクトルの大きさを比較する
-				if (m_fHitLength * m_fHitLength >= (vec.x * vec.x + vec.y * vec.y))
+				if (HIT_LENGTH * HIT_LENGTH >= (vec.x * vec.x + vec.y * vec.y))
 				{
 					CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
 					m_State = DEATH;

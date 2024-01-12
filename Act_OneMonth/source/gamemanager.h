@@ -81,7 +81,6 @@ private:
 
 	//メンバ変数
 	float m_fTimer; // 状態遷移用タイマー
-	int m_nLevel; // プレイヤーのレベル
 
 	//静的メンバ変数
 	static const float m_fDashTime;

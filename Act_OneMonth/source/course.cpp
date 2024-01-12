@@ -53,6 +53,7 @@ HRESULT CCourse::Init(void)
 	// テクスチャ割り当て
 	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ARROW));
 
+	// 敵の接触判定
 	Hit();
 
 	// 初期化

@@ -44,6 +44,10 @@ public:
 	D3DXVECTOR3 GetCenter(void) { return m_CenterPos; }
 	bool GetDeath(void) { return m_State == DEATH ? true : false; }
 	State GetState(void) { return m_State; }
+	bool GetDash() const { return m_bDash; }
+	int GetLevel() { return m_nLevel; } // レベルの取得
+	void AddLevel(int nAdd); // レベルの加算
+	void SetMovePos(const D3DXVECTOR3 posMove); // 移動先の設定
 
 	//静的メンバ関数
 	static CPlayer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
@@ -81,12 +85,13 @@ private:
 	CArrow* m_pArrow;
 	State m_State;
 	State m_oldState;
+	float m_fMoveTimer; // 移動のタイマー
+	int m_nLevel; // レベル
+	int m_nCntMove; // 移動先の保存数
+	D3DXVECTOR3 m_posMove[MAX_LEVEL]; // 移動先の保存用変数
 
 	//モデル情報
 	D3DXVECTOR3 m_oldposModel;
-
-	//静的メンバ変数
-	static const float m_fHitLength;
 
 };
 

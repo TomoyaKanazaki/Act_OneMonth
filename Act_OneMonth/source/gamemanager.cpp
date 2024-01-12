@@ -54,8 +54,7 @@ namespace
 //==========================================
 //  コンストラクタ
 //==========================================
-CGameManager::CGameManager() :
-	m_nLevel(1)
+CGameManager::CGameManager()
 {
 	m_fTimer = 0.0f;
 	m_Progress = TUTORIAL_ENEMY;
@@ -163,6 +162,9 @@ void CGameManager::Uninit(void)
 
 	// 敵の撃破数をリセット
 	CEnemy::ResetDeath();
+
+	// フォグを終了
+	Fog::Set(false);
 
 	//BGMの停止
 	CManager::GetInstance()->GetInstance()->GetSound()->Stop();
@@ -309,7 +311,7 @@ void CGameManager::TaskState()
 			// ターゲットを生成
 			if (m_pTarget == nullptr)
 			{
-				m_pTarget = CTarget::Create(m_nLevel);
+				m_pTarget = CTarget::Create(m_pPlayer->GetLevel());
 			}
 		}
 		else if (m_State == STATE_CONCENTRATE) // ダッシュ
@@ -330,11 +332,8 @@ void CGameManager::TaskState()
 	// ダッシュの解除
 	if (m_State == STATE_DASH)
 	{
-		// 経過時間を加算
-		m_fTimer += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
-
-		// 制限時間で通常状態に変更
-		if (m_fDashTime <= m_fTimer)
+		// ダッシュフラグで通常状態に変更
+		if (!m_pPlayer->GetDash())
 		{
 			m_State = STATE_NORMAL;
 
@@ -359,9 +358,10 @@ void CGameManager::TaskLevel()
 	int nDeath = CEnemy::GetDeath();
 
 	// レベルが上がる条件を達成
-	if (nDeath >= m_nLevel * m_nLevel)
+	int nLevel = m_pPlayer->GetLevel();
+	if (nDeath >= nLevel * nLevel)
 	{
-		++m_nLevel;
+		m_pPlayer->AddLevel(1);
 		CEnemy::ResetDeath();
 	}
 }
