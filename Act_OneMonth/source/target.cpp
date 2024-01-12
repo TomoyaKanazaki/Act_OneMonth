@@ -207,7 +207,7 @@ void CTarget::Move(void)
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	//パッド移動量を取得
-	move = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
+	move = CManager::GetInstance()->GetJoyPad()->GetStickL(0.1f);
 
 	//キーボード移動量の取得
 	if (move == D3DXVECTOR3(0.0f, 0.0f, 0.0f))

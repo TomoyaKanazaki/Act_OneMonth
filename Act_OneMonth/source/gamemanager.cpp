@@ -198,6 +198,9 @@ void CGameManager::Update(void)
 	// 状態管理
 	TaskState();
 
+	// レベルの管理
+	TaskLevel();
+
 	//ライトの更新
 	if (m_pLight != NULL)
 	{
@@ -271,7 +274,7 @@ void CGameManager::TaskTutorial()
 		}
 		if (m_Progress == TUTORIAL_DASH)
 		{
-			if (CManager::GetInstance()->GetJoyPad()->GetStickR(0.3f) != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+			if (CManager::GetInstance()->GetJoyPad()->GetStickL(0.3f) != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 			{
 				m_pTutorial->NextProgress();
 				m_Progress = END;
@@ -336,9 +339,6 @@ void CGameManager::TaskState()
 		if (!m_pPlayer->GetDash())
 		{
 			m_State = STATE_NORMAL;
-
-			// レベルの管理
-			TaskLevel();
 		}
 	}
 

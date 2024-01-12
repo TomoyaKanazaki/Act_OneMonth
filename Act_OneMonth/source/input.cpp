@@ -588,12 +588,11 @@ D3DXVECTOR3 CJoyPad::GetStickL(float Dead)
 		Stick.x = 0.0f;
 	}
 
-	Stick.y = (float)m_JoyKeyState.Gamepad.sThumbLY / SHRT_MAX;
-	if (fabsf(Stick.y) < Dead)
+	Stick.z = (float)m_JoyKeyState.Gamepad.sThumbLY / SHRT_MAX;
+	if (fabsf(Stick.z) < Dead)
 	{
-		Stick.y = 0.0f;
+		Stick.z = 0.0f;
 	}
-	Stick.y *= -1;
 
 	return Stick;
 }
@@ -611,12 +610,11 @@ D3DXVECTOR3 CJoyPad::GetStickR(float Dead)
 		Stick.x = 0.0f;
 	}
 
-	Stick.y = (float)m_JoyKeyState.Gamepad.sThumbRY / SHRT_MAX;
-	if (fabsf(Stick.y) < Dead)
+	Stick.z = (float)m_JoyKeyState.Gamepad.sThumbRY / SHRT_MAX;
+	if (fabsf(Stick.z) < Dead)
 	{
-		Stick.y = 0.0f;
+		Stick.z = 0.0f;
 	}
-	Stick.y *= -1;
 
 	return Stick;
 }

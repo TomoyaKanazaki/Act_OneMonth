@@ -29,7 +29,7 @@
 namespace
 {
 	const float HIT_LENGTH = 25.0f; // 敵との接触に使う判定の大きさ
-	const float MOVE_TIME = 0.3f; // ダッシュ状態で移動するまでの時間
+	const float MOVE_TIME = 0.5f; // ダッシュ状態で移動するまでの時間
 }
 
 //==========================================

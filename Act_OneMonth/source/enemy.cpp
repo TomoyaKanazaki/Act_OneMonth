@@ -115,7 +115,7 @@ void CEnemy::Update(void)
 	// 状態毎の処理
 	if (m_ObjState == MARKING) // マーキングされたとき
 	{
-		if (CGameManager::GetState() == CGameManager::STATE_DASH)
+		if (CGameManager::GetState() == CGameManager::STATE_NORMAL)
 		{
 			CSlice::Create(m_pos, m_size * SLICE_SCALE);
 			CCut::Create(m_pos, m_size, m_pTexture, GetAnimPattern());
