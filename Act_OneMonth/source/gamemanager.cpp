@@ -17,14 +17,12 @@
 #include "model.h"
 #include "renderer.h"
 #include "bg.h"
-#include "enemy.h"
 #include "field.h"
 #include "gametime.h"
 #include "build.h"
 #include "tutorial.h"
 #include "tutorial_wall.h"
 #include "fog.h"
-#include "target.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -83,26 +81,6 @@ HRESULT CGameManager::Init(void)
 	//プレイヤーの生成
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
-	//ボスの生成
-	m_pBoss = CEnemy::Create(D3DXVECTOR3(1800.0f, 100.0f, 0.0f), CEnemy::BOSS_MAIN);
-
-	//敵の配置
-	CEnemy::Create(D3DXVECTOR3(-1300.0f, 100.0f, 0.0f), CEnemy::STOP);
-	//CEnemy::Create(D3DXVECTOR3(-900.0f, 100.0f, 0.0f), CEnemy::NORMAL);
-	//CEnemy::Create(D3DXVECTOR3(-750.0f, 150.0f, 0.0f), CEnemy::STOP);
-	//CEnemy::Create(D3DXVECTOR3(-900.0f, 200.0f, 0.0f), CEnemy::NORMAL);
-	//CEnemy::Create(D3DXVECTOR3(-300.0f, 100.0f, 0.0f), CEnemy::HOMING);
-	//CEnemy::Create(D3DXVECTOR3(-300.0f, 200.0f, 0.0f), CEnemy::HOMING);
-	//CEnemy::Create(D3DXVECTOR3(-200.0f, 100.0f, 0.0f), CEnemy::HOMING);
-	//CEnemy::Create(D3DXVECTOR3(-100.0f, 200.0f, 0.0f), CEnemy::HOMING);
-	//CEnemy::Create(D3DXVECTOR3(-50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
-	//CEnemy::Create(D3DXVECTOR3(-50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
-	//CEnemy::Create(D3DXVECTOR3(50.0f, 200.0f, 0.0f), CEnemy::INVINCIBLE);
-	//CEnemy::Create(D3DXVECTOR3(50.0f, 100.0f, 0.0f), CEnemy::INVINCIBLE);
-
-	// 敵の撃破数をリセット
-	CEnemy::ResetDeath();
-
 	//建物の生成
 	CBuild::Create();
 
@@ -160,9 +138,6 @@ void CGameManager::Uninit(void)
 	// カメラの終了
 	m_pCamera = NULL;
 
-	// 敵の撃破数をリセット
-	CEnemy::ResetDeath();
-
 	// フォグを終了
 	Fog::Set(false);
 
@@ -185,21 +160,10 @@ void CGameManager::Update(void)
 		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 		return;
 	}
-
-	//敵
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_E))
-	{
-		CEnemy::Create(D3DXVECTOR3(300.0f, 50.0f, 0.0f), CEnemy::NORMAL);
-		CEnemy::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), CEnemy::NORMAL);
-		CEnemy::Create(D3DXVECTOR3(300.0f, 150.0f, 0.0f), CEnemy::NORMAL);
-	}
 #endif
 
 	// 状態管理
 	TaskState();
-
-	// レベルの管理
-	TaskLevel();
 
 	//ライトの更新
 	if (m_pLight != NULL)
@@ -230,6 +194,7 @@ void CGameManager::Update(void)
 			CSceneManager::SetClear(true);
 		}
 
+		// 遷移
 		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}
 }
@@ -247,55 +212,7 @@ void CGameManager::Draw(void)
 //==========================================
 void CGameManager::TaskTutorial()
 {
-	if (m_pPlayer->GetPos().x >= -1500.0f && m_Progress == TUTORIAL_ENEMY)
-	{
-		//チュートリアルの生成
-		if (m_pTutorial == nullptr)
-		{
-			m_pTutorial = CTutorial::Create();
-			m_Progress = TUTORIAL_ARROW;
 
-			// 移動制限を生成
-			D3DXVECTOR3 pos = m_pPlayer->GetPos();
-			pos.x += 500.0f;
-			m_pTutorialWall = CTutorialWall::Create();
-		}
-	}
-	if (m_pTutorial != nullptr)
-	{
-		if (m_Progress == TUTORIAL_ARROW)
-		{
-			if (m_State == STATE_CONCENTRATE)
-			{
-				m_pTutorial->NextProgress();
-
-				m_Progress = TUTORIAL_DASH;
-			}
-		}
-		if (m_Progress == TUTORIAL_DASH)
-		{
-			if (CManager::GetInstance()->GetJoyPad()->GetStickL(0.3f) != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
-			{
-				m_pTutorial->NextProgress();
-				m_Progress = END;
-			}
-		}
-		if (m_Progress == END)
-		{
-			if (m_State == STATE_NORMAL)
-			{
-				m_pTutorial->NextProgress();
-				m_pTutorial = nullptr;
-
-				// 移動制限を解除
-				if (m_pTutorialWall != nullptr)
-				{
-					m_pTutorialWall->Uninit();
-					m_pTutorialWall = nullptr;
-				}
-			}
-		}
-	}
 }
 
 //==========================================
@@ -303,65 +220,9 @@ void CGameManager::TaskTutorial()
 //==========================================
 void CGameManager::TaskState()
 {
-	// 状態の切り替え
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT) || CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A))
-	{
-		if (m_State == STATE_NORMAL) // 集中
-		{
-			m_State = STATE_CONCENTRATE;
-			Fog::Set(true); // フォグを設定
-
-			// ターゲットを生成
-			if (m_pTarget == nullptr)
-			{
-				m_pTarget = CTarget::Create(m_pPlayer->GetLevel());
-			}
-		}
-		else if (m_State == STATE_CONCENTRATE) // ダッシュ
-		{
-			m_State = STATE_DASH;
-			m_fTimer = 0.0f; // 時間のリセット
-			Fog::Set(false); // フォグを設定
-
-			// ターゲットを終了
-			if (m_pTarget != nullptr)
-			{
-				m_pTarget->Uninit();
-				m_pTarget = nullptr;
-			}
-		}
-	}
-
-	// ダッシュの解除
-	if (m_State == STATE_DASH)
-	{
-		// ダッシュフラグで通常状態に変更
-		if (!m_pPlayer->GetDash())
-		{
-			m_State = STATE_NORMAL;
-		}
-	}
-
 	// ゲームをスタート
 	if (m_State == STATE_START && m_pPlayer->GetPos().x >= -2250.0f)
 	{
 		m_State = STATE_NORMAL;
-	}
-}
-
-//==========================================
-//  レベルの管理
-//==========================================
-void CGameManager::TaskLevel()
-{
-	// 敵の撃破数を取得する
-	int nDeath = CEnemy::GetDeath();
-
-	// レベルが上がる条件を達成
-	int nLevel = m_pPlayer->GetLevel();
-	if (nDeath >= nLevel * nLevel)
-	{
-		m_pPlayer->AddLevel(1);
-		CEnemy::ResetDeath();
 	}
 }

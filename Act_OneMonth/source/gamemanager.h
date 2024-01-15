@@ -32,8 +32,6 @@ public:
 	{
 		STATE_START = 0, //ゲーム開始
 		STATE_NORMAL, //通常状態
-		STATE_CONCENTRATE, //集中状態
-		STATE_DASH, //ダッシュ状態
 		STATE_END, //ゲーム終了
 		MAX,
 		NONE
@@ -77,7 +75,6 @@ private:
 	// メンバ関数
 	void TaskTutorial(); // チュートリアルの処理
 	void TaskState(); // 状態管理
-	void TaskLevel(); // レベルの管理
 
 	//メンバ変数
 	float m_fTimer; // 状態遷移用タイマー

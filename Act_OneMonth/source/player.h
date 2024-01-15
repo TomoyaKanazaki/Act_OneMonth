@@ -72,7 +72,6 @@ private:
 	void Rotate(void);
 	void Jump(void);
 	void Gravity(void);
-	void Dash(void);
 	void Death(void);
 
 	//ƒƒ“ƒo•Ï”

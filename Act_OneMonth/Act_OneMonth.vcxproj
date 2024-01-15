@@ -21,22 +21,14 @@
   <ItemGroup>
     <ClCompile Include="source\arrow.cpp" />
     <ClCompile Include="source\bg.cpp" />
-    <ClCompile Include="source\boss_main.cpp" />
-    <ClCompile Include="source\boss_sub.cpp" />
     <ClCompile Include="source\build.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
-    <ClCompile Include="source\course.cpp" />
     <ClCompile Include="source\cut.cpp" />
     <ClCompile Include="source\cut_polygon.cpp" />
     <ClCompile Include="source\debugproc.cpp" />
     <ClCompile Include="source\doll.cpp" />
     <ClCompile Include="source\effect3D.cpp" />
-    <ClCompile Include="source\enemy.cpp" />
-    <ClCompile Include="source\enemy_homing.cpp" />
-    <ClCompile Include="source\enemy_invincible.cpp" />
-    <ClCompile Include="source\enemy_normal.cpp" />
-    <ClCompile Include="source\enemy_stop.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\field.cpp" />
     <ClCompile Include="source\fog.cpp" />
@@ -48,7 +40,6 @@
     <ClCompile Include="source\logo.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\manager.cpp" />
-    <ClCompile Include="source\marker.cpp" />
     <ClCompile Include="source\model.cpp" />
     <ClCompile Include="source\motion.cpp" />
     <ClCompile Include="source\number.cpp" />
@@ -70,7 +61,6 @@
     <ClCompile Include="source\scenemanager.cpp" />
     <ClCompile Include="source\slice.cpp" />
     <ClCompile Include="source\sound.cpp" />
-    <ClCompile Include="source\target.cpp" />
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="source\title.cpp" />
     <ClCompile Include="source\titlemanager.cpp" />
@@ -80,22 +70,14 @@
   <ItemGroup>
     <ClInclude Include="source\arrow.h" />
     <ClInclude Include="source\bg.h" />
-    <ClInclude Include="source\boss_main.h" />
-    <ClInclude Include="source\boss_sub.h" />
     <ClInclude Include="source\build.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
-    <ClInclude Include="source\course.h" />
     <ClInclude Include="source\cut.h" />
     <ClInclude Include="source\cut_polygon.h" />
     <ClInclude Include="source\debugproc.h" />
     <ClInclude Include="source\doll.h" />
     <ClInclude Include="source\effect3D.h" />
-    <ClInclude Include="source\enemy.h" />
-    <ClInclude Include="source\enemy_homing.h" />
-    <ClInclude Include="source\enemy_invincible.h" />
-    <ClInclude Include="source\enemy_normal.h" />
-    <ClInclude Include="source\enemy_stop.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\field.h" />
     <ClInclude Include="source\fog.h" />
@@ -106,7 +88,6 @@
     <ClInclude Include="source\light.h" />
     <ClInclude Include="source\logo.h" />
     <ClInclude Include="source\manager.h" />
-    <ClInclude Include="source\marker.h" />
     <ClInclude Include="source\model.h" />
     <ClInclude Include="source\motion.h" />
     <ClInclude Include="source\number.h" />
@@ -125,7 +106,6 @@
     <ClInclude Include="source\scenemanager.h" />
     <ClInclude Include="source\slice.h" />
     <ClInclude Include="source\sound.h" />
-    <ClInclude Include="source\target.h" />
     <ClInclude Include="source\texture.h" />
     <ClInclude Include="source\title.h" />
     <ClInclude Include="source\titlemanager.h" />

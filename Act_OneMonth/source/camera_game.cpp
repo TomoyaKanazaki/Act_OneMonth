@@ -46,26 +46,6 @@ HRESULT CCameraGame::Init(void)
 //==========================================
 void CCameraGame::Update(void)
 {
-	//集中状態で視野角の拡張
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE || CGameManager::GetState() == CGameManager::STATE_DASH)
-	{
-		//ローカル変数宣言
-		float fDiff = MAX_FAV - m_fFov; //差分
-
-		//差分を加算
-		m_fFov += fDiff * REVISION_BIG;
-
-		return;
-	}
-	else
-	{
-		//ローカル変数宣言
-		float fDiff = DEFAULT_FAV - m_fFov; //差分
-
-		//差分を加算
-		m_fFov += fDiff * REVISION_SMALL;
-	}
-
 	//プレイヤーを向く
 	MovePlayer();
 

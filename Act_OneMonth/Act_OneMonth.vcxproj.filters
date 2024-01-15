@@ -78,12 +78,6 @@
     <ClCompile Include="source\texture.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="source\enemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\enemy_normal.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\logo.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -132,19 +126,7 @@
     <ClCompile Include="source\object_char.cpp">
       <Filter>object</Filter>
     </ClCompile>
-    <ClCompile Include="source\boss_main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\slice.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\boss_sub.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\enemy_homing.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\marker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\build.cpp">
@@ -165,12 +147,6 @@
     <ClCompile Include="source\tutorial.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\enemy_stop.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\enemy_invincible.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\tutorial_wall.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -178,12 +154,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\effect3D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\target.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="source\course.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -239,12 +209,6 @@
     <ClInclude Include="source\texture.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="source\enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\enemy_normal.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="source\logo.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -293,19 +257,7 @@
     <ClInclude Include="source\object_char.h">
       <Filter>object</Filter>
     </ClInclude>
-    <ClInclude Include="source\boss_main.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="source\slice.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\boss_sub.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\enemy_homing.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\marker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\build.h">
@@ -326,12 +278,6 @@
     <ClInclude Include="source\tutorial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="source\enemy_stop.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\enemy_invincible.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="source\tutorial_wall.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -339,12 +285,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\effect3D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\target.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\course.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

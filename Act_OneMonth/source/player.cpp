@@ -19,7 +19,6 @@
 #include "camera.h"
 #include "gametime.h"
 #include "arrow.h"
-#include "marker.h"
 #include "slice.h"
 #include "tutorial_wall.h"
 
@@ -94,50 +93,38 @@ void CPlayer::Uninit(void)
 //==========================================
 void CPlayer::Update(void)
 {
-	//経過時間を取得する
+	// 経過時間を取得する
 	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
-	//ゲーム状態の取得
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
-	{
-		m_fDeltaTime *= 0.0f;
-	}
+	// ジャンプ
+	Jump();
 
-	//ダッシュの処理
-	Dash();
+	// 移動の処理
+	Move();
 
-	if (CGameManager::GetState() != CGameManager::STATE_CONCENTRATE && CGameManager::GetState() != CGameManager::STATE_DASH)
-	{
-		//ジャンプ!
-		Jump();
-
-		//移動の処理
-		Move();
-	}
-
-	//回転の処理
+	// 回転の処理
 	Rotate();
 
-	//移動制限
+	// 移動制限
 	Limit();
 
-	//重力
+	// 重力
 	Gravity();
 
-	//モーション
+	// モーション
 	Motion();
 
-	//殺す
+	// 殺す
 	Death();
 
-	//前回座標に保存
+	// 前回座標に保存
 	m_oldPos = m_pos;
 	m_oldposModel = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
-	//中心座標を設定
+	// 中心座標を設定
 	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
-	//デバッグ表示
+	// デバッグ表示
 	DebugProc::Print("移動タイマー : %f\n", m_fMoveTimer);
 	DebugProc::Print("ダッシュフラグ : %d\n", m_nCntMove);
 
@@ -235,7 +222,7 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 void CPlayer::Motion(void)
 {
 	//状態が切り替わった瞬間にモーションを切り替える
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE && CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
+	if (CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
 	{
 		m_State = IAI;
 	}
@@ -245,7 +232,7 @@ void CPlayer::Motion(void)
 	}
 
 	//状態更新
-	if (m_State == DEATH || CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
+	if (m_State == DEATH)
 	{
 		//更新しない
 	}
@@ -267,11 +254,6 @@ void CPlayer::Motion(void)
 	else //上記のどれでもない状態
 	{
 		m_State = NEUTRAL;
-	}
-
-	if (CGameManager::GetState() == CGameManager::STATE_DASH)
-	{
-		m_State = IAI;
 	}
 
 	//モーションを更新
@@ -482,69 +464,8 @@ void CPlayer::Gravity(void)
 		return;
 	}
 
-	//集中状態の時
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE && CGameManager::GetState() == CGameManager::STATE_DASH)
-	{
-		m_move.y = 0.0f;
-		return;
-	}
-
 	//移動量の減少
 	m_move.y -= GRAVITY;
-}
-
-//==========================================
-//  ダッシュの処理
-//==========================================
-void CPlayer::Dash(void)
-{
-	// 状態遷移でカウンターをリセット
-	if (CGameManager::GetState() == CGameManager::STATE_DASH && CGameManager::GetOldState() == CGameManager::STATE_CONCENTRATE)
-	{
-		// タイマーのリセット
-		m_fMoveTimer = 0.0f;
-		m_nCntMove = 0;
-	}
-
-	// ダッシュ状態でなければ抜ける
-	if (CGameManager::GetState() != CGameManager::STATE_DASH) { return; }
-
-	// ダッシュフラグの判定
-	if (!m_bDash)
-	{
-		return;
-	}
-
-	// タイマーを加算
-	m_fMoveTimer += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
-
-	// 設定情報がなくなったら終了する
-	if ((m_posMove[m_nCntMove] == D3DXVECTOR3(0.0f, 0.0f, 1.0f) || m_nLevel == m_nCntMove) && m_fMoveTimer >= MOVE_TIME)
-	{
-		m_nCntMove = 0;
-		m_bDash = false;
-
-		// 移動先をリセット
-		for (int i = 0; i < MAX_LEVEL; ++i)
-		{
-			m_posMove[i] = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-		}
-
-		return;
-	}
-
-	// タイマーが一定時間経過していたら
-	if (m_fMoveTimer >= MOVE_TIME)
-	{
-		// 次の移動先に座標を変更
-		m_pos = m_posMove[m_nCntMove];
-
-		// 移動先回数を加算
-		++m_nCntMove;
-
-		// タイマーをリセット
-		m_fMoveTimer = 0.0f;
-	}
 }
 
 //==========================================
@@ -553,14 +474,6 @@ void CPlayer::Dash(void)
 void CPlayer::Death(void)
 {
 	//通常状態でしか死なない
-	if (CGameManager::GetState() == CGameManager::STATE_CONCENTRATE)
-	{
-		return;
-	}
-	if (CGameManager::GetState() == CGameManager::STATE_DASH)
-	{
-		return;
-	}
 	if (CGameManager::GetState() == CGameManager::STATE_START)
 	{
 		return;
