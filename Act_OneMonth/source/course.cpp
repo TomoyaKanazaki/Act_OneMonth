@@ -210,17 +210,17 @@ void CCourse::Hit()
 					// 媒介変数tを求める
 					float t = (lengthLine * lengthToPos) / (lengthLine * lengthLine);
 
-					// 目標点から直線に垂線を下した時の交点を求める
-					D3DXVECTOR3 posCross = m_start + (t * vecLine);
-
-					// 交点から目標点までのベクトルを求める
-					D3DXVECTOR3 vecToCross = pos - posCross;
-
-					// 判定距離の比較
-					if (HIT_LENGTH * HIT_LENGTH >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
+					// 交点が線分上にあった場合
+					if (0.0f <= t && t <= 1.0f)
 					{
-						// 線分の判定
-						if (0.0f <= t && t <= 1.0f)
+						// 目標点から直線に垂線を下した時の交点を求める
+						D3DXVECTOR3 posCross = m_start + (t * vecLine);
+
+						// 交点から目標点までのベクトルを求める
+						D3DXVECTOR3 vecToCross = pos - posCross;
+
+						// 判定距離の比較
+						if (HIT_LENGTH * HIT_LENGTH >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
 						{
 							// 当たっていた時の演出系処理
 							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
