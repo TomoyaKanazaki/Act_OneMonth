@@ -110,6 +110,7 @@ void CSceneManager::Uninit(void)
 	if (m_pScene != NULL)
 	{
 		m_pScene->Uninit();
+		delete m_pScene;
 		m_pScene = NULL;
 	}
 
