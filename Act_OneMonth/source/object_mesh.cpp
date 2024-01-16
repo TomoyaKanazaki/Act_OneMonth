@@ -123,6 +123,11 @@ void CObject_Mesh::Draw(void)
 	// 軌跡専用の処理
 	if (m_bOrbit)
 	{
+		//アルファテストの有効化
+		pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+
 		//アルファブレンディングを加算合成に設定
 		pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 		pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -193,6 +198,11 @@ void CObject_Mesh::Draw(void)
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	//アルファテストの有効化
+	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 }
 
 //==========================================
