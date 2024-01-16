@@ -21,6 +21,9 @@
 #include "arrow.h"
 #include "slice.h"
 #include "tutorial_wall.h"
+#include "slice.h"
+#include "effect3D.h"
+#include "orbit.h"
 
 //==========================================
 //  定数定義
@@ -28,24 +31,36 @@
 namespace
 {
 	const float HIT_LENGTH = 25.0f; // 敵との接触に使う判定の大きさ
-	const float MOVE_TIME = 0.5f; // ダッシュ状態で移動するまでの時間
+	const float ATTACK_SPEED = 2000.0f; // 攻撃時の移動速度
+	const float ATTACK_TIME = 0.1f; // 攻撃に使用する時間
+	const float PLAYER_SPEED = 350.0f; //プレイヤーの移動速度
+	const float PLAYER_HEIGHT = 40.0f; //プレイヤーの高さ
+	const float DASH_DISTANCE = 200.0f; //ダッシュの移動距離
+	const float HIT_RANGE = 220.0f; //ヒットする範囲
+	const float JUMP_MOVE = 750.0f; //ジャンプ力
+	const float GRAVITY = 25.0f; //重力
+	const float CAMERA_WIDTH = 420.0f; //カメラから離れられる横の範囲
+	const float CAMERA_HEIGHT = 220.0f; //カメラから離れられる縦の範囲
+	const int MAX_ATTACK_COUNT = 3; // 連続攻撃の最大数
+	const float ATTACK_COOL_TIME = 0.5f; // 攻撃のクールタイム
 }
 
 //==========================================
 //  コンストラクタ
 //==========================================
 CPlayer::CPlayer(int nPriority) : CObject_Char(nPriority),
-m_nLevel(1),
-m_nCntMove(0),
-m_fMoveTimer(0.0f)
+m_fStateCounter(0.0f),
+m_AttackCoolTime(ATTACK_COOL_TIME),
+m_AttackCounter(0),
+m_bAttack(true),
+m_posStart(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+m_pOrbit(nullptr)
 {
 	m_CenterPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_vecStick = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fDashAngle = 0.0f;
 	m_bRand = true;
 	m_bDash = false;
 	m_oldposModel = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_pArrow = nullptr;
 	m_State = NEUTRAL;
 	m_oldState = NEUTRAL;
 }
@@ -96,6 +111,9 @@ void CPlayer::Update(void)
 	// 経過時間を取得する
 	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
+	// 攻撃
+	Attack();
+
 	// ジャンプ
 	Jump();
 
@@ -124,10 +142,6 @@ void CPlayer::Update(void)
 	// 中心座標を設定
 	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
-	// デバッグ表示
-	DebugProc::Print("移動タイマー : %f\n", m_fMoveTimer);
-	DebugProc::Print("ダッシュフラグ : %d\n", m_nCntMove);
-
 	CObject_Char::Update();
 
 #ifdef _DEBUG
@@ -148,42 +162,6 @@ void CPlayer::Update(void)
 void CPlayer::Draw(void)
 {
 	CObject_Char::Draw();
-}
-
-//==========================================
-//  レベルアップ
-//==========================================
-void CPlayer::AddLevel(int nAdd)
-{
-	// 上限の場合関数を抜ける
-	if (m_nLevel == MAX_LEVEL) { return; }
-
-	// レベルを加算
-	m_nLevel += nAdd;
-
-	// 上限値の設定
-	if (m_nLevel > MAX_LEVEL)
-	{
-		m_nLevel = MAX_LEVEL;
-	}
-}
-
-//==========================================
-//  移動先の設定
-//==========================================
-void CPlayer::SetMovePos(const D3DXVECTOR3 posMove)
-{
-	// 現在のレベルと同数までしか保存しない
-	if (m_nLevel <= m_nCntMove) { return; }
-
-	// 移動先を保存
-	m_posMove[m_nCntMove] = posMove;
-
-	// ダッシュするよフラグ
-	m_bDash = true;
-
-	// 保存先を変更
-	++m_nCntMove;
 }
 
 //==========================================
@@ -221,18 +199,8 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 //==========================================
 void CPlayer::Motion(void)
 {
-	//状態が切り替わった瞬間にモーションを切り替える
-	if (CGameManager::GetOldState() == CGameManager::STATE_NORMAL)
-	{
-		m_State = IAI;
-	}
-	if (CGameManager::GetState() == CGameManager::STATE_NORMAL && CGameManager::GetOldState() != CGameManager::STATE_NORMAL)
-	{
-		m_State = NEUTRAL;
-	}
-
 	//状態更新
-	if (m_State == DEATH)
+	if (m_State == DEATH || m_State == IAI)
 	{
 		//更新しない
 	}
@@ -332,6 +300,12 @@ void CPlayer::Limit(void)
 //==========================================
 void CPlayer::Move(void)
 {
+	// 攻撃状態中は抜ける
+	if (m_State == IAI)
+	{
+		return;
+	}
+
 	//ローカル変数宣言
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -424,6 +398,13 @@ void CPlayer::Rotate(void)
 //==========================================
 void CPlayer::Jump(void)
 {
+	// 攻撃中に抜ける
+	if (m_State == IAI)
+	{
+		return;
+	}
+
+	// 死亡時に抜ける
 	if (m_State == DEATH)
 	{
 		return;
@@ -452,6 +433,12 @@ void CPlayer::Jump(void)
 //==========================================
 void CPlayer::Gravity(void)
 {
+	// 攻撃中は重力を受けない
+	if (m_State == IAI)
+	{
+		return;
+	}
+
 	//重力の無効条件
 	if (m_pos.y <= 0.0f)
 	{
@@ -483,6 +470,12 @@ void CPlayer::Death(void)
 		return;
 	}
 
+	// 攻撃中は死なない
+	if (m_State == IAI)
+	{
+		return;
+	}
+
 	//当たり判定の生成
 	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
 	{
@@ -507,6 +500,176 @@ void CPlayer::Death(void)
 				{
 					CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
 					m_State = DEATH;
+				}
+			}
+
+			//次のアドレスにずらす
+			pObj = pNext;
+		}
+	}
+}
+
+//==========================================
+//  攻撃の処理
+//==========================================
+void CPlayer::Attack()
+{
+	// 死亡状態中は抜ける
+	if (m_State == DEATH)
+	{
+		return;
+	}
+
+	// クールタイムが一定未満だと攻撃不可
+	if (m_AttackCoolTime < ATTACK_COOL_TIME)
+	{
+		// 攻撃のクールタイムを加算
+		m_AttackCoolTime += m_fDeltaTime;
+
+		return;
+	}
+
+	// 右スティック入力の値を取得
+	D3DXVECTOR3 vecInput = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
+
+	// 入力値を変更する
+	vecInput.y = vecInput.z;
+	vecInput.z = 0.0f;
+
+	// 右スティック入力があった場合
+	if (CManager::GetInstance()->GetJoyPad()->GetStickTriggerR(CJoyPad::STICK_ALL) && m_State != IAI)
+	{
+		// 入力値を正規化する
+		D3DXVec3Normalize(&vecInput, &vecInput);
+
+		// 移動量を入力方向に分解する
+		m_move = vecInput * ATTACK_SPEED * m_fDeltaTime;
+
+		// 攻撃状態に遷移
+		m_State = IAI;
+
+		// 攻撃時間をリセット
+		m_fStateCounter = 0.0f;
+
+		// 開始地点を記録する
+		m_posStart = m_CenterPos;
+
+		// 軌跡の生成
+		if (m_pOrbit == nullptr)
+		{
+			m_pOrbit = COrbit::Create(m_ppModel[3], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(10.0f, 10.0f, 10.0f), 100);
+		}
+	}
+
+	// デバッグ用攻撃(キーボード)
+#ifdef _DEBUG
+
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RIGHT))
+	{
+
+	}
+
+#endif
+
+	// 攻撃状態中の場合
+	if (m_State == IAI)
+	{
+		// 攻撃時間の加算
+		m_fStateCounter += m_fDeltaTime;
+
+		// 移動する
+		m_pos += m_move;
+
+		// 攻撃判定
+		Hit();
+
+		// 一定時間で攻撃を解除する
+		if (m_fStateCounter >= ATTACK_TIME)
+		{
+			// カウンターをリセット
+			m_fStateCounter = 0.0f;
+
+			// 空中にいたらジャンプ状態にする
+			if (m_pos.y > 0.0f)
+			{
+				// 着地フラグオフ
+				m_bRand = false;
+
+				// 落下状態
+				m_State = FALL;
+			}
+			else
+			{
+				// 待機状態
+				m_State = NEUTRAL;
+			}
+
+			// クールタイムをリセット
+			m_AttackCoolTime = 0.0f;
+
+			// エフェクトを生成
+			D3DXVECTOR3 pos = (m_posStart + m_CenterPos) * 0.5f;
+			D3DXVECTOR3 vec = m_CenterPos - m_posStart;
+			float Length = sqrtf(vec.x * vec.x + vec.y * vec.y);
+			CSlice::Create(pos, D3DXVECTOR3(Length, Length, Length), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
+			CSlice::Create(pos, D3DXVECTOR3(Length, Length, Length), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
+		}
+	}
+}
+
+//==========================================
+//  敵との当たり判定
+//==========================================
+void CPlayer::Hit()
+{
+	//当たり判定の生成
+	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
+	{
+		//先頭のアドレスを取得
+		CObject* pObj = CObject::GetTop(nCntPriority);
+
+		while (pObj != NULL)
+		{
+			//次のアドレスを保存
+			CObject* pNext = pObj->GetNext();
+
+			if (pObj->GetType() == CObject::TYPE_ENEMY) //敵の場合
+			{
+				if (pObj->GetObjState() == CObject::NORMAL) // 通常状態の場合
+				{
+					// 目標点を取得する
+					D3DXVECTOR3 pos = pObj->GetPos();
+
+					// 始点から終点までのベクトルを求める
+					D3DXVECTOR3 vecLine = m_pos - m_oldPos;
+
+					// 始点から目標点までのベクトルを求める
+					D3DXVECTOR3 vecToPos = pos - m_oldPos;
+
+					// 各ベクトルの大きさを求める
+					float lengthLine = sqrtf((vecLine.x * vecLine.x) + (vecLine.y * vecLine.y));
+					float lengthToPos = sqrtf((vecToPos.x * vecToPos.x) + (vecToPos.y * vecToPos.y));
+
+					// 媒介変数tを求める
+					float t = (lengthLine * lengthToPos) / (lengthLine * lengthLine);
+
+					// 線分の判定
+					if (0.0f <= t && t <= 1.0f)
+					{
+						// 目標点から直線に垂線を下した時の交点を求める
+						D3DXVECTOR3 posCross = m_oldPos + (t * vecLine);
+
+						// 交点から目標点までのベクトルを求める
+						D3DXVECTOR3 vecToCross = pos - posCross;
+
+						// 判定距離の比較
+						if (HIT_LENGTH * HIT_LENGTH >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
+						{
+							// 当たっていた時の演出系処理
+							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
+							pObj->SetState(CObject::MARKING);
+						}
+					}
 				}
 			}
 

@@ -48,6 +48,10 @@ public:
 	void SetColor(D3DXCOLOR col);
 	void SetPatern(TexPatern patern) { m_Patern = patern; }
 	void AddTexPos(D3DXVECTOR2 texpos);
+	void SetOrbit(bool bOrbit) { m_bOrbit = bOrbit; }
+
+	//静的メンバ関数
+	static CObject_Mesh *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, D3DXVECTOR2 uv);
 
 protected:
 
@@ -63,6 +67,7 @@ private:
 	D3DXMATRIX m_mtxWorld; //ワールドマトリックス
 	D3DXCOLOR m_Color;
 	TexPatern m_Patern;
+	bool m_bOrbit; // 軌跡フラグ
 
 	//メンバ関数
 	void SetVtx(void);

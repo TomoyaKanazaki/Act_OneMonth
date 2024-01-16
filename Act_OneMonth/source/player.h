@@ -11,7 +11,7 @@
 //==========================================
 //  前方宣言
 //==========================================
-class CArrow;
+class COrbit;
 
 //==========================================
 //  プレイヤークラスの定義
@@ -45,25 +45,11 @@ public:
 	bool GetDeath(void) { return m_State == DEATH ? true : false; }
 	State GetState(void) { return m_State; }
 	bool GetDash() const { return m_bDash; }
-	int GetLevel() { return m_nLevel; } // レベルの取得
-	void AddLevel(int nAdd); // レベルの加算
-	void SetMovePos(const D3DXVECTOR3 posMove); // 移動先の設定
 
 	//静的メンバ関数
 	static CPlayer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 private:
-
-	//定数定義
-#define PLAYER_SPEED (350.0f) //プレイヤーの移動速度
-#define PLAYER_HEIGHT (40.0f) //プレイヤーの高さ
-#define DASH_DISTANCE (200.0f) //ダッシュの移動距離
-#define HIT_RANGE (220.0f) //ヒットする範囲
-#define JUMP_MOVE (750.0f) //ジャンプ力
-#define GRAVITY (25.0f) //重力
-#define CAMERA_WIDTH (420.0f) //カメラから離れられる範囲
-#define CAMERA_HEIGHT (220.0f) //カメラから離れられる範囲
-#define MAX_LEVEL (10) // レベル上限
 
 	//メンバ関数
 	void Motion(void);
@@ -73,21 +59,23 @@ private:
 	void Jump(void);
 	void Gravity(void);
 	void Death(void);
+	void Attack();
+	void Hit();
 
 	//メンバ変数
 	D3DXVECTOR3 m_CenterPos; //中心座標
-	D3DXVECTOR3 m_vecStick; //前回の右スティック入力
-	float m_fDashAngle; //前回の右スティック入力
+	D3DXVECTOR3 m_posStart; // 攻撃のスタート地点
+	float m_fDashAngle;
 	bool m_bRand;
 	bool m_bDash;
 	D3DXMATERIAL *m_pDefMat;
-	CArrow* m_pArrow;
 	State m_State;
 	State m_oldState;
-	float m_fMoveTimer; // 移動のタイマー
-	int m_nLevel; // レベル
-	int m_nCntMove; // 移動先の保存数
-	D3DXVECTOR3 m_posMove[MAX_LEVEL]; // 移動先の保存用変数
+	float m_fStateCounter; // 状態遷移を管理するタイマー
+	float m_AttackCoolTime; // 攻撃のクールタイム
+	int m_AttackCounter; // 連続で攻撃した回数
+	bool m_bAttack; // 攻撃可能フラグ
+	COrbit* m_pOrbit;
 
 	//モデル情報
 	D3DXVECTOR3 m_oldposModel;

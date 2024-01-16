@@ -13,7 +13,8 @@
 //==========================================
 //  コンストラクタ
 //==========================================
-CObject_Mesh::CObject_Mesh(int nPriority) : CObject(nPriority)
+CObject_Mesh::CObject_Mesh(int nPriority) : CObject(nPriority),
+m_bOrbit(false)
 {
 	m_pVtxBuff = NULL;
 	m_pIdxBuff = NULL;
@@ -119,11 +120,24 @@ void CObject_Mesh::Draw(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 
-	//ライティングを無効化
-	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	// 軌跡専用の処理
+	if (m_bOrbit)
+	{
+		//アルファブレンディングを加算合成に設定
+		pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+		pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-	//カリングを無効化
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		//Zテストの無効化
+		pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+		pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+		//ライティングを無効化
+		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+		//カリングを無効化
+		pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	}
 
 	//ローカル変数宣言
 	D3DXMATRIX mtxRot, mtxTrans; //計算用マトリックス
@@ -170,6 +184,50 @@ void CObject_Mesh::Draw(void)
 
 	//ライティングを有効化
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	//Zテストの有効化
+	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
+	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+
+	//アルファブレンディングの設定を元に戻す
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+}
+
+//==========================================
+//  生成処理
+//==========================================
+CObject_Mesh * CObject_Mesh::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, D3DXVECTOR2 uv)
+{
+	//インスタンス生成
+	CObject_Mesh *pMesh = NULL;
+
+	//NULLチェック
+	if (pMesh == NULL)
+	{
+		//メモリを確保
+		pMesh = new CObject_Mesh;
+	}
+
+	if (pMesh == NULL)
+	{
+		return NULL;
+	}
+
+	//分割数を設定
+	pMesh->m_Mesh.nNumMesh_U = (int)uv.x;
+	pMesh->m_Mesh.nNumMesh_V = (int)uv.y;
+	pMesh->m_pos = pos;
+	pMesh->m_size = size;
+	pMesh->m_rot = rot;
+	pMesh->m_Color = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+
+	//初期化
+	pMesh->Init();
+
+	//ポインタを返す
+	return pMesh;
 }
 
 //==========================================

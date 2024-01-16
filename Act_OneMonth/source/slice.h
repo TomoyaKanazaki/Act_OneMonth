@@ -25,7 +25,7 @@ public:
 	void Draw(void) override;
 
 	//Ã“Iƒƒ“ƒoŠÖ”
-	static CSlice* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size);
+	static CSlice* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, bool bRandRot = false);
 
 private:
 

@@ -18,9 +18,16 @@ int CJoyPad::m_nNum = 0;
 //==========================================
 //  マクロ定義
 //==========================================
-#define STICK_DEADLINE (50) //スティック入力のデッドライン
-#define STICK_DEADZONE (50) //スティック入力のデッドゾーン
 #define MOUSE_MOVE (0.001f) //マウスの倍率
+
+//==========================================
+//  定数定義
+//==========================================
+namespace
+{
+	const int STICK_TRIGGER_DEAD = 5000;
+	const int STICK_INIT_VALUE = 1000;
+}
 
 //==========================================
 //  コンストラクタ
@@ -412,12 +419,12 @@ bool CMouse::GetMouseControll(void)
 //==========================================
 CJoyPad::CJoyPad()
 {
-	//XINPUT_STATE m_JoyKeyState = {};
-	//XINPUT_STATE m_JoyKeyTrigger = {};
-	//XINPUT_VIBRATION m_Vibration = {};
-	//VIBRATION m_VibrationState = VIBRATIONSTATE_NONE;
-	//int m_VibrationTimer = 0;
-	//int m_nIdx = m_nNum;
+	m_JoyKeyState = {};
+	m_JoyKeyTrigger = {};
+	m_Vibration = {};
+	m_VibrationState = VIBRATIONSTATE_NONE;
+	m_VibrationTimer = 0;
+	m_nIdx = m_nNum;
 
 	//使用数を加算する
 	m_nNum++;
@@ -472,6 +479,8 @@ void CJoyPad::Update(void)
 	//ローカル変数宣言
 	XINPUT_STATE JoyKeyState; //ジョイパッド入力情報
 
+	STICK_TRIGGER_DEAD;
+
 	//ジョイパッドの状態の取得
 	if (XInputGetState(m_nIdx, &JoyKeyState) == ERROR_SUCCESS)
 	{
@@ -479,6 +488,24 @@ void CJoyPad::Update(void)
 		m_JoyKeyTrigger.Gamepad.wButtons
 			= ~m_JoyKeyState.Gamepad.wButtons
 			& JoyKeyState.Gamepad.wButtons;
+
+		//スティックの角度を保存
+		m_nStickAngleL = (int)D3DXToDegree(atan2f((float)JoyKeyState.Gamepad.sThumbLX, (float)JoyKeyState.Gamepad.sThumbLY));
+		m_nStickAngleR = (int)D3DXToDegree(atan2f((float)JoyKeyState.Gamepad.sThumbRX, (float)JoyKeyState.Gamepad.sThumbRY));
+
+		//スティックのトリガー情報をリセット
+		m_nStickTriggerL = STICK_INIT_VALUE;
+		m_nStickTriggerR = STICK_INIT_VALUE;
+
+		//スティックのトリガー情報を保存
+		if (KnockStickL(JoyKeyState)) //左
+		{
+			m_nStickTriggerL = m_nStickAngleL;
+		}
+		if (KnockStickR(JoyKeyState)) //右
+		{
+			m_nStickTriggerR = m_nStickAngleR;
+		}
 
 		//プレス処理
 		m_JoyKeyState = JoyKeyState;
@@ -596,6 +623,7 @@ D3DXVECTOR3 CJoyPad::GetStickL(float Dead)
 
 	return Stick;
 }
+
 //==========================================
 //  ジョイパッドのRスティック情報(D3DXVECTOR3)
 //==========================================
@@ -617,6 +645,88 @@ D3DXVECTOR3 CJoyPad::GetStickR(float Dead)
 	}
 
 	return Stick;
+}
+
+//==========================================
+//  スティックの入力判定
+//==========================================
+bool CJoyPad::KnockStickL(XINPUT_STATE JoyKey) //左
+{
+	//ローカル変数宣言
+	bool bJudgment = false;
+
+	//前回入力の判定
+	if (fabsf(m_JoyKeyState.Gamepad.sThumbLX) <= STICK_TRIGGER_DEAD && fabsf(m_JoyKeyState.Gamepad.sThumbLY) <= STICK_TRIGGER_DEAD)
+	{
+		//今回入力の判定
+		if (fabsf(JoyKey.Gamepad.sThumbLX) >= STICK_TRIGGER_DEAD || fabsf(JoyKey.Gamepad.sThumbLY) >= STICK_TRIGGER_DEAD)
+		{
+			bJudgment = true;
+		}
+	}
+
+	//変数を返す
+	return bJudgment;
+}
+
+bool CJoyPad::KnockStickR(XINPUT_STATE JoyKey) //右
+{
+	//ローカル変数宣言
+	bool bJudgment = false;
+
+	//前回入力の判定
+	if (fabsf(m_JoyKeyState.Gamepad.sThumbRX) <= STICK_TRIGGER_DEAD && fabsf(m_JoyKeyState.Gamepad.sThumbRY) <= STICK_TRIGGER_DEAD)
+	{
+		//今回入力の判定
+		if (fabsf(JoyKey.Gamepad.sThumbRX) >= STICK_TRIGGER_DEAD || fabsf(JoyKey.Gamepad.sThumbRY) >= STICK_TRIGGER_DEAD)
+		{
+			bJudgment = true;
+		}
+	}
+
+	//変数を返す
+	return bJudgment;
+}
+
+//==========================================
+//  スティックのトリガー取得
+//==========================================
+bool CJoyPad::GetStickTriggerL(int nDirection) //左
+{
+	// 全判定の場合
+	if (nDirection == STICK_ALL)
+	{
+		// 初期化された値じゃない場合
+		if (m_nStickTriggerL == STICK_INIT_VALUE)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	return abs(m_nStickTriggerL - nDirection) < 45 ? true : false;
+}
+
+bool CJoyPad::GetStickTriggerR(int nDirection) //右
+{
+	// 全判定の場合
+	if (nDirection == STICK_ALL)
+	{
+		// 初期化された値じゃない場合
+		if (m_nStickTriggerR == STICK_INIT_VALUE)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	return abs(m_nStickTriggerR - nDirection) < 45 ? true : false;
 }
 
 //==========================================

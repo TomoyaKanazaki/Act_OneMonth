@@ -29,6 +29,7 @@
     <ClCompile Include="source\debugproc.cpp" />
     <ClCompile Include="source\doll.cpp" />
     <ClCompile Include="source\effect3D.cpp" />
+    <ClCompile Include="source\enemy.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\field.cpp" />
     <ClCompile Include="source\fog.cpp" />
@@ -50,6 +51,7 @@
     <ClCompile Include="source\object3D_Anim.cpp" />
     <ClCompile Include="source\object_char.cpp" />
     <ClCompile Include="source\object_mesh.cpp" />
+    <ClCompile Include="source\orbit.cpp" />
     <ClCompile Include="source\player.cpp" />
     <ClCompile Include="source\precompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -78,6 +80,7 @@
     <ClInclude Include="source\debugproc.h" />
     <ClInclude Include="source\doll.h" />
     <ClInclude Include="source\effect3D.h" />
+    <ClInclude Include="source\enemy.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\field.h" />
     <ClInclude Include="source\fog.h" />
@@ -98,6 +101,7 @@
     <ClInclude Include="source\object3D_Anim.h" />
     <ClInclude Include="source\object_char.h" />
     <ClInclude Include="source\object_mesh.h" />
+    <ClInclude Include="source\orbit.h" />
     <ClInclude Include="source\player.h" />
     <ClInclude Include="source\precompile.h" />
     <ClInclude Include="source\renderer.h" />

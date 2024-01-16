@@ -23,22 +23,20 @@
 #include "tutorial.h"
 #include "tutorial_wall.h"
 #include "fog.h"
+#include "enemy.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
 const float CGameManager::m_fDashTime = 0.8f;
 CPlayer* CGameManager::m_pPlayer = NULL;
-CEnemy* CGameManager::m_pBoss = NULL;
 CCamera *CGameManager::m_pCamera = NULL;
 CLight *CGameManager::m_pLight = NULL;
 CGameManager::State CGameManager::m_State = NONE;
 CGameManager::State CGameManager::m_oldState = NONE;
 CGameManager::Progress CGameManager::m_Progress = TUTORIAL_ENEMY;
-CIcon* CGameManager::m_pIcon = nullptr;
 CTutorial* CGameManager::m_pTutorial = nullptr;
 CTutorialWall* CGameManager::m_pTutorialWall = nullptr;
-CTarget* CGameManager::m_pTarget = nullptr;
 
 //==========================================
 //  定数定義
@@ -80,6 +78,9 @@ HRESULT CGameManager::Init(void)
 
 	//プレイヤーの生成
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
+
+	// 敵の生成
+	CEnemy::Create(D3DXVECTOR3(-200.0f, 0.0f, 0.0f), CEnemy::NORMAL);
 
 	//建物の生成
 	CBuild::Create();
@@ -126,12 +127,6 @@ void CGameManager::Uninit(void)
 		m_pLight = NULL;
 	}
 
-	// ターゲットを終了
-	if (m_pTarget != nullptr)
-	{
-		m_pTarget = nullptr;
-	}
-
 	//チュートリアルを終了
 	m_pTutorial = nullptr;
 
@@ -169,12 +164,6 @@ void CGameManager::Update(void)
 	if (m_pLight != NULL)
 	{
 		m_pLight->Update();
-	}
-
-	//ゲームクリア
-	if (m_pBoss == nullptr)
-	{
-		m_State = STATE_END;
 	}
 
 #ifndef _DEBUG

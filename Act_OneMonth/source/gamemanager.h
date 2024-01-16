@@ -12,13 +12,10 @@
 //  前方宣言
 //==========================================
 class CPlayer;
-class CEnemy;
 class CCamera;
 class CLight;
-class CIcon;
 class CTutorial;
 class CTutorialWall;
-class CTarget;
 
 //==========================================
 //  ゲームマネージャクラス定義
@@ -59,16 +56,12 @@ public:
 
 	//静的メンバ関数
 	static CPlayer* GetPlayer(void) { return m_pPlayer; }
-	static CEnemy* GetBoss(void) { return m_pBoss; }
-	static void KillBoss(void) { m_pBoss = nullptr; }
 	static CCamera *GetCamera(void) { return m_pCamera; }
 	static CLight *GetLight(void) { return m_pLight; }
 	static State GetState(void) { return m_State; }
 	static State GetOldState(void) { return m_oldState; }
-	static CIcon *GetIcon(void) { return m_pIcon; }
 	static CTutorial* GetTutorial() { return m_pTutorial; }
 	static CTutorialWall* GetTutorialWall() { return m_pTutorialWall; }
-	static CTarget* GetTarget() { return m_pTarget; }
 
 private:
 
@@ -82,16 +75,13 @@ private:
 	//静的メンバ変数
 	static const float m_fDashTime;
 	static CPlayer* m_pPlayer;
-	static CEnemy* m_pBoss;
 	static CCamera *m_pCamera;
 	static CLight *m_pLight;
 	static State m_State; //ゲームの状態
 	static State m_oldState; //前フレームでのゲームの状態
 	static Progress m_Progress; //進行状況
-	static CIcon *m_pIcon;
 	static CTutorial *m_pTutorial;
 	static CTutorialWall* m_pTutorialWall;
-	static CTarget* m_pTarget;
 
 };
 
