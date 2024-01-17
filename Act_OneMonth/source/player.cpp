@@ -36,13 +36,13 @@ namespace
 	const float PLAYER_SPEED = 350.0f; //プレイヤーの移動速度
 	const float PLAYER_HEIGHT = 40.0f; //プレイヤーの高さ
 	const float DASH_DISTANCE = 200.0f; //ダッシュの移動距離
-	const float HIT_RANGE = 220.0f; //ヒットする範囲
+	const float HIT_RANGE = 2020.0f; //ヒットする範囲
 	const float JUMP_MOVE = 750.0f; //ジャンプ力
 	const float GRAVITY = 25.0f; //重力
 	const float CAMERA_WIDTH = 420.0f; //カメラから離れられる横の範囲
 	const float CAMERA_HEIGHT = 220.0f; //カメラから離れられる縦の範囲
 	const int MAX_ATTACK_COUNT = 3; // 連続攻撃の最大数
-	const float ATTACK_COOL_TIME = 0.5f; // 攻撃のクールタイム
+	const float ATTACK_COOL_TIME = 0.0f; // 攻撃のクールタイム
 }
 
 //==========================================
@@ -126,7 +126,10 @@ void CPlayer::Update(void)
 	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
 	// 攻撃
-	Attack();
+	if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB))
+	{
+		Dash();
+	}
 
 	// ジャンプ
 	Jump();
@@ -503,17 +506,20 @@ void CPlayer::Death(void)
 
 			if (pObj->GetType() == CObject::TYPE_ENEMY || pObj->GetType() == CObject::TYPE_BOSS) //敵の場合
 			{
-				//対象の座標を取得する
-				D3DXVECTOR3 pos = pObj->GetPos();
-
-				//ベクトルの算出
-				D3DXVECTOR3 vec = m_CenterPos - pos;
-
-				//ベクトルの大きさを比較する
-				if (HIT_LENGTH * HIT_LENGTH >= (vec.x * vec.x + vec.y * vec.y))
+				if (pObj->GetObjState() == CObject::NORMAL)
 				{
-					CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
-					m_State = DEATH;
+					//対象の座標を取得する
+					D3DXVECTOR3 pos = pObj->GetPos();
+
+					//ベクトルの算出
+					D3DXVECTOR3 vec = m_CenterPos - pos;
+
+					//ベクトルの大きさを比較する
+					if (HIT_LENGTH * HIT_LENGTH >= (vec.x * vec.x + vec.y * vec.y))
+					{
+						CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
+						m_State = DEATH;
+					}
 				}
 			}
 
@@ -527,6 +533,83 @@ void CPlayer::Death(void)
 //  攻撃の処理
 //==========================================
 void CPlayer::Attack()
+{
+	// 死亡状態中は抜ける
+	if (m_State == DEATH)
+	{
+		return;
+	}
+
+	// 右スティック入力があった場合
+	if (CManager::GetInstance()->GetJoyPad()->GetStickTriggerR(CJoyPad::STICK_ALL))
+	{
+		// 右スティック入力の値を取得
+		D3DXVECTOR3 vecInput = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
+
+		// 入力値を正規化する
+		D3DXVec3Normalize(&vecInput, &vecInput);
+
+		// プレイヤーを始点にして仮想の線分を作成する
+		D3DXVECTOR3 VirtualLinePos = m_CenterPos + vecInput;
+
+		//当たり判定の生成
+		for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
+		{
+			//先頭のアドレスを取得
+			CObject* pObj = CObject::GetTop(nCntPriority);
+
+			while (pObj != NULL)
+			{
+				//次のアドレスを保存
+				CObject* pNext = pObj->GetNext();
+
+				if (pObj->GetType() == CObject::TYPE_ENEMY) //敵の場合
+				{
+					if (pObj->GetObjState() == CObject::NORMAL) // 通常状態の場合
+					{
+						// 目標点を取得する
+						D3DXVECTOR3 pos = pObj->GetPos();
+
+						// 始点から終点までのベクトルを求める
+						D3DXVECTOR3 vecLine = VirtualLinePos - m_CenterPos;
+
+						// 始点から目標点までのベクトルを求める
+						D3DXVECTOR3 vecToPos = pos - m_CenterPos;
+
+						// 各ベクトルの大きさを求める
+						float lengthLine = sqrtf((vecLine.x * vecLine.x) + (vecLine.y * vecLine.y));
+						float lengthToPos = sqrtf((vecToPos.x * vecToPos.x) + (vecToPos.y * vecToPos.y));
+
+						// 媒介変数tを求める
+						float t = (lengthLine * lengthToPos) / (lengthLine * lengthLine);
+
+						// 目標点から直線に垂線を下した時の交点を求める
+						D3DXVECTOR3 posCross = m_posStart + (t * vecLine);
+
+						// 交点から目標点までのベクトルを求める
+						D3DXVECTOR3 vecToCross = pos - posCross;
+
+						// 判定距離の比較
+						if (HIT_LENGTH * HIT_LENGTH >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
+						{
+							// 当たっていた時の演出系処理
+							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
+							pObj->SetState(CObject::MARKING);
+						}
+					}
+				}
+
+				//次のアドレスにずらす
+				pObj = pNext;
+			}
+		}
+	}
+}
+
+//==========================================
+//  ダッシュ処理
+//==========================================
+void CPlayer::Dash()
 {
 	// 死亡状態中は抜ける
 	if (m_State == DEATH)
@@ -618,13 +701,6 @@ void CPlayer::Attack()
 			// クールタイムをリセット
 			m_AttackCoolTime = 0.0f;
 
-			// エフェクトを生成
-			D3DXVECTOR3 pos = (m_posStart + m_CenterPos) * 0.5f;
-			D3DXVECTOR3 vec = m_CenterPos - m_posStart;
-			float rot = atan2f(vec.y, vec.x);
-			float Length = sqrtf(vec.x * vec.x + vec.y * vec.y);
-			CSlice::Create(pos, D3DXVECTOR3(Length, Length, Length), D3DXVECTOR3(0.0f, 0.0f, rot));
-
 			// 軌跡を描画
 			m_pOrbit->SwitchDraw(false);
 		}
@@ -655,10 +731,10 @@ void CPlayer::Hit()
 					D3DXVECTOR3 pos = pObj->GetPos();
 
 					// 始点から終点までのベクトルを求める
-					D3DXVECTOR3 vecLine = m_pos - m_oldPos;
+					D3DXVECTOR3 vecLine = m_CenterPos - m_posStart;
 
 					// 始点から目標点までのベクトルを求める
-					D3DXVECTOR3 vecToPos = pos - m_oldPos;
+					D3DXVECTOR3 vecToPos = pos - m_posStart;
 
 					// 各ベクトルの大きさを求める
 					float lengthLine = sqrtf((vecLine.x * vecLine.x) + (vecLine.y * vecLine.y));
@@ -671,7 +747,7 @@ void CPlayer::Hit()
 					if (0.0f <= t && t <= 1.0f)
 					{
 						// 目標点から直線に垂線を下した時の交点を求める
-						D3DXVECTOR3 posCross = m_oldPos + (t * vecLine);
+						D3DXVECTOR3 posCross = m_posStart + (t * vecLine);
 
 						// 交点から目標点までのベクトルを求める
 						D3DXVECTOR3 vecToCross = pos - posCross;

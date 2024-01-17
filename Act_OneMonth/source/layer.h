@@ -22,6 +22,7 @@ public:
 	typedef enum
 	{
 		PLAYER_LAYER = 0, //プレイヤー構造
+		ENEMY_LANTERN, // 提灯お化け
 		MAP_LAYER, //マップのやつ
 		LAYERS_MAX
 	}LAYERS;

@@ -18,7 +18,7 @@ public:
 	//列挙型定義
 	enum TYPE
 	{
-		NORMAL = 0, //通常の敵
+		LANTERN = 0, //通常の敵
 		MAX,
 		NONE
 	};
@@ -35,10 +35,13 @@ public:
 	//静的メンバ関数
 	static CEnemy* Create(D3DXVECTOR3 pos, CEnemy::TYPE type);
 
-private:
+protected:
 
 	//メンバ関数
-	void Rotate(void);
+	void RotateToMove(); // 移動方向を向く
+	void RotateToPlayer(); // プレイヤーを向く
+
+private:
 
 	//メンバ変数
 	CEnemy::TYPE m_type;

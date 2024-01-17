@@ -5,13 +5,12 @@
 //
 //==========================================
 #include "enemy.h"
-#include "model.h"
-#include "motion.h"
 #include "gamemanager.h"
 #include "manager.h"
 #include "renderer.h"
 #include "slice.h"
 #include "player.h"
+#include "enemy_lantern.h"
 
 //==========================================
 //  定数定義
@@ -44,25 +43,7 @@ CEnemy::~CEnemy()
 //==========================================
 HRESULT CEnemy::Init(void)
 {
-	//タイプの設定
-	SetType(TYPE_ENEMY);
-
-	//階層構造情報を生成
-	m_pLayer = CLayer::Set(CLayer::PLAYER_LAYER);
-
-	// 初期化
-	HRESULT hr = CObject_Char::Init();
-
-	//モーション情報にモデルを渡す
-	m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::PLAYER_WAIT);
-
-	// サイズを設定
-	m_size = ENEMY_SIZE_DEFAULT;
-
-	// 中心座標を設定
-	m_posCenter = m_pos + D3DXVECTOR3(0.0f, 20.0f, 0.0f);
-
-	return hr;
+	return CObject_Char::Init();
 }
 
 //==========================================
@@ -84,7 +65,7 @@ void CEnemy::Update(void)
 	{
 		if (CGameManager::GetPlayer()->GetState() != CPlayer::IAI)
 		{
-			CSlice::Create(m_posCenter, m_size * SLICE_SCALE, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+			CSlice::Create(m_pos, m_size * SLICE_SCALE, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 			Uninit();
 			return;
 		}
@@ -94,12 +75,6 @@ void CEnemy::Update(void)
 		m_pos += m_move;
 	}
 
-	// 中心座標を設定
-	m_posCenter = m_pos + D3DXVECTOR3(0.0f, 20.0f, 0.0f);
-
-	//回転
-	Rotate();
-
 	CObject_Char::Update();
 }
 
@@ -108,26 +83,7 @@ void CEnemy::Update(void)
 //==========================================
 void CEnemy::Draw(void)
 {
-	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
-
-	//アルファテストの有効化
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
-
-	//カリングをオフ
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	CObject_Char::Draw();
-
-	//カリングをオン
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-
-	//アルファテストの無効化
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
-	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
 }
 
 //==========================================
@@ -142,8 +98,7 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 	switch (type)
 	{
 	case NORMAL:
-		pEnemy = new CEnemy;
-		//pEnemy = new CEnemy_Normal;
+		pEnemy = new CEnemy_Lantern;
 		break;
 
 	default:
@@ -167,7 +122,7 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 //==========================================
 //  移動方向を向く
 //==========================================
-void CEnemy::Rotate(void)
+void CEnemy::RotateToMove(void)
 {
 	//移動してない時は回転しない
 	if (m_move.x == 0.0f)
@@ -186,4 +141,55 @@ void CEnemy::Rotate(void)
 	{
 		m_rot.y = 0.0f;
 	}
+}
+
+//==========================================
+//  プレイヤーを向く
+//==========================================
+void CEnemy::RotateToPlayer()
+{
+	//ローカル変数宣言
+	float fRotMove = m_rot.y; //現在の角度
+	float fRotDest = 0.0f; //目標の角度
+	float fRotDiff = 0.0f; //目標と現在の角度の差
+
+	// プレイヤーの位置を取得
+	D3DXVECTOR3 posPolyer = CGameManager::GetPlayer()->GetPos();
+
+	// プレイヤーのいる方向を向く
+	if (posPolyer.x > m_pos.x)
+	{
+		fRotDest = -D3DX_PI * 0.5f;
+	}
+	if (posPolyer.x < m_pos.x)
+	{
+		fRotDest = D3DX_PI * 0.5f;
+	}
+
+	//移動補正
+	fRotDiff = fRotDest - fRotMove;	//目標までの移動方向の差分
+
+	//角度の補正
+	if (fRotDiff > D3DX_PI)
+	{
+		fRotDiff += (-D3DX_PI * 2);
+	}
+	else if (fRotDiff <= -D3DX_PI)
+	{
+		fRotDiff += (D3DX_PI * 2);
+	}
+
+	//方向転換
+	m_rot.y += fRotDiff * 0.2f;
+
+	//角度の補正
+	if (m_rot.y > D3DX_PI)
+	{
+		m_rot.y += (-D3DX_PI * 2);
+	}
+	else if (m_rot.y < -D3DX_PI)
+	{
+		m_rot.y += (D3DX_PI * 2);
+	}
+
 }

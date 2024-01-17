@@ -30,6 +30,7 @@ public:
 		PLAYER_FALL, //落下モーション
 		PLAYER_IAI, //居合モーション
 		PLAYER_DEATH, //死亡モーション
+		LANTERN_WAIT, // 提灯お化け待機
 		MOTION_NONE
 	}MOTION;
 

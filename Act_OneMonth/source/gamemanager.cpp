@@ -80,7 +80,7 @@ HRESULT CGameManager::Init(void)
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
 	// “G‚Ì¶¬
-	CEnemy::Create(D3DXVECTOR3(-200.0f, 0.0f, 0.0f), CEnemy::NORMAL);
+	CEnemy::Create(D3DXVECTOR3(-2000.0f, 20.0f, 0.0f), CEnemy::LANTERN);
 
 	//Œš•¨‚Ì¶¬
 	CBuild::Create();
@@ -154,6 +154,13 @@ void CGameManager::Update(void)
 	{
 		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 		return;
+	}
+
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
+	{
+		CEnemy::Create(D3DXVECTOR3(-2000.0f, 20.0f, 0.0f), CEnemy::LANTERN);
+		CEnemy::Create(D3DXVECTOR3(-1900.0f, 20.0f, 0.0f), CEnemy::LANTERN);
+		CEnemy::Create(D3DXVECTOR3(-1950.0f, 20.0f, 0.0f), CEnemy::LANTERN);
 	}
 #endif
 

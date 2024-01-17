@@ -60,6 +60,7 @@ private:
 	void Gravity(void);
 	void Death(void);
 	void Attack();
+	void Dash();
 	void Hit();
 
 	//ƒƒ“ƒo•Ï”
