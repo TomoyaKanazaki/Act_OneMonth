@@ -20,7 +20,7 @@ class CObject_Mesh;
 class COrbit : public CObject
 {
 public:
-	COrbit(); //コンストラクタ
+	COrbit(int nPriority = 5); //コンストラクタ
 	~COrbit(); //デストラクタ
 
 	//メンバ関数
@@ -28,6 +28,7 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 	void Draw(void) override;
+	void SwitchDraw(bool bDraw) { m_bDraw = bDraw; }// 描画の有無
 
 	//静的メンバ関数
 	static COrbit *Create(CModel *pParent, D3DXCOLOR col, D3DXVECTOR3 offset0, D3DXVECTOR3 offset1, int nLife);
@@ -55,6 +56,7 @@ private:
 	int m_nNumVtx; //頂点数
 	CObject_Mesh *m_pMesh; //メッシュ
 	float m_fLength; //判定距離
+	bool m_bDraw; // 消滅フラグ
 
 };
 

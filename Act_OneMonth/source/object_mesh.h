@@ -33,7 +33,7 @@ public:
 		int nNumIdx; //総インデックス数
 	}MeshData; //頂点情報系の構造体
 
-	CObject_Mesh(int nPriority = 3); //コンストラクタ
+	CObject_Mesh(int nPriority = 5); //コンストラクタ
 	~CObject_Mesh(); //デストラクタ
 
 	//メンバ関数

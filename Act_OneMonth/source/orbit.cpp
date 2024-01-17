@@ -12,11 +12,13 @@
 #include "object_mesh.h"
 #include "gamemanager.h"
 #include "player.h"
+#include "gametime.h"
 
 //==========================================
 //  コンストラクタ
 //==========================================
-COrbit::COrbit()
+COrbit::COrbit(int nPriority) : CObject(nPriority),
+	m_bDraw(false)
 {
 	m_parent = NULL;
 	m_nLife = 0;
@@ -99,6 +101,16 @@ void COrbit::Uninit(void)
 //==========================================
 void COrbit::Update(void)
 {
+	// 描画の設定
+	if (m_bDraw)
+	{
+		m_pMesh->SetColor(m_colDef);
+	}
+	else
+	{
+		m_pMesh->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f));
+	}
+
 	//現在の頂点座標を保存
 	D3DXVECTOR3 *pOldPos = new D3DXVECTOR3[m_nNumVtx];
 	for (int nCnt = 0; nCnt < m_nNumVtx; nCnt++)

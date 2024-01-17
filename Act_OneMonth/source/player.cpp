@@ -31,8 +31,8 @@
 namespace
 {
 	const float HIT_LENGTH = 25.0f; // 敵との接触に使う判定の大きさ
-	const float ATTACK_SPEED = 2000.0f; // 攻撃時の移動速度
-	const float ATTACK_TIME = 0.1f; // 攻撃に使用する時間
+	const float ATTACK_SPEED = 1000.0f; // 攻撃時の移動速度
+	const float ATTACK_TIME = 0.2f; // 攻撃に使用する時間
 	const float PLAYER_SPEED = 350.0f; //プレイヤーの移動速度
 	const float PLAYER_HEIGHT = 40.0f; //プレイヤーの高さ
 	const float DASH_DISTANCE = 200.0f; //ダッシュの移動距離
@@ -92,6 +92,13 @@ HRESULT CPlayer::Init(void)
 	//中心座標を設定
 	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
+	// 軌跡の生成
+	if (m_pOrbit == nullptr)
+	{
+		m_pOrbit = COrbit::Create(m_ppModel[3], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, -11.0f, 21.0f), 6);
+		m_pOrbit->SwitchDraw(false);
+	}
+
 	return hr;
 }
 
@@ -100,6 +107,13 @@ HRESULT CPlayer::Init(void)
 //==========================================
 void CPlayer::Uninit(void)
 {
+	// 軌跡の終了
+	if (m_pOrbit != nullptr)
+	{
+		m_pOrbit->Uninit();
+		m_pOrbit = nullptr;
+	}
+
 	CObject_Char::Uninit();
 }
 
@@ -554,11 +568,8 @@ void CPlayer::Attack()
 		// 開始地点を記録する
 		m_posStart = m_CenterPos;
 
-		// 軌跡の生成
-		if (m_pOrbit == nullptr)
-		{
-			m_pOrbit = COrbit::Create(m_ppModel[3], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(10.0f, 10.0f, 10.0f), 100);
-		}
+		// 軌跡を描画
+		m_pOrbit->SwitchDraw(true);
 	}
 
 	// デバッグ用攻撃(キーボード)
@@ -610,9 +621,12 @@ void CPlayer::Attack()
 			// エフェクトを生成
 			D3DXVECTOR3 pos = (m_posStart + m_CenterPos) * 0.5f;
 			D3DXVECTOR3 vec = m_CenterPos - m_posStart;
+			float rot = atan2f(vec.y, vec.x);
 			float Length = sqrtf(vec.x * vec.x + vec.y * vec.y);
-			CSlice::Create(pos, D3DXVECTOR3(Length, Length, Length), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
-			CSlice::Create(pos, D3DXVECTOR3(Length, Length, Length), D3DXVECTOR3(0.0f, 0.0f, 0.0f), true);
+			CSlice::Create(pos, D3DXVECTOR3(Length, Length, Length), D3DXVECTOR3(0.0f, 0.0f, rot));
+
+			// 軌跡を描画
+			m_pOrbit->SwitchDraw(false);
 		}
 	}
 }
