@@ -24,11 +24,6 @@ public:
 
 private:
 
-	//定数定義
-#define REVISION_BIG (0.05f) //補正速度
-#define REVISION_SMALL (0.005f) //補正速度
-#define PLAYER_DISTANCE (50.0f) //プレイヤーから注視点の距離
-
 	//メンバ関数
 	void MovePlayer(void);
 

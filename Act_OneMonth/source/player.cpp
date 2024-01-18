@@ -38,12 +38,13 @@ namespace
 	const float PLAYER_HEIGHT = 40.0f; //プレイヤーの高さ
 	const float DASH_DISTANCE = 200.0f; //ダッシュの移動距離
 	const float HIT_RANGE = 2020.0f; //ヒットする範囲
-	const float JUMP_MOVE = 750.0f; //ジャンプ力
+	const float JUMP_MOVE = 600.0f; //ジャンプ力
 	const float GRAVITY = 25.0f; //重力
 	const float CAMERA_WIDTH = 420.0f; //カメラから離れられる横の範囲
 	const float CAMERA_HEIGHT = 220.0f; //カメラから離れられる縦の範囲
 	const int MAX_ATTACK_COUNT = 3; // 連続攻撃の最大数
 	const float ATTACK_COOL_TIME = 0.0f; // 攻撃のクールタイム
+	const float LIMIT_HEIGHT = 300.0f; // 上昇限界
 }
 
 //==========================================
@@ -127,7 +128,7 @@ void CPlayer::Update(void)
 	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
 	// 攻撃
-	if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB))
+	if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB) || m_State == IAI)
 	{
 		Dash();
 	}
@@ -307,9 +308,9 @@ void CPlayer::Limit(void)
 	{
 		m_pos.y = 0.0f;
 	}
-	if (m_pos.y > 600.0f)
+	if (m_pos.y > LIMIT_HEIGHT)
 	{
-		m_pos.y = 600.0f;
+		m_pos.y = LIMIT_HEIGHT;
 	}
 	if (m_pos.y <= 0.0f)
 	{

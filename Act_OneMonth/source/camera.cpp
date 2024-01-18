@@ -17,11 +17,11 @@
 //==========================================
 CCamera::CCamera()
 {
-	m_posV = D3DXVECTOR3(0.0f, HEIGHT, -CAMERA_DISTANCE);
+	m_posV = D3DXVECTOR3(0.0f, R_HEIGHT, CAMERA_DISTANCE);
 	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_diff = D3DXVECTOR3(0.0f, HEIGHT, -CAMERA_DISTANCE);
+	m_diff = D3DXVECTOR3(0.0f, R_HEIGHT, CAMERA_DISTANCE);
 	m_fFov = DEFAULT_FAV;
 	m_bDebug = false;
 }
@@ -140,9 +140,9 @@ void CCamera::FirstPerson(void)
 	}
 
 	//角度を更新
-	m_posR.x = m_posV.x + (sinf(m_rot.z) * cosf(m_rot.x)) * CAMERA_DISTANCE;
-	m_posR.y = m_posV.y + cosf(m_rot.z) * CAMERA_DISTANCE;
-	m_posR.z = m_posV.z - (sinf(m_rot.z) * sinf(m_rot.x)) * CAMERA_DISTANCE;
+	m_posR.x = m_posV.x + (sinf(m_rot.z) * cosf(m_rot.x)) * -CAMERA_DISTANCE;
+	m_posR.y = m_posV.y + cosf(m_rot.z) * -CAMERA_DISTANCE;
+	m_posR.z = m_posV.z - (sinf(m_rot.z) * sinf(m_rot.x)) * -CAMERA_DISTANCE;
 }
 
 //==========================================
@@ -167,14 +167,14 @@ void CCamera::ThirdPerson(void)
 	}
 
 	//視点を更新
-	m_posV.x = posPlayer.x + (sinf(m_rot.y) * CAMERA_DISTANCE);
-	m_posV.y = posPlayer.y + HEIGHT;
-	m_posV.z = posPlayer.z + (cosf(m_rot.y) * CAMERA_DISTANCE);
+	m_posV.x = posPlayer.x + (sinf(m_rot.y) * -CAMERA_DISTANCE);
+	m_posV.y = posPlayer.y + R_HEIGHT;
+	m_posV.z = posPlayer.z + (cosf(m_rot.y) * -CAMERA_DISTANCE);
 
 	//注視点を更新
-	m_posR.x = posPlayer.x - (sinf(m_rot.y) * CAMERA_DISTANCE);
+	m_posR.x = posPlayer.x - (sinf(m_rot.y) * -CAMERA_DISTANCE);
 	m_posR.y = posPlayer.y;
-	m_posR.z = posPlayer.z - (cosf(m_rot.y) * CAMERA_DISTANCE);
+	m_posR.z = posPlayer.z - (cosf(m_rot.y) * -CAMERA_DISTANCE);
 }
 
 //==========================================

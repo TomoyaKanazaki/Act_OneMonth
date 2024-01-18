@@ -7,6 +7,16 @@
 #include "camera_game.h"
 #include "gamemanager.h"
 #include "player.h"
+#include "manager.h"
+#include "input.h"
+
+//==========================================
+//  定数定義
+//==========================================
+namespace
+{
+	const float PLAYER_DISTANCE = 50.0f; //プレイヤーから注視点の距離
+}
 
 //==========================================
 //  コンストラクタ
@@ -34,9 +44,10 @@ HRESULT CCameraGame::Init(void)
 
 	//注視点を設定
 	m_posR = posPlayer;
+	m_posR.y = V_HEIGHT; // 高さを補正する
 
 	//視点を設定
-	m_posV = m_posR + D3DXVECTOR3(0.0f, HEIGHT, -CAMERA_DISTANCE);
+	m_posV = m_posR + D3DXVECTOR3(0.0f, R_HEIGHT, CAMERA_DISTANCE);
 
 	return CCamera::Init();
 }
@@ -59,6 +70,7 @@ void CCameraGame::MovePlayer(void)
 {
 	//ローカル変数宣言
 	D3DXVECTOR3 Pos = m_posR; //現在の位置
+	m_posR.y = V_HEIGHT; // 高さを補正する
 	D3DXVECTOR3 Dest = CGameManager::GetPlayer()->GetPos(); //目標の位置
 	D3DXVECTOR3 Diff = {}; //目標と現在の位置の差
 	D3DXVECTOR3 rot = CGameManager::GetPlayer()->GetRot(); //プレイヤーの方向
@@ -74,5 +86,5 @@ void CCameraGame::MovePlayer(void)
 	m_posR += Diff * 0.1f;
 
 	//視点を更新
-	m_posV = m_posR + D3DXVECTOR3(0.0f, HEIGHT, -CAMERA_DISTANCE);
+	m_posV = m_posR + D3DXVECTOR3(0.0f, R_HEIGHT, CAMERA_DISTANCE);
 }

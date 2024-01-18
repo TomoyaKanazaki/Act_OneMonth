@@ -35,8 +35,9 @@ public:
 	//D3DXVECTOR3 ScreenToWorld(const D3DXVECTOR3& posScreen) const;
 
 protected:
-#define CAMERA_DISTANCE (500.0f) //視点からプレイヤーの距離
-#define HEIGHT (50.0f) //視点の高さ
+#define CAMERA_DISTANCE (-500.0f) //視点からプレイヤーの距離
+#define R_HEIGHT (10.0f) //視点の高さ
+#define V_HEIGHT (130.0f) //注視点の高さ
 #define MAX_ROT (D3DX_PI * 0.99f) //視点の限界角
 #define MIN_ROT (D3DX_PI * 0.01f) //視点の限界角
 #define DEFAULT_FAV (45.0f) //視野角の規定値
