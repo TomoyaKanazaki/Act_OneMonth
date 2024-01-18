@@ -24,6 +24,7 @@
 #include "slice.h"
 #include "effect3D.h"
 #include "orbit.h"
+#include "slash.h"
 
 //==========================================
 //  定数定義
@@ -129,6 +130,10 @@ void CPlayer::Update(void)
 	if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB))
 	{
 		Dash();
+	}
+	else
+	{
+		Attack();
 	}
 
 	// ジャンプ
@@ -546,63 +551,11 @@ void CPlayer::Attack()
 		// 右スティック入力の値を取得
 		D3DXVECTOR3 vecInput = CManager::GetInstance()->GetJoyPad()->GetStickR(0.1f);
 
-		// 入力値を正規化する
-		D3DXVec3Normalize(&vecInput, &vecInput);
+		// 攻撃の方向を算出する
+		float rot = atan2f(vecInput.z, vecInput.x);
 
-		// プレイヤーを始点にして仮想の線分を作成する
-		D3DXVECTOR3 VirtualLinePos = m_CenterPos + vecInput;
-
-		//当たり判定の生成
-		for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
-		{
-			//先頭のアドレスを取得
-			CObject* pObj = CObject::GetTop(nCntPriority);
-
-			while (pObj != NULL)
-			{
-				//次のアドレスを保存
-				CObject* pNext = pObj->GetNext();
-
-				if (pObj->GetType() == CObject::TYPE_ENEMY) //敵の場合
-				{
-					if (pObj->GetObjState() == CObject::NORMAL) // 通常状態の場合
-					{
-						// 目標点を取得する
-						D3DXVECTOR3 pos = pObj->GetPos();
-
-						// 始点から終点までのベクトルを求める
-						D3DXVECTOR3 vecLine = VirtualLinePos - m_CenterPos;
-
-						// 始点から目標点までのベクトルを求める
-						D3DXVECTOR3 vecToPos = pos - m_CenterPos;
-
-						// 各ベクトルの大きさを求める
-						float lengthLine = sqrtf((vecLine.x * vecLine.x) + (vecLine.y * vecLine.y));
-						float lengthToPos = sqrtf((vecToPos.x * vecToPos.x) + (vecToPos.y * vecToPos.y));
-
-						// 媒介変数tを求める
-						float t = (lengthLine * lengthToPos) / (lengthLine * lengthLine);
-
-						// 目標点から直線に垂線を下した時の交点を求める
-						D3DXVECTOR3 posCross = m_posStart + (t * vecLine);
-
-						// 交点から目標点までのベクトルを求める
-						D3DXVECTOR3 vecToCross = pos - posCross;
-
-						// 判定距離の比較
-						if (HIT_LENGTH * HIT_LENGTH >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
-						{
-							// 当たっていた時の演出系処理
-							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
-							pObj->SetState(CObject::MARKING);
-						}
-					}
-				}
-
-				//次のアドレスにずらす
-				pObj = pNext;
-			}
-		}
+		// 攻撃を生成
+		CSlash::Create(m_CenterPos, rot, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 }
 

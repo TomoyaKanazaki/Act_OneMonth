@@ -70,6 +70,12 @@ void CEnemy::Update(void)
 			return;
 		}
 	}
+	else if(m_ObjState == ATTACKED)
+	{
+		CSlice::Create(m_pos, m_size * SLICE_SCALE, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		Uninit();
+		return;
+	}
 	else // ‚»‚Ì‘¼
 	{
 		m_pos += m_move;

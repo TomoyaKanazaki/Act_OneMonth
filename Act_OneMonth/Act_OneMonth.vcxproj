@@ -62,6 +62,7 @@
     <ClCompile Include="source\resultmanager.cpp" />
     <ClCompile Include="source\scene.cpp" />
     <ClCompile Include="source\scenemanager.cpp" />
+    <ClCompile Include="source\slash.cpp" />
     <ClCompile Include="source\slice.cpp" />
     <ClCompile Include="source\sound.cpp" />
     <ClCompile Include="source\texture.cpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="source\resultmanager.h" />
     <ClInclude Include="source\scene.h" />
     <ClInclude Include="source\scenemanager.h" />
+    <ClInclude Include="source\slash.h" />
     <ClInclude Include="source\slice.h" />
     <ClInclude Include="source\sound.h" />
     <ClInclude Include="source\texture.h" />

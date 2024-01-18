@@ -34,6 +34,7 @@ protected:
 
 	//ƒƒ“ƒo•Ï”
 	LPDIRECT3DTEXTURE9 m_pTexture;
+	D3DXCOLOR m_col;
 
 	//ƒƒ“ƒoŠÖ”
 	LPDIRECT3DVERTEXBUFFER9 GetVtx(void) { return m_pVtxBuff; }
@@ -45,7 +46,6 @@ private:
 	//ƒƒ“ƒo•Ï”
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
 	D3DXMATRIX m_mtxWorld;
-	D3DXCOLOR m_col;
 	float m_fLength;
 	float m_fAngle;
 	bool m_bBillboard;
