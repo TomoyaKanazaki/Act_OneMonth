@@ -19,6 +19,7 @@ public:
 	enum TYPE
 	{
 		LANTERN = 0, //í èÌÇÃìG
+		BOSS, // É{ÉX
 		MAX,
 		NONE
 	};

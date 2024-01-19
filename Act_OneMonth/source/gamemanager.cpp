@@ -80,7 +80,7 @@ HRESULT CGameManager::Init(void)
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
 	// ìGÇÃê∂ê¨
-	CEnemy::Create(D3DXVECTOR3(-2000.0f, 20.0f, 0.0f), CEnemy::LANTERN);
+	CEnemy::Create(D3DXVECTOR3(-2000.0f, 20.0f, 0.0f), CEnemy::BOSS);
 
 	//åöï®ÇÃê∂ê¨
 	CBuild::Create();

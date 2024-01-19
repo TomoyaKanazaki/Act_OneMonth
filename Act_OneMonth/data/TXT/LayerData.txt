@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_LAYER = 3
+NUM_LAYER = 4
 
 //==========================================
 //  階層構造の種類
@@ -84,7 +84,7 @@ LAYER_DATA //プレイヤーの構造
 	ParentID	12
 	POS			0.155 -10.0 0.5
 	ROT			0.0 0.0 0.0
-	
+
 LAYER_DATA //提灯おばけの構造
 	
 	NUM_MODEL 3
@@ -102,6 +102,15 @@ LAYER_DATA //提灯おばけの構造
 	MODELID		19
 	ParentID	0
 	POS			0.0 0.0 10.0
+	ROT			0.0 0.0 0.0
+
+LAYER_DATA //ボスサンプル
+	
+	NUM_MODEL 1
+
+	MODELID		20
+	ParentID	-1
+	POS			0.0 0.0 0.0
 	ROT			0.0 0.0 0.0
 
 LAYER_DATA //建物
