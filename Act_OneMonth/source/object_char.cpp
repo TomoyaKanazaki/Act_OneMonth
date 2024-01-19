@@ -143,3 +143,25 @@ void CObject_Char::Draw(void)
 		}
 	}
 }
+
+//==========================================
+//  êFÇÃïœçX
+//==========================================
+void CObject_Char::ChangeColor(bool bChange)
+{
+	if (m_ppModel != NULL)
+	{
+		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
+		{
+			if (m_ppModel[nCnt] != NULL)
+			{
+				m_ppModel[nCnt]->ChangeCol(bChange);
+
+				if (bChange)
+				{
+					m_ppModel[nCnt]->SetCol(m_col);
+				}
+			}
+		}
+	}
+}

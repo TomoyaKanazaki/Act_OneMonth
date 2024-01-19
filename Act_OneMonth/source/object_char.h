@@ -34,16 +34,19 @@ public:
 
 protected:
 
+	// メンバ関数
+	void ChangeColor(bool bChange);
+
 	//メンバ変数
 	CModel** m_ppModel; //モデル情報
 	CLayer::LAYERDATA* m_pLayer; //階層構造情報
 	CMotion* m_pMotion;
+	D3DXCOLOR m_col;
 
 private:
 
 	//メンバ変数
 	D3DXMATRIX m_mtxWorld;
-	D3DXCOLOR m_col;
 
 };
 

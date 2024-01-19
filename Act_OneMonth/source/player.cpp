@@ -71,6 +71,7 @@ m_fDamageCounter(0.0f)
 	m_oldposModel = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_State = NEUTRAL;
 	m_oldState = NEUTRAL;
+	m_col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 }
 
 //==========================================
@@ -168,6 +169,7 @@ void CPlayer::Update(void)
 	if (m_nLife == 0)
 	{
 		m_State = DEATH;
+		ChangeColor(false);
 	}
 
 	// ‘O‰ñÀ•W‚É•Û‘¶
@@ -502,6 +504,7 @@ void CPlayer::Damage(void)
 		if (m_fDamageCounter >= DAMAGE_TIME)
 		{
 			m_bDamage = false;
+			ChangeColor(false);
 		}
 
 		// ”²‚¯‚é
@@ -536,6 +539,7 @@ void CPlayer::Damage(void)
 						--m_nLife;
 						m_bDamage = true;
 						m_fDamageCounter = 0.0f;
+						ChangeColor(true);
 					}
 				}
 			}
