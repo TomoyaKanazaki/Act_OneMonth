@@ -149,13 +149,6 @@ void CGameManager::Update(void)
 	m_oldState = m_State;
 
 #if _DEBUG
-	//‰æ–Ê‘JˆÚƒeƒXƒg
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN) && CManager::GetInstance()->GetKeyboard()->GetPress(DIK_LSHIFT))
-	{
-		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
-		return;
-	}
-
 	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
 	{
 		CEnemy::Create(D3DXVECTOR3(-2000.0f, 20.0f, 0.0f), CEnemy::LANTERN);
@@ -192,6 +185,13 @@ void CGameManager::Update(void)
 
 		// ‘JˆÚ
 		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+	}
+
+	//‰æ–Ê‘JˆÚƒeƒXƒg
+	if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_A))
+	{
+		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+		return;
 	}
 }
 
