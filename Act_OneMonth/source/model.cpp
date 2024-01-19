@@ -52,6 +52,7 @@ CModel::~CModel()
 //==========================================
 HRESULT CModel::Init(void)
 {
+	ResetMaterial();
 	return S_OK;
 }
 
@@ -124,8 +125,15 @@ void CModel::Draw(void)
 
 	for (int nCntMat = 0; nCntMat < (int)m_Info.dwNumMat; nCntMat++)
 	{
-		//マテリアルの設定
-		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+		// マテリアルの設定
+		if (!m_bChangeCol)
+		{
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+		}
+		else
+		{
+			pDevice->SetMaterial(&m_ChangeMat);
+		}
 
 		//テクスチャの設定
 		pDevice->SetTexture(0, m_Info.pTexture[nCntMat]);
@@ -358,4 +366,14 @@ void CModel::UnLoad(void)
 		}
 	}
 	m_bLoad = false;
+}
+
+//==========================================
+//  変更後のマテリアルを初期化
+//==========================================
+void CModel::ResetMaterial()
+{
+	D3DXMATERIAL* pMat;	//マテリアルデータへのポインタ
+	pMat = (D3DXMATERIAL*)m_Model[m_nSelfID].pBuffMat->GetBufferPointer();
+	m_ChangeMat = pMat->MatD3D;
 }

@@ -41,8 +41,12 @@ public:
 	D3DXVECTOR3 GetRot(void) { return m_rot; }
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }
+	void SetCol(const D3DXCOLOR& col) { m_ChangeMat.Diffuse = col; }
 	CModel *GetParent(void) { return m_pParent; }
 	D3DXMATRIX GetMtx(void) { return m_Info.mtxWorld; }
+	D3DXCOLOR GetCol(void) const { return m_ChangeMat.Diffuse; }
+	void ChangeCol(bool bValue = false) { m_bChangeCol = bValue; }
+	void ResetMaterial(); // 変更後マテリアルの初期化
 
 	//静的メンバ関数
 	static CModel *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, int nModelID, CModel *m_pParent = NULL);
@@ -59,6 +63,7 @@ private:
 	MODEL m_Info;
 	CModel *m_pParent; //親モデルへのポインタ
 	int m_nSelfID;
+	D3DMATERIAL9 m_ChangeMat; // 変更後の色
 
 	//静的メンバ変数
 	static int m_nNumAll; 
@@ -66,6 +71,7 @@ private:
 	static char m_sFilePass[MAX_MODEL][128];
 	static bool m_bLoad;
 	static int m_nNum;
+	bool m_bChangeCol; // 色変更フラグ
 
 };
 

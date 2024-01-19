@@ -45,6 +45,9 @@ namespace
 	const int MAX_ATTACK_COUNT = 3; // 連続攻撃の最大数
 	const float ATTACK_COOL_TIME = 0.0f; // 攻撃のクールタイム
 	const float LIMIT_HEIGHT = 300.0f; // 上昇限界
+	const int MAX_LIFE = 10; // 体力上限
+	const float DAMAGE_TIME = 0.8f;
+	const float DAMAGE_SPEED = 0.3f; // ダメージ状態中の移動倍率
 }
 
 //==========================================
@@ -56,7 +59,10 @@ m_AttackCoolTime(ATTACK_COOL_TIME),
 m_AttackCounter(0),
 m_bAttack(true),
 m_posStart(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-m_pOrbit(nullptr)
+m_pOrbit(nullptr),
+m_nLife(MAX_LIFE),
+m_bDamage(false),
+m_fDamageCounter(0.0f)
 {
 	m_CenterPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fDashAngle = 0.0f;
@@ -155,8 +161,14 @@ void CPlayer::Update(void)
 	// モーション
 	Motion();
 
-	// 殺す
-	Death();
+	// ダメージ
+	Damage();
+
+	// 体力が0になったら死ぬ
+	if (m_nLife == 0)
+	{
+		m_State = DEATH;
+	}
 
 	// 前回座標に保存
 	m_oldPos = m_pos;
@@ -165,18 +177,8 @@ void CPlayer::Update(void)
 	// 中心座標を設定
 	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
+	// 更新
 	CObject_Char::Update();
-
-#ifdef _DEBUG
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_Q))
-	{
-		m_State = NEUTRAL;
-	}
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_1))
-	{
-		m_State = DEATH;
-	}
-#endif
 }
 
 //==========================================
@@ -269,6 +271,7 @@ void CPlayer::Motion(void)
 			break;
 		case DEATH:
 			m_pMotion->Set(CMotion::PLAYER_DEATH);
+			break;
 		}
 	}
 
@@ -481,21 +484,27 @@ void CPlayer::Gravity(void)
 //==========================================
 //  殺す
 //==========================================
-void CPlayer::Death(void)
+void CPlayer::Damage(void)
 {
-	//通常状態でしか死なない
-	if (CGameManager::GetState() == CGameManager::STATE_START)
+	// 攻撃中は攻撃を受けない
+	if (m_State == IAI || m_State == DEATH)
 	{
 		return;
 	}
-	if (CGameManager::GetState() == CGameManager::STATE_END)
+	
+	// 既にダメージ状態の時
+	if (m_bDamage)
 	{
-		return;
-	}
+		// ダメージ時間の加算
+		m_fDamageCounter += m_fDeltaTime;
 
-	// 攻撃中は死なない
-	if (m_State == IAI)
-	{
+		// 一定時間が経過していたら
+		if (m_fDamageCounter >= DAMAGE_TIME)
+		{
+			m_bDamage = false;
+		}
+
+		// 抜ける
 		return;
 	}
 
@@ -524,7 +533,9 @@ void CPlayer::Death(void)
 					if (HIT_LENGTH * HIT_LENGTH >= (vec.x * vec.x + vec.y * vec.y))
 					{
 						CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
-						m_State = DEATH;
+						--m_nLife;
+						m_bDamage = true;
+						m_fDamageCounter = 0.0f;
 					}
 				}
 			}
@@ -608,16 +619,6 @@ void CPlayer::Dash()
 		// 軌跡を描画
 		m_pOrbit->SwitchDraw(true);
 	}
-
-	// デバッグ用攻撃(キーボード)
-#ifdef _DEBUG
-
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RIGHT))
-	{
-
-	}
-
-#endif
 
 	// 攻撃状態中の場合
 	if (m_State == IAI)

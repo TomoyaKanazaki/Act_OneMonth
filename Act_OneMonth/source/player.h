@@ -23,12 +23,12 @@ public:
 	//状態定義
 	enum State
 	{
-		NEUTRAL = 0, //待機状態
-		WALK, //歩行状態
-		JUMP, //ジャンプ状態
-		FALL, //落下状態
-		IAI, //居合状態
-		DEATH, //死亡状態
+		NEUTRAL = 0, // 待機状態
+		WALK, // 歩行状態
+		JUMP, // ジャンプ状態
+		FALL, // 落下状態
+		IAI, // 居合状態
+		DEATH, // 死亡状態
 		MAX
 	};
 
@@ -58,7 +58,7 @@ private:
 	void Rotate(void);
 	void Jump(void);
 	void Gravity(void);
-	void Death(void);
+	void Damage(void);
 	void Attack();
 	void Dash();
 	void Hit();
@@ -77,6 +77,9 @@ private:
 	int m_AttackCounter; // 連続で攻撃した回数
 	bool m_bAttack; // 攻撃可能フラグ
 	COrbit* m_pOrbit;
+	int m_nLife; // 体力
+	bool m_bDamage; // ダメージフラグ
+	float m_fDamageCounter; // ダメージ状態のカウンタ
 
 	//モデル情報
 	D3DXVECTOR3 m_oldposModel;

@@ -442,7 +442,7 @@ CJoyPad::~CJoyPad()
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT CJoyPad::Init(HINSTANCE hInstance, HWND hWnd)
+HRESULT CJoyPad::Init()
 {
 	//XInputのステートを設定(有効化)
 	XInputEnable(true);
@@ -479,7 +479,9 @@ void CJoyPad::Update(void)
 	//ローカル変数宣言
 	XINPUT_STATE JoyKeyState; //ジョイパッド入力情報
 
-	STICK_TRIGGER_DEAD;
+	//スティックのトリガー情報をリセット
+	m_nStickTriggerL = STICK_INIT_VALUE;
+	m_nStickTriggerR = STICK_INIT_VALUE;
 
 	//ジョイパッドの状態の取得
 	if (XInputGetState(m_nIdx, &JoyKeyState) == ERROR_SUCCESS)
@@ -492,10 +494,6 @@ void CJoyPad::Update(void)
 		//スティックの角度を保存
 		m_nStickAngleL = (int)D3DXToDegree(atan2f((float)JoyKeyState.Gamepad.sThumbLX, (float)JoyKeyState.Gamepad.sThumbLY));
 		m_nStickAngleR = (int)D3DXToDegree(atan2f((float)JoyKeyState.Gamepad.sThumbRX, (float)JoyKeyState.Gamepad.sThumbRY));
-
-		//スティックのトリガー情報をリセット
-		m_nStickTriggerL = STICK_INIT_VALUE;
-		m_nStickTriggerR = STICK_INIT_VALUE;
 
 		//スティックのトリガー情報を保存
 		if (KnockStickL(JoyKeyState)) //左
@@ -554,6 +552,10 @@ void CJoyPad::Update(void)
 
 		//バイブ情報をジョイパッドに送信
 		XInputSetState(m_nIdx, &m_Vibration);
+	}
+	else
+	{
+		Init();
 	}
 }
 

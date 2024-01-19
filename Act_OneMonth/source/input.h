@@ -160,7 +160,7 @@ public:
 	~CJoyPad(); //デストラクタ
 
 	//メンバ関数
-	HRESULT Init(HINSTANCE hInstance, HWND hWnd);
+	HRESULT Init();
 	void Uninit(void);
 	void Update(void);
 	bool GetPress(JOYKEY Key);

@@ -43,6 +43,7 @@ private:
 
 	//ƒƒ“ƒo•Ï”
 	D3DXMATRIX m_mtxWorld;
+	D3DXCOLOR m_col;
 
 };
 
