@@ -14,7 +14,8 @@
 //==========================================
 //  コンストラクタ
 //==========================================
-CObject_Char::CObject_Char(int nPriority) : CObject(nPriority)
+CObject_Char::CObject_Char(int nPriority) : CObject(nPriority),
+m_bChangeCol(false)
 {
 	m_ppModel = NULL;
 	m_pLayer = NULL;
@@ -103,6 +104,19 @@ void CObject_Char::Uninit(void)
 //==========================================
 void CObject_Char::Update(void)
 {
+	// 色の設定
+	if (m_ppModel != NULL)
+	{
+		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
+		{
+			if (m_ppModel[nCnt] != NULL)
+			{
+				m_ppModel[nCnt]->SetCol(m_col);
+				m_ppModel[nCnt]->ChangeCol(m_bChangeCol);
+			}
+		}
+	}
+
 	//モーションを更新する
 	m_pMotion->Update();
 }
@@ -132,6 +146,7 @@ void CObject_Char::Draw(void)
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
+	// 各モデルを描画する
 	if (m_ppModel != NULL)
 	{
 		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
@@ -139,28 +154,6 @@ void CObject_Char::Draw(void)
 			if (m_ppModel[nCnt] != NULL)
 			{
 				m_ppModel[nCnt]->Draw();
-			}
-		}
-	}
-}
-
-//==========================================
-//  色の変更
-//==========================================
-void CObject_Char::ChangeColor(bool bChange)
-{
-	if (m_ppModel != NULL)
-	{
-		for (int nCnt = 0; nCnt < m_pLayer->nNumModel; nCnt++)
-		{
-			if (m_ppModel[nCnt] != NULL)
-			{
-				m_ppModel[nCnt]->ChangeCol(bChange);
-
-				if (bChange)
-				{
-					m_ppModel[nCnt]->SetCol(m_col);
-				}
 			}
 		}
 	}
