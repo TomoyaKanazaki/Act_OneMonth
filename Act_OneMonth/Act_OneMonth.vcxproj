@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\arrow.cpp" />
     <ClCompile Include="source\bg.cpp" />
     <ClCompile Include="source\boss.cpp" />
     <ClCompile Include="source\build.cpp" />
@@ -73,7 +72,6 @@
     <ClCompile Include="source\tutorial_wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\arrow.h" />
     <ClInclude Include="source\bg.h" />
     <ClInclude Include="source\boss.h" />
     <ClInclude Include="source\build.h" />

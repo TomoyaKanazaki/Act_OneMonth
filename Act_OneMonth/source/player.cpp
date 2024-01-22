@@ -18,7 +18,6 @@
 #include "gamemanager.h"
 #include "camera.h"
 #include "gametime.h"
-#include "arrow.h"
 #include "slice.h"
 #include "tutorial_wall.h"
 #include "slice.h"
@@ -131,6 +130,8 @@ void CPlayer::Uninit(void)
 //==========================================
 void CPlayer::Update(void)
 {
+	DebugProc::Print("プレイヤー位置 : ( %f, %f, %f )\n", m_pos.x, m_pos.y, m_pos.z);
+
 	// 経過時間を取得する
 	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
@@ -292,6 +293,15 @@ void CPlayer::Limit(void)
 		if (m_pos.x > CGameManager::GetTutorialWall()->GetPos().x)
 		{
 			m_pos.x = CGameManager::GetTutorialWall()->GetPos().x;
+		}
+	}
+
+	// ボス戦の左制限
+	if (CGameManager::GetState() == CGameManager::STATE_BOSS)
+	{
+		if (m_pos.x < 1350.0f)
+		{
+			m_pos.x = 1350.0f;
 		}
 	}
 

@@ -64,7 +64,6 @@ void CCamera::Update(void)
 //==========================================
 void CCamera::SetCamera(void)
 {
-
 	//デバイスの所得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
 

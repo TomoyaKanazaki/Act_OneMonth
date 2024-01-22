@@ -16,6 +16,8 @@
 namespace
 {
 	const float PLAYER_DISTANCE = 50.0f; //プレイヤーから注視点の距離
+	const float REVISION_SPEED = 0.1f; // 視野角の拡縮速度
+	const D3DXVECTOR3 LOCK_BOSS = D3DXVECTOR3(1800.0f, 120.0f, 0.0f);
 }
 
 //==========================================
@@ -57,8 +59,29 @@ HRESULT CCameraGame::Init(void)
 //==========================================
 void CCameraGame::Update(void)
 {
-	//プレイヤーを向く
-	MovePlayer();
+	//集中状態で視野角の拡張
+	if (CGameManager::GetState() == CGameManager::STATE_BOSS)
+	{
+		//ローカル変数宣言
+		float fDiff = MAX_FAV - m_fFov; //差分
+
+		//差分を加算
+		m_fFov += fDiff * REVISION_SPEED;
+
+		// カメラを固定する
+		LockBoss();
+	}
+	else
+	{
+		//ローカル変数宣言
+		float fDiff = DEFAULT_FAV - m_fFov; //差分
+
+		//差分を加算
+		m_fFov += fDiff * REVISION_SPEED;
+
+		//プレイヤーを向く
+		MovePlayer();
+	}
 
 	CCamera::Update();
 }
@@ -78,6 +101,26 @@ void CCameraGame::MovePlayer(void)
 
 	//差分を調整
 	Dest.x -= fDistance;
+
+	//移動補正
+	Diff = Dest - Pos;	//目標までの移動方向の差分
+
+	//適用
+	m_posR += Diff * 0.1f;
+
+	//視点を更新
+	m_posV = m_posR + D3DXVECTOR3(0.0f, R_HEIGHT, CAMERA_DISTANCE);
+}
+
+//==========================================
+//  ボス戦のカメラ固定処理
+//==========================================
+void CCameraGame::LockBoss(void)
+{
+	//ローカル変数宣言
+	D3DXVECTOR3 Pos = m_posR; //現在の位置
+	D3DXVECTOR3 Dest = LOCK_BOSS; //目標の位置
+	D3DXVECTOR3 Diff = {}; //目標と現在の位置の差
 
 	//移動補正
 	Diff = Dest - Pos;	//目標までの移動方向の差分

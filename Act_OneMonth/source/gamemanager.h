@@ -29,6 +29,7 @@ public:
 	{
 		STATE_START = 0, //ゲーム開始
 		STATE_NORMAL, //通常状態
+		STATE_BOSS, // ボス戦状態
 		STATE_END, //ゲーム終了
 		MAX,
 		NONE

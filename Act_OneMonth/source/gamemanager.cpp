@@ -80,13 +80,13 @@ HRESULT CGameManager::Init(void)
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
 	// 敵の生成
-	CEnemy::Create(D3DXVECTOR3(-2000.0f, 20.0f, 0.0f), CEnemy::BOSS);
+	CEnemy::Create(D3DXVECTOR3(2000.0f, 20.0f, 0.0f), CEnemy::BOSS);
 
 	//建物の生成
 	CBuild::Create();
 
 	//背景の生成
-	CBg::Create(D3DXVECTOR3(0.0f, 0.0f, 20000.0f), D3DXVECTOR3(60000.0f, 0.0f, 20000.0f), 1);
+	CBg::Create(D3DXVECTOR3(0.0f, 300.0f, 20000.0f), D3DXVECTOR3(60000.0f, 0.0f, 20000.0f), 1);
 
 	//床の生成
 	CFeild::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(6000.0f, 0.0f, 720.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 6.0f), CFeild::SOIL);
@@ -170,6 +170,12 @@ void CGameManager::Update(void)
 	//チュートリアルの進行
 	TaskTutorial();
 #endif
+
+	// ボス戦に移行する
+	if (m_pPlayer->GetPos().x >= 1800.0f)
+	{
+		m_State = STATE_BOSS;
+	}
 
 	//リザルトに遷移
 	if (m_pPlayer->GetPos().x >= 2300.0f || m_pPlayer->GetDeath())

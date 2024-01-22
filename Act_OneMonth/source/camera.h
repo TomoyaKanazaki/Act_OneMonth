@@ -41,7 +41,7 @@ protected:
 #define MAX_ROT (D3DX_PI * 0.99f) //‹“_‚ÌŒÀŠEŠp
 #define MIN_ROT (D3DX_PI * 0.01f) //‹“_‚ÌŒÀŠEŠp
 #define DEFAULT_FAV (45.0f) //‹–ìŠp‚Ì‹K’è’l
-#define MAX_FAV (70.0f) //‹–ìŠp‚Ì‹K’è’l
+#define MAX_FAV (54.0f) //‹–ìŠp‚Ì‹K’è’l
 
 	//ƒƒ“ƒoŠÖ”
 	void FirstPerson(void);

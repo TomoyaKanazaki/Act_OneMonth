@@ -26,6 +26,7 @@ private:
 
 	//ƒƒ“ƒoŠÖ”
 	void MovePlayer(void);
+	void LockBoss(void);
 
 };
 

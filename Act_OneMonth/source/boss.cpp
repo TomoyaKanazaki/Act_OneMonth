@@ -7,6 +7,8 @@
 #include "boss.h"
 #include "model.h"
 #include "motion.h"
+#include "gamemanager.h"
+#include "camera.h"
 
 //==========================================
 //  定数定義
@@ -68,8 +70,16 @@ void CBoss::Uninit(void)
 //==========================================
 void CBoss::Update(void)
 {
+	// カメラ外だと抜ける
+	if (!CGameManager::GetCamera()->OnScreen(m_pos))
+	{
+		return;
+	}
+
+	// プレイヤーを見る
 	RotateToPlayer();
 
+	// 更新
 	CEnemy::Update();
 }
 
