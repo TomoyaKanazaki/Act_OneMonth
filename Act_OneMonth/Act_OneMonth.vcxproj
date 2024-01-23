@@ -30,6 +30,7 @@
     <ClCompile Include="source\doll.cpp" />
     <ClCompile Include="source\effect3D.cpp" />
     <ClCompile Include="source\enemy.cpp" />
+    <ClCompile Include="source\enemymanager.cpp" />
     <ClCompile Include="source\enemy_lantern.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\field.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="source\doll.h" />
     <ClInclude Include="source\effect3D.h" />
     <ClInclude Include="source\enemy.h" />
+    <ClInclude Include="source\enemymanager.h" />
     <ClInclude Include="source\enemy_lantern.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\field.h" />

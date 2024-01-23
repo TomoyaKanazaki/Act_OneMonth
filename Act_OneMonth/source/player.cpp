@@ -372,6 +372,7 @@ void CPlayer::Move(void)
 	//Šµ«‚É‚æ‚éˆÚ“®‚Ì’â~
 	m_move.x += (0.0f - m_move.x) * 0.1f;
 
+
 	//ˆÚ“®—Ê‚ğ“K—p
 	m_pos += m_move * m_fDeltaTime;
 }

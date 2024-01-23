@@ -17,7 +17,7 @@ namespace
 {
 	const float PLAYER_DISTANCE = 50.0f; //プレイヤーから注視点の距離
 	const float REVISION_SPEED = 0.1f; // 視野角の拡縮速度
-	const D3DXVECTOR3 LOCK_BOSS = D3DXVECTOR3(1800.0f, 120.0f, 0.0f);
+	const D3DXVECTOR3 LOCK_BOSS = D3DXVECTOR3(1800.0f, 200.0f, 0.0f);
 }
 
 //==========================================

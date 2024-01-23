@@ -16,6 +16,7 @@ class CCamera;
 class CLight;
 class CTutorial;
 class CTutorialWall;
+class CEnemyManager;
 
 //==========================================
 //  ゲームマネージャクラス定義
@@ -53,7 +54,6 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 	void Draw(void) override;
-	
 
 	//静的メンバ関数
 	static CPlayer* GetPlayer(void) { return m_pPlayer; }
@@ -83,6 +83,7 @@ private:
 	static Progress m_Progress; //進行状況
 	static CTutorial *m_pTutorial;
 	static CTutorialWall* m_pTutorialWall;
+	static CEnemyManager* m_pEnemy;
 
 };
 

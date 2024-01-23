@@ -23,7 +23,7 @@
 #include "tutorial.h"
 #include "tutorial_wall.h"
 #include "fog.h"
-#include "enemy.h"
+#include "enemymanager.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -37,6 +37,7 @@ CGameManager::State CGameManager::m_oldState = NONE;
 CGameManager::Progress CGameManager::m_Progress = TUTORIAL_ENEMY;
 CTutorial* CGameManager::m_pTutorial = nullptr;
 CTutorialWall* CGameManager::m_pTutorialWall = nullptr;
+CEnemyManager* CGameManager::m_pEnemy = nullptr;
 
 //==========================================
 //  定数定義
@@ -79,8 +80,11 @@ HRESULT CGameManager::Init(void)
 	//プレイヤーの生成
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(-2500.0f, 0.0f, 0.0f), D3DXVECTOR3(50.0f, 50.0f, 0.0f), D3DXVECTOR3(0.0f, -D3DX_PI * 0.5f, 0.0f));
 
-	// 敵の生成
-	CEnemy::Create(D3DXVECTOR3(2000.0f, 20.0f, 0.0f), CEnemy::BOSS);
+	// エネミーマネージャの生成
+	if (m_pEnemy == nullptr)
+	{
+		m_pEnemy = CEnemyManager::Create();
+	}
 
 	//建物の生成
 	CBuild::Create();
@@ -127,6 +131,13 @@ void CGameManager::Uninit(void)
 		m_pLight = NULL;
 	}
 
+	// エネミーマネージャの破棄
+	if (m_pEnemy != nullptr)
+	{
+		m_pEnemy->Uninit();
+		m_pEnemy = nullptr;
+	}
+
 	//チュートリアルを終了
 	m_pTutorial = nullptr;
 
@@ -148,14 +159,11 @@ void CGameManager::Update(void)
 	//前回の状態を保存する
 	m_oldState = m_State;
 
-#if _DEBUG
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LSHIFT))
+	// エネミーマネージャの更新
+	if (m_pEnemy != nullptr)
 	{
-		CEnemy::Create(D3DXVECTOR3(-2000.0f, 20.0f, 0.0f), CEnemy::LANTERN);
-		CEnemy::Create(D3DXVECTOR3(-1900.0f, 20.0f, 0.0f), CEnemy::LANTERN);
-		CEnemy::Create(D3DXVECTOR3(-1950.0f, 20.0f, 0.0f), CEnemy::LANTERN);
+		m_pEnemy->Update();
 	}
-#endif
 
 	// 状態管理
 	TaskState();
@@ -165,11 +173,6 @@ void CGameManager::Update(void)
 	{
 		m_pLight->Update();
 	}
-
-#ifndef _DEBUG
-	//チュートリアルの進行
-	TaskTutorial();
-#endif
 
 	// ボス戦に移行する
 	if (m_pPlayer->GetPos().x >= 1800.0f)
