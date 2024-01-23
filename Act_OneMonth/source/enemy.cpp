@@ -66,35 +66,8 @@ void CEnemy::Uninit(void)
 //==========================================
 void CEnemy::Update(void)
 {
-	// ó‘Ô–ˆ‚Ìˆ—
-	if(m_ObjState == ATTACKED)
-	{
-		m_fLife -= DAMAGE;
-		m_ObjState = INVINCIBLE;
-		return;
-	}
-	else if(m_ObjState == INVINCIBLE)
-	{
-		// ŠÔ‚Ì‰ÁZ
-		m_fInvincible += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
-
-		// –³“GŠÔ‚Ì‰ğœ
-		if (m_fInvincible >= INVINCIBLE_TIME)
-		{
-			m_ObjState = NORMAL;
-		}
-	}
-	else // ‚»‚Ì‘¼
-	{
-		m_pos += m_move;
-	}
-
-	// ‘Ì—Í‚ªs‚«‚½‚ç€‚Ê
-	if (m_fLife <= 0.0f)
-	{
-		CSlice::Create(m_pos, m_size * SLICE_SCALE, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		Uninit();
-	}
+	// ˆÚ“®—Ê‚Ì“K—p
+	m_pos += m_move;
 
 	CObject_Char::Update();
 }
@@ -216,5 +189,39 @@ void CEnemy::RotateToPlayer()
 	{
 		m_rot.y += (D3DX_PI * 2);
 	}
+}
 
+//==========================================
+//  ”íŒ‚‚Ìˆ—
+//==========================================
+void CEnemy::Attacked()
+{
+	// ó‘Ô–ˆ‚Ìˆ—
+	if (m_ObjState == ATTACKED)
+	{
+		m_fLife -= DAMAGE;
+		m_ObjState = INVINCIBLE;
+		WhiteOut(true);
+		return;
+	}
+	else if (m_ObjState == INVINCIBLE)
+	{
+		// ŠÔ‚Ì‰ÁZ
+		m_fInvincible += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
+		// –³“GŠÔ‚Ì‰ğœ
+		if (m_fInvincible >= INVINCIBLE_TIME)
+		{
+			m_ObjState = NORMAL;
+			m_fInvincible = 0.0f;
+			WhiteOut(false);
+		}
+	}
+
+	// ‘Ì—Í‚ªs‚«‚½‚ç€‚Ê
+	if (m_fLife <= 0.0f)
+	{
+		CSlice::Create(m_pos, m_size * SLICE_SCALE, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		Uninit();
+	}
 }

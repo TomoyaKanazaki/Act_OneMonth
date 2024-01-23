@@ -10,14 +10,18 @@
 #include "gamemanager.h"
 #include "camera.h"
 #include "debugproc.h"
+#include "manager.h"
+#include "gametime.h"
 
 //==========================================
 //  定数定義
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 BOSS_SIZE = D3DXVECTOR3(100.0f, 100.0f, 50.0f);
-	const float MAX_LIFE = 10.0f;
+	const D3DXVECTOR3 BOSS_SIZE = D3DXVECTOR3(100.0f, 100.0f, 50.0f); // ボスの大きさ
+	const float MAX_LIFE = 10.0f; // 体力の最大値
+	const float DAMAGE = 1.0f; // 一回の攻撃から受けるダメージ量
+	const float INVINCIBLE_TIME = 0.1f; // 無敵時間
 }
 
 //==========================================
@@ -75,11 +79,8 @@ void CBoss::Uninit(void)
 //==========================================
 void CBoss::Update(void)
 {
-	// カメラ外だと抜ける
-	if (!CGameManager::GetCamera()->OnScreen(m_pos))
-	{
-		return;
-	}
+	// 被撃時の処理
+	Attacked();
 
 	// プレイヤーを見る
 	RotateToPlayer();
@@ -97,4 +98,32 @@ void CBoss::Update(void)
 void CBoss::Draw(void)
 {
 	CEnemy::Draw();
+}
+
+//==========================================
+//  被撃時の処理
+//==========================================
+void CBoss::Attacked()
+{
+	// 状態毎の処理
+	if (m_ObjState == ATTACKED)
+	{
+		m_fLife -= DAMAGE;
+		m_ObjState = INVINCIBLE;
+		WhiteOut(true);
+		return;
+	}
+	else if (m_ObjState == INVINCIBLE)
+	{
+		// 時間の加算
+		m_fInvincible += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
+		// 無敵時間の解除
+		if (m_fInvincible >= INVINCIBLE_TIME)
+		{
+			m_ObjState = NORMAL;
+			m_fInvincible = 0.0f;
+			WhiteOut(false);
+		}
+	}
 }

@@ -14,7 +14,7 @@
 namespace
 {
 	const D3DXVECTOR3 LANTERN_SIZE = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
-	const float MAX_LIFE = 1.0f;
+	const float MAX_LIFE = 10.0f;
 }
 
 //==========================================
@@ -72,7 +72,11 @@ void CEnemy_Lantern::Uninit(void)
 //==========================================
 void CEnemy_Lantern::Update(void)
 {
+	// ƒvƒŒƒCƒ„[‚ğŒü‚­
 	RotateToPlayer();
+
+	// ”íŒ‚‚Ìˆ—
+	Attacked();
 
 	CEnemy::Update();
 }

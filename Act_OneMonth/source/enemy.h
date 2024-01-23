@@ -41,16 +41,17 @@ protected:
 	//メンバ関数
 	void RotateToMove(); // 移動方向を向く
 	void RotateToPlayer(); // プレイヤーを向く
+	virtual void Attacked(); // 被撃時の処理
 
 	// メンバ変数
 	float m_fLife; // 体力
+	float m_fInvincible; // 無敵時間
 
 private:
 
 	//メンバ変数
 	CEnemy::TYPE m_type;
 	D3DXVECTOR3 m_posCenter; // 見た目の中心
-	float m_fInvincible; // 無敵時間
 
 };
 

@@ -36,6 +36,7 @@ protected:
 
 	// メンバ関数
 	void ChangeColor(bool bChange) { m_bChangeCol = bChange; };
+	void WhiteOut(bool bChange) { m_bWhiteOut = bChange; }
 
 	//メンバ変数
 	CModel** m_ppModel; //モデル情報
@@ -48,6 +49,7 @@ private:
 	//メンバ変数
 	D3DXMATRIX m_mtxWorld;
 	bool m_bChangeCol;
+	bool m_bWhiteOut;
 
 };
 
