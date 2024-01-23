@@ -56,6 +56,9 @@ HRESULT CSlash::Init(void)
 	// テクスチャ割り当て
 	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ARROW));
 
+	// 攻撃判定
+	Hit();
+
 	// 初期化
 	return CObject3D::Init();
 }
@@ -82,13 +85,6 @@ void CSlash::Update(void)
 
 	// 不透明度を下げる
 	m_col.a -= CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat() * 2.0f;
-
-	// 攻撃判定
-	Hit();
-
-	// デバッグ表示
-	DebugProc::Print("左端 : %f, %f\n", m_posLeft.x, m_posLeft.y);
-	DebugProc::Print("右端 : %f, %f\n", m_posRight.x, m_posRight.y);
 
 	// 更新する
 	CObject3D::Update();

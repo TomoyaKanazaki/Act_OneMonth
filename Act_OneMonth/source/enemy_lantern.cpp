@@ -14,6 +14,7 @@
 namespace
 {
 	const D3DXVECTOR3 LANTERN_SIZE = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
+	const float MAX_LIFE = 1.0f;
 }
 
 //==========================================
@@ -51,6 +52,9 @@ HRESULT CEnemy_Lantern::Init(void)
 
 	// ÉTÉCÉYÇê›íË
 	m_size = LANTERN_SIZE;
+
+	// ëÃóÕÇê›íË
+	m_fLife = MAX_LIFE;
 
 	return hr;
 }

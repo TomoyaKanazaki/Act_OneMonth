@@ -9,6 +9,7 @@
 #include "motion.h"
 #include "gamemanager.h"
 #include "camera.h"
+#include "debugproc.h"
 
 //==========================================
 //  定数定義
@@ -16,6 +17,7 @@
 namespace
 {
 	const D3DXVECTOR3 BOSS_SIZE = D3DXVECTOR3(100.0f, 100.0f, 50.0f);
+	const float MAX_LIFE = 10.0f;
 }
 
 //==========================================
@@ -54,6 +56,9 @@ HRESULT CBoss::Init(void)
 	// サイズを設定
 	m_size = BOSS_SIZE;
 
+	// 体力を設定
+	m_fLife = MAX_LIFE;
+
 	return hr;
 }
 
@@ -78,6 +83,9 @@ void CBoss::Update(void)
 
 	// プレイヤーを見る
 	RotateToPlayer();
+
+	// デバッグ表示
+	DebugProc::Print("ボスの体力 : %f\n", m_fLife);
 
 	// 更新
 	CEnemy::Update();

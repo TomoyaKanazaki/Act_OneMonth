@@ -36,7 +36,6 @@ public:
 	enum STATE
 	{
 		NORMAL = 0, //通常状態
-		MARKING, //マーキング状態
 		ATTACKED, // 被撃状態
 		MAX
 	};

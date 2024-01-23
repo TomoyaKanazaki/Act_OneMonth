@@ -118,7 +118,10 @@ void CObject_Char::Update(void)
 	}
 
 	//モーションを更新する
-	m_pMotion->Update();
+	if (m_pMotion != NULL)
+	{
+		m_pMotion->Update();
+	}
 }
 
 //==========================================

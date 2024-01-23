@@ -737,7 +737,7 @@ void CPlayer::Hit()
 						{
 							// “–‚½‚Á‚Ä‚¢‚½Žž‚Ì‰‰oŒnˆ—
 							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
-							pObj->SetState(CObject::MARKING);
+							pObj->SetState(CObject::ATTACKED);
 						}
 					}
 				}

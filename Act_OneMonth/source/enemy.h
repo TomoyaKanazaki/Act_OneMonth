@@ -42,6 +42,9 @@ protected:
 	void RotateToMove(); // 移動方向を向く
 	void RotateToPlayer(); // プレイヤーを向く
 
+	// メンバ変数
+	float m_fLife; // 体力
+
 private:
 
 	//メンバ変数
