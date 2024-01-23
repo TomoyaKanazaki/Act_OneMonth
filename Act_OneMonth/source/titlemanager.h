@@ -14,6 +14,7 @@
 class CLight;
 class CTitle;
 class CDoll;
+class CCamera;
 
 //==========================================
 //  タイトルマネージャクラス定義
@@ -39,6 +40,7 @@ private:
 	static CLight *m_pLight;
 	static CTitle *m_pTitle;
 	static CDoll *m_pDoll;
+	static CCamera* m_pCamera;
 
 };
 

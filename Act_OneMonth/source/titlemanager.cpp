@@ -17,6 +17,7 @@
 #include "bg.h"
 #include "field.h"
 #include "build.h"
+#include "camera_title.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -24,6 +25,7 @@
 CLight* CTitleManager::m_pLight = NULL;
 CTitle* CTitleManager::m_pTitle = NULL;
 CDoll* CTitleManager::m_pDoll = NULL;
+CCamera* CTitleManager::m_pCamera = NULL;
 
 //==========================================
 //  コンストラクタ
@@ -71,6 +73,12 @@ HRESULT CTitleManager::Init(void)
 		m_pLight->Init();
 	}
 
+	//カメラの生成
+	if (m_pCamera == NULL)
+	{
+		m_pCamera = CSceneManager::GetCamera();
+	}
+
 	//BGMの再生
 	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_TITLE);
 
@@ -89,6 +97,9 @@ void CTitleManager::Uninit(void)
 		delete m_pLight;
 		m_pLight = NULL;
 	}
+
+	// カメラの終了
+	m_pCamera = NULL;
 
 	//BGMの停止
 	CManager::GetInstance()->GetSound()->Stop();

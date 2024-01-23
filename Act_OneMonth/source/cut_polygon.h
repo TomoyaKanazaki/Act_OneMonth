@@ -16,7 +16,7 @@ class CCutPolygon : public CObject3D
 public:
 
 	//ƒƒ“ƒoŠÖ”
-	CCutPolygon(int nPriority = 5);
+	CCutPolygon(int nPriority = 7);
 	~CCutPolygon();
 
 	HRESULT Init(void) override;

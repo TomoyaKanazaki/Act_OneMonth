@@ -9,6 +9,7 @@
 #include "gamemanager.h"
 #include "resultmanager.h"
 #include "camera_game.h"
+#include "camera_title.h"
 #include "fade.h"
 #include "scene.h"
 #include "object.h"
@@ -57,6 +58,7 @@ void CSceneManager::Init(SCENE newsecene)
 		{
 		case TITLE:
 			m_pScene = new CTitleManager;
+			m_pCamera = new CCameraTitle;
 			break;
 		case GAME:
 			m_pScene = new CGameManager;
