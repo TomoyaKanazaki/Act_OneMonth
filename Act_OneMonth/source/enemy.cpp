@@ -12,6 +12,7 @@
 #include "player.h"
 #include "enemy_lantern.h"
 #include "boss.h"
+#include "gametime.h"
 
 //==========================================
 //  定数定義
@@ -21,14 +22,16 @@ namespace
 	const float SLICE_SCALE = 1.0f;
 	const float DAMAGE = 1.0f; //一回の攻撃で受けるダメージ
 	const D3DXVECTOR3 ENEMY_SIZE_DEFAULT = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
+	const float INVINCIBLE_TIME = 0.1f; // 無敵時間
 }
 
 //==========================================
 //  コンストラクタ
 //==========================================
 CEnemy::CEnemy(int nPriority) :
-m_type(NONE),
-m_fLife(0.0f)
+	m_type(NONE),
+	m_fLife(0.0f),
+	m_fInvincible(0.0f)
 {
 
 }
@@ -67,8 +70,19 @@ void CEnemy::Update(void)
 	if(m_ObjState == ATTACKED)
 	{
 		m_fLife -= DAMAGE;
-		m_ObjState = NORMAL;
+		m_ObjState = INVINCIBLE;
 		return;
+	}
+	else if(m_ObjState == INVINCIBLE)
+	{
+		// 時間の加算
+		m_fInvincible += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
+		// 無敵時間の解除
+		if (m_fInvincible >= INVINCIBLE_TIME)
+		{
+			m_ObjState = NORMAL;
+		}
 	}
 	else // その他
 	{

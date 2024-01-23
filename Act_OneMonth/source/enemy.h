@@ -50,6 +50,7 @@ private:
 	//ƒƒ“ƒo•Ï”
 	CEnemy::TYPE m_type;
 	D3DXVECTOR3 m_posCenter; // Œ©‚½–Ú‚Ì’†S
+	float m_fInvincible; // –³“GŠÔ
 
 };
 

@@ -41,16 +41,16 @@ CBoss::~CBoss()
 //==========================================
 HRESULT CBoss::Init(void)
 {
-	//タイプの設定
+	// タイプの設定
 	SetType(TYPE_ENEMY);
 
-	//階層構造情報を生成
+	// 階層構造情報を生成
 	m_pLayer = CLayer::Set(CLayer::ENEMY_BOSS);
 
 	// 初期化
 	HRESULT hr = CObject_Char::Init();
 
-	//モーション情報にモデルを渡す
+	// モーション情報にモデルを渡す
 	//m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::LANTERN_WAIT);
 
 	// サイズを設定

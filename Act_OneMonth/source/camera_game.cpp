@@ -16,7 +16,8 @@
 namespace
 {
 	const float PLAYER_DISTANCE = 50.0f; //プレイヤーから注視点の距離
-	const float REVISION_SPEED = 0.1f; // 視野角の拡縮速度
+	const float REVISION_SPEED_FOV = 0.1f; // 視野角の拡縮速度
+	const float REVISION_SPEED_POS = 0.05f; // 始点の移動速度
 	const D3DXVECTOR3 LOCK_BOSS = D3DXVECTOR3(1800.0f, 200.0f, 0.0f);
 }
 
@@ -59,29 +60,23 @@ HRESULT CCameraGame::Init(void)
 //==========================================
 void CCameraGame::Update(void)
 {
-	//集中状態で視野角の拡張
+	// 状態毎の処理
 	if (CGameManager::GetState() == CGameManager::STATE_BOSS)
 	{
-		//ローカル変数宣言
-		float fDiff = MAX_FAV - m_fFov; //差分
-
-		//差分を加算
-		m_fFov += fDiff * REVISION_SPEED;
-
 		// カメラを固定する
 		LockBoss();
 	}
 	else
 	{
-		//ローカル変数宣言
-		float fDiff = DEFAULT_FAV - m_fFov; //差分
-
-		//差分を加算
-		m_fFov += fDiff * REVISION_SPEED;
-
 		//プレイヤーを向く
 		MovePlayer();
 	}
+
+	//ローカル変数宣言
+	float fDiff = DEFAULT_FAV - m_fFov; //差分
+
+	//差分を加算
+	m_fFov += fDiff * REVISION_SPEED_FOV;
 
 	CCamera::Update();
 }
@@ -126,7 +121,7 @@ void CCameraGame::LockBoss(void)
 	Diff = Dest - Pos;	//目標までの移動方向の差分
 
 	//適用
-	m_posR += Diff * 0.1f;
+	m_posR += Diff * REVISION_SPEED_POS;
 
 	//視点を更新
 	m_posV = m_posR + D3DXVECTOR3(0.0f, R_HEIGHT, CAMERA_DISTANCE);

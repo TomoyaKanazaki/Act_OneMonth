@@ -37,6 +37,7 @@ public:
 	{
 		NORMAL = 0, //’Êíó‘Ô
 		ATTACKED, // ”íŒ‚ó‘Ô
+		INVINCIBLE, // –³“Gó‘Ô
 		MAX
 	};
 

@@ -175,7 +175,7 @@ void CGameManager::Update(void)
 	}
 
 	// ƒ{ƒXí‚ÉˆÚs‚·‚é
-	if (m_pPlayer->GetPos().x >= 1800.0f)
+	if (m_pPlayer->GetPos().x >= 1400.0f)
 	{
 		m_State = STATE_BOSS;
 	}
