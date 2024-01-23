@@ -47,7 +47,7 @@ CTitleManager::~CTitleManager()
 HRESULT CTitleManager::Init(void)
 {
 	//タイトルロゴ
-	m_pTitle =  CTitle::Create(D3DXVECTOR3(0.0f, 20.0f, 0.0f), D3DXVECTOR3(300.0f, 25.0f, 0.0f));
+	m_pTitle =  CTitle::Create(D3DXVECTOR3(0.0f, 20.0f, 0.0f), D3DXVECTOR3(300.0f, 100.0f, 0.0f));
 
 	//人形を設置
 	m_pDoll = CDoll::Create(D3DXVECTOR3(-200.0f, 0.0f, 0.0f));
