@@ -17,7 +17,7 @@
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 SLASH_SIZE = D3DXVECTOR3(1000.0f, 50.0f, 0.0f); // ポリゴンサイズ
+	const D3DXVECTOR3 SLASH_SIZE = D3DXVECTOR3(2000.0f, 50.0f, 0.0f); // ポリゴンサイズ
 	const float CLEAR_TIME = 4.0f; // 1 / n 秒
 }
 

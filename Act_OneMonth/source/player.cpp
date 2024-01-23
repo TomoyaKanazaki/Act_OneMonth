@@ -39,11 +39,10 @@ namespace
 	const float HIT_RANGE = 2020.0f; //ƒqƒbƒg‚·‚é”ÍˆÍ
 	const float JUMP_MOVE = 600.0f; //ƒWƒƒƒ“ƒv—Í
 	const float GRAVITY = 25.0f; //d—Í
-	const float CAMERA_WIDTH = 420.0f; //ƒJƒƒ‰‚©‚ç—£‚ê‚ç‚ê‚é‰¡‚Ì”ÍˆÍ
-	const float CAMERA_HEIGHT = 220.0f; //ƒJƒƒ‰‚©‚ç—£‚ê‚ç‚ê‚éc‚Ì”ÍˆÍ
 	const int MAX_ATTACK_COUNT = 3; // ˜A‘±UŒ‚‚ÌÅ‘å”
 	const float ATTACK_COOL_TIME = 0.0f; // UŒ‚‚ÌƒN[ƒ‹ƒ^ƒCƒ€
-	const float LIMIT_HEIGHT = 300.0f; // ã¸ŒÀŠE
+	const float LIMIT_HEIGHT_NORMAL = 300.0f; // “¹’†‚Ìã¸ŒÀŠE
+	const float LIMIT_HEIGHT_BOSS = 400.0f; // ƒ{ƒXí’†‚Ìã¸ŒÀŠE
 	const int MAX_LIFE = 10; // ‘Ì—ÍãŒÀ
 	const float DAMAGE_TIME = 0.8f;
 	const float DAMAGE_SPEED = 0.3f; // ƒ_ƒ[ƒWó‘Ô’†‚ÌˆÚ“®”{—¦
@@ -323,13 +322,24 @@ void CPlayer::Limit(void)
 	{
 		m_pos.y = 0.0f;
 	}
-	if (m_pos.y > LIMIT_HEIGHT)
-	{
-		m_pos.y = LIMIT_HEIGHT;
-	}
 	if (m_pos.y <= 0.0f)
 	{
 		m_bRand = true;
+	}
+
+	if (CGameManager::GetState() != CGameManager::STATE_BOSS)
+	{
+		if (m_pos.y > LIMIT_HEIGHT_NORMAL)
+		{
+			m_pos.y = LIMIT_HEIGHT_NORMAL;
+		}
+	}
+	else
+	{
+		if (m_pos.y > LIMIT_HEIGHT_BOSS)
+		{
+			m_pos.y = LIMIT_HEIGHT_BOSS;
+		}
 	}
 }
 
