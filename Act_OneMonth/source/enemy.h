@@ -35,6 +35,8 @@ public:
 
 	//静的メンバ関数
 	static CEnemy* Create(D3DXVECTOR3 pos, CEnemy::TYPE type);
+	static float GetDamage() { return m_AllDamage; } // 受けたダメージの取得
+	static void ResetDamage() { m_AllDamage = 0.0f; } // 受けたダメージのリセット
 
 protected:
 
@@ -46,6 +48,9 @@ protected:
 	// メンバ変数
 	float m_fLife; // 体力
 	float m_fInvincible; // 無敵時間
+
+	// 静的メンバ変数
+	static float m_AllDamage; // 受けたダメージ
 
 private:
 

@@ -26,6 +26,11 @@ namespace
 }
 
 //==========================================
+//  静的メンバ変数宣言
+//==========================================
+float CEnemy::m_AllDamage = 0.0f; // 受けたダメージの合計
+
+//==========================================
 //  コンストラクタ
 //==========================================
 CEnemy::CEnemy(int nPriority) :
@@ -200,6 +205,7 @@ void CEnemy::Attacked()
 	if (m_ObjState == ATTACKED)
 	{
 		m_fLife -= DAMAGE;
+		m_AllDamage += DAMAGE;
 		m_ObjState = INVINCIBLE;
 		WhiteOut(true);
 		return;

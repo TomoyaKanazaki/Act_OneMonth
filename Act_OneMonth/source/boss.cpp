@@ -19,7 +19,7 @@
 namespace
 {
 	const D3DXVECTOR3 BOSS_SIZE = D3DXVECTOR3(100.0f, 100.0f, 50.0f); // ボスの大きさ
-	const float MAX_LIFE = 10.0f; // 体力の最大値
+	const float MAX_LIFE = 100.0f; // 体力の最大値
 	const float DAMAGE = 1.0f; // 一回の攻撃から受けるダメージ量
 	const float INVINCIBLE_TIME = 0.1f; // 無敵時間
 }
@@ -109,6 +109,7 @@ void CBoss::Attacked()
 	if (m_ObjState == ATTACKED)
 	{
 		m_fLife -= DAMAGE;
+		m_AllDamage += DAMAGE;
 		m_ObjState = INVINCIBLE;
 		WhiteOut(true);
 		return;

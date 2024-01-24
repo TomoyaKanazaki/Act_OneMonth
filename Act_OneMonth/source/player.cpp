@@ -24,6 +24,7 @@
 #include "effect3D.h"
 #include "orbit.h"
 #include "slash.h"
+#include "enemy.h"
 
 //==========================================
 //  定数定義
@@ -42,7 +43,7 @@ namespace
 	const int MAX_ATTACK_COUNT = 3; // 連続攻撃の最大数
 	const float ATTACK_COOL_TIME = 0.0f; // 攻撃のクールタイム
 	const float LIMIT_HEIGHT_NORMAL = 300.0f; // 道中の上昇限界
-	const float LIMIT_HEIGHT_BOSS = 400.0f; // ボス戦中の上昇限界
+	const float LIMIT_HEIGHT_BOSS = 380.0f; // ボス戦中の上昇限界
 	const int MAX_LIFE = 10; // 体力上限
 	const float DAMAGE_TIME = 0.8f;
 	const float DAMAGE_SPEED = 0.3f; // ダメージ状態中の移動倍率
