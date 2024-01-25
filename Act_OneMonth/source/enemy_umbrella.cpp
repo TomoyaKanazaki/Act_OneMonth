@@ -18,10 +18,10 @@
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 LANTERN_SIZE = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
+	const D3DXVECTOR3 UMBRELLA_SIZE = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
 	const float MAX_LIFE = 10.0f;
-	const float ROTATION_SPEED = 0.03f; // 1フレームにの回転量
-	const float POS_DISTANCE = 50.0f; // 初期位置からの距離
+	const float ROTATION_SPEED = 0.1f; // 1フレームにの回転量
+	const float POS_DISTANCE = 80.0f; // 初期位置からの距離
 	const float LOOK_PLAYER = 150.0f; // プレイヤーを発見する距離
 }
 
@@ -62,7 +62,7 @@ HRESULT CEnemy_Umbrella::Init(void)
 	m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::UMBRELLA_WAIT);
 
 	// サイズを設定
-	m_size = LANTERN_SIZE;
+	m_size = UMBRELLA_SIZE;
 
 	// 体力を設定
 	m_fLife = MAX_LIFE;
@@ -86,9 +86,10 @@ void CEnemy_Umbrella::Uninit(void)
 //==========================================
 void CEnemy_Umbrella::Update(void)
 {
-	// プレイヤーを向く
+	// 発見判定フラグ分岐
 	if (m_bLook)
 	{
+		// プレイヤーを向く
 		RotateToPlayer();
 	}
 	else
@@ -120,9 +121,6 @@ void CEnemy_Umbrella::Draw(void)
 //==========================================
 void CEnemy_Umbrella::RotationLoop()
 {
-	//ローカル変数宣言
-	float fRotMove = m_rot.y; //現在の角度
-
 	//回転
 	m_rot.y += ROTATION_SPEED;
 
