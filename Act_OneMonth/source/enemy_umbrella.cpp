@@ -11,6 +11,7 @@
 #include "camera.h"
 #include "manager.h"
 #include "gametime.h"
+#include "player.h"
 
 //==========================================
 //  定数定義
@@ -21,6 +22,7 @@ namespace
 	const float MAX_LIFE = 10.0f;
 	const float ROTATION_SPEED = 0.03f; // 1フレームにの回転量
 	const float POS_DISTANCE = 50.0f; // 初期位置からの距離
+	const float LOOK_PLAYER = 150.0f; // プレイヤーを発見する距離
 }
 
 //==========================================
@@ -28,7 +30,8 @@ namespace
 //==========================================
 CEnemy_Umbrella::CEnemy_Umbrella() :
 	m_posDefault(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_fMoveTime(0.0f)
+	m_fMoveTime(0.0f),
+	m_bLook(false)
 {
 
 }
@@ -84,11 +87,19 @@ void CEnemy_Umbrella::Uninit(void)
 void CEnemy_Umbrella::Update(void)
 {
 	// プレイヤーを向く
-	//RotateToPlayer();
+	if (m_bLook)
+	{
+		RotateToPlayer();
+	}
+	else
+	{
+		// くるくる回る
+		RotationLoop();
+		Move();
 
-	// くるくる回る
-	RotationLoop();
-	Move();
+		// プレイヤーの発見
+		m_bLook = CalcDistancePlayer();
+	}
 
 	// 被撃時の処理
 	Attacked();
@@ -143,4 +154,30 @@ void CEnemy_Umbrella::Move()
 	// 座標を設定
 	m_pos.y = m_posDefault.y + (cosf(m_fMoveTime) * POS_DISTANCE);
 	m_pos.x = m_posDefault.x + (sinf(m_fMoveTime) * POS_DISTANCE);
+}
+
+//==========================================
+//  プレイヤーの発見判定
+//==========================================
+bool CEnemy_Umbrella::CalcDistancePlayer()
+{
+	// 画面外の場合は判定しない
+	if (!CGameManager::GetCamera()->OnScreen(m_pos))
+	{
+		return false;
+	}
+
+	// プレイヤーの距離を取得
+	D3DXVECTOR3 pos = CGameManager::GetPlayer()->GetCenter();
+
+	// プレイヤーへのベクトルを求める
+	D3DXVECTOR3 vec = pos - m_pos;
+
+	// 発見距離の判定をする
+	if (LOOK_PLAYER * LOOK_PLAYER >= vec.x * vec.x + vec.y * vec.y)
+	{
+		return true;
+	}
+
+	return false;
 }

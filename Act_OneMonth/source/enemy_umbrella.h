@@ -29,10 +29,12 @@ private:
 	// メンバ関数
 	void RotationLoop(); // 回り続ける
 	void Move(); // 移動
+	bool CalcDistancePlayer(); // プレイヤーとの距離を測る
 
 	// メンバ変数
 	D3DXVECTOR3 m_posDefault; // 初期位置
 	float m_fMoveTime; // 移動している時間
+	bool m_bLook; // プレイヤー発見フラグ
 
 };
 
