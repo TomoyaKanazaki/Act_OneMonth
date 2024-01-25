@@ -18,7 +18,8 @@ public:
 	//—ñ‹“Œ^’è‹`
 	enum TYPE
 	{
-		LANTERN = 0, //’Êí‚Ì“G
+		LANTERN = 0, // ’ñ“”‚¨‰»‚¯
+		UMBRELLA, // “‚Š}‚¨‰»‚¯
 		BOSS, // ƒ{ƒX
 		MAX,
 		NONE

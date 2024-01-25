@@ -11,6 +11,7 @@
 #include "slice.h"
 #include "player.h"
 #include "enemy_lantern.h"
+#include "enemy_umbrella.h"
 #include "boss.h"
 #include "gametime.h"
 
@@ -96,8 +97,12 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 	//ƒƒ‚ƒŠ‚ğŠm•Û
 	switch (type)
 	{
-	case NORMAL:
+	case LANTERN:
 		pEnemy = new CEnemy_Lantern;
+		break;
+
+	case UMBRELLA:
+		pEnemy = new CEnemy_Umbrella;
 		break;
 
 	case BOSS:

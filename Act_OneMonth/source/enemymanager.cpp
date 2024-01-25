@@ -130,7 +130,7 @@ void CEnemyManager::Load()
 					}
 					else if (strcmp(&aStr[0], "TYPE") == 0) // í—Ş
 					{
-						fscanf(pFile, "%f", &type);
+						fscanf(pFile, "%d", &type);
 					}
 					else if (strcmp(&aStr[0], "ENEMY_END") == 0) // ”z’uî•ñ‚ÌI‚í‚è
 					{

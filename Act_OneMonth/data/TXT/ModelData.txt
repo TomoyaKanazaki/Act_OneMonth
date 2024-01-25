@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_MODEL = 21
+NUM_MODEL = 23
 
 //==========================================
 //  xファイル名
@@ -30,4 +30,6 @@ MODEL_FILENAME = build_02.x					//[16]建物
 MODEL_FILENAME = ENEMY\\Lantern\\core.x		//[17]提灯の中心
 MODEL_FILENAME = ENEMY\\Lantern\\down.x		//[18]提灯の下
 MODEL_FILENAME = ENEMY\\Lantern\\up.x		//[19]提灯の上
-MODEL_FILENAME = ENEMY\\Boss\\sample.x		//[20]ボスのサンプル
+MODEL_FILENAME = ENEMY\\Umbrella\\core.x	//[20]唐笠の本体
+MODEL_FILENAME = ENEMY\\Umbrella\\leg.x		//[21]唐笠の足
+MODEL_FILENAME = ENEMY\\Boss\\sample.x		//[22]ボスのサンプル

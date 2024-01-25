@@ -31,6 +31,7 @@ public:
 		PLAYER_IAI, //居合モーション
 		PLAYER_DEATH, //死亡モーション
 		LANTERN_WAIT, // 提灯お化け待機
+		UMBRELLA_WAIT, // 唐笠お化け待機
 		MOTION_NONE
 	}MOTION;
 

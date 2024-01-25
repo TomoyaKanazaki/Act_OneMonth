@@ -23,6 +23,7 @@ public:
 	{
 		PLAYER_LAYER = 0, //プレイヤー構造
 		ENEMY_LANTERN, // 提灯お化け
+		ENEMY_UMBRELLA, // 唐笠お化け
 		ENEMY_BOSS, // ボス
 		MAP_LAYER, //マップのやつ
 		LAYERS_MAX
