@@ -26,6 +26,14 @@ public:
 
 private:
 
+	// ƒƒ“ƒoŠÖ”
+	void RotationLoop(); // ‰ñ‚è‘±‚¯‚é
+	void Move(); // ˆÚ“®
+
+	// ƒƒ“ƒo•Ï”
+	D3DXVECTOR3 m_posDefault; // ‰ŠúˆÊ’u
+	float m_fMoveTime; // ˆÚ“®‚µ‚Ä‚¢‚éŠÔ
+
 };
 
 #endif
