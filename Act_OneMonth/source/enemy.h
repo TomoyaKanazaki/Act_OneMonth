@@ -34,6 +34,8 @@ public:
 	virtual void Update(void) override;
 	virtual void Draw(void) override;
 
+	float GetLife() { return m_fLife; } // 体力の取得
+
 	//静的メンバ関数
 	static CEnemy* Create(D3DXVECTOR3 pos, CEnemy::TYPE type);
 	static float GetDamage() { return m_AllDamage; } // 受けたダメージの取得

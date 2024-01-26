@@ -25,7 +25,8 @@ namespace
 CEnemyManager::CEnemyManager() :
 	m_pInfo(nullptr),
 	m_pBoss(nullptr),
-	m_bPopFrag(false)
+	m_bPopFrag(false),
+	m_bBossCrush(false)
 {
 
 }
@@ -69,12 +70,22 @@ void CEnemyManager::Uninit()
 void CEnemyManager::Update()
 {
 	// ボスの出現
-	if (CGameManager::GetState() == CGameManager::STATE_BOSS)
+	if (!m_bBossCrush)
 	{
-		if (!m_bPopFrag)
+		if (CGameManager::GetState() == CGameManager::STATE_BOSS)
 		{
-			m_pBoss = CEnemy::Create(BOSS_POS, CEnemy::BOSS);
-			m_bPopFrag = true;
+			if (!m_bPopFrag) // ボス出現フラグ
+			{
+				m_pBoss = CEnemy::Create(BOSS_POS, CEnemy::BOSS);
+				m_bPopFrag = true;
+			}
+			else
+			{
+				if (m_pBoss->GetLife() <= 0.0f) // 体力がなくなっていた場合
+				{
+					m_bBossCrush = true;
+				}
+			}
 		}
 	}
 

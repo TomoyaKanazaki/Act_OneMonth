@@ -28,6 +28,8 @@ public:
 	void Update();
 	void Load(); // データの読み込み処理
 
+	bool GetBossCrush() { return m_bBossCrush; } // ボス撃破フラグの取得
+
 	// 静的メンバ関数
 	static CEnemyManager* Create(); // 生成処理
 
@@ -44,6 +46,7 @@ private:
 	Info* m_pInfo; // 設置情報
 	CEnemy* m_pBoss; // ボスのポインタ
 	bool m_bPopFrag; // ボスの出現フラグ
+	bool m_bBossCrush; // ボスの撃破フラグ
 
 };
 

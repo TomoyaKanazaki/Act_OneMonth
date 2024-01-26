@@ -180,19 +180,23 @@ void CGameManager::Update(void)
 		m_State = STATE_BOSS;
 	}
 
-	//ƒŠƒUƒ‹ƒg‚É‘JˆÚ
-	if (m_pPlayer->GetPos().x >= 2300.0f || m_pPlayer->GetDeath())
+	// ƒŠƒUƒ‹ƒg‚É‘JˆÚ
+	if (m_pEnemy->GetBossCrush())
 	{
-		if (m_pPlayer->GetDeath())
-		{
-			CSceneManager::SetClear(false);
-		}
-		else if (m_pPlayer->GetPos().x >= 2300.0f)
-		{
-			CSceneManager::SetClear(true);
-		}
+		// ƒvƒŒƒCŒ‹‰Ê‚ðŽ¸”s‚ÉÝ’è
+		CSceneManager::SetClear(true);
 
-		// ‘JˆÚ
+		// ƒŠƒUƒ‹ƒg‚É‘JˆÚ
+		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+	}
+
+	//ƒŠƒUƒ‹ƒg‚É‘JˆÚ
+	if (m_pPlayer->GetDeath())
+	{
+		// ƒvƒŒƒCŒ‹‰Ê‚ðŽ¸”s‚ÉÝ’è
+		CSceneManager::SetClear(false);
+
+		// ƒŠƒUƒ‹ƒg‚É‘JˆÚ
 		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}
 
