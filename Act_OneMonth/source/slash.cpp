@@ -11,13 +11,14 @@
 #include "sound.h"
 #include "debugproc.h"
 #include "texture.h"
+#include "slash_effect.h"
 
 //==========================================
 //  定数定義
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 SLASH_SIZE = D3DXVECTOR3(2000.0f, 50.0f, 0.0f); // ポリゴンサイズ
+	const D3DXVECTOR3 SLASH_SIZE = D3DXVECTOR3(800.0f, 50.0f, 0.0f); // ポリゴンサイズ
 	const float CLEAR_TIME = 4.0f; // 1 / n 秒
 }
 
@@ -58,6 +59,10 @@ HRESULT CSlash::Init(void)
 
 	// 攻撃判定
 	Hit();
+
+	CSlash_Effect::Create(m_pos, m_rot);
+	CSlash_Effect::Create(m_pos, m_rot);
+	CSlash_Effect::Create(m_pos, m_rot);
 
 	// 初期化
 	return CObject3D::Init();
@@ -115,8 +120,14 @@ void CSlash::Draw(void)
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
+	//カリングを無効化
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	//描画
 	CObject3D::Draw();
+
+	//カリングを有効化
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	//アルファブレンディングの設定を元に戻す
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);

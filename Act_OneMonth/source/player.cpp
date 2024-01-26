@@ -22,6 +22,7 @@
 #include "orbit.h"
 #include "slash.h"
 #include "enemy.h"
+#include "slash_effect.h"
 
 //==========================================
 //  定数定義
@@ -44,6 +45,7 @@ namespace
 	const int MAX_LIFE = 10; // 体力上限
 	const float DAMAGE_TIME = 0.8f;
 	const float DAMAGE_SPEED = 0.3f; // ダメージ状態中の移動倍率
+	const D3DXCOLOR SLASH_COLOR = D3DXCOLOR(0.1f, 1.0f, 0.1f, 1.0f);
 }
 
 //==========================================
@@ -572,7 +574,7 @@ void CPlayer::Attack()
 		float rot = atan2f(vecInput.z, vecInput.x);
 
 		// 攻撃を生成
-		CSlash::Create(m_CenterPos, rot, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
 	}
 }
 

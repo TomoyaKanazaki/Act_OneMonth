@@ -21,8 +21,7 @@ public:
 	//テクスチャの種類の列挙型定義
 	enum TEXTURE
 	{
-		BG = 0, //背景
-		NUMBER, //数字
+		NUMBER = 0, //数字
 		TITLE, //タイトル
 		CLEAR, //ゲームクリア
 		OVER, //ゲームオーバー
@@ -31,6 +30,8 @@ public:
 		SKY, //空
 		EFFECT, // エフェクト
 		SLASH_00, // 斬撃エフェクト
+		SLASH_01, // 斬撃エフェクト
+		SLASH_02, // 斬撃エフェクト
 		TEXTURE_MAX
 	};
 

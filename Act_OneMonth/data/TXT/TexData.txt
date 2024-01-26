@@ -5,18 +5,19 @@
 //
 //==========================================
 
-NUM_TEXTURE = 10
+NUM_TEXTURE = 11
 
 //==========================================
 //  テクスチャファイル名
 //==========================================
-TEXTURE_FILENAME = BG.png				//[0]背景
-TEXTURE_FILENAME = number.png			//[1]数字
-TEXTURE_FILENAME = title.png			//[2]タイトル
-TEXTURE_FILENAME = gameclear.png		//[3]ゲームクリア
-TEXTURE_FILENAME = gameover.png			//[4]ゲームオーバー
-TEXTURE_FILENAME = field.png			//[5]床
-TEXTURE_FILENAME = water.png			//[6]水
-TEXTURE_FILENAME = sky.png				//[7]空
-TEXTURE_FILENAME = effect.png			//[8]エフェクト
-TEXTURE_FILENAME = 00_slash.tga			//[9]斬撃エフェクト
+TEXTURE_FILENAME = number.png			//[0]数字
+TEXTURE_FILENAME = title.png			//[1]タイトル
+TEXTURE_FILENAME = gameclear.png		//[2]ゲームクリア
+TEXTURE_FILENAME = gameover.png			//[3]ゲームオーバー
+TEXTURE_FILENAME = field.png			//[4]床
+TEXTURE_FILENAME = water.png			//[5]水
+TEXTURE_FILENAME = sky.png				//[6]空
+TEXTURE_FILENAME = effect.png			//[7]エフェクト
+TEXTURE_FILENAME = 00_slash.png			//[8]斬撃エフェクト
+TEXTURE_FILENAME = 01_slash.png			//[9]斬撃エフェクト
+TEXTURE_FILENAME = 02_slash.png			//[10]斬撃エフェクト
