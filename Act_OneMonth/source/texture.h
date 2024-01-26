@@ -27,24 +27,10 @@ public:
 		CLEAR, //ゲームクリア
 		OVER, //ゲームオーバー
 		FIELD, //床
-		ARROW, //矢印
-		SLASH, //斬撃エフェクト
-		SLICE, //ｼﾞｬｷﾝｼﾞｬｷﾝ
-		KATANA, //刀
-		MARKER, //マーカー
 		WATER, //水
 		SKY, //空
-		ENEMY_00, //敵
-		ENEMY_01, //敵
-		ENEMY_02, //敵
-		ENEMY_03, //敵
-		ENEMY_04, //敵
-		TUTORIAL_00, //チュートリアル00
-		TUTORIAL_01, //チュートリアル01
-		TUTORIAL_02, //チュートリアル02
-		LEAF, //葉っぱ
-		OHUDA, // お札
 		EFFECT, // エフェクト
+		SLASH_00, // 斬撃エフェクト
 		TEXTURE_MAX
 	};
 

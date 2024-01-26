@@ -14,8 +14,6 @@
 class CPlayer;
 class CCamera;
 class CLight;
-class CTutorial;
-class CTutorialWall;
 class CEnemyManager;
 
 //==========================================
@@ -61,8 +59,6 @@ public:
 	static CLight *GetLight(void) { return m_pLight; }
 	static State GetState(void) { return m_State; }
 	static State GetOldState(void) { return m_oldState; }
-	static CTutorial* GetTutorial() { return m_pTutorial; }
-	static CTutorialWall* GetTutorialWall() { return m_pTutorialWall; }
 
 private:
 
@@ -81,8 +77,6 @@ private:
 	static State m_State; //ゲームの状態
 	static State m_oldState; //前フレームでのゲームの状態
 	static Progress m_Progress; //進行状況
-	static CTutorial *m_pTutorial;
-	static CTutorialWall* m_pTutorialWall;
 	static CEnemyManager* m_pEnemy;
 
 };

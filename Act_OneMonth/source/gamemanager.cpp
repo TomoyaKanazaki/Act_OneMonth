@@ -20,8 +20,6 @@
 #include "field.h"
 #include "gametime.h"
 #include "build.h"
-#include "tutorial.h"
-#include "tutorial_wall.h"
 #include "fog.h"
 #include "enemymanager.h"
 
@@ -35,8 +33,6 @@ CLight *CGameManager::m_pLight = NULL;
 CGameManager::State CGameManager::m_State = NONE;
 CGameManager::State CGameManager::m_oldState = NONE;
 CGameManager::Progress CGameManager::m_Progress = TUTORIAL_ENEMY;
-CTutorial* CGameManager::m_pTutorial = nullptr;
-CTutorialWall* CGameManager::m_pTutorialWall = nullptr;
 CEnemyManager* CGameManager::m_pEnemy = nullptr;
 
 //==========================================
@@ -137,9 +133,6 @@ void CGameManager::Uninit(void)
 		m_pEnemy->Uninit();
 		m_pEnemy = nullptr;
 	}
-
-	//チュートリアルを終了
-	m_pTutorial = nullptr;
 
 	// カメラの終了
 	m_pCamera = NULL;

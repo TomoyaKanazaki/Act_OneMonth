@@ -18,9 +18,6 @@
 #include "gamemanager.h"
 #include "camera.h"
 #include "gametime.h"
-#include "slice.h"
-#include "tutorial_wall.h"
-#include "slice.h"
 #include "effect3D.h"
 #include "orbit.h"
 #include "slash.h"
@@ -287,24 +284,6 @@ void CPlayer::Motion(void)
 //==========================================
 void CPlayer::Limit(void)
 {
-	// チュートリアル状態の制限
-	if (CGameManager::GetTutorialWall() != nullptr)
-	{
-		if (m_pos.x > CGameManager::GetTutorialWall()->GetPos().x)
-		{
-			m_pos.x = CGameManager::GetTutorialWall()->GetPos().x;
-		}
-	}
-
-	// ボス戦の左制限
-	if (CGameManager::GetState() == CGameManager::STATE_BOSS)
-	{
-		if (m_pos.x < 1350.0f)
-		{
-			m_pos.x = 1350.0f;
-		}
-	}
-
 	//X座標の制限
 	if (CGameManager::GetState() != CGameManager::STATE_START && CGameManager::GetState() != CGameManager::STATE_END)
 	{

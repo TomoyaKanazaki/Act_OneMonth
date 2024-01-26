@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_TEXTURE = 24
+NUM_TEXTURE = 10
 
 //==========================================
 //  テクスチャファイル名
@@ -16,21 +16,7 @@ TEXTURE_FILENAME = title.png			//[2]タイトル
 TEXTURE_FILENAME = gameclear.png		//[3]ゲームクリア
 TEXTURE_FILENAME = gameover.png			//[4]ゲームオーバー
 TEXTURE_FILENAME = field.png			//[5]床
-TEXTURE_FILENAME = arrow.png			//[6]矢印
-TEXTURE_FILENAME = slash.tga			//[7]斬撃エフェクト
-TEXTURE_FILENAME = slice.png			//[8]ｼﾞｬｷﾝｼﾞｬｷﾝ
-TEXTURE_FILENAME = KATANA.png			//[9]刀
-TEXTURE_FILENAME = marker.png			//[10]マーカー
-TEXTURE_FILENAME = water.png			//[11]水
-TEXTURE_FILENAME = sky.png				//[12]空
-TEXTURE_FILENAME = enemy_00.png			//[13]敵
-TEXTURE_FILENAME = enemy_01.png			//[14]敵
-TEXTURE_FILENAME = enemy_02.png			//[15]敵
-TEXTURE_FILENAME = enemy_03.png			//[16]敵
-TEXTURE_FILENAME = enemy_04.png			//[17]敵
-TEXTURE_FILENAME = tutorial_00.png		//[18]チュートリアル00
-TEXTURE_FILENAME = tutorial_01.png		//[19]チュートリアル01
-TEXTURE_FILENAME = tutorial_02.png		//[20]チュートリアル02
-TEXTURE_FILENAME = leaf.png				//[21]はっぱ
-TEXTURE_FILENAME = block.jpeg			//[22]お札
-TEXTURE_FILENAME = effect.png			//[23]エフェクト
+TEXTURE_FILENAME = water.png			//[6]水
+TEXTURE_FILENAME = sky.png				//[7]空
+TEXTURE_FILENAME = effect.png			//[8]エフェクト
+TEXTURE_FILENAME = 00_slash.tga			//[9]斬撃エフェクト

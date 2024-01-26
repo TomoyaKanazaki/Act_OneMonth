@@ -54,7 +54,7 @@ HRESULT CSlash::Init(void)
 	m_posRight.y = m_pos.y - (sinf(m_rot.z) * m_size.x);
 
 	// テクスチャ割り当て
-	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::ARROW));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::EFFECT));
 
 	// 攻撃判定
 	Hit();

@@ -8,12 +8,12 @@
 #include "gamemanager.h"
 #include "manager.h"
 #include "renderer.h"
-#include "slice.h"
 #include "player.h"
 #include "enemy_lantern.h"
 #include "enemy_umbrella.h"
 #include "boss.h"
 #include "gametime.h"
+#include "camera.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -209,10 +209,15 @@ void CEnemy::Attacked()
 	// ó‘Ô–ˆ‚Ìˆ—
 	if (m_ObjState == ATTACKED)
 	{
-		m_fLife -= DAMAGE;
-		m_AllDamage += DAMAGE;
+		// ‰æ–ÊŠO‚¾‚ÆUŒ‚‚ğó‚¯‚È‚¢
+		if (CGameManager::GetCamera()->OnScreen(m_pos))
+		{
+			m_fLife -= DAMAGE;
+			m_AllDamage += DAMAGE;
+			WhiteOut(true);
+		}
+
 		m_ObjState = INVINCIBLE;
-		WhiteOut(true);
 		return;
 	}
 	else if (m_ObjState == INVINCIBLE)
@@ -232,7 +237,6 @@ void CEnemy::Attacked()
 	// ‘Ì—Í‚ªs‚«‚½‚ç€‚Ê
 	if (m_fLife <= 0.0f)
 	{
-		CSlice::Create(m_pos, m_size * SLICE_SCALE, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		Uninit();
 	}
 }
