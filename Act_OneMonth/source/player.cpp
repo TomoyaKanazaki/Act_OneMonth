@@ -42,6 +42,7 @@ namespace
 	const float ATTACK_COOL_TIME = 0.0f; // 攻撃のクールタイム
 	const float LIMIT_HEIGHT_NORMAL = 300.0f; // 道中の上昇限界
 	const float LIMIT_HEIGHT_BOSS = 380.0f; // ボス戦中の上昇限界
+	const float LIMIT_WIDTH_BOSS = 1350.0f; // ボス戦中の上昇限界
 	const int MAX_LIFE = 10; // 体力上限
 	const float DAMAGE_TIME = 0.8f;
 	const float DAMAGE_SPEED = 0.3f; // ダメージ状態中の移動倍率
@@ -322,6 +323,10 @@ void CPlayer::Limit(void)
 		{
 			m_pos.y = LIMIT_HEIGHT_BOSS;
 		}
+		if (m_pos.x < LIMIT_WIDTH_BOSS)
+		{
+			m_pos.x = LIMIT_WIDTH_BOSS;
+		}
 	}
 }
 
@@ -574,7 +579,7 @@ void CPlayer::Attack()
 		float rot = atan2f(vecInput.z, vecInput.x);
 
 		// 攻撃を生成
-		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+		CSlash::Create(m_CenterPos, rot);
 	}
 #ifdef _DEBUG
 
@@ -584,7 +589,7 @@ void CPlayer::Attack()
 		float rot = D3DX_PI;
 
 		// 攻撃を生成
-		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+		CSlash::Create(m_CenterPos, rot);
 	}
 	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LEFT))
 	{
@@ -592,7 +597,7 @@ void CPlayer::Attack()
 		float rot = -D3DX_PI;
 
 		// 攻撃を生成
-		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+		CSlash::Create(m_CenterPos, rot);
 	}
 	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_UP))
 	{
@@ -600,7 +605,7 @@ void CPlayer::Attack()
 		float rot = D3DX_PI * 0.5f;
 
 		// 攻撃を生成
-		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+		CSlash::Create(m_CenterPos, rot);
 	}
 	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_DOWN))
 	{
@@ -608,7 +613,7 @@ void CPlayer::Attack()
 		float rot = D3DX_PI * -0.5f;
 
 		// 攻撃を生成
-		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+		CSlash::Create(m_CenterPos, rot);
 	}
 
 #endif

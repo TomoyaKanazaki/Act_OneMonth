@@ -1,31 +1,22 @@
 //==========================================
 //
-//  斬撃エフェクト(slash_effect.cpp)
+//  爆散エフェクト(splash.cpp)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "slash_effect.h"
+#include "splash.h"
 #include "manager.h"
 #include "renderer.h"
-#include "texture.h"
 #include "gametime.h"
-
-//==========================================
-//  定数定義
-//==========================================
-namespace
-{
-	const int NUM_TEXTURE = 1; // 斬撃エフェクトのテクスチャ数
-	const int MIN_SIZE = 100; // 大きさの下限値
-	const int MAX_SIZE = 200; // 大きさの上限値
-	const float CLEAR_TIME = 5.0f; // 1 / n 秒で消える
-	const float ALPHA = 0.7f; // 透明度
-}
+#include "sound.h"
+#include "debugproc.h"
+#include "texture.h"
+#include "slash_effect.h"
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CSlash_Effect::CSlash_Effect(int nPriority) : CObject3D_Anim(nPriority)
+CSplash::CSplash(int nPriority) : CObject3D_Anim(nPriority)
 {
 
 }
@@ -33,7 +24,7 @@ CSlash_Effect::CSlash_Effect(int nPriority) : CObject3D_Anim(nPriority)
 //==========================================
 //  デストラクタ
 //==========================================
-CSlash_Effect::~CSlash_Effect()
+CSplash::~CSplash()
 {
 
 }
@@ -41,34 +32,13 @@ CSlash_Effect::~CSlash_Effect()
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT CSlash_Effect::Init(void)
+HRESULT CSplash::Init(void)
 {
-	// サイズを設定
-	//m_size = D3DXVECTOR3
-	//(
-	//	(float)(rand() % ((MAX_SIZE - MIN_SIZE) + 1) + MIN_SIZE),
-	//	(float)(rand() % ((MAX_SIZE - MIN_SIZE) + 1) + MIN_SIZE),
-	//	(float)(rand() % ((MAX_SIZE - MIN_SIZE) + 1) + MIN_SIZE)
-	//);
-
-	m_size = D3DXVECTOR3(MAX_SIZE, MAX_SIZE, MAX_SIZE);
-
-	D3DXVECTOR3 rot;
-	rot.x = (float)(rand() % 629 - 314) * 0.01f;
-	rot.y = (float)(rand() % 629 - 314) * 0.01f;
-	rot.z = (float)(rand() % 629 - 314) * 0.01f;
-	m_rot.x = rot.x;
-	m_rot.y = rot.y;
-	m_rot.z = rot.z;
-
-	// 透明度設定
-	m_col.a = ALPHA;
-
 	// テクスチャ割り当て
-	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::SLASH));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::SPLASH));
 
 	// アニメーションを設定
-	SetAnim(12, 2, false, TYPE_U);
+	SetAnim(14, 2, false, TYPE_U);
 
 	// 初期化
 	return CObject3D_Anim::Init();
@@ -77,7 +47,7 @@ HRESULT CSlash_Effect::Init(void)
 //==========================================
 //  終了処理
 //==========================================
-void CSlash_Effect::Uninit(void)
+void CSplash::Uninit(void)
 {
 	CObject3D_Anim::Uninit();
 }
@@ -85,7 +55,7 @@ void CSlash_Effect::Uninit(void)
 //==========================================
 //  更新処理
 //==========================================
-void CSlash_Effect::Update(void)
+void CSplash::Update(void)
 {
 	// 更新する
 	CObject3D_Anim::Update();
@@ -94,7 +64,7 @@ void CSlash_Effect::Update(void)
 //==========================================
 //  描画処理
 //==========================================
-void CSlash_Effect::Draw(void)
+void CSplash::Draw(void)
 {
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
@@ -116,8 +86,14 @@ void CSlash_Effect::Draw(void)
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
+	//カリングを無効化
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	//描画
 	CObject3D_Anim::Draw();
+
+	//カリングを有効化
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	//アルファブレンディングの設定を元に戻す
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
@@ -140,22 +116,23 @@ void CSlash_Effect::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CSlash_Effect* CSlash_Effect::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const D3DXCOLOR& col)
+CSplash* CSplash::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const D3DXVECTOR3& size, const D3DXCOLOR& col)
 {
 	// インスタンス生成
-	CSlash_Effect* pSlash = new CSlash_Effect;
+	CSplash* pSplash = new CSplash;
 
 	// NULLチェック
-	if (pSlash == nullptr) { return nullptr; }
+	if (pSplash == nullptr) { return nullptr; }
 
 	// 値の設定
-	pSlash->m_pos = pos;
-	pSlash->m_rot = rot;
-	pSlash->m_col = col;
+	pSplash->m_pos = pos;
+	pSplash->m_rot = rot;
+	pSplash->m_size = size;
+	pSplash->m_col = col;
 
 	// 初期化処理
-	pSlash->Init();
+	pSplash->Init();
 
 	// 値を返す
-	return pSlash;
+	return pSplash;
 }

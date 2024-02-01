@@ -29,9 +29,8 @@ public:
 		WATER, //水
 		SKY, //空
 		EFFECT, // エフェクト
-		SLASH_00, // 斬撃エフェクト
-		SLASH_01, // 斬撃エフェクト
-		SLASH_02, // 斬撃エフェクト
+		SLASH, // 斬撃エフェクト
+		SPLASH, // 爆散エフェクト
 		TEXTURE_MAX
 	};
 

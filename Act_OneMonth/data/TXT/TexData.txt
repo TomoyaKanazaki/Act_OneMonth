@@ -5,19 +5,18 @@
 //
 //==========================================
 
-NUM_TEXTURE = 11
+NUM_TEXTURE = 10
 
 //==========================================
 //  テクスチャファイル名
 //==========================================
-TEXTURE_FILENAME = number.png			//[0]数字
-TEXTURE_FILENAME = title.png			//[1]タイトル
-TEXTURE_FILENAME = gameclear.png		//[2]ゲームクリア
-TEXTURE_FILENAME = gameover.png			//[3]ゲームオーバー
-TEXTURE_FILENAME = field.png			//[4]床
-TEXTURE_FILENAME = water.png			//[5]水
-TEXTURE_FILENAME = sky.png				//[6]空
-TEXTURE_FILENAME = effect.png			//[7]エフェクト
-TEXTURE_FILENAME = 00_slash.png			//[8]斬撃エフェクト
-TEXTURE_FILENAME = 01_slash.png			//[9]斬撃エフェクト
-TEXTURE_FILENAME = 02_slash.png			//[10]斬撃エフェクト
+TEXTURE_FILENAME = number.png				//[0]数字
+TEXTURE_FILENAME = title.png				//[1]タイトル
+TEXTURE_FILENAME = gameclear.png			//[2]ゲームクリア
+TEXTURE_FILENAME = gameover.png				//[3]ゲームオーバー
+TEXTURE_FILENAME = field.png				//[4]床
+TEXTURE_FILENAME = water.png				//[5]水
+TEXTURE_FILENAME = sky.png					//[6]空
+TEXTURE_FILENAME = anim_slash.png			//[7]エフェクト
+TEXTURE_FILENAME = slash.png				//[8]斬撃エフェクト
+TEXTURE_FILENAME = pipo-btleffect081.png				//[9]爆散エフェクト

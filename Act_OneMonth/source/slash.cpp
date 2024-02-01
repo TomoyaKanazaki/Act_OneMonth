@@ -12,20 +12,24 @@
 #include "debugproc.h"
 #include "texture.h"
 #include "slash_effect.h"
+#include "splash.h"
 
 //==========================================
 //  定数定義
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 SLASH_SIZE = D3DXVECTOR3(800.0f, 50.0f, 0.0f); // ポリゴンサイズ
+	const D3DXVECTOR3 SLASH_SIZE = D3DXVECTOR3(2000.0f, 50.0f, 0.0f); // ポリゴンサイズ
 	const float CLEAR_TIME = 4.0f; // 1 / n 秒
+	const float MIN_COLOR = 0.5f; // 色の下限
+	const D3DXCOLOR EFFECT_COLOR[3] = { D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f), D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) }; // エフェクトカラー
+	const D3DXVECTOR3 EFFECT_SCALE = D3DXVECTOR3(0.5f, 1.5f, 0.0f); // エフェクトのスケール
 }
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CSlash::CSlash(int nPriority)
+CSlash::CSlash(int nPriority) : CObject3D_Anim(nPriority)
 {
 
 }
@@ -57,15 +61,26 @@ HRESULT CSlash::Init(void)
 	// テクスチャ割り当て
 	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::EFFECT));
 
+	// 色の設定
+	m_col.r = 0.0f;
+	m_col.g = ((float)rand() / (float)RAND_MAX) * (1.0f - MIN_COLOR) + MIN_COLOR;
+	m_col.b = ((float)rand() / (float)RAND_MAX);
+
+	// アニメーションを設定
+	SetAnim(28, 2, false, TYPE_U);
+
 	// 攻撃判定
 	Hit();
 
-	CSlash_Effect::Create(m_pos, m_rot);
-	CSlash_Effect::Create(m_pos, m_rot);
-	CSlash_Effect::Create(m_pos, m_rot);
+	// エフェクトの発生
+	for (int i = 0; i < 3; ++i)
+	{
+		CSlash_Effect::Create(m_pos, m_rot, EFFECT_COLOR[i]);
+	}
+	CSplash::Create(m_pos, m_rot, D3DXVECTOR3(m_size.x * EFFECT_SCALE.x, m_size.y * EFFECT_SCALE.y, EFFECT_SCALE.z), m_col);
 
 	// 初期化
-	return CObject3D::Init();
+	return CObject3D_Anim::Init();
 }
 
 //==========================================
@@ -73,7 +88,7 @@ HRESULT CSlash::Init(void)
 //==========================================
 void CSlash::Uninit(void)
 {
-	CObject3D::Uninit();
+	CObject3D_Anim::Uninit();
 }
 
 //==========================================
@@ -92,7 +107,7 @@ void CSlash::Update(void)
 	m_col.a -= CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat() * 2.0f;
 
 	// 更新する
-	CObject3D::Update();
+	CObject3D_Anim::Update();
 }
 
 //==========================================
@@ -124,7 +139,7 @@ void CSlash::Draw(void)
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//描画
-	CObject3D::Draw();
+	CObject3D_Anim::Draw();
 
 	//カリングを有効化
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -150,7 +165,7 @@ void CSlash::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CSlash* CSlash::Create(const D3DXVECTOR3 pos, const float rot, const D3DXCOLOR col)
+CSlash* CSlash::Create(const D3DXVECTOR3 pos, const float rot)
 {
 	// インスタンス生成
 	CSlash* pSlash = new CSlash;
@@ -161,7 +176,6 @@ CSlash* CSlash::Create(const D3DXVECTOR3 pos, const float rot, const D3DXCOLOR c
 	// 値の設定
 	pSlash->m_pos = pos;
 	pSlash->m_rot.z = rot;
-	pSlash->m_col = col;
 
 	// 初期化処理
 	pSlash->Init();

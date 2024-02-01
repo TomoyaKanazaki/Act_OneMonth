@@ -1,23 +1,23 @@
 //==========================================
 //
-//  斬撃エフェクト(slash_effect.h)
+//  爆散エフェクト(splash.h)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#ifndef _SLASH_EFFECT_H_
-#define _SLASH_EFFECT_H_
+#ifndef _SPLASH_H_
+#define _SPLASH_H_
 #include "object3D_Anim.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CSlash_Effect : public CObject3D_Anim
+class CSplash : public CObject3D_Anim
 {
 public:
 
 	//メンバ関数
-	CSlash_Effect(int nPriority = 6);
-	~CSlash_Effect();
+	CSplash(int nPriority = 6);
+	~CSplash();
 
 	HRESULT Init(void) override;
 	void Uninit(void) override;
@@ -25,7 +25,7 @@ public:
 	void Draw(void) override;
 
 	// 静的メンバ関数
-	static CSlash_Effect* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const D3DXCOLOR& col);
+	static CSplash* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot,const D3DXVECTOR3& size, const D3DXCOLOR& col);
 
 private:
 

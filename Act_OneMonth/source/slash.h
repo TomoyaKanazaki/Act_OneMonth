@@ -6,12 +6,12 @@
 //==========================================
 #ifndef _SLASH_H_
 #define _SLASH_H_
-#include "object3D.h"
+#include "object3D_Anim.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CSlash : public CObject3D
+class CSlash : public CObject3D_Anim
 {
 public:
 
@@ -25,7 +25,7 @@ public:
 	void Draw(void) override;
 
 	// 静的メンバ関数
-	static CSlash* Create(const D3DXVECTOR3 pos, const float rot, const D3DXCOLOR col);
+	static CSlash* Create(const D3DXVECTOR3 pos, const float rot);
 
 private:
 
