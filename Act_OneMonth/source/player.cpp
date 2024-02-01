@@ -576,6 +576,42 @@ void CPlayer::Attack()
 		// UŒ‚‚ğ¶¬
 		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
 	}
+#ifdef _DEBUG
+
+	if (CManager::GetInstance()->GetKeyboard()->GetPress(DIK_RIGHT))
+	{
+		// UŒ‚‚Ì•ûŒü‚ğZo‚·‚é
+		float rot = D3DX_PI;
+
+		// UŒ‚‚ğ¶¬
+		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_LEFT))
+	{
+		// UŒ‚‚Ì•ûŒü‚ğZo‚·‚é
+		float rot = -D3DX_PI;
+
+		// UŒ‚‚ğ¶¬
+		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_UP))
+	{
+		// UŒ‚‚Ì•ûŒü‚ğZo‚·‚é
+		float rot = D3DX_PI * 0.5f;
+
+		// UŒ‚‚ğ¶¬
+		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+	}
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_DOWN))
+	{
+		// UŒ‚‚Ì•ûŒü‚ğZo‚·‚é
+		float rot = D3DX_PI * -0.5f;
+
+		// UŒ‚‚ğ¶¬
+		CSlash::Create(m_CenterPos, rot, SLASH_COLOR);
+	}
+
+#endif
 }
 
 //==========================================

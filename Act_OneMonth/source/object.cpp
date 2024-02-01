@@ -49,7 +49,7 @@ CObject::CObject(int nPriority)
 	m_fDeltaTime = 0.0f;
 	m_type = TYPE_NONE;
 	m_ObjState = NORMAL;
-	m_nNumObject++;
+	++m_nNumObject;
 	m_bDeath = false;
 	m_bMap = false;
 }
@@ -88,7 +88,7 @@ CObject::~CObject()
 		//自身の前のオブジェクトの次のオブジェクトを自身の次のオブジェクトに設定する
 		this->m_pPrev->m_pNext = this->m_pNext;
 	}
-	m_nNumObject--;
+	--m_nNumObject;
 }
 
 //==========================================
