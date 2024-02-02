@@ -34,10 +34,10 @@ float CEnemy::m_AllDamage = 0.0f; // 受けたダメージの合計
 //==========================================
 //  コンストラクタ
 //==========================================
-CEnemy::CEnemy(int nPriority) :
-	m_type(NONE),
-	m_fLife(0.0f),
-	m_fInvincible(0.0f)
+CEnemy::CEnemy(int nPriority) : CObject_Char(nPriority),
+m_type(NONE),
+m_fLife(0.0f),
+m_fInvincible(0.0f)
 {
 
 }

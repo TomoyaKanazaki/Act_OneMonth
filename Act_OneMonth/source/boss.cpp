@@ -29,8 +29,8 @@ namespace
 //==========================================
 //  コンストラクタ
 //==========================================
-CBoss::CBoss(int nPriority) : 
-	m_pEffect(nullptr)
+CBoss::CBoss(int nPriority) : CEnemy(nPriority),
+m_pEffect(nullptr)
 {
 
 }

@@ -9,7 +9,7 @@
 //==========================================
 //  コンストラクタ
 //==========================================
-CBuild::CBuild(int nPriority)
+CBuild::CBuild(int nPriority) : CObject_Char(nPriority)
 {
 
 }

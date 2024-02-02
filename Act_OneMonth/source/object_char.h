@@ -31,12 +31,14 @@ public:
 	virtual void Uninit(void) override;
 	virtual void Update(void) override;
 	virtual void Draw(void) override;
+	float GetHitLength(void) override { return m_HitLenght; }
 
 protected:
 
 	// メンバ関数
 	void ChangeColor(bool bChange) { m_bChangeCol = bChange; };
 	void WhiteOut(bool bChange) { m_bWhiteOut = bChange; }
+	void CalcHitLength(const D3DXVECTOR3& size); // 判定距離の計算
 
 	//メンバ変数
 	CModel** m_ppModel; //モデル情報
@@ -50,6 +52,7 @@ private:
 	D3DXMATRIX m_mtxWorld;
 	bool m_bChangeCol;
 	bool m_bWhiteOut;
+	float m_HitLenght; // 判定距離
 
 };
 

@@ -15,7 +15,8 @@
 //  コンストラクタ
 //==========================================
 CObject_Char::CObject_Char(int nPriority) : CObject(nPriority),
-m_bChangeCol(false)
+m_bChangeCol(false),
+m_HitLenght(0.0f)
 {
 	m_ppModel = NULL;
 	m_pLayer = NULL;
@@ -183,4 +184,12 @@ void CObject_Char::Draw(void)
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
 	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+}
+
+//==========================================
+//  判定距離の計算
+//==========================================
+void CObject_Char::CalcHitLength(const D3DXVECTOR3& size)
+{
+	m_HitLenght = sqrtf(size.x * size.x + size.y + size.y);
 }

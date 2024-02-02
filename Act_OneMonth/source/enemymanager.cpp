@@ -125,7 +125,7 @@ void CEnemyManager::Load()
 			{
 				// “G”z’u—p•Ï”
 				D3DXVECTOR3 pos;
-				CEnemy::TYPE type;
+				CEnemy::TYPE type = CEnemy::NONE;
 
 				while (1)
 				{

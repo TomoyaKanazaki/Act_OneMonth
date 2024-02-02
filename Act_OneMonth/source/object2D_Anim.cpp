@@ -166,7 +166,7 @@ HRESULT CObject2D_Anim::SetTexPos(void)
 //==========================================
 //  生成処理
 //==========================================
-CObject2D_Anim *CObject2D_Anim::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot, int nPattern, int nInterval, bool bLoop, UVTYPE type)
+CObject2D_Anim *CObject2D_Anim::Create(int nPattern, int nInterval, bool bLoop, UVTYPE type)
 {
 	//インスタンス生成
 	CObject2D_Anim *pObject2D_Anim = NULL;
