@@ -24,7 +24,7 @@ int CMotion::m_nNumMotion = 0;
 CMotion::CMotion()
 {
 	m_ppModel = NULL;
-	m_Info = {};
+	memset(&m_Info, 0, sizeof(m_Info));
 	for (int nCnt = 0; nCnt < MAX_NUM; nCnt++)
 	{
 		m_startKey[nCnt].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

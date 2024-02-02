@@ -229,32 +229,32 @@ void CSound::Uninit(void)
 //==========================================
 HRESULT CSound::Play(SOUND_LABEL label)
 {
-	//XAUDIO2_VOICE_STATE xa2state;
-	//XAUDIO2_BUFFER buffer;
+	XAUDIO2_VOICE_STATE xa2state;
+	XAUDIO2_BUFFER buffer;
 
-	//// バッファの値設定
-	//memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
-	//buffer.AudioBytes = m_aSizeAudio[label];
-	//buffer.pAudioData = m_apDataAudio[label];
-	//buffer.Flags      = XAUDIO2_END_OF_STREAM;
-	//buffer.LoopCount  = m_aSoundInfo[label].nCntLoop;
+	// バッファの値設定
+	memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
+	buffer.AudioBytes = m_aSizeAudio[label];
+	buffer.pAudioData = m_apDataAudio[label];
+	buffer.Flags      = XAUDIO2_END_OF_STREAM;
+	buffer.LoopCount  = m_aSoundInfo[label].nCntLoop;
 
-	//// 状態取得
-	//m_apSourceVoice[label]->GetState(&xa2state);
-	//if(xa2state.BuffersQueued != 0)
-	//{// 再生中
-	//	// 一時停止
-	//	m_apSourceVoice[label]->Stop(0);
+	// 状態取得
+	m_apSourceVoice[label]->GetState(&xa2state);
+	if(xa2state.BuffersQueued != 0)
+	{// 再生中
+		// 一時停止
+		m_apSourceVoice[label]->Stop(0);
 
-	//	// オーディオバッファの削除
-	//	m_apSourceVoice[label]->FlushSourceBuffers();
-	//}
+		// オーディオバッファの削除
+		m_apSourceVoice[label]->FlushSourceBuffers();
+	}
 
-	//// オーディオバッファの登録
-	//m_apSourceVoice[label]->SubmitSourceBuffer(&buffer);
+	// オーディオバッファの登録
+	m_apSourceVoice[label]->SubmitSourceBuffer(&buffer);
 
-	//// 再生
-	//m_apSourceVoice[label]->Start(0);
+	// 再生
+	m_apSourceVoice[label]->Start(0);
 
 	return S_OK;
 }

@@ -21,18 +21,19 @@
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
-CScene *CSceneManager::m_pScene = NULL;
-CCamera *CSceneManager::m_pCamera = NULL;
+CScene *CSceneManager::m_pScene = nullptr;
+CCamera *CSceneManager::m_pCamera = nullptr;
 bool CSceneManager::m_bClear = true;
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CSceneManager::CSceneManager()
+CSceneManager::CSceneManager() :
+	m_Scene(NONE),
+	m_Next(NONE),
+	m_pFade(nullptr)
 {
-	m_Scene = NONE;
-	m_pScene = NULL;
-	m_pFade = NULL;
+	m_pScene = nullptr;
 }
 
 //==========================================
@@ -52,7 +53,7 @@ void CSceneManager::Init(SCENE newsecene)
 	m_Scene = newsecene;
 
 	//シーンを生成
-	if (m_pScene == NULL)
+	if (m_pScene == nullptr)
 	{
 		switch (m_Scene)
 		{
@@ -79,25 +80,25 @@ void CSceneManager::Init(SCENE newsecene)
 	}
 
 	//シーンを初期化
-	if (m_pScene != NULL)
+	if (m_pScene != nullptr)
 	{
 		m_pScene->Init();
 	}
 
 	//カメラを生成
-	if (m_pCamera == NULL)
+	if (m_pCamera == nullptr)
 	{
 		m_pCamera = new CCamera;
 	}
 
 	//カメラを初期化
-	if (m_pCamera != NULL)
+	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Init();
 	}
 
 	//フェードを生成
-	if (m_pFade == NULL)
+	if (m_pFade == nullptr)
 	{
 		m_pFade = CFade::Create(60, CFade::MODE_IN);
 	}
@@ -109,22 +110,22 @@ void CSceneManager::Init(SCENE newsecene)
 void CSceneManager::Uninit(void)
 {
 	//シーンを終了、破棄
-	if (m_pScene != NULL)
+	if (m_pScene != nullptr)
 	{
 		m_pScene->Uninit();
 		delete m_pScene;
-		m_pScene = NULL;
+		m_pScene = nullptr;
 	}
 
 	//全オブジェクトを破棄
 	CObject::ReleaseAll();
 
 	//カメラを終了、破棄
-	if (m_pCamera != NULL)
+	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Uninit();
 		delete m_pCamera;
-		m_pCamera = NULL;
+		m_pCamera = nullptr;
 	}
 }
 
