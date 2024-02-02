@@ -12,6 +12,8 @@
 #include "debugproc.h"
 #include "manager.h"
 #include "gametime.h"
+#include "boss_effect.h"
+#include "texture.h"
 
 //==========================================
 //  定数定義
@@ -27,7 +29,8 @@ namespace
 //==========================================
 //  コンストラクタ
 //==========================================
-CBoss::CBoss(int nPriority)
+CBoss::CBoss(int nPriority) : 
+	m_pEffect(nullptr)
 {
 
 }
@@ -63,6 +66,13 @@ HRESULT CBoss::Init(void)
 	// 体力を設定
 	m_fLife = MAX_LIFE;
 
+	// 出現エフェクトの発生
+	m_pEffect = CBossEffect::Create(m_pos);
+
+	// 色変更フラグを立てる
+	ChangeColor(true);
+	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f);
+
 	return hr;
 }
 
@@ -79,6 +89,18 @@ void CBoss::Uninit(void)
 //==========================================
 void CBoss::Update(void)
 {
+	// 不透明度を加算する
+	if (m_col.a < 1.0f)
+	{
+		m_col.a += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat() * 2.0f;
+
+		if (m_col.a > 1.0f)
+		{
+			m_col.a = 1.0f;
+			ChangeColor(false);
+		}
+	}
+
 	// 被撃時の処理
 	Attacked();
 

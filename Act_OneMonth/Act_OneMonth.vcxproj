@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="source\bg.cpp" />
     <ClCompile Include="source\boss.cpp" />
+    <ClCompile Include="source\boss_effect.cpp" />
     <ClCompile Include="source\build.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
@@ -39,6 +40,7 @@
     <ClCompile Include="source\fog.cpp" />
     <ClCompile Include="source\gamemanager.cpp" />
     <ClCompile Include="source\gametime.cpp" />
+    <ClCompile Include="source\hit_effect.cpp" />
     <ClCompile Include="source\input.cpp" />
     <ClCompile Include="source\layer.cpp" />
     <ClCompile Include="source\light.cpp" />
@@ -77,6 +79,7 @@
   <ItemGroup>
     <ClInclude Include="source\bg.h" />
     <ClInclude Include="source\boss.h" />
+    <ClInclude Include="source\boss_effect.h" />
     <ClInclude Include="source\build.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
@@ -95,6 +98,7 @@
     <ClInclude Include="source\fog.h" />
     <ClInclude Include="source\gamemanager.h" />
     <ClInclude Include="source\gametime.h" />
+    <ClInclude Include="source\hit_effect.h" />
     <ClInclude Include="source\input.h" />
     <ClInclude Include="source\layer.h" />
     <ClInclude Include="source\light.h" />

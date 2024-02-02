@@ -13,6 +13,7 @@
 #include "texture.h"
 #include "slash_effect.h"
 #include "splash.h"
+#include "hit_effect.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -235,6 +236,7 @@ void CSlash::Hit()
 							// “–‚½‚Á‚Ä‚¢‚½Žž‚Ì‰‰oŒnˆ—
 							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
 							pObj->SetState(CObject::ATTACKED);
+							CHitEffect::Create((posCross + pos) * 0.5f);
 						}
 					}
 				}

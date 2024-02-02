@@ -1,41 +1,36 @@
 //==========================================
 //
-//  ボスクラス(boss.h)
+//  ボスの出現エフェクト(boss_effect.h)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#ifndef _BOSS_H_
-#define _BOSS_H_
-#include "enemy.h"
-
-//==========================================
-//  前方宣言
-//==========================================
-class CBossEffect;
+#ifndef _BOSS_EFFECT_H_
+#define _BOSS_EFFECT_H_
+#include "object3D_Anim.h"
 
 //==========================================
 //  クラス定義
 //==========================================
-class CBoss : public CEnemy
+class CBossEffect : public CObject3D_Anim
 {
 public:
 
-	//メンバ関数
-	CBoss(int nPriority = 5);
-	~CBoss();
+	// メンバ関数
+	CBossEffect(int nPriority = 6);
+	~CBossEffect();
 
 	HRESULT Init(void) override;
 	void Uninit(void) override;
 	void Update(void) override;
 	void Draw(void) override;
 
+	// 静的メンバ変数
+	static CBossEffect* Create(const D3DXVECTOR3& pos);
+
 private:
 
-	// メンバ関数
-	void Attacked() override;
-
 	// メンバ変数
-	CBossEffect* m_pEffect;
+	int m_TexIdx; // テクスチャインデックス
 
 };
 

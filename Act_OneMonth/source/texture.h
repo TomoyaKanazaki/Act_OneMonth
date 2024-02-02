@@ -31,6 +31,10 @@ public:
 		EFFECT, // エフェクト
 		SLASH, // 斬撃エフェクト
 		SPLASH, // 爆散エフェクト
+		HIT, // ヒットエフェクト
+		DEATH, // 死亡エフェクト
+		BOSS1, // ボス出現エフェクト
+		BOSS2, // ボス出現エフェクト
 		TEXTURE_MAX
 	};
 
