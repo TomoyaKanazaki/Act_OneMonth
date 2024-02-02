@@ -118,13 +118,40 @@ LAYER_DATA //唐笠おばけの構造
 	POS			0.0 0.0 0.0
 	ROT			0.0 0.0 0.0
 
-LAYER_DATA //ボスサンプル
+LAYER_DATA //ボス
 	
-	NUM_MODEL 1
+	NUM_MODEL 6
 
 	MODELID		22
 	ParentID	-1
-	POS			0.0 0.0 0.0
+	POS			0.0 40.0 0.0
+	ROT			0.0 0.0 0.0
+	
+	MODELID		23
+	ParentID	0
+	POS			0.0 35.0 0.0
+	ROT			0.0 0.0 0.0
+
+
+	MODELID		24
+	ParentID	0
+	POS			30.0 30.0 0.0
+	ROT			0.0 0.0 0.0
+
+
+	MODELID		26
+	ParentID	0
+	POS			-30.0 30.0 0.0
+	ROT			0.0 0.0 0.0
+
+	MODELID		25
+	ParentID	2
+	POS			50.0 0.0 0.0
+	ROT			0.0 0.0 0.0
+
+	MODELID		27
+	ParentID	3
+	POS			-50.0 0.0 0.0
 	ROT			0.0 0.0 0.0
 
 LAYER_DATA //建物
