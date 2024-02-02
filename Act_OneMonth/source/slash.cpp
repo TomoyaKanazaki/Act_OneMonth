@@ -206,7 +206,7 @@ void CSlash::Hit()
 				if (pObj->GetObjState() == CObject::NORMAL) // 通常状態の場合
 				{
 					// 目標点を取得する
-					D3DXVECTOR3 pos = pObj->GetPos();
+					D3DXVECTOR3 pos = pObj->GetCenterPos();
 
 					// 始点から終点までのベクトルを求める
 					D3DXVECTOR3 vecLine = m_posRight - m_posLeft;
@@ -231,7 +231,7 @@ void CSlash::Hit()
 						D3DXVECTOR3 vecToCross = pos - posCross;
 
 						// 判定距離の比較
-						if (SLASH_SIZE.y * SLASH_SIZE.y >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
+						if (pObj->GetHitLength() * pObj->GetHitLength() >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
 						{
 							// 当たっていた時の演出系処理
 							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);

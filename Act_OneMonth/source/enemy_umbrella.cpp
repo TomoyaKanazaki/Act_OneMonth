@@ -23,6 +23,7 @@ namespace
 	const float ROTATION_SPEED = 0.1f; // 1フレームにの回転量
 	const float POS_DISTANCE = 80.0f; // 初期位置からの距離
 	const float LOOK_PLAYER = 150.0f; // プレイヤーを発見する距離
+	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 40.0f, 0.0f); // 中心座標とオブジェクト座標の差
 }
 
 //==========================================
@@ -63,12 +64,16 @@ HRESULT CEnemy_Umbrella::Init(void)
 
 	// サイズを設定
 	m_size = UMBRELLA_SIZE;
+	CalcHitLength(m_size);
 
 	// 体力を設定
 	m_fLife = MAX_LIFE;
 	
 	// 初期位置を保存
 	m_posDefault = m_pos;
+
+	// 中心座標の設定
+	m_posCenter = m_pos + CENTER_POS;
 
 	return hr;
 }
@@ -104,6 +109,9 @@ void CEnemy_Umbrella::Update(void)
 
 	// 被撃時の処理
 	Attacked();
+
+	// 中心座標の設定
+	m_posCenter = m_pos + CENTER_POS;
 
 	CEnemy::Update();
 }

@@ -69,7 +69,8 @@ public:
 	void SetState(STATE state) { m_ObjState = state; }
 
 	// 下層情報の抜出用
-	virtual float GetHitLength(void) { return 0.0f; }
+	virtual float GetHitLength() { return 0.0f; }
+	virtual D3DXVECTOR3 GetCenterPos() { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }
 
 	//静的メンバ関数
 	static CObject *GetTop(int nPriority) { return m_apTop[nPriority]; }

@@ -35,6 +35,7 @@ public:
 	virtual void Draw(void) override;
 
 	float GetLife() { return m_fLife; } // 体力の取得
+	D3DXVECTOR3 GetCenterPos() override { return m_posCenter; }
 
 	//静的メンバ関数
 	static CEnemy* Create(D3DXVECTOR3 pos, CEnemy::TYPE type);
@@ -51,15 +52,16 @@ protected:
 	// メンバ変数
 	float m_fLife; // 体力
 	float m_fInvincible; // 無敵時間
+	D3DXVECTOR3 m_posCenter; // 見た目の中心
 
 	// 静的メンバ変数
 	static float m_AllDamage; // 受けたダメージ
+
 
 private:
 
 	//メンバ変数
 	CEnemy::TYPE m_type;
-	D3DXVECTOR3 m_posCenter; // 見た目の中心
 
 };
 

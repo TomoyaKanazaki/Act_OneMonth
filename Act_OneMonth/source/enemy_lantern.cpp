@@ -15,6 +15,7 @@ namespace
 {
 	const D3DXVECTOR3 LANTERN_SIZE = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
 	const float MAX_LIFE = 10.0f;
+	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 0.0f, 0.0f); // 中心座標とオブジェクト座標の差
 }
 
 //==========================================
@@ -52,9 +53,13 @@ HRESULT CEnemy_Lantern::Init(void)
 
 	// サイズを設定
 	m_size = LANTERN_SIZE;
+	CalcHitLength(m_size);
 
 	// 体力を設定
 	m_fLife = MAX_LIFE;
+
+	// 中心座標の設定
+	m_posCenter = m_pos + CENTER_POS;
 
 	return hr;
 }
@@ -77,6 +82,9 @@ void CEnemy_Lantern::Update(void)
 
 	// 被撃時の処理
 	Attacked();
+
+	// 中心座標の設定
+	m_posCenter = m_pos + CENTER_POS;
 
 	CEnemy::Update();
 }

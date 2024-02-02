@@ -24,6 +24,7 @@ namespace
 	const float MAX_LIFE = 100.0f; // 体力の最大値
 	const float DAMAGE = 1.0f; // 一回の攻撃から受けるダメージ量
 	const float INVINCIBLE_TIME = 0.1f; // 無敵時間
+	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 40.0f, 0.0f); // 中心座標とオブジェクト座標の差
 }
 
 //==========================================
@@ -62,6 +63,7 @@ HRESULT CBoss::Init(void)
 
 	// サイズを設定
 	m_size = BOSS_SIZE;
+	CalcHitLength(m_size);
 
 	// 体力を設定
 	m_fLife = MAX_LIFE;
@@ -72,6 +74,9 @@ HRESULT CBoss::Init(void)
 	// 色変更フラグを立てる
 	ChangeColor(true);
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f);
+
+	// 中心座標の設定
+	m_posCenter = m_pos + CENTER_POS;
 
 	return hr;
 }
@@ -109,6 +114,7 @@ void CBoss::Update(void)
 
 	// デバッグ表示
 	DebugProc::Print("ボスの体力 : %f\n", m_fLife);
+
 
 	// 更新
 	CEnemy::Update();
