@@ -182,6 +182,15 @@ void CPlayer::Update(void)
 
 	// XV
 	CObject_Char::Update();
+
+#ifdef _DEBUG
+
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		m_pos.x = 1300.0f;
+	}
+
+#endif
 }
 
 //==========================================

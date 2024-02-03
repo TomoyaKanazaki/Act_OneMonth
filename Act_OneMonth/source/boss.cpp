@@ -59,7 +59,7 @@ HRESULT CBoss::Init(void)
 	HRESULT hr = CObject_Char::Init();
 
 	// モーション情報にモデルを渡す
-	//m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::LANTERN_WAIT);
+	m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::BOSS_WAIT);
 
 	// サイズを設定
 	m_size = BOSS_SIZE;
@@ -110,7 +110,7 @@ void CBoss::Update(void)
 	Attacked();
 
 	// プレイヤーを見る
-	RotateToPlayer();
+	//RotateToPlayer();
 
 	// デバッグ表示
 	DebugProc::Print("ボスの体力 : %f\n", m_fLife);

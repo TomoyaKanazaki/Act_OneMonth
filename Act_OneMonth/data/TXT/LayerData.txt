@@ -138,7 +138,6 @@ LAYER_DATA //ボス
 	POS			30.0 30.0 0.0
 	ROT			0.0 0.0 0.0
 
-
 	MODELID		26
 	ParentID	0
 	POS			-30.0 30.0 0.0

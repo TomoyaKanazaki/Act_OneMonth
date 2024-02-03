@@ -173,7 +173,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	{
 		if (FAILED(m_pJoyPad->Init()))
 		{
-			MessageBox(hWnd, "Cannot play this game \nbecause the controller is not connected", "Not found. Error.", MB_ICONWARNING);
+			MessageBox(hWnd, "このゲームはゲームパッドを使用してプレイするゲームです。\nゲームパッドを接続して起動し直してください。", "起動エラー", MB_ICONWARNING);
 
 #ifndef _DEBUG
 			return E_FAIL;
@@ -273,9 +273,6 @@ void CManager::Uninit(void)
 
 	//階層構造を破棄
 	CLayer::UnLoad();
-
-	//モーション情報の破棄
-	CMotion::UnLoad();
 
 	//ゲームタイマーの破棄
 	if (m_pGameTime != NULL)
