@@ -23,11 +23,11 @@ namespace
 {
 	const D3DXVECTOR3 BOSS_SIZE = D3DXVECTOR3(100.0f, 100.0f, 50.0f); // ボスの大きさ
 	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 40.0f, 0.0f); // 中心座標とオブジェクト座標の差
-	const D3DXVECTOR3 TARGET_POS[2] = { D3DXVECTOR3(1450.0f, 100.0f, 0.0f), D3DXVECTOR3(2150.0f, 100.0f, 0.0f) }; // 基本待機位置
+	const D3DXVECTOR3 TARGET_POS[2] = { D3DXVECTOR3(1450.0f, 150.0f, 0.0f), D3DXVECTOR3(2150.0f, 150.0f, 0.0f) }; // 基本待機位置
 	const float MAX_LIFE = 100.0f; // 体力の最大値
 	const float DAMAGE = 1.0f; // 一回の攻撃から受けるダメージ量
 	const float INVINCIBLE_TIME = 0.1f; // 無敵時間
-	const float MOVE_SPEED = 100.0f; // 移動速度
+	const float MOVE_SPEED = 200.0f; // 移動速度
 	const float POS_ERROR = 50.0f; // 目標位置との許容誤差
 }
 
@@ -169,6 +169,9 @@ void CBoss::Update(void)
 
 	// 更新
 	CEnemy::Update();
+
+	// 中心座標の設定
+	m_posCenter = m_pos + CENTER_POS;
 }
 
 //==========================================
