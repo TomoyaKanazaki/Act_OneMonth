@@ -53,6 +53,7 @@ private:
 	ACTION m_State; // 行動状態
 	float m_MoveTimer; // 移動時間
 	COrbit* m_pOrbit[2]; // 剣の軌跡ポインタ
+	D3DXVECTOR3 m_TargetPos; // 目標位置
 
 };
 

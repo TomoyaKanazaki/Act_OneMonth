@@ -22,11 +22,13 @@
 namespace
 {
 	const D3DXVECTOR3 BOSS_SIZE = D3DXVECTOR3(100.0f, 100.0f, 50.0f); // ボスの大きさ
+	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 40.0f, 0.0f); // 中心座標とオブジェクト座標の差
+	const D3DXVECTOR3 TARGET_POS[2] = { D3DXVECTOR3(1450.0f, 100.0f, 0.0f), D3DXVECTOR3(2150.0f, 100.0f, 0.0f) }; // 基本待機位置
 	const float MAX_LIFE = 100.0f; // 体力の最大値
 	const float DAMAGE = 1.0f; // 一回の攻撃から受けるダメージ量
 	const float INVINCIBLE_TIME = 0.1f; // 無敵時間
-	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 40.0f, 0.0f); // 中心座標とオブジェクト座標の差
 	const float MOVE_SPEED = 100.0f; // 移動速度
+	const float POS_ERROR = 50.0f; // 目標位置との許容誤差
 }
 
 //==========================================
@@ -118,16 +120,22 @@ void CBoss::Uninit(void)
 //==========================================
 void CBoss::Update(void)
 {
+	// デルタタイムの取得
+	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
 	// 不透明度を加算する
 	if (m_col.a < 1.0f)
 	{
-		m_col.a += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat() * 2.0f;
+		m_col.a += m_fDeltaTime * 2.0f;
 
 		if (m_col.a > 1.0f) // 出現完了
 		{
 			m_col.a = 1.0f;
 			ChangeColor(false);
 			m_State = NEUTRAL;
+
+			// 目標位置を設定
+			m_TargetPos = TARGET_POS[rand() % 2];
 
 			// 軌跡を発生
 			for (int i = 0; i < 2; ++i)
@@ -211,9 +219,28 @@ void CBoss::Attacked()
 //==========================================
 void CBoss::Move()
 {
-	// 移動量の計算
-	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
-	m_MoveTimer += m_fDeltaTime;
-	m_move.x = sinf(m_MoveTimer * 0.5f) * MOVE_SPEED * m_fDeltaTime;
-	m_move.y = cosf(m_MoveTimer) * MOVE_SPEED * m_fDeltaTime;
+	// 待機状態の時のみ
+	if (m_State != NEUTRAL)
+	{
+		return;
+	}
+
+	// 目標位置と現在位置を結ぶベクトルを作成する
+	D3DXVECTOR3 vec = m_TargetPos - m_pos;
+
+	// ベクトルの大きさが誤差範囲内なら停止
+	if (POS_ERROR * POS_ERROR >= vec.x * vec.x + vec.y * vec.y)
+	{
+		m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		return;
+	}
+
+	// ベクトルを正規化
+	D3DXVec3Normalize(&vec, &vec);
+
+	// 移動量を目標位置に向ける
+	vec *= MOVE_SPEED * m_fDeltaTime;
+
+	// 移動量を適用
+	m_move = vec;
 }
