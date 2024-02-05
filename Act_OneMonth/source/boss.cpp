@@ -14,6 +14,7 @@
 #include "gametime.h"
 #include "boss_effect.h"
 #include "texture.h"
+#include "orbit.h"
 
 //==========================================
 //  定数定義
@@ -25,16 +26,18 @@ namespace
 	const float DAMAGE = 1.0f; // 一回の攻撃から受けるダメージ量
 	const float INVINCIBLE_TIME = 0.1f; // 無敵時間
 	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 40.0f, 0.0f); // 中心座標とオブジェクト座標の差
+	const float MOVE_SPEED = 100.0f; // 移動速度
 }
 
 //==========================================
 //  コンストラクタ
 //==========================================
 CBoss::CBoss(int nPriority) : CEnemy(nPriority),
-m_pEffect(nullptr)
+m_State(POP),
+m_MoveTimer(0.0f)
 {
-
-}
+	m_pOrbit[0] = m_pOrbit[1] = nullptr;
+} 
 
 //==========================================
 //  デストラクタ
@@ -69,7 +72,7 @@ HRESULT CBoss::Init(void)
 	m_fLife = MAX_LIFE;
 
 	// 出現エフェクトの発生
-	m_pEffect = CBossEffect::Create(m_pos);
+	CBossEffect::Create(m_pos);
 
 	// 色変更フラグを立てる
 	ChangeColor(true);
@@ -78,6 +81,17 @@ HRESULT CBoss::Init(void)
 	// 中心座標の設定
 	m_posCenter = m_pos + CENTER_POS;
 
+	// 剣に軌跡を付ける
+	if (m_pOrbit[0] == nullptr)
+	{
+		m_pOrbit[0] = COrbit::Create(m_ppModel[4], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -110.0f), 30);
+		m_pOrbit[0]->SwitchDraw(false);
+	}
+	if (m_pOrbit[1] == nullptr)
+	{
+		m_pOrbit[1] = COrbit::Create(m_ppModel[5], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -110.0f), 30);
+		m_pOrbit[1]->SwitchDraw(false);
+	}
 	return hr;
 }
 
@@ -86,6 +100,16 @@ HRESULT CBoss::Init(void)
 //==========================================
 void CBoss::Uninit(void)
 {
+	// 軌跡の終了
+	for (int i = 0; i < 2; ++i)
+	{
+		if (m_pOrbit[i] != nullptr)
+		{
+			m_pOrbit[i]->Uninit();
+			m_pOrbit[i] = nullptr;
+		}
+	}
+
 	CEnemy::Uninit();
 }
 
@@ -99,22 +123,41 @@ void CBoss::Update(void)
 	{
 		m_col.a += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat() * 2.0f;
 
-		if (m_col.a > 1.0f)
+		if (m_col.a > 1.0f) // 出現完了
 		{
 			m_col.a = 1.0f;
 			ChangeColor(false);
+			m_State = NEUTRAL;
+
+			// 軌跡を発生
+			for (int i = 0; i < 2; ++i)
+			{
+				if (m_pOrbit[i] != nullptr)
+				{
+					m_pOrbit[i]->SwitchDraw(true);
+				}
+			}
 		}
 	}
 
 	// 被撃時の処理
 	Attacked();
 
-	// プレイヤーを見る
-	//RotateToPlayer();
+	// 待機状態の時のみプレイヤーを向く
+	if (m_State == NEUTRAL)
+	{
+		RotateToPlayer();
+		Move();
+	}
+
+	// 死亡する
+	if (m_fLife <= 0.0f)
+	{
+		m_State = DEATH;
+	}
 
 	// デバッグ表示
 	DebugProc::Print("ボスの体力 : %f\n", m_fLife);
-
 
 	// 更新
 	CEnemy::Update();
@@ -133,6 +176,12 @@ void CBoss::Draw(void)
 //==========================================
 void CBoss::Attacked()
 {
+	// 出現状態および志望状態中は攻撃を受けない
+	if (m_State == POP || m_State == DEATH)
+	{
+		return;
+	}
+
 	// 状態毎の処理
 	if (m_ObjState == ATTACKED)
 	{
@@ -155,4 +204,16 @@ void CBoss::Attacked()
 			WhiteOut(false);
 		}
 	}
+}
+
+//==========================================
+//  移動処理
+//==========================================
+void CBoss::Move()
+{
+	// 移動量の計算
+	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+	m_MoveTimer += m_fDeltaTime;
+	m_move.x = sinf(m_MoveTimer * 0.5f) * MOVE_SPEED * m_fDeltaTime;
+	m_move.y = cosf(m_MoveTimer) * MOVE_SPEED * m_fDeltaTime;
 }

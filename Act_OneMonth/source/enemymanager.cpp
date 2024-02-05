@@ -88,17 +88,6 @@ void CEnemyManager::Update()
 			}
 		}
 	}
-
-	// デバッグ専用処理
-#ifdef _DEBUG
-
-	// 提灯お化け
-	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_NUMPAD1))
-	{
-		CEnemy::Create(D3DXVECTOR3(-2000.0f, 30.0f, 0.0f), CEnemy::LANTERN);
-	}
-
-#endif
 }
 
 //==========================================
