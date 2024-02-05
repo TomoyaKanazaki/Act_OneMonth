@@ -155,7 +155,7 @@ LAYER_DATA //ボス
 
 LAYER_DATA //建物
 
-	NUM_MODEL 35
+	NUM_MODEL 33
 	
 	MODELID		14
 	ParentID	-1
@@ -311,16 +311,6 @@ LAYER_DATA //建物
 	ParentID	0
 	POS			3000.0 0.0 0.0
 	ROT			0.0 0.0 0.0
-
-	MODELID		15
-	ParentID	0
-	POS			8000.0 -3000.0 12000.0
-	ROT			0.0 -2.355 0.0
-	
-	MODELID		15
-	ParentID	0
-	POS			-8000.0 -3000.0 12000.0
-	ROT			0.0 2.355 0.0
 	
 	MODELID		16
 	ParentID	0

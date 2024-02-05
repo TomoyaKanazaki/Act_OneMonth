@@ -32,6 +32,7 @@ public:
 		PLAYER_DEATH, //死亡モーション
 		LANTERN_WAIT, // 提灯お化け待機
 		UMBRELLA_WAIT, // 唐笠お化け待機
+		BOSS_POP, // ボス出現
 		BOSS_WAIT, // ボス待機
 		MOTION_NONE
 	}MOTION;

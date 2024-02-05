@@ -24,6 +24,7 @@ public:
 	enum ACTION
 	{
 		POP = 0, // 出現状態
+		MOVE, // 移動状態
 		NEUTRAL, // 待機状態
 		DEATH, // 死亡状態
 		ATTACK, // 通常攻撃
@@ -47,9 +48,11 @@ private:
 
 	// メンバ関数
 	void Attacked() override;
+	void Motion();
 	void Move();
 
 	// メンバ変数
+	ACTION m_oldState; // 前回状態
 	ACTION m_State; // 行動状態
 	float m_MoveTimer; // 移動時間
 	COrbit* m_pOrbit[2]; // 剣の軌跡ポインタ

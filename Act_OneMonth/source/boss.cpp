@@ -36,6 +36,7 @@ namespace
 //==========================================
 CBoss::CBoss(int nPriority) : CEnemy(nPriority),
 m_State(POP),
+m_oldState(POP),
 m_MoveTimer(0.0f)
 {
 	m_pOrbit[0] = m_pOrbit[1] = nullptr;
@@ -63,8 +64,8 @@ HRESULT CBoss::Init(void)
 	// 初期化
 	HRESULT hr = CObject_Char::Init();
 
-	// モーション情報にモデルを渡す
-	m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::BOSS_WAIT);
+	// セットアップ
+	m_pMotion->SetModel(m_ppModel, m_pLayer->nNumModel, CMotion::BOSS_POP);
 
 	// サイズを設定
 	m_size = BOSS_SIZE;
@@ -94,6 +95,10 @@ HRESULT CBoss::Init(void)
 		m_pOrbit[1] = COrbit::Create(m_ppModel[5], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -110.0f), 30);
 		m_pOrbit[1]->SwitchDraw(false);
 	}
+
+	// モーションを設定
+	m_pMotion->Set(CMotion::BOSS_WAIT);
+
 	return hr;
 }
 
@@ -132,7 +137,7 @@ void CBoss::Update(void)
 		{
 			m_col.a = 1.0f;
 			ChangeColor(false);
-			m_State = NEUTRAL;
+			m_State = MOVE;
 
 			// 目標位置を設定
 			m_TargetPos = TARGET_POS[rand() % 2];
@@ -151,18 +156,23 @@ void CBoss::Update(void)
 	// 被撃時の処理
 	Attacked();
 
-	// 待機状態の時のみプレイヤーを向く
-	if (m_State == NEUTRAL)
+	//移動中と待機中にプレイヤーを向く
+	if (m_State == NEUTRAL || m_State == MOVE)
 	{
 		RotateToPlayer();
-		Move();
 	}
+
+	// 移動
+	Move();
 
 	// 死亡する
 	if (m_fLife <= 0.0f)
 	{
 		m_State = DEATH;
 	}
+
+	// モーション
+	Motion();
 
 	// デバッグ表示
 	DebugProc::Print("ボスの体力 : %f\n", m_fLife);
@@ -218,12 +228,46 @@ void CBoss::Attacked()
 }
 
 //==========================================
+//  モーション
+//==========================================
+void CBoss::Motion()
+{
+	//モーションを更新
+	if (m_State != m_oldState)
+	{
+		switch (m_State)
+		{
+		case POP: // 出現状態
+			m_pMotion->Set(CMotion::BOSS_POP);
+			break;
+		case MOVE: // 移動状態
+			m_pMotion->Set(CMotion::BOSS_WAIT);
+			break;
+		case NEUTRAL: // 待機状態
+			m_pMotion->Set(CMotion::BOSS_WAIT);
+			break;
+		case DEATH: // 死亡状態
+			break;
+		case ATTACK: // 通常攻撃
+			break;
+		case DASH: // 突進攻撃
+			break;
+		case BULLET: // 遠距離攻撃
+			break;
+		}
+	}
+
+	//現在の状態を保存
+	m_oldState = m_State;
+}
+
+//==========================================
 //  移動処理
 //==========================================
 void CBoss::Move()
 {
-	// 待機状態の時のみ
-	if (m_State != NEUTRAL)
+	// 移動状態の時のみ
+	if (m_State != MOVE)
 	{
 		return;
 	}
@@ -235,6 +279,7 @@ void CBoss::Move()
 	if (POS_ERROR * POS_ERROR >= vec.x * vec.x + vec.y * vec.y)
 	{
 		m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		m_State = NEUTRAL;
 		return;
 	}
 
