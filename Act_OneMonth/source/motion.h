@@ -64,6 +64,7 @@ public:
 	void Update(void);
 	void SetModel(CModel **ppModel, int nNum, MOTION type);
 	void Set(MOTION type);
+	bool GetFinish() { return m_bMotion; } // 完了フラグ
 	
 	//静的メンバ関数
 	static void Load(void);

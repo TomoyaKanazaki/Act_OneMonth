@@ -50,6 +50,11 @@ private:
 	void Attacked() override;
 	void Motion();
 	void Move();
+	void Neutral(); // 待機中の次の行動を抽選
+	void Attack(); // 攻撃
+	void Shot(); // 遠距離攻撃
+	void TriAttack(); // 三連攻撃
+	void Dash(); // 突進攻撃
 
 	// メンバ変数
 	ACTION m_oldState; // 前回状態
@@ -57,6 +62,8 @@ private:
 	float m_MoveTimer; // 移動時間
 	COrbit* m_pOrbit[2]; // 剣の軌跡ポインタ
 	D3DXVECTOR3 m_TargetPos; // 目標位置
+	bool m_Wait; // ダッシュ前の待機完了フラグ
+	bool m_Dash; // ダッシュ中フラグ
 
 };
 

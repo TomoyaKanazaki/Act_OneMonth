@@ -15,6 +15,7 @@
 #include "boss_effect.h"
 #include "texture.h"
 #include "orbit.h"
+#include "player.h"
 
 //==========================================
 //  定数定義
@@ -28,7 +29,15 @@ namespace
 	const float DAMAGE = 1.0f; // 一回の攻撃から受けるダメージ量
 	const float INVINCIBLE_TIME = 0.1f; // 無敵時間
 	const float MOVE_SPEED = 200.0f; // 移動速度
-	const float POS_ERROR = 50.0f; // 目標位置との許容誤差
+	const float POS_ERROR = 10.0f; // 目標位置との許容誤差
+	const float ACTION_DEFERMENT = 1.0f; // 次の行動までの猶予時間
+	const float ATTACK_LENGTH = 200.0f; // 遠距離攻撃をする距離
+	const int ATTACK_KIND = 3; // 攻撃の種類
+	const float SCREEN_CENTER = 1800.0f; // 画面の中心
+	const float DASH_BEFORE = 1.5f; // 突進の前に画面外で待機する時間
+	const float DASH_AFTER = 0.5f; // 突進の後に画面外で待機する時間
+	const float DASH_SPEED = -5.0f; // 突進の速度
+	const float LIMIT_HEIGHT = 50.0f; // 最低の高さ
 }
 
 //==========================================
@@ -37,7 +46,9 @@ namespace
 CBoss::CBoss(int nPriority) : CEnemy(nPriority),
 m_State(POP),
 m_oldState(POP),
-m_MoveTimer(0.0f)
+m_MoveTimer(0.0f),
+m_Wait(false),
+m_Dash(false)
 {
 	m_pOrbit[0] = m_pOrbit[1] = nullptr;
 } 
@@ -131,7 +142,7 @@ void CBoss::Update(void)
 	// 不透明度を加算する
 	if (m_col.a < 1.0f)
 	{
-		m_col.a += m_fDeltaTime * 2.0f;
+		m_col.a += m_fDeltaTime;
 
 		if (m_col.a > 1.0f) // 出現完了
 		{
@@ -141,20 +152,17 @@ void CBoss::Update(void)
 
 			// 目標位置を設定
 			m_TargetPos = TARGET_POS[rand() % 2];
-
-			// 軌跡を発生
-			for (int i = 0; i < 2; ++i)
-			{
-				if (m_pOrbit[i] != nullptr)
-				{
-					m_pOrbit[i]->SwitchDraw(true);
-				}
-			}
 		}
 	}
 
 	// 被撃時の処理
 	Attacked();
+
+	// 待機中に行動の抽選を行う
+	if (m_State == NEUTRAL)
+	{
+		Neutral();
+	}
 
 	//移動中と待機中にプレイヤーを向く
 	if (m_State == NEUTRAL || m_State == MOVE)
@@ -174,8 +182,13 @@ void CBoss::Update(void)
 	// モーション
 	Motion();
 
+	// 攻撃処理
+	Attack();
+
 	// デバッグ表示
 	DebugProc::Print("ボスの体力 : %f\n", m_fLife);
+	DebugProc::Print("移動量 : %f\n", m_move.x);
+	DebugProc::Print("位置 : %f, %f", m_pos.x, m_pos.y);
 
 	// 更新
 	CEnemy::Update();
@@ -197,7 +210,7 @@ void CBoss::Draw(void)
 //==========================================
 void CBoss::Attacked()
 {
-	// 出現状態および志望状態中は攻撃を受けない
+	// 出現状態および死亡状態中は攻撃を受けない
 	if (m_State == POP || m_State == DEATH)
 	{
 		return;
@@ -291,4 +304,208 @@ void CBoss::Move()
 
 	// 移動量を適用
 	m_move = vec;
+}
+
+//==========================================
+//  待機中の行動
+//==========================================
+void CBoss::Neutral()
+{
+	// 行動タイマーの加算
+	m_MoveTimer += m_fDeltaTime;
+
+	// 一定時間が経過していない場合
+	if (m_MoveTimer <= ACTION_DEFERMENT)
+	{
+		return;
+	}
+
+	// 行動タイマーのリセット
+	m_MoveTimer = 0.0f;
+
+	// 攻撃の種類を決める乱数
+	int Rand = rand() % ATTACK_KIND;
+
+	// プレイヤーの座標を取得
+	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetPos();
+
+	// プレイヤーまでのベクトルを算出
+	D3DXVECTOR3 vec = posPlayer - m_posCenter;
+	
+	m_State = DASH;
+
+	/*
+	// ベクトルの大きさを比較する
+	if (ATTACK_LENGTH * ATTACK_LENGTH <= vec.x * vec.x + vec.y * vec.y)
+	{
+		// 遠距離攻撃を選択肢に入れる
+		switch (Rand)
+		{
+		case 0:
+			m_State = ATTACK;
+			break;
+		default:
+			m_State = BULLET;
+			break;
+		}
+	}
+	else
+	{
+		// 近距離攻撃と突進のみで抽選する
+		switch (Rand)
+		{
+		case 0:
+			m_State = ATTACK;
+			break;
+		default:
+			m_State = DASH;
+			break;
+		}
+	}
+	*/
+}
+
+//==========================================
+//  攻撃処理
+//==========================================
+void CBoss::Attack()
+{
+	Shot();
+	TriAttack();
+	Dash();
+}
+
+//==========================================
+//  遠距離攻撃
+//==========================================
+void CBoss::Shot()
+{
+	// 遠距離攻撃状態じゃなかったら抜ける
+	if (m_State != BULLET)
+	{
+		return;
+	}
+
+	// 攻撃モーションが完了したら弾を出す
+	if (m_pMotion->GetFinish())
+	{
+		// たまあああああああああああああああ
+
+		// 移動行動に戻る
+		m_State = MOVE;
+	}
+}
+
+//==========================================
+//  三連攻撃
+//==========================================
+void CBoss::TriAttack()
+{
+	// 攻撃状態じゃなかったら抜ける
+	if (m_State != ATTACK)
+	{
+		return;
+	}
+}
+
+//==========================================
+//  突進攻撃
+//==========================================
+void CBoss::Dash()
+{
+	// 突進状態じゃなかったら抜ける
+	if (m_State != DASH)
+	{
+		return;
+	}
+
+	// 一度画面外に出る
+	if (!m_Wait)
+	{
+		if (m_pos.x < SCREEN_CENTER)
+		{
+			m_move.x = -MOVE_SPEED * m_fDeltaTime;
+		}
+		else
+		{
+			m_move.x = MOVE_SPEED * m_fDeltaTime;
+		}
+
+		// 画面外に出たら
+		if (!CGameManager::GetCamera()->OnScreen(m_posCenter))
+		{
+			m_MoveTimer += m_fDeltaTime; // 時間を加算
+		}
+
+		// 一定時間が経過したら
+		if (m_MoveTimer > DASH_BEFORE)
+		{
+			// プレイヤーの高さに合わせる
+			m_pos.y = CGameManager::GetPlayer()->GetCenterPos().y;
+
+			// 高さ制限
+			if (m_pos.y < LIMIT_HEIGHT)
+			{
+				m_pos.y = LIMIT_HEIGHT;
+			}
+
+			//移動量に倍率をかける
+			m_move.x *= DASH_SPEED;
+
+			// フラグを立てる
+			m_Wait = true;
+
+			// タイマーをリセット
+			m_MoveTimer = 0.0f;
+
+			// 軌跡を発生
+			for (int i = 0; i < 2; ++i)
+			{
+				if (m_pOrbit[i] != nullptr)
+				{
+					m_pOrbit[i]->SwitchDraw(true);
+				}
+			}
+		}
+	}
+	else
+	{
+		// 画面内に入ったら突進中フラグを立てる
+		if (!m_Dash && CGameManager::GetCamera()->OnScreen(m_posCenter))
+		{
+			m_Dash = true;
+		}
+
+		// 突進中に画面外に出たら
+		if (m_Dash && !CGameManager::GetCamera()->OnScreen(m_posCenter))
+		{
+			m_MoveTimer += m_fDeltaTime; // 時間を加算
+		}
+
+		// 一定時間が経過したら
+		if (m_MoveTimer > DASH_AFTER)
+		{
+			// フラグをへし折る
+			m_Wait = false;
+			m_Dash = false;
+
+			// タイマーをリセット
+			m_MoveTimer = 0.0f;
+
+			// 移動状態に戻る
+			m_State = MOVE;
+
+			// 目標位置を設定
+			m_TargetPos = TARGET_POS[rand() % 2];
+
+			// 軌跡を削除
+			for (int i = 0; i < 2; ++i)
+			{
+				if (m_pOrbit[i] != nullptr)
+				{
+					m_pOrbit[i]->SwitchDraw(false);
+				}
+			}
+		}
+	}
 }
