@@ -16,6 +16,7 @@
 #include "texture.h"
 #include "orbit.h"
 #include "player.h"
+#include "bullet.h"
 
 //==========================================
 //  定数定義
@@ -31,7 +32,7 @@ namespace
 	const float MOVE_SPEED = 200.0f; // 移動速度
 	const float POS_ERROR = 10.0f; // 目標位置との許容誤差
 	const float ACTION_DEFERMENT = 1.0f; // 次の行動までの猶予時間
-	const float ATTACK_LENGTH = 200.0f; // 遠距離攻撃をする距離
+	const float ATTACK_LENGTH = 500.0f; // 遠距離攻撃をする距離
 	const int ATTACK_KIND = 3; // 攻撃の種類
 	const float SCREEN_CENTER = 1800.0f; // 画面の中心
 	const float DASH_BEFORE = 1.5f; // 突進の前に画面外で待機する時間
@@ -332,9 +333,6 @@ void CBoss::Neutral()
 	// プレイヤーまでのベクトルを算出
 	D3DXVECTOR3 vec = posPlayer - m_posCenter;
 	
-	m_State = DASH;
-
-	/*
 	// ベクトルの大きさを比較する
 	if (ATTACK_LENGTH * ATTACK_LENGTH <= vec.x * vec.x + vec.y * vec.y)
 	{
@@ -362,7 +360,6 @@ void CBoss::Neutral()
 			break;
 		}
 	}
-	*/
 }
 
 //==========================================
@@ -387,13 +384,14 @@ void CBoss::Shot()
 	}
 
 	// 攻撃モーションが完了したら弾を出す
-	if (m_pMotion->GetFinish())
-	{
+	//if (m_pMotion->GetFinish())
+	//{
 		// たまあああああああああああああああ
+		CBullet::Create(m_posCenter);
 
 		// 移動行動に戻る
 		m_State = MOVE;
-	}
+	//}
 }
 
 //==========================================
@@ -406,6 +404,8 @@ void CBoss::TriAttack()
 	{
 		return;
 	}
+
+	m_State = MOVE;
 }
 
 //==========================================

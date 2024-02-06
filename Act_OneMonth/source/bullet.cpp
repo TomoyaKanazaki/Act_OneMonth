@@ -1,13 +1,15 @@
 //==========================================
 //
-//  斬撃エフェクト(slash_effect.cpp)
+//  弾クラス(bullet.cpp)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "slash_effect.h"
+#include "bullet.h"
 #include "manager.h"
 #include "renderer.h"
 #include "texture.h"
+#include "gamemanager.h"
+#include "player.h"
 #include "gametime.h"
 
 //==========================================
@@ -15,17 +17,15 @@
 //==========================================
 namespace
 {
-	const int NUM_TEXTURE = 1; // 斬撃エフェクトのテクスチャ数
-	const int MIN_SIZE = 100; // 大きさの下限値
-	const int MAX_SIZE = 200; // 大きさの上限値
-	const float CLEAR_TIME = 5.0f; // 1 / n 秒で消える
-	const float ALPHA = 0.7f; // 透明度
+	const D3DXVECTOR3 BULLET_SIZE = D3DXVECTOR3(150.0f, 150.0f, 200.0f); // サイズ
+	const float POS_ERROR = 10.0f; // 目標地点との誤差許容範囲
+	const float MOVE_SPEED = 300.0f; // 弾速
 }
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CSlash_Effect::CSlash_Effect(int nPriority) : CObject3D_Anim(nPriority)
+CBullet::CBullet(int nPriority) : CObject3D_Anim(nPriority)
 {
 
 }
@@ -33,7 +33,7 @@ CSlash_Effect::CSlash_Effect(int nPriority) : CObject3D_Anim(nPriority)
 //==========================================
 //  デストラクタ
 //==========================================
-CSlash_Effect::~CSlash_Effect()
+CBullet::~CBullet()
 {
 
 }
@@ -41,35 +41,31 @@ CSlash_Effect::~CSlash_Effect()
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT CSlash_Effect::Init(void)
+HRESULT CBullet::Init(void)
 {
-	m_size = D3DXVECTOR3(MAX_SIZE, MAX_SIZE, MAX_SIZE);
-
-	D3DXVECTOR3 rot;
-	rot.x = (float)(rand() % 629 - 314) * 0.01f;
-	rot.y = (float)(rand() % 629 - 314) * 0.01f;
-	rot.z = (float)(rand() % 629 - 314) * 0.01f;
-	m_rot.x = rot.x;
-	m_rot.y = rot.y;
-	m_rot.z = rot.z;
-
-	// 透明度設定
-	m_col.a = ALPHA;
+	// サイズを設定
+	m_size = BULLET_SIZE;
 
 	// テクスチャ割り当て
-	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::SLASH));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::BULLET));
+
+	// 色の変更
+	m_col.r = 0.5f;
+	m_col.g = 0.0f;
 
 	// アニメーションを設定
-	SetAnim(12, 2, false, TYPE_U);
+	SetAnim(60, 1, true, TYPE_U);
 
-	// 初期化
+	// 目標地点を設定
+	m_target = CGameManager::GetPlayer()->GetCenter();
+
 	return CObject3D_Anim::Init();
 }
 
 //==========================================
 //  終了処理
 //==========================================
-void CSlash_Effect::Uninit(void)
+void CBullet::Uninit(void)
 {
 	CObject3D_Anim::Uninit();
 }
@@ -77,16 +73,24 @@ void CSlash_Effect::Uninit(void)
 //==========================================
 //  更新処理
 //==========================================
-void CSlash_Effect::Update(void)
+void CBullet::Update(void)
 {
-	// 更新する
+	// デルタタイムの取得
+	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
+	// 移動量の設定
+	SetMove();
+
+	// 移動量の適用
+	m_pos += m_move;
+
 	CObject3D_Anim::Update();
 }
 
 //==========================================
 //  描画処理
 //==========================================
-void CSlash_Effect::Draw(void)
+void CBullet::Draw(void)
 {
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetInstance()->GetRenderer()->GetDevice();
@@ -101,20 +105,9 @@ void CSlash_Effect::Draw(void)
 	//アルファテストの有効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);\
 
-	//アルファブレンディングを加算合成に設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-
-	//描画
 	CObject3D_Anim::Draw();
-
-	//アルファブレンディングの設定を元に戻す
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	//アルファテストの無効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -132,22 +125,40 @@ void CSlash_Effect::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CSlash_Effect* CSlash_Effect::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& rot, const D3DXCOLOR& col)
+CBullet* CBullet::Create(const D3DXVECTOR3& pos)
 {
 	// インスタンス生成
-	CSlash_Effect* pSlash = new CSlash_Effect;
+	CBullet* pBullet = new CBullet;
 
 	// NULLチェック
-	if (pSlash == nullptr) { return nullptr; }
+	if (pBullet == nullptr) { return nullptr; }
 
-	// 値の設定
-	pSlash->m_pos = pos;
-	pSlash->m_rot = rot;
-	pSlash->m_col = col;
+	// 位置を設定
+	pBullet->m_pos = pos;
 
 	// 初期化処理
-	pSlash->Init();
+	pBullet->Init();
 
-	// 値を返す
-	return pSlash;
+	return pBullet;
+}
+
+//==========================================
+//  移動量の設定
+//==========================================
+void CBullet::SetMove()
+{
+	// 目標位置と現在位置を結ぶベクトルを作成する
+	D3DXVECTOR3 vec = m_target - m_pos;
+
+	// 破棄
+	if (POS_ERROR * POS_ERROR >= vec.x * vec.x + vec.y * vec.y)
+	{
+		Uninit();
+	}
+
+	// 移動量を目標位置に向ける
+	vec *= m_fDeltaTime;
+
+	// 移動量を適用
+	m_move = vec;
 }

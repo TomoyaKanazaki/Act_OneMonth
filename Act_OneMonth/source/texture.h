@@ -35,6 +35,7 @@ public:
 		DEATH, // 死亡エフェクト
 		BOSS1, // ボス出現エフェクト
 		BOSS2, // ボス出現エフェクト
+		BULLET, // 弾
 		TEXTURE_MAX
 	};
 

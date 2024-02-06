@@ -33,7 +33,7 @@ public:
 	virtual void Draw(void) override;
 
 	float GetHitLength(void) override { return m_HitLenght; }
-	 D3DXVECTOR3 GetCenterPos() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }
+	D3DXVECTOR3 GetCenterPos() override { return D3DXVECTOR3(0.0f, 0.0f, 0.0f); }
 
 protected:
 

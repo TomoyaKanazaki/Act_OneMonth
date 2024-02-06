@@ -23,6 +23,7 @@
     <ClCompile Include="source\boss.cpp" />
     <ClCompile Include="source\boss_effect.cpp" />
     <ClCompile Include="source\build.cpp" />
+    <ClCompile Include="source\bullet.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
     <ClCompile Include="source\camera_title.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="source\boss.h" />
     <ClInclude Include="source\boss_effect.h" />
     <ClInclude Include="source\build.h" />
+    <ClInclude Include="source\bullet.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
     <ClInclude Include="source\camera_title.h" />

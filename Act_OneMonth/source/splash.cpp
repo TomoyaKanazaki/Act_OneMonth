@@ -86,14 +86,8 @@ void CSplash::Draw(void)
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-	//カリングを無効化
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	//描画
 	CObject3D_Anim::Draw();
-
-	//カリングを有効化
-	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	//アルファブレンディングの設定を元に戻す
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);

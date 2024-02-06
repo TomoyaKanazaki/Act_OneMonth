@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_TEXTURE = 14
+NUM_TEXTURE = 16
 
 //==========================================
 //  テクスチャファイル名
@@ -24,3 +24,5 @@ TEXTURE_FILENAME = pipo-mapeffect002.png	//[10]ヒットエフェクト
 TEXTURE_FILENAME = pipo-btleffect014.png	//[11]死亡エフェクト
 TEXTURE_FILENAME = pipo-btleffect018.png	//[12]ボス出現エフェクト
 TEXTURE_FILENAME = pipo-btleffect017.png	//[13]ボス出現エフェクト
+TEXTURE_FILENAME = bullet.png				//[14]弾
+TEXTURE_FILENAME = pipo-btleffect102g.png	//[15]爆発
