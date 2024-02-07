@@ -262,11 +262,13 @@ void CBoss::Motion()
 			m_pMotion->Set(CMotion::BOSS_WAIT);
 			break;
 		case DEATH: // Ž€–Só‘Ô
+			m_pMotion->Set(CMotion::BOSS_DEATH);
 			break;
 		case ATTACK: // ’ÊíUŒ‚
 			m_pMotion->Set(CMotion::BOSS_ATTACK);
 			break;
 		case DASH: // “ËiUŒ‚
+			m_pMotion->Set(CMotion::BOSS_DASH);			
 			break;
 		case BULLET: // ‰“‹——£UŒ‚
 			m_pMotion->Set(CMotion::BOSS_BULLET);
@@ -412,8 +414,6 @@ void CBoss::Neutral()
 			break;
 		}
 	}
-
-	m_State = ATTACK;
 }
 
 //==========================================

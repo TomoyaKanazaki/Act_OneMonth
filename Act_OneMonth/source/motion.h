@@ -36,6 +36,8 @@ public:
 		BOSS_WAIT, // ボス待機
 		BOSS_BULLET, // 遠距離攻撃
 		BOSS_ATTACK, // 近距離攻撃
+		BOSS_DEATH, // 死亡
+		BOSS_DASH, // 突進
 		MOTION_NONE
 	}MOTION;
 
