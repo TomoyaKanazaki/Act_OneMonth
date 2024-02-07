@@ -40,6 +40,7 @@ namespace
 	const float DASH_SPEED = -5.0f; // 突進の速度
 	const float LIMIT_HEIGHT = 50.0f; // 最低の高さ
 	const float ATTACK_SPEED = 200.0f; // 攻撃中の移動速度
+	const float ATTACK_MIN_LENGTH = 50.0f; // 攻撃中の移動速度
 }
 
 //==========================================
@@ -381,39 +382,52 @@ void CBoss::Neutral()
 	// 攻撃の種類を決める乱数
 	int Rand = rand() % ATTACK_KIND;
 
-	// プレイヤーの座標を取得
-	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetPos();
+	switch (Rand)
+	{
+	case 0:
+		m_State = DASH;
+		break;
+	case 1:
+		m_State = ATTACK;
+		break;
+	default:
+		m_State = BULLET;
+		break;
+	}
 
-	// プレイヤーまでのベクトルを算出
-	D3DXVECTOR3 vec = posPlayer - m_posCenter;
+	//// プレイヤーの座標を取得
+	//D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetPos();
+
+	//// プレイヤーまでのベクトルを算出
+	//D3DXVECTOR3 vec = posPlayer - m_posCenter;
 	
-	// ベクトルの大きさを比較する
-	if (ATTACK_LENGTH * ATTACK_LENGTH <= vec.x * vec.x + vec.y * vec.y)
-	{
-		// 遠距離攻撃と突進で抽選
-		switch (Rand)
-		{
-		case 0:
-			m_State = DASH;
-			break;
-		default:
-			m_State = BULLET;
-			break;
-		}
-	}
-	else
-	{
-		// 近距離攻撃と突進で抽選
-		switch (Rand)
-		{
-		case 0:
-			m_State = DASH;
-			break;
-		default:
-			m_State = ATTACK;
-			break;
-		}
-	}
+	//// ベクトルの大きさを比較する
+	//if (ATTACK_LENGTH * ATTACK_LENGTH <= vec.x * vec.x + vec.y * vec.y)
+	//{
+	//	// 遠距離攻撃と突進で抽選
+	//	switch (Rand)
+	//	{
+	//	case 0:
+	//		m_State = DASH;
+	//		break;
+	//	default:
+	//		m_State = BULLET;
+	//		break;
+	//	}
+	//}
+	//else
+	//{
+	//	// 近距離攻撃と突進で抽選
+	//	switch (Rand)
+	//	{
+	//	case 0:
+	//		m_State = DASH;
+	//		break;
+	//	default:
+	//		m_State = ATTACK;
+	//		break;
+	//	}
+	//}
 }
 
 //==========================================
@@ -671,6 +685,13 @@ void CBoss::MoveToPlayer()
 
 	// 現在位置からプレイヤーの位置へのベクトルを算出
 	D3DXVECTOR3 vec = posPlayer - m_pos;
+
+	// 近い場合は停止
+	if (ATTACK_MIN_LENGTH * ATTACK_MIN_LENGTH >= vec.x * vec.x + vec.y * vec.y)
+	{
+		m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		return;
+	}
 
 	// ベクトルを正規化
 	D3DXVec3Normalize(&vec, &vec);
