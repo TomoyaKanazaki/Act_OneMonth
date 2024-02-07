@@ -50,6 +50,7 @@ private:
 	void Attacked() override;
 	void Motion();
 	void Move();
+	void Rotate(); // •ûŒü“]Š·
 	void Neutral(); // ‘Ò‹@’†‚ÌŸ‚Ìs“®‚ğ’Š‘I
 	void Attack(); // UŒ‚
 	void Shot(); // ‰“‹——£UŒ‚

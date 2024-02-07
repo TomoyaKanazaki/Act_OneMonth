@@ -14,6 +14,8 @@
 #include "slash_effect.h"
 #include "splash.h"
 #include "hit_effect.h"
+#include "gamemanager.h"
+#include "camera.h"
 
 //==========================================
 //  定数定義
@@ -203,35 +205,38 @@ void CSlash::Hit()
 					// 目標点を取得する
 					D3DXVECTOR3 pos = pObj->GetCenterPos();
 
-					// 始点から終点までのベクトルを求める
-					D3DXVECTOR3 vecLine = m_posRight - m_posLeft;
-
-					// 始点から目標点までのベクトルを求める
-					D3DXVECTOR3 vecToPos = pos - m_posLeft;
-
-					// 各ベクトルの大きさを求める
-					float lengthLine = sqrtf((vecLine.x * vecLine.x) + (vecLine.y * vecLine.y));
-					float lengthToPos = sqrtf((vecToPos.x * vecToPos.x) + (vecToPos.y * vecToPos.y));
-
-					// 媒介変数tを求める
-					float t = (lengthLine * lengthToPos) / (lengthLine * lengthLine);
-
-					// 線分の判定
-					if (0.0f <= t && t <= 1.0f)
+					if (CGameManager::GetCamera()->OnScreen(pos)) // 画面内の場合
 					{
-						// 目標点から直線に垂線を下した時の交点を求める
-						D3DXVECTOR3 posCross = m_posLeft + (t * vecLine);
+						// 始点から終点までのベクトルを求める
+						D3DXVECTOR3 vecLine = m_posRight - m_posLeft;
 
-						// 交点から目標点までのベクトルを求める
-						D3DXVECTOR3 vecToCross = pos - posCross;
+						// 始点から目標点までのベクトルを求める
+						D3DXVECTOR3 vecToPos = pos - m_posLeft;
 
-						// 判定距離の比較
-						if (pObj->GetHitLength() * pObj->GetHitLength() >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
+						// 各ベクトルの大きさを求める
+						float lengthLine = sqrtf((vecLine.x * vecLine.x) + (vecLine.y * vecLine.y));
+						float lengthToPos = sqrtf((vecToPos.x * vecToPos.x) + (vecToPos.y * vecToPos.y));
+
+						// 媒介変数tを求める
+						float t = (lengthLine * lengthToPos) / (lengthLine * lengthLine);
+
+						// 線分の判定
+						if (0.0f <= t && t <= 1.0f)
 						{
-							// 当たっていた時の演出系処理
-							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
-							pObj->SetState(CObject::ATTACKED);
-							CHitEffect::Create((posCross + pos) * 0.5f);
+							// 目標点から直線に垂線を下した時の交点を求める
+							D3DXVECTOR3 posCross = m_posLeft + (t * vecLine);
+
+							// 交点から目標点までのベクトルを求める
+							D3DXVECTOR3 vecToCross = pos - posCross;
+
+							// 判定距離の比較
+							if (pObj->GetHitLength() * pObj->GetHitLength() >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
+							{
+								// 当たっていた時の演出系処理
+								CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
+								pObj->SetState(CObject::ATTACKED);
+								CHitEffect::Create((posCross + pos) * 0.5f);
+							}
 						}
 					}
 				}

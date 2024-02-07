@@ -36,6 +36,7 @@ public:
 		BOSS1, // ボス出現エフェクト
 		BOSS2, // ボス出現エフェクト
 		BULLET, // 弾
+		EXPLOSION, // 爆発
 		TEXTURE_MAX
 	};
 

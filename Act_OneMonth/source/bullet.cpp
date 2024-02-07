@@ -11,6 +11,7 @@
 #include "gamemanager.h"
 #include "player.h"
 #include "gametime.h"
+#include "explosion.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -153,6 +154,7 @@ void CBullet::SetMove()
 	// ”jŠü
 	if (POS_ERROR * POS_ERROR >= vec.x * vec.x + vec.y * vec.y)
 	{
+		CExplosion::Create(m_pos);
 		Uninit();
 	}
 

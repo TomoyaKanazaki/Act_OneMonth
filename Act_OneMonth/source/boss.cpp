@@ -99,12 +99,12 @@ HRESULT CBoss::Init(void)
 	// 剣に軌跡を付ける
 	if (m_pOrbit[0] == nullptr)
 	{
-		m_pOrbit[0] = COrbit::Create(m_ppModel[4], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -110.0f), 30);
+		m_pOrbit[0] = COrbit::Create(m_ppModel[4], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, -10.0f), D3DXVECTOR3(0.0f, 0.0f, -115.0f), 30);
 		m_pOrbit[0]->SwitchDraw(false);
 	}
 	if (m_pOrbit[1] == nullptr)
 	{
-		m_pOrbit[1] = COrbit::Create(m_ppModel[5], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, -110.0f), 30);
+		m_pOrbit[1] = COrbit::Create(m_ppModel[5], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, -10.0f), D3DXVECTOR3(0.0f, 0.0f, -115.0f), 30);
 		m_pOrbit[1]->SwitchDraw(false);
 	}
 
@@ -308,6 +308,55 @@ void CBoss::Move()
 }
 
 //==========================================
+//  回転処理
+//==========================================
+void CBoss::Rotate()
+{
+	//ローカル変数宣言
+	float fRotMove = m_rot.y; //現在の角度
+	float fRotDest = 0.0f; //目標の角度
+	float fRotDiff = 0.0f; //目標と現在の角度の差
+
+	//右に進む時は右を向く
+	if (m_move.x > 0.0f)
+	{
+		fRotDest = -D3DX_PI * 0.5f;
+	}
+
+	//左に進むときは左を向く
+	if (m_move.x < 0.0f)
+	{
+		fRotDest = D3DX_PI * 0.5f;
+	}
+
+	//移動補正
+	fRotDiff = fRotDest - fRotMove;	//目標までの移動方向の差分
+
+	//角度の補正
+	if (fRotDiff > D3DX_PI)
+	{
+		fRotDiff += (-D3DX_PI * 2);
+	}
+	else if (fRotDiff <= -D3DX_PI)
+	{
+		fRotDiff += (D3DX_PI * 2);
+	}
+
+	//方向転換
+	m_rot.y += fRotDiff * 0.2f;
+
+	//角度の補正
+	if (m_rot.y > D3DX_PI)
+	{
+		m_rot.y += (-D3DX_PI * 2);
+	}
+	else if (m_rot.y < -D3DX_PI)
+	{
+		m_rot.y += (D3DX_PI * 2);
+	}
+}
+
+//==========================================
 //  待機中の行動
 //==========================================
 void CBoss::Neutral()
@@ -386,7 +435,7 @@ void CBoss::Shot()
 	// 攻撃モーションが完了したら弾を出す
 	//if (m_pMotion->GetFinish())
 	//{
-		// たまあああああああああああああああ
+		// 弾を発射
 		CBullet::Create(m_posCenter);
 
 		// 移動行動に戻る
@@ -405,7 +454,33 @@ void CBoss::TriAttack()
 		return;
 	}
 
-	m_State = MOVE;
+	// 軌跡の描画をオン
+	for (int i = 0; i < 2; ++i)
+	{
+		if (m_pOrbit[i] != nullptr)
+		{
+			m_pOrbit[i]->SwitchDraw(true);
+		}
+	}
+
+	// 行動時間を加算
+	m_MoveTimer += m_fDeltaTime;
+
+	// 行動時間が一定に達したら
+	if (m_MoveTimer >= 3.0f)
+	{
+		// 軌跡の描画をオフ
+		for (int i = 0; i < 2; ++i)
+		{
+			if (m_pOrbit[i] != nullptr)
+			{
+				m_pOrbit[i]->SwitchDraw(false);
+			}
+		}
+
+		m_MoveTimer = 0.0f;
+		m_State = MOVE;
+	}
 }
 
 //==========================================
@@ -418,6 +493,9 @@ void CBoss::Dash()
 	{
 		return;
 	}
+
+	// 移動方向を向く
+	Rotate();
 
 	// 一度画面外に出る
 	if (!m_Wait)

@@ -36,6 +36,7 @@
     <ClCompile Include="source\enemymanager.cpp" />
     <ClCompile Include="source\enemy_lantern.cpp" />
     <ClCompile Include="source\enemy_umbrella.cpp" />
+    <ClCompile Include="source\explosion.cpp" />
     <ClCompile Include="source\fade.cpp" />
     <ClCompile Include="source\field.cpp" />
     <ClCompile Include="source\fog.cpp" />
@@ -95,6 +96,7 @@
     <ClInclude Include="source\enemymanager.h" />
     <ClInclude Include="source\enemy_lantern.h" />
     <ClInclude Include="source\enemy_umbrella.h" />
+    <ClInclude Include="source\explosion.h" />
     <ClInclude Include="source\fade.h" />
     <ClInclude Include="source\field.h" />
     <ClInclude Include="source\fog.h" />
