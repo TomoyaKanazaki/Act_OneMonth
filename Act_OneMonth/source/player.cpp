@@ -184,6 +184,20 @@ void CPlayer::Update(void)
 	// 更新
 	CObject_Char::Update();
 
+	// 既にダメージ状態の時
+	if (m_bDamage)
+	{
+		// ダメージ時間の加算
+		m_fDamageCounter += m_fDeltaTime;
+
+		// 一定時間が経過していたら
+		if (m_fDamageCounter >= DAMAGE_TIME)
+		{
+			m_bDamage = false;
+			ChangeColor(false);
+		}
+	}
+
 #ifdef _DEBUG
 
 	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN))
@@ -210,16 +224,6 @@ void CPlayer::Attacked()
 	// 既にダメージ状態の時
 	if (m_bDamage)
 	{
-		// ダメージ時間の加算
-		m_fDamageCounter += m_fDeltaTime;
-
-		// 一定時間が経過していたら
-		if (m_fDamageCounter >= DAMAGE_TIME)
-		{
-			m_bDamage = false;
-			ChangeColor(false);
-		}
-
 		// 抜ける
 		return;
 	}

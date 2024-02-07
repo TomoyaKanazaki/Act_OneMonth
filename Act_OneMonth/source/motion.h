@@ -34,6 +34,8 @@ public:
 		UMBRELLA_WAIT, // 唐笠お化け待機
 		BOSS_POP, // ボス出現
 		BOSS_WAIT, // ボス待機
+		BOSS_BULLET, // 遠距離攻撃
+		BOSS_ATTACK, // 近距離攻撃
 		MOTION_NONE
 	}MOTION;
 

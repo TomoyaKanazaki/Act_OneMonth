@@ -57,6 +57,7 @@ private:
 	void Attack(); // 三連攻撃
 	void Dash(); // 突進攻撃
 	void Hit(); // 攻撃判定
+	void MoveToPlayer(); // プレイヤーに向かって移動する処理
 
 	// メンバ変数
 	ACTION m_oldState; // 前回状態

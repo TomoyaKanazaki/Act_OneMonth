@@ -39,6 +39,7 @@ namespace
 	const float DASH_AFTER = 0.5f; // 突進の後に画面外で待機する時間
 	const float DASH_SPEED = -5.0f; // 突進の速度
 	const float LIMIT_HEIGHT = 50.0f; // 最低の高さ
+	const float ATTACK_SPEED = 200.0f; // 攻撃中の移動速度
 }
 
 //==========================================
@@ -99,12 +100,12 @@ HRESULT CBoss::Init(void)
 	// 剣に軌跡を付ける
 	if (m_pOrbit[0] == nullptr)
 	{
-		m_pOrbit[0] = COrbit::Create(m_ppModel[4], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, -10.0f), D3DXVECTOR3(0.0f, 0.0f, -115.0f), 30);
+		m_pOrbit[0] = COrbit::Create(m_ppModel[4], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, -10.0f), D3DXVECTOR3(0.0f, 0.0f, -115.0f), 10);
 		m_pOrbit[0]->SwitchDraw(false);
 	}
 	if (m_pOrbit[1] == nullptr)
 	{
-		m_pOrbit[1] = COrbit::Create(m_ppModel[5], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, -10.0f), D3DXVECTOR3(0.0f, 0.0f, -115.0f), 30);
+		m_pOrbit[1] = COrbit::Create(m_ppModel[5], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, -10.0f), D3DXVECTOR3(0.0f, 0.0f, -115.0f), 10);
 		m_pOrbit[1]->SwitchDraw(false);
 	}
 
@@ -263,10 +264,12 @@ void CBoss::Motion()
 		case DEATH: // 死亡状態
 			break;
 		case ATTACK: // 通常攻撃
+			m_pMotion->Set(CMotion::BOSS_ATTACK);
 			break;
 		case DASH: // 突進攻撃
 			break;
 		case BULLET: // 遠距離攻撃
+			m_pMotion->Set(CMotion::BOSS_BULLET);
 			break;
 		}
 	}
@@ -409,6 +412,8 @@ void CBoss::Neutral()
 			break;
 		}
 	}
+
+	m_State = ATTACK;
 }
 
 //==========================================
@@ -433,14 +438,17 @@ void CBoss::Shot()
 	}
 
 	// 攻撃モーションが完了したら弾を出す
-	//if (m_pMotion->GetFinish())
-	//{
+	if (m_pMotion->GetFinish())
+	{
 		// 弾を発射
 		CBullet::Create(m_posCenter);
 
 		// 移動行動に戻る
 		m_State = MOVE;
-	//}
+
+		// 目標位置を設定
+		m_TargetPos = TARGET_POS[rand() % 2];
+	}
 }
 
 //==========================================
@@ -463,6 +471,9 @@ void CBoss::Attack()
 		}
 	}
 
+	// プレイヤーに向かって移動する
+	MoveToPlayer();
+
 	// 当たり判定
 	Hit();
 
@@ -481,8 +492,14 @@ void CBoss::Attack()
 			}
 		}
 
+		// 移動時間の初期化
 		m_MoveTimer = 0.0f;
+
+		// 移動状態に戻す
 		m_State = MOVE;
+
+		// 目標位置を設定
+		m_TargetPos = TARGET_POS[rand() % 2];
 	}
 }
 
@@ -642,4 +659,22 @@ void CBoss::Hit()
 		}
 
 	}
+}
+
+//==========================================
+//  プレイヤーに向かって移動する
+//==========================================
+void CBoss::MoveToPlayer()
+{
+	// プレイヤーの位置を取得
+	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetCenter();
+
+	// 現在位置からプレイヤーの位置へのベクトルを算出
+	D3DXVECTOR3 vec = posPlayer - m_pos;
+
+	// ベクトルを正規化
+	D3DXVec3Normalize(&vec, &vec);
+
+	// 移動量を設定
+	m_move = vec * ATTACK_SPEED * m_fDeltaTime;
 }
