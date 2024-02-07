@@ -45,6 +45,8 @@ public:
 	bool GetDeath(void) { return m_State == DEATH ? true : false; }
 	State GetState(void) { return m_State; }
 	bool GetDash() const { return m_bDash; }
+	float GetHitLength() const { return m_fHitLength; }
+	void Attacked(); // ダメージを受けた時の処理
 
 	//静的メンバ関数
 	static CPlayer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
@@ -52,13 +54,13 @@ public:
 private:
 
 	//メンバ関数
-	void Motion(void);
-	void Limit(void);
-	void Move(void);
-	void Rotate(void);
-	void Jump(void);
-	void Gravity(void);
-	void Damage(void);
+	void Motion();
+	void Limit();
+	void Move();
+	void Rotate();
+	void Jump();
+	void Gravity();
+	void Damage();
 	void Attack();
 	void Dash();
 	void Hit();
@@ -80,6 +82,7 @@ private:
 	int m_nLife; // 体力
 	bool m_bDamage; // ダメージフラグ
 	float m_fDamageCounter; // ダメージ状態のカウンタ
+	float m_fHitLength; // ヒット範囲
 
 	//モデル情報
 	D3DXVECTOR3 m_oldposModel;

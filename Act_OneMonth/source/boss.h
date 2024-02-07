@@ -52,10 +52,11 @@ private:
 	void Move();
 	void Rotate(); // 方向転換
 	void Neutral(); // 待機中の次の行動を抽選
-	void Attack(); // 攻撃
+	void AttackState(); // 攻撃
 	void Shot(); // 遠距離攻撃
-	void TriAttack(); // 三連攻撃
+	void Attack(); // 三連攻撃
 	void Dash(); // 突進攻撃
+	void Hit(); // 攻撃判定
 
 	// メンバ変数
 	ACTION m_oldState; // 前回状態

@@ -184,7 +184,7 @@ void CBoss::Update(void)
 	Motion();
 
 	// 攻撃処理
-	Attack();
+	AttackState();
 
 	// デバッグ表示
 	DebugProc::Print("ボスの体力 : %f\n", m_fLife);
@@ -385,11 +385,11 @@ void CBoss::Neutral()
 	// ベクトルの大きさを比較する
 	if (ATTACK_LENGTH * ATTACK_LENGTH <= vec.x * vec.x + vec.y * vec.y)
 	{
-		// 遠距離攻撃を選択肢に入れる
+		// 遠距離攻撃と突進で抽選
 		switch (Rand)
 		{
 		case 0:
-			m_State = ATTACK;
+			m_State = DASH;
 			break;
 		default:
 			m_State = BULLET;
@@ -398,14 +398,14 @@ void CBoss::Neutral()
 	}
 	else
 	{
-		// 近距離攻撃と突進のみで抽選する
+		// 近距離攻撃と突進で抽選
 		switch (Rand)
 		{
 		case 0:
-			m_State = ATTACK;
+			m_State = DASH;
 			break;
 		default:
-			m_State = DASH;
+			m_State = ATTACK;
 			break;
 		}
 	}
@@ -414,10 +414,10 @@ void CBoss::Neutral()
 //==========================================
 //  攻撃処理
 //==========================================
-void CBoss::Attack()
+void CBoss::AttackState()
 {
 	Shot();
-	TriAttack();
+	Attack();
 	Dash();
 }
 
@@ -446,7 +446,7 @@ void CBoss::Shot()
 //==========================================
 //  三連攻撃
 //==========================================
-void CBoss::TriAttack()
+void CBoss::Attack()
 {
 	// 攻撃状態じゃなかったら抜ける
 	if (m_State != ATTACK)
@@ -462,6 +462,9 @@ void CBoss::TriAttack()
 			m_pOrbit[i]->SwitchDraw(true);
 		}
 	}
+
+	// 当たり判定
+	Hit();
 
 	// 行動時間を加算
 	m_MoveTimer += m_fDeltaTime;
@@ -585,5 +588,58 @@ void CBoss::Dash()
 				}
 			}
 		}
+	}
+}
+
+//==========================================
+//  攻撃判定
+//==========================================
+void CBoss::Hit()
+{
+	// 判定作成用座標
+	D3DXVECTOR3 pos[2] = { D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f) };
+
+	// 刀の軌跡に当たり判定を持たせる
+	for (int i = 0; i < 2; ++i)
+	{
+		// 座標を取得
+		m_pOrbit[i]->GetForemostLine(&pos[0], &pos[1]);
+
+		// プレイヤー座標を取得
+		D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetCenter();
+
+		// プレイヤーサイズを取得
+		float length = CGameManager::GetPlayer()->GetHitLength();
+
+		// 始点から終点までのベクトルを求める
+		D3DXVECTOR3 vecLine = pos[0] - pos[1];
+
+		// 始点から目標点までのベクトルを求める
+		D3DXVECTOR3 vecToPos = posPlayer - pos[1];
+
+		// 各ベクトルの大きさを求める
+		float lengthLine = sqrtf((vecLine.x * vecLine.x) + (vecLine.y * vecLine.y));
+		float lengthToPos = sqrtf((vecToPos.x * vecToPos.x) + (vecToPos.y * vecToPos.y));
+
+		// 媒介変数tを求める
+		float t = (lengthLine * lengthToPos) / (lengthLine * lengthLine);
+
+		// 線分の判定
+		if (0.0f <= t && t <= 1.0f)
+		{
+			// 目標点から直線に垂線を下した時の交点を求める
+			D3DXVECTOR3 posCross = pos[1] + (t * vecLine);
+
+			// 交点から目標点までのベクトルを求める
+			D3DXVECTOR3 vecToCross = posPlayer - posCross;
+
+			// 判定距離の比較
+			if (length * length >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
+			{
+				// 当たっていた時の処理
+				CGameManager::GetPlayer()->Attacked();
+			}
+		}
+
 	}
 }

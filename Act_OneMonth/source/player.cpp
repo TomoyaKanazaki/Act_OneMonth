@@ -61,7 +61,8 @@ m_posStart(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 m_pOrbit(nullptr),
 m_nLife(MAX_LIFE),
 m_bDamage(false),
-m_fDamageCounter(0.0f)
+m_fDamageCounter(0.0f),
+m_fHitLength(HIT_LENGTH)
 {
 	m_CenterPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fDashAngle = 0.0f;
@@ -199,6 +200,35 @@ void CPlayer::Update(void)
 void CPlayer::Draw(void)
 {
 	CObject_Char::Draw();
+}
+
+//==========================================
+//  攻撃を受けた時の処理
+//==========================================
+void CPlayer::Attacked()
+{
+	// 既にダメージ状態の時
+	if (m_bDamage)
+	{
+		// ダメージ時間の加算
+		m_fDamageCounter += m_fDeltaTime;
+
+		// 一定時間が経過していたら
+		if (m_fDamageCounter >= DAMAGE_TIME)
+		{
+			m_bDamage = false;
+			ChangeColor(false);
+		}
+
+		// 抜ける
+		return;
+	}
+
+	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
+	--m_nLife;
+	m_bDamage = true;
+	m_fDamageCounter = 0.0f;
+	ChangeColor(true);
 }
 
 //==========================================
@@ -510,23 +540,6 @@ void CPlayer::Damage(void)
 	{
 		return;
 	}
-	
-	// 既にダメージ状態の時
-	if (m_bDamage)
-	{
-		// ダメージ時間の加算
-		m_fDamageCounter += m_fDeltaTime;
-
-		// 一定時間が経過していたら
-		if (m_fDamageCounter >= DAMAGE_TIME)
-		{
-			m_bDamage = false;
-			ChangeColor(false);
-		}
-
-		// 抜ける
-		return;
-	}
 
 	//当たり判定の生成
 	for (int nCntPriority = 0; nCntPriority < PRIORITY_NUM; nCntPriority++)
@@ -552,11 +565,8 @@ void CPlayer::Damage(void)
 					//ベクトルの大きさを比較する
 					if (HIT_LENGTH * HIT_LENGTH >= (vec.x * vec.x + vec.y * vec.y))
 					{
-						CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_DEATH);
-						--m_nLife;
-						m_bDamage = true;
-						m_fDamageCounter = 0.0f;
-						ChangeColor(true);
+						// ダメージ処理
+						Attacked();
 					}
 				}
 			}
@@ -765,7 +775,7 @@ void CPlayer::Hit()
 						D3DXVECTOR3 vecToCross = pos - posCross;
 
 						// 判定距離の比較
-						if (HIT_LENGTH * HIT_LENGTH >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
+						if (m_fHitLength * m_fHitLength >= (vecToCross.x * vecToCross.x) + (vecToCross.y * vecToCross.y))
 						{
 							// 当たっていた時の演出系処理
 							CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);

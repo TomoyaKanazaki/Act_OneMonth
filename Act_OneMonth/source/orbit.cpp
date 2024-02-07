@@ -181,6 +181,15 @@ void COrbit::Draw(void)
 }
 
 //==========================================
+//  êÊí[ç¿ïWÇÃéÊìæ
+//==========================================
+void COrbit::GetForemostLine(D3DXVECTOR3* pos0, D3DXVECTOR3* pos1)
+{
+	*pos0 = m_pVtxPos[0];
+	*pos1 = m_pVtxPos[1];
+}
+
+//==========================================
 //  ê∂ê¨èàóù
 //==========================================
 COrbit *COrbit::Create(CModel *pParent, D3DXCOLOR col, D3DXVECTOR3 offset0, D3DXVECTOR3 offset1, int nLife)

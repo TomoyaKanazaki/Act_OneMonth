@@ -30,6 +30,8 @@ public:
 	void Draw(void) override;
 	void SwitchDraw(bool bDraw) { m_bDraw = bDraw; }// •`‰æ‚Ì—L–³
 
+	void GetForemostLine(D3DXVECTOR3* pos0, D3DXVECTOR3* pos1);
+
 	//Ã“Iƒƒ“ƒoŠÖ”
 	static COrbit *Create(CModel *pParent, D3DXCOLOR col, D3DXVECTOR3 offset0, D3DXVECTOR3 offset1, int nLife);
 
