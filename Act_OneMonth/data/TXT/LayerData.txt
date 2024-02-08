@@ -13,7 +13,7 @@ NUM_LAYER = 5
 
 LAYER_DATA //プレイヤーの構造
 	
-	NUM_MODEL 14
+	NUM_MODEL 15
 	
 	MODELID		0
 	ParentID	-1
@@ -84,6 +84,11 @@ LAYER_DATA //プレイヤーの構造
 	ParentID	12
 	POS			0.155 -10.0 0.5
 	ROT			0.0 0.0 0.0
+
+	MODELID		28
+	ParentID	7
+	POS			-10.0 0.0 0.0
+	ROT			0.0 1.57 -1.57
 
 LAYER_DATA //提灯おばけの構造
 	

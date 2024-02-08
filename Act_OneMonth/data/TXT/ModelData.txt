@@ -5,7 +5,7 @@
 //
 //==========================================
 
-NUM_MODEL = 28
+NUM_MODEL = 29
 
 //==========================================
 //  xファイル名
@@ -13,7 +13,7 @@ NUM_MODEL = 28
 MODEL_FILENAME = 168\\00_waist.x				//[0]腰
 MODEL_FILENAME = 168\\01_body.x					//[1]体
 MODEL_FILENAME = 168\\02_head.x					//[2]頭
-MODEL_FILENAME = 168\\03_KATANA.x				//[3]刀
+MODEL_FILENAME = 168\\03_SAYA.x					//[3]鞘
 MODEL_FILENAME = 168\\04_leftshoulder.x			//[4]左肩
 MODEL_FILENAME = 168\\05_leftarm.x				//[5]左腕
 MODEL_FILENAME = 168\\06_rightshoulder.x		//[6]右肩
@@ -38,3 +38,4 @@ MODEL_FILENAME = ENEMY\\Boss\\left.x			//[24]ボスの左手
 MODEL_FILENAME = ENEMY\\Boss\\left_KATANA.x		//[25]ボスの左の刀
 MODEL_FILENAME = ENEMY\\Boss\\right.x			//[26]ボスの右手
 MODEL_FILENAME = ENEMY\\Boss\\right_KATANA.x	//[27]ボスの右の刀
+MODEL_FILENAME = 168\\14_KATANA.x				//[28]刀

@@ -6572,7 +6572,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "data\\TEXTURE\\UV_168.png";
+    "data\\TEXTURE\\UV_168.jpg";
    }
   }
  }
