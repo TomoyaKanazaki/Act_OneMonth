@@ -39,7 +39,7 @@ public:
 #define FLOAT_SCREEN_WIDTH (1280.0f) //スクリーンの幅(float版)
 #define FLOAT_SCREEN_HEIGHT (720.0f) //スクリーンの高さ(float版)
 #define CLASS_NAME "WindowClass"
-#define WINDOW_NAME "すれ違い様に斬ってみた!!"
+#define WINDOW_NAME "斬捨御免"
 
 	CManager(); //コンストラクタ
 	~CManager(); //デストラクタ
