@@ -174,7 +174,7 @@ bool CEnemy_Umbrella::CalcDistancePlayer()
 	}
 
 	// プレイヤーの距離を取得
-	D3DXVECTOR3 pos = CGameManager::GetPlayer()->GetCenter();
+	D3DXVECTOR3 pos = CGameManager::GetPlayer()->GetCenterPos();
 
 	// プレイヤーへのベクトルを求める
 	D3DXVECTOR3 vec = pos - m_pos;

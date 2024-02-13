@@ -31,6 +31,7 @@ private:
 
 	// メンバ関数
 	void SetMove(); // 移動量の設定
+	void Hit(); // 当たり判定
 
 	// メンバ変数
 	D3DXVECTOR3 m_target; // 着弾目標地点

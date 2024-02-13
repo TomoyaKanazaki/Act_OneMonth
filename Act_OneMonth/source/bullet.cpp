@@ -21,6 +21,7 @@ namespace
 	const D3DXVECTOR3 BULLET_SIZE = D3DXVECTOR3(150.0f, 150.0f, 200.0f); // サイズ
 	const float POS_ERROR = 10.0f; // 目標地点との誤差許容範囲
 	const float MOVE_SPEED = 300.0f; // 弾速
+	const float HIT_LENGTH = 50.0f; // 当たり判定距離
 }
 
 //==========================================
@@ -58,7 +59,7 @@ HRESULT CBullet::Init(void)
 	SetAnim(60, 1, true, TYPE_U);
 
 	// 目標地点を設定
-	m_target = CGameManager::GetPlayer()->GetCenter();
+	m_target = CGameManager::GetPlayer()->GetCenterPos();
 
 	return CObject3D_Anim::Init();
 }
@@ -84,6 +85,9 @@ void CBullet::Update(void)
 
 	// 移動量の適用
 	m_pos += m_move;
+
+	// 攻撃判定
+	Hit();
 
 	CObject3D_Anim::Update();
 }
@@ -163,4 +167,27 @@ void CBullet::SetMove()
 
 	// 移動量を適用
 	m_move = vec;
+}
+
+//==========================================
+//  当たり判定
+//==========================================
+void CBullet::Hit()
+{
+	// プレイヤーの位置を取得
+	D3DXVECTOR3 pos = CGameManager::GetPlayer()->GetCenterPos();
+
+	// プレイヤーまでのベクトルを算出
+	D3DXVECTOR3 vec = pos - m_pos;
+
+	// 攻撃範囲内ならヒットする
+	if (vec.x * vec.x + vec.y * vec.y < HIT_LENGTH * HIT_LENGTH)
+	{
+		// ヒット時の処理を呼ぶ
+		CGameManager::GetPlayer()->Attacked();
+
+		// 自身も終了する
+		CExplosion::Create(m_pos);
+		Uninit();
+	}
 }

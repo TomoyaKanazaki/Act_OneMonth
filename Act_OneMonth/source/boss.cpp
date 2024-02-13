@@ -394,40 +394,6 @@ void CBoss::Neutral()
 		m_State = BULLET;
 		break;
 	}
-
-	//// プレイヤーの座標を取得
-	//D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetPos();
-
-	//// プレイヤーまでのベクトルを算出
-	//D3DXVECTOR3 vec = posPlayer - m_posCenter;
-	
-	//// ベクトルの大きさを比較する
-	//if (ATTACK_LENGTH * ATTACK_LENGTH <= vec.x * vec.x + vec.y * vec.y)
-	//{
-	//	// 遠距離攻撃と突進で抽選
-	//	switch (Rand)
-	//	{
-	//	case 0:
-	//		m_State = DASH;
-	//		break;
-	//	default:
-	//		m_State = BULLET;
-	//		break;
-	//	}
-	//}
-	//else
-	//{
-	//	// 近距離攻撃と突進で抽選
-	//	switch (Rand)
-	//	{
-	//	case 0:
-	//		m_State = DASH;
-	//		break;
-	//	default:
-	//		m_State = ATTACK;
-	//		break;
-	//	}
-	//}
 }
 
 //==========================================
@@ -637,7 +603,7 @@ void CBoss::Hit()
 		m_pOrbit[i]->GetForemostLine(&pos[0], &pos[1]);
 
 		// プレイヤー座標を取得
-		D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetCenter();
+		D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetCenterPos();
 
 		// プレイヤーサイズを取得
 		float length = CGameManager::GetPlayer()->GetHitLength();
@@ -681,7 +647,7 @@ void CBoss::Hit()
 void CBoss::MoveToPlayer()
 {
 	// プレイヤーの位置を取得
-	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetCenter();
+	D3DXVECTOR3 posPlayer = CGameManager::GetPlayer()->GetCenterPos();
 
 	// 現在位置からプレイヤーの位置へのベクトルを算出
 	D3DXVECTOR3 vec = posPlayer - m_pos;

@@ -41,7 +41,7 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 	D3DXVECTOR3 GetMove(void) { return m_move; }
-	D3DXVECTOR3 GetCenter(void) { return m_CenterPos; }
+	D3DXVECTOR3 GetCenterPos(void) override { return m_CenterPos; }
 	bool GetDeath(void) { return m_State == DEATH ? true : false; }
 	State GetState(void) { return m_State; }
 	bool GetDash() const { return m_bDash; }

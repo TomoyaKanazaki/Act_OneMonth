@@ -18,8 +18,8 @@
 namespace
 {
 	const D3DXVECTOR3 EXPLOSION_SIZE = D3DXVECTOR3(150.0f, 150.0f, 200.0f); // サイズ
-	const float POS_ERROR = 10.0f; // 目標地点との誤差許容範囲
 	const float MOVE_SPEED = 300.0f; // 弾速
+	const float HIT_LENGTH = 50.0f; // 当たり判定距離
 }
 
 //==========================================
@@ -68,6 +68,9 @@ void CExplosion::Uninit(void)
 //==========================================
 void CExplosion::Update(void)
 {
+	// 当たり判定
+	Hit();
+
 	CObject3D_Anim::Update();
 }
 
@@ -124,4 +127,23 @@ CExplosion* CExplosion::Create(const D3DXVECTOR3& pos)
 	pExplosion->Init();
 
 	return pExplosion;
+}
+
+//==========================================
+//  当たり判定
+//==========================================
+void CExplosion::Hit()
+{
+	// プレイヤーの位置を取得
+	D3DXVECTOR3 pos = CGameManager::GetPlayer()->GetCenterPos();
+
+	// プレイヤーまでのベクトルを算出
+	D3DXVECTOR3 vec = pos - m_pos;
+
+	// 攻撃範囲内ならヒットする
+	if (vec.x * vec.x + vec.y * vec.y < HIT_LENGTH * HIT_LENGTH)
+	{
+		// ヒット時の処理を呼ぶ
+		CGameManager::GetPlayer()->Attacked();
+	}
 }

@@ -26,6 +26,12 @@ public:
 
 	// Ã“Iƒƒ“ƒoŠÖ”
 	static CExplosion* Create(const D3DXVECTOR3& pos);
+
+private:
+
+	// ƒƒ“ƒoŠÖ”
+	void Hit(); // “–‚½‚è”»’è
+
 };
 
 #endif
