@@ -192,13 +192,6 @@ void CGameManager::Update(void)
 		// リザルトに遷移
 		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}
-
-	//画面遷移テスト
-	if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_A))
-	{
-		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
-		return;
-	}
 }
 
 //==========================================
