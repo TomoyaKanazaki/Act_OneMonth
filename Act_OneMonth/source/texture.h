@@ -1,6 +1,6 @@
-//==========================================
+﻿//==========================================
 //
-//  �e�N�X�`���Ǘ��N���X(texture.h)
+//  テクスチャ管理クラス(texture.h)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
@@ -8,59 +8,60 @@
 #define _TEXTURE_H_
 
 //==========================================
-//  �}�N����`
+//  マクロ定義
 //==========================================
-#define MAX_TEXTURE (256) //�g�p����e�N�X�`���̍ő吔
+#define MAX_TEXTURE (256) //使用するテクスチャの最大数
 
 //==========================================
-//  �e�N�X�`���Ǘ��N���X
+//  テクスチャ管理クラス
 //==========================================
 class CTexture
 {
 public:
-	//�e�N�X�`���̎�ނ̗񋓌^��`
+	//テクスチャの種類の列挙型定義
 	enum TEXTURE
 	{
-		NUMBER = 0, //����
-		TITLE, //�^�C�g��
-		CLEAR, //�Q�[���N���A
-		OVER, //�Q�[���I�[�o�[
-		FIELD, //��
-		WATER, //��
-		SKY, //��
-		EFFECT, // �G�t�F�N�g
-		SLASH, // �a���G�t�F�N�g
-		SPLASH, // ���U�G�t�F�N�g
-		HIT, // �q�b�g�G�t�F�N�g
-		DEATH, // ���S�G�t�F�N�g
-		BOSS1, // �{�X�o���G�t�F�N�g
-		BOSS2, // �{�X�o���G�t�F�N�g
-		BULLET, // �e
-		EXPLOSION, // ����
+		NUMBER = 0, //数字
+		TITLE, //タイトル
+		CLEAR, //ゲームクリア
+		OVER, //ゲームオーバー
+		FIELD, //床
+		WATER, //水
+		SKY, //空
+		EFFECT, // エフェクト
+		SLASH, // 斬撃エフェクト
+		SPLASH, // 爆散エフェクト
+		HIT, // ヒットエフェクト
+		DEATH, // 死亡エフェクト
+		BOSS1, // ボス出現エフェクト
+		BOSS2, // ボス出現エフェクト
+		BULLET, // 弾
+		EXPLOSION, // 爆発
+		LEAF, // 🍃
 		TEXTURE_MAX
 	};
 
-	CTexture(); //�R���X�g���N�^
-	~CTexture(); //�f�X�g���N�^
+	CTexture(); //コンストラクタ
+	~CTexture(); //デストラクタ
 
-	//�����o�֐�
-	HRESULT Load(void); //�e�N�X�`���̃��[�h
-	void UnLoad(void); //�e�N�X�`���̔j��
-	int Regist(const char *pFilName); //�e�N�X�`���̓o�^
-	LPDIRECT3DTEXTURE9 GetAddress(int nIdx) { return m_apTexture[nIdx]; } //�e�N�X�`���̎擾
+	//メンバ関数
+	HRESULT Load(void); //テクスチャのロード
+	void UnLoad(void); //テクスチャの破棄
+	int Regist(const char *pFilName); //テクスチャの登録
+	LPDIRECT3DTEXTURE9 GetAddress(int nIdx) { return m_apTexture[nIdx]; } //テクスチャの取得
 	int GetNum(void) { return m_nNumAll; }
 
-	//�ÓI�����o�֐�
-	static bool GetLoadState(void) { return m_bLoad; }; //�e�N�X�`���̓ǂݍ��ݏ�Ԃ��擾
+	//静的メンバ関数
+	static bool GetLoadState(void) { return m_bLoad; }; //テクスチャの読み込み状態を取得
 
 private:
 
-	//�����o�ϐ�
-	LPDIRECT3DTEXTURE9 m_apTexture[MAX_TEXTURE]; //�e�N�X�`�����
-	char m_sFilePass[MAX_TEXTURE][256]; //���ɓǂݍ��܂�Ă���e�N�X�`���̃p�X
-	int m_nNumAll; //�e�N�X�`���̑���
+	//メンバ変数
+	LPDIRECT3DTEXTURE9 m_apTexture[MAX_TEXTURE]; //テクスチャ情報
+	char m_sFilePass[MAX_TEXTURE][256]; //既に読み込まれているテクスチャのパス
+	int m_nNumAll; //テクスチャの総数
 
-	//�ÓI�����o�ϐ�
+	//静的メンバ変数
 	static bool m_bLoad;
 
 };

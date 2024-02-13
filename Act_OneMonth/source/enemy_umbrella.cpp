@@ -104,7 +104,7 @@ void CEnemy_Umbrella::Update(void)
 		Move();
 
 		// ƒvƒŒƒCƒ„[‚Ì”­Œ©
-		m_bLook = CalcDistancePlayer();
+		//m_bLook = CalcDistancePlayer();
 	}
 
 	// ”íŒ‚‚Ìˆ—

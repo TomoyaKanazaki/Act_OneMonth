@@ -23,6 +23,7 @@
 #include "slash.h"
 #include "enemy.h"
 #include "slash_effect.h"
+#include "life.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -106,6 +107,12 @@ HRESULT CPlayer::Init(void)
 	{
 		m_pOrbit = COrbit::Create(m_ppModel[3], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, -11.0f, 21.0f), 6);
 		m_pOrbit->SwitchDraw(false);
+	}
+
+	// ‘Ì—Í‚ð•\Ž¦
+	for (int i = 0; i < m_nLife; ++i)
+	{
+		CLife::Create();
 	}
 
 	return hr;

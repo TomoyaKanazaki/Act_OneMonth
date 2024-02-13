@@ -47,6 +47,7 @@ public:
 	bool GetDash() const { return m_bDash; }
 	float GetHitLength() const { return m_fHitLength; }
 	void Attacked(); // ダメージを受けた時の処理
+	int GetLife() { return m_nLife; }
 
 	//静的メンバ関数
 	static CPlayer *Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f));

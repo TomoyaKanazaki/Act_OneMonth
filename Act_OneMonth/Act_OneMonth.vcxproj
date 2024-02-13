@@ -45,6 +45,7 @@
     <ClCompile Include="source\hit_effect.cpp" />
     <ClCompile Include="source\input.cpp" />
     <ClCompile Include="source\layer.cpp" />
+    <ClCompile Include="source\life.cpp" />
     <ClCompile Include="source\light.cpp" />
     <ClCompile Include="source\logo.cpp" />
     <ClCompile Include="source\main.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="source\hit_effect.h" />
     <ClInclude Include="source\input.h" />
     <ClInclude Include="source\layer.h" />
+    <ClInclude Include="source\life.h" />
     <ClInclude Include="source\light.h" />
     <ClInclude Include="source\logo.h" />
     <ClInclude Include="source\manager.h" />
