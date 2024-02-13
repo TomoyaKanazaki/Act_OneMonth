@@ -1,69 +1,74 @@
 //==========================================
 //
-//  体力表示(life.cpp)
+//  体力表示の管理クラス(lifemanager.cpp)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "life.h"
+#include "lifemanager.h"
 #include "manager.h"
 #include "gamemanager.h"
 #include "player.h"
-#include "manager.h"
 #include "texture.h"
+#include "life.h"
 
 //==========================================
 //  定数定義
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 LIFE_SIZE = D3DXVECTOR3(50.0f, 50.0f, 0.0f);
-	const D3DXVECTOR3 LIFE_LEFT_POS = D3DXVECTOR3(30.0f, FLOAT_SCREEN_HEIGHT - 45.0f, 0.0f);
+	const D3DXVECTOR3 FRAME_SIZE = D3DXVECTOR3(600.0f, 100.0f, 0.0f);
+	const D3DXVECTOR3 FRAME_POS = D3DXVECTOR3(300.0f, FLOAT_SCREEN_HEIGHT - 50.0f, 0.0f);
 }
-
-//==========================================
-//  静的メンバ変数宣言
-//==========================================
-int CLife::m_nNum = 0; // 体力
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CLife::CLife(int nPriority) : CObject2D(nPriority),
-m_nIdx(m_nNum)
+CLifeManager::CLifeManager(int nPriority) : CObject2D(nPriority)
 {
-	++m_nNum;
+
 }
 
 //==========================================
 //  デストラクタ
 //==========================================
-CLife::~CLife()
+CLifeManager::~CLifeManager()
 {
-	--m_nNum;
+
 }
 
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT CLife::Init(void)
+HRESULT CLifeManager::Init(void)
 {
 	// サイズを設定
-	m_size = LIFE_SIZE;
+	m_size = FRAME_SIZE;
 
 	// 位置を設定
-	m_pos = LIFE_LEFT_POS;
-	m_pos.x += LIFE_SIZE.x * m_nIdx;
+	m_pos = FRAME_POS;
+
+	// 初期化
+	HRESULT hr = CObject2D::Init();
+
+	// 色を設定
+	SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f));
 
 	// テクスチャ割り当て
-	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::LEAF));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::FRAME));
 
-	return CObject2D::Init();
+	// 体力を表示
+	for (int i = 0; i < 10; ++i)
+	{
+		CLife::Create();
+	}
+
+	return hr;
 }
 
 //==========================================
 //  終了処理
 //==========================================
-void CLife::Uninit(void)
+void CLifeManager::Uninit(void)
 {
 	CObject2D::Uninit();
 }
@@ -71,25 +76,15 @@ void CLife::Uninit(void)
 //==========================================
 //  更新処理
 //==========================================
-void CLife::Update(void)
+void CLifeManager::Update(void)
 {
-	// プレイヤーのライフを取得
-	int nLife = CGameManager::GetPlayer()->GetLife();
-
-	// プレイヤーのライフが自分を上回っていたら消す
-	if (m_nIdx + 1 > nLife)
-	{
-		Uninit();
-		return;
-	}
-
 	CObject2D::Update();
 }
 
 //==========================================
 //  描画処理
 //==========================================
-void CLife::Draw(void)
+void CLifeManager::Draw(void)
 {
 	CObject2D::Draw();
 }
@@ -97,10 +92,10 @@ void CLife::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CLife* CLife::Create()
+CLifeManager* CLifeManager::Create()
 {
 	// インスタンス生成
-	CLife* pLife = new CLife;
+	CLifeManager* pLife = new CLifeManager;
 
 	// 初期化処理
 	pLife->Init();

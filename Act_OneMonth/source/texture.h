@@ -38,6 +38,7 @@ public:
 		BULLET, // 弾
 		EXPLOSION, // 爆発
 		LEAF, // 🍃
+		FRAME, // 🍃用の枠
 		TEXTURE_MAX
 	};
 

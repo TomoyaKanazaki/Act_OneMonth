@@ -23,7 +23,7 @@
 #include "slash.h"
 #include "enemy.h"
 #include "slash_effect.h"
-#include "life.h"
+#include "lifemanager.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -110,10 +110,7 @@ HRESULT CPlayer::Init(void)
 	}
 
 	// ‘Ì—Í‚ğ•\¦
-	for (int i = 0; i < m_nLife; ++i)
-	{
-		CLife::Create();
-	}
+	CLifeManager::Create();
 
 	return hr;
 }
