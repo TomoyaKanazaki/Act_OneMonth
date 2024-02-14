@@ -30,6 +30,7 @@ public:
 		ATTACK, // 通常攻撃
 		DASH, // 突進攻撃
 		BULLET, // 遠距離攻撃
+		RAIN, // 雨降らし
 		MAX
 	};
 
@@ -56,6 +57,7 @@ private:
 	void Shot(); // 遠距離攻撃
 	void Attack(); // 三連攻撃
 	void Dash(); // 突進攻撃
+	void Rain(); // 雨降らし
 	void Hit(); // 攻撃判定
 	void MoveToPlayer(); // プレイヤーに向かって移動する処理
 
@@ -67,6 +69,10 @@ private:
 	D3DXVECTOR3 m_TargetPos; // 目標位置
 	bool m_Wait; // ダッシュ前の待機完了フラグ
 	bool m_Dash; // ダッシュ中フラグ
+	int m_nAttackKind; // 攻撃の種類
+	bool m_bRain; // 雨降らし追加フラグ
+	bool m_bRainWait; // アメフラシ前の移動完了フラグ
+	int m_nBulletNum; // 弾の数
 
 };
 

@@ -42,6 +42,9 @@ namespace
 	const float LIMIT_HEIGHT = 50.0f; // 最低の高さ
 	const float ATTACK_SPEED = 200.0f; // 攻撃中の移動速度
 	const float ATTACK_MIN_LENGTH = 50.0f; // 攻撃中の移動速度
+	const D3DXVECTOR3 RAIN_POS = D3DXVECTOR3(1800.0f, 300.0f, 0.0f); // 雨降らしの待機位置
+	const float RAIN_ADD = 80.0f; // 雨降らし行動が追加されるライフ
+	const int RAINBULLET_NUM = 10; // 雨降らしで出す弾の数
 }
 
 //==========================================
@@ -52,7 +55,11 @@ m_State(POP),
 m_oldState(POP),
 m_MoveTimer(0.0f),
 m_Wait(false),
-m_Dash(false)
+m_Dash(false),
+m_nAttackKind(ATTACK_KIND),
+m_bRain(false),
+m_bRainWait(false),
+m_nBulletNum(0)
 {
 	m_pOrbit[0] = m_pOrbit[1] = nullptr;
 } 
@@ -195,13 +202,48 @@ void CBoss::Update(void)
 	// デバッグ表示
 	DebugProc::Print("ボスの体力 : %f\n", m_fLife);
 	DebugProc::Print("移動量 : %f\n", m_move.x);
-	DebugProc::Print("位置 : %f, %f", m_pos.x, m_pos.y);
+	DebugProc::Print("位置 : %f, %f\n", m_pos.x, m_pos.y);
+	DebugProc::Print("状態 : ");
+	switch (m_State)
+	{
+	case POP: // 出現状態
+		DebugProc::Print("出現\n");
+		break;
+	case MOVE: // 移動状態
+		DebugProc::Print("移動\n");
+		break;
+	case NEUTRAL: // 待機状態
+		DebugProc::Print("待機\n");
+		break;
+	case DEATH: // 死亡状態
+		DebugProc::Print("死亡\n");
+		break;
+	case ATTACK: // 通常攻撃
+		DebugProc::Print("攻撃\n");
+		break;
+	case DASH: // 突進攻撃
+		DebugProc::Print("突進\n");
+		break;
+	case BULLET: // 遠距離攻撃
+		DebugProc::Print("鬼火\n");
+		break;
+	case RAIN: // 雨降らし
+		DebugProc::Print("降雨\n");
+		break;
+	}
 
 	// 更新
 	CEnemy::Update();
 
 	// 中心座標の設定
 	m_posCenter = m_pos + CENTER_POS;
+
+	// 体力が減っていたら攻撃パターンを増やす
+	if (!m_bRain && m_fLife <= RAIN_ADD)
+	{
+		m_bRain = true;
+		++m_nAttackKind;
+	}
 }
 
 //==========================================
@@ -277,6 +319,9 @@ void CBoss::Motion()
 			break;
 		case BULLET: // 遠距離攻撃
 			m_pMotion->Set(CMotion::BOSS_BULLET);
+			break;
+		case RAIN: // 雨降らし
+			m_pMotion->Set(CMotion::BOSS_WAIT);
 			break;
 		}
 	}
@@ -384,7 +429,9 @@ void CBoss::Neutral()
 	m_MoveTimer = 0.0f;
 
 	// 攻撃の種類を決める乱数
-	int Rand = rand() % ATTACK_KIND;
+	int Rand = rand() % m_nAttackKind;
+	DebugProc::Print("攻撃パターン : %d\n", m_nAttackKind);
+	Rand = 3;
 
 	switch (Rand)
 	{
@@ -394,8 +441,11 @@ void CBoss::Neutral()
 	case 1:
 		m_State = ATTACK;
 		break;
-	default:
+	case 2:
 		m_State = BULLET;
+		break;
+	case 3:
+		m_State = RAIN;
 		break;
 	}
 }
@@ -408,6 +458,7 @@ void CBoss::AttackState()
 	Shot();
 	Attack();
 	Dash();
+	Rain();
 }
 
 //==========================================
@@ -460,6 +511,9 @@ void CBoss::Attack()
 
 	// 当たり判定
 	Hit();
+
+	// プレイヤーを向く
+	RotateToPlayer();
 
 	// 行動時間を加算
 	m_MoveTimer += m_fDeltaTime;
@@ -590,6 +644,107 @@ void CBoss::Dash()
 				{
 					m_pOrbit[i]->SwitchDraw(false);
 				}
+			}
+		}
+	}
+}
+
+//==========================================
+//  雨降らし
+//==========================================
+void CBoss::Rain()
+{
+	// 突進状態じゃなかったら抜ける
+	if (m_State != RAIN)
+	{
+		return;
+	}
+
+	// 目標地点に向かって移動する
+	if (!m_bRainWait)
+	{
+		D3DXVECTOR3 vec = RAIN_POS - m_pos;
+
+		// ベクトルの大きさが誤差範囲内なら停止
+		if (POS_ERROR * POS_ERROR >= vec.x * vec.x + vec.y * vec.y)
+		{
+			m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			m_bRainWait = true;
+			m_MoveTimer = 0.0f;
+			return;
+		}
+
+		// ベクトルを正規化
+		D3DXVec3Normalize(&vec, &vec);
+
+		// 移動量を目標位置に向ける
+		vec *= MOVE_SPEED * m_fDeltaTime;
+
+		// 移動量を適用
+		m_move = vec;
+	}
+	else
+	{
+		//ローカル変数宣言
+		float fRotMove = m_rot.y; //現在の角度
+		float fRotDest = 0.0f; //目標の角度
+
+		//移動補正
+		float fRotDiff = fRotDest - fRotMove;	//目標までの移動方向の差分
+
+		//角度の補正
+		if (fRotDiff > D3DX_PI)
+		{
+			fRotDiff += (-D3DX_PI * 2);
+		}
+		else if (fRotDiff <= -D3DX_PI)
+		{
+			fRotDiff += (D3DX_PI * 2);
+		}
+
+		//方向転換
+		m_rot.y += fRotDiff * 0.2f;
+
+		//角度の補正
+		if (m_rot.y > D3DX_PI)
+		{
+			m_rot.y += (-D3DX_PI * 2);
+		}
+		else if (m_rot.y < -D3DX_PI)
+		{
+			m_rot.y += (D3DX_PI * 2);
+		}
+
+		// 行動時間を加算
+		m_MoveTimer += m_fDeltaTime;
+
+		// 行動時間を迎えたら弾を生成
+		if (m_MoveTimer >= 0.5f)
+		{
+			// タイマーをリセット
+			m_MoveTimer = 0.0f;
+
+			// 乱数取得
+			int nRand = rand();
+
+			// 数値を制限する
+			nRand %= (int)(TARGET_POS[0].x - TARGET_POS[1].x + 1);
+
+			// 弾の生成位置を設定
+			D3DXVECTOR3 pos = m_posCenter;
+			pos.x = TARGET_POS[0].x + (float)nRand;
+
+			// 弾を生成
+
+			// 弾の数を加算
+			++m_nBulletNum;
+
+			// 弾の数が一定以上で移動状態
+			if (m_nBulletNum >= RAINBULLET_NUM)
+			{
+				m_State = MOVE;
+				m_nBulletNum = 0;
+				m_bRainWait = false;
 			}
 		}
 	}

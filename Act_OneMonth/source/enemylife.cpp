@@ -21,7 +21,7 @@ namespace
 	const D3DXVECTOR3 LIFE_SIZE = D3DXVECTOR3(100.0f, 80.0f, 0.0f);
 	const D3DXVECTOR3 LIFE_RIGHT_POS = D3DXVECTOR3(FLOAT_SCREEN_WIDTH - 30.0f, 50.0f, 0.0f);
 	const float LIFE_SCALE = 20.0f; // 自身が表す体力の量
-	const float SAB_SCALE = 0.05f; // サイズの減少倍率
+	const float SAB_SCALE = 0.1f; // サイズの減少倍率
 }
 
 //==========================================
