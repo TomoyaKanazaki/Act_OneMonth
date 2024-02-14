@@ -29,6 +29,7 @@ public:
 	void Load(); // データの読み込み処理
 
 	bool GetBossCrush() { return m_bBossCrush; } // ボス撃破フラグの取得
+	CEnemy* GetBoss() { return m_pBoss; }
 
 	// 静的メンバ関数
 	static CEnemyManager* Create(); // 生成処理

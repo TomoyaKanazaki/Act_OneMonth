@@ -17,6 +17,7 @@
 #include "orbit.h"
 #include "player.h"
 #include "bullet.h"
+#include "enemylifemanager.h"
 
 //==========================================
 //  定数定義
@@ -112,6 +113,9 @@ HRESULT CBoss::Init(void)
 
 	// モーションを設定
 	m_pMotion->Set(CMotion::BOSS_WAIT);
+
+	// 体力表示
+	CEnemyLifeManager::Create();
 
 	return hr;
 }

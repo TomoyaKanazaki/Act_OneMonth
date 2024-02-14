@@ -38,7 +38,9 @@ public:
 		BULLET, // 弾
 		EXPLOSION, // 爆発
 		LEAF, // 🍃
-		FRAME, // 🍃用の枠
+		PLAYER_FRAME, // 🍃用の枠
+		ENEMY_FRAME, // 🔥用の枠
+		FLAME, // 🔥
 		TEXTURE_MAX
 	};
 

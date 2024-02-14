@@ -59,6 +59,7 @@ public:
 	static CLight *GetLight(void) { return m_pLight; }
 	static State GetState(void) { return m_State; }
 	static State GetOldState(void) { return m_oldState; }
+	static CEnemyManager* GetEnemy() { return m_pEnemy; }
 
 private:
 

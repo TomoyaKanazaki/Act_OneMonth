@@ -33,6 +33,8 @@
     <ClCompile Include="source\doll.cpp" />
     <ClCompile Include="source\effect3D.cpp" />
     <ClCompile Include="source\enemy.cpp" />
+    <ClCompile Include="source\enemylife.cpp" />
+    <ClCompile Include="source\enemylifemanager.cpp" />
     <ClCompile Include="source\enemymanager.cpp" />
     <ClCompile Include="source\enemy_lantern.cpp" />
     <ClCompile Include="source\enemy_umbrella.cpp" />
@@ -95,6 +97,8 @@
     <ClInclude Include="source\doll.h" />
     <ClInclude Include="source\effect3D.h" />
     <ClInclude Include="source\enemy.h" />
+    <ClInclude Include="source\enemylife.h" />
+    <ClInclude Include="source\enemylifemanager.h" />
     <ClInclude Include="source\enemymanager.h" />
     <ClInclude Include="source\enemy_lantern.h" />
     <ClInclude Include="source\enemy_umbrella.h" />
