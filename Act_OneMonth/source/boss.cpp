@@ -431,8 +431,6 @@ void CBoss::Neutral()
 
 	// UŒ‚‚Ìí—Ş‚ğŒˆ‚ß‚é—”
 	int Rand = rand() % m_nAttackKind;
-	DebugProc::Print("UŒ‚ƒpƒ^[ƒ“ : %d\n", m_nAttackKind);
-	Rand = 3;
 
 	switch (Rand)
 	{
