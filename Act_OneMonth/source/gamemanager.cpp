@@ -173,6 +173,12 @@ void CGameManager::Update(void)
 		m_State = STATE_BOSS;
 	}
 
+	// 連撃状態に移行する
+	if (m_pEnemy->GetRush())
+	{
+		m_State = STATE_RUSH;
+	}
+
 	// リザルトに遷移
 	if (m_pEnemy->GetBossCrush())
 	{

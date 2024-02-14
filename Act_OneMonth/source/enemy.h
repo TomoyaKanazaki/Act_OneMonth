@@ -35,6 +35,7 @@ public:
 	virtual void Draw(void) override;
 
 	float GetLife() { return m_fLife; } // ‘Ì—Í‚Ìæ“¾
+	virtual int GetState() { return -1; }
 	D3DXVECTOR3 GetCenterPos() override { return m_posCenter; }
 
 	//Ã“Iƒƒ“ƒoŠÖ”

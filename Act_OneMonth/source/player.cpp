@@ -24,6 +24,7 @@
 #include "enemy.h"
 #include "slash_effect.h"
 #include "lifemanager.h"
+#include "enemymanager.h"
 
 //==========================================
 //  定数定義
@@ -40,7 +41,7 @@ namespace
 	const float JUMP_MOVE = 600.0f; //ジャンプ力
 	const float GRAVITY = 25.0f; //重力
 	const int MAX_ATTACK_COUNT = 3; // 連続攻撃の最大数
-	const float ATTACK_COOL_TIME = 1.0f; // 攻撃のクールタイム
+	const float ATTACK_COOL_TIME = 0.2f; // 攻撃のクールタイム
 	const float LIMIT_HEIGHT_NORMAL = 300.0f; // 道中の上昇限界
 	const float LIMIT_HEIGHT_BOSS = 380.0f; // ボス戦中の上昇限界
 	const float LIMIT_WIDTH_BOSS = 1350.0f; // ボス戦中の上昇限界
@@ -48,6 +49,7 @@ namespace
 	const float DAMAGE_TIME = 0.8f;
 	const float DAMAGE_SPEED = 0.3f; // ダメージ状態中の移動倍率
 	const D3DXCOLOR SLASH_COLOR = D3DXCOLOR(0.1f, 1.0f, 0.1f, 1.0f);
+	const D3DXVECTOR3 ENEMY_DISTANCE = D3DXVECTOR3(-60.0f, -20.0f, 0.0f);
 }
 
 //==========================================
@@ -141,50 +143,72 @@ void CPlayer::Update(void)
 	// 経過時間を取得する
 	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
-	// 攻撃
-	if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB) || m_State == IAI)
+	// 留めを刺すとき
+	if (CGameManager::GetState() == CGameManager::STATE_RUSH)
 	{
-		Dash();
+		// ラッシュ状態
+		m_State = RUSH;
+
+		// 座標を補正
+		m_pos = CGameManager::GetEnemy()->GetBoss()->GetCenterPos() + ENEMY_DISTANCE;
+
+		// 右スティック入力があった場合
+		if (CManager::GetInstance()->GetJoyPad()->GetStickTriggerR(CJoyPad::STICK_ALL))
+		{
+			// 攻撃の方向を算出する
+			float rot = atan2f(rand() - (RAND_MAX * 0.5f), rand() - (RAND_MAX * 0.5f));
+
+			// 攻撃を生成
+			CSlash::Create(CGameManager::GetEnemy()->GetBoss()->GetCenterPos(), rot);
+		}
 	}
 	else
 	{
-		Attack();
+		// 攻撃
+		if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB) || m_State == IAI)
+		{
+			Dash();
+		}
+		else
+		{
+			Attack();
+		}
+
+		// ジャンプ
+		Jump();
+
+		// 移動の処理
+		Move();
+
+		// 回転の処理
+		Rotate();
+
+		// 移動制限
+		Limit();
+
+		// 重力
+		Gravity();
+
+		// ダメージ
+		Damage();
+
+		// 体力が0になったら死ぬ
+		if (m_nLife == 0)
+		{
+			m_State = DEATH;
+			ChangeColor(false);
+		}
+
+		// 前回座標に保存
+		m_oldPos = m_pos;
+		m_oldposModel = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
+
+		// 中心座標を設定
+		m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 	}
-
-	// ジャンプ
-	Jump();
-
-	// 移動の処理
-	Move();
-
-	// 回転の処理
-	Rotate();
-
-	// 移動制限
-	Limit();
-
-	// 重力
-	Gravity();
 
 	// モーション
 	Motion();
-
-	// ダメージ
-	Damage();
-
-	// 体力が0になったら死ぬ
-	if (m_nLife == 0)
-	{
-		m_State = DEATH;
-		ChangeColor(false);
-	}
-
-	// 前回座標に保存
-	m_oldPos = m_pos;
-	m_oldposModel = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
-
-	// 中心座標を設定
-	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 
 	// 更新
 	CObject_Char::Update();
@@ -276,7 +300,7 @@ CPlayer *CPlayer::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 size, const D3
 void CPlayer::Motion(void)
 {
 	//状態更新
-	if (m_State == DEATH || m_State == IAI)
+	if (m_State == DEATH || m_State == IAI || m_State ==RUSH)
 	{
 		//更新しない
 	}
@@ -322,6 +346,9 @@ void CPlayer::Motion(void)
 			break;
 		case DEATH:
 			m_pMotion->Set(CMotion::PLAYER_DEATH);
+			break;
+		case RUSH:
+			m_pMotion->Set(CMotion::PLAYER_IAI);
 			break;
 		}
 	}

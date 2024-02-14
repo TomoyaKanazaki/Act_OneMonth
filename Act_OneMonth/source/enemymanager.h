@@ -26,8 +26,10 @@ public:
 	void Init();
 	void Uninit();
 	void Update();
+
 	void Load(); // データの読み込み処理
 
+	bool GetRush() { return m_bRush; }
 	bool GetBossCrush() { return m_bBossCrush; } // ボス撃破フラグの取得
 	CEnemy* GetBoss() { return m_pBoss; }
 
@@ -48,6 +50,7 @@ private:
 	CEnemy* m_pBoss; // ボスのポインタ
 	bool m_bPopFrag; // ボスの出現フラグ
 	bool m_bBossCrush; // ボスの撃破フラグ
+	bool m_bRush; // 留めの連撃
 
 };
 

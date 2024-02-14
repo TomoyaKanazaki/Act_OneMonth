@@ -9,6 +9,8 @@
 #include "player.h"
 #include "manager.h"
 #include "input.h"
+#include "enemymanager.h"
+#include "boss.h"
 
 //==========================================
 //  定数定義
@@ -20,6 +22,7 @@ namespace
 	const float REVISION_SPEED_POS = 0.05f; // 始点の移動速度
 	const D3DXVECTOR3 LOCK_BOSS = D3DXVECTOR3(1800.0f, 150.0f, 0.0f);
 	const float BOSS_DISTANCE = -620.0f;
+	const D3DXVECTOR3 RUSH_DISTANCE = D3DXVECTOR3(-50.0f, 60.0f, -150.0f);
 }
 
 //==========================================
@@ -66,6 +69,10 @@ void CCameraGame::Update(void)
 	{
 		// カメラを固定する
 		LockBoss();
+	}
+	else if (CGameManager::GetState() == CGameManager::STATE_RUSH)
+	{
+		LockRush();
 	}
 	else
 	{
@@ -126,4 +133,17 @@ void CCameraGame::LockBoss(void)
 
 	//視点を更新
 	m_posV = m_posR + D3DXVECTOR3(0.0f, R_HEIGHT, BOSS_DISTANCE);
+}
+
+//==========================================
+//  ロック状態のカメラ固定
+//==========================================
+void CCameraGame::LockRush()
+{
+	// 注視点を設定
+	m_posR = CGameManager::GetEnemy()->GetBoss()->GetCenterPos();
+	m_posR.x -= 30.0f;
+
+	// 視点を設定
+	m_posV = m_posR + RUSH_DISTANCE;
 }

@@ -19,6 +19,7 @@
 #include "bullet.h"
 #include "enemylifemanager.h"
 #include "blade.h"
+#include "input.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -191,7 +192,7 @@ void CBoss::Update(void)
 	// €–S‚·‚é
 	if (m_fLife <= 0.0f)
 	{
-		m_State = DEATH;
+		m_State = RUSH;
 	}
 
 	// ƒ‚[ƒVƒ‡ƒ“
@@ -231,6 +232,14 @@ void CBoss::Update(void)
 	case RAIN: // ‰J~‚ç‚µ
 		DebugProc::Print("~‰J\n");
 		break;
+	case RUSH: // ‚Æ‚Ç‚ß˜AŒ‚
+		DebugProc::Print("•KE\n");
+		break;
+	}
+
+	if (m_State == RUSH)
+	{
+		m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
 
 	// XV
@@ -245,6 +254,15 @@ void CBoss::Update(void)
 		m_bRain = true;
 		++m_nAttackKind;
 	}
+
+#ifdef _DEBUG
+
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_1))
+	{
+		m_fLife = 0.0f;
+	}
+
+#endif
 }
 
 //==========================================
@@ -323,6 +341,9 @@ void CBoss::Motion()
 			break;
 		case RAIN: // ‰J~‚ç‚µ
 			m_pMotion->Set(CMotion::BOSS_WAIT);
+			break;
+		case RUSH: // —¯‚ß‚Ì˜AŒ‚
+			m_pMotion->Set(CMotion::BOSS_DEATH);
 			break;
 		}
 	}

@@ -9,6 +9,7 @@
 #include "manager.h"
 #include "input.h"
 #include "gamemanager.h"
+#include "boss.h"
 
 //==========================================
 //  クラス定義
@@ -26,7 +27,8 @@ CEnemyManager::CEnemyManager() :
 	m_pInfo(nullptr),
 	m_pBoss(nullptr),
 	m_bPopFrag(false),
-	m_bBossCrush(false)
+	m_bBossCrush(false),
+	m_bRush(false)
 {
 
 }
@@ -81,9 +83,9 @@ void CEnemyManager::Update()
 			}
 			else
 			{
-				if (m_pBoss->GetLife() <= 0.0f) // 体力がなくなっていた場合
+				if (m_pBoss->GetState() == CBoss::RUSH) // ラッシュ状態
 				{
-					m_bBossCrush = true;
+					m_bRush = true;
 				}
 			}
 		}

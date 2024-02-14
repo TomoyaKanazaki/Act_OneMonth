@@ -29,6 +29,7 @@ public:
 		FALL, // —Ž‰ºó‘Ô
 		IAI, // ‹‡ó‘Ô
 		DEATH, // Ž€–Só‘Ô
+		RUSH, // ˜AŒ‚ó‘Ô
 		MAX
 	};
 

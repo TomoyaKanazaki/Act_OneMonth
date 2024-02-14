@@ -31,6 +31,7 @@ public:
 		DASH, // “ËiUŒ‚
 		BULLET, // ‰“‹——£UŒ‚
 		RAIN, // ‰J~‚ç‚µ
+		RUSH, // ‚Æ‚Ç‚ß‚Ì˜AŒ‚
 		MAX
 	};
 
@@ -44,6 +45,7 @@ public:
 	void Draw(void) override;
 
 	bool GetDeath() { return m_State == DEATH; }
+	int GetState() { return (int)m_State; }
 
 private:
 
