@@ -564,6 +564,9 @@ void CBoss::Dash()
 			m_MoveTimer += m_fDeltaTime; // ŽžŠÔ‚ð‰ÁŽZ
 		}
 
+		// “–‚½‚è”»’è
+		Hit();
+
 		// ˆê’èŽžŠÔ‚ªŒo‰ß‚µ‚½‚ç
 		if (m_MoveTimer > DASH_AFTER)
 		{
