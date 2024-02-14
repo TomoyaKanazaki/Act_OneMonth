@@ -18,6 +18,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemylifemanager.h"
+#include "blade.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -735,6 +736,7 @@ void CBoss::Rain()
 			pos.x = TARGET_POS[0].x + (float)nRand;
 
 			// ’e‚ğ¶¬
+			CBlade::Create(pos);
 
 			// ’e‚Ì”‚ğ‰ÁZ
 			++m_nBulletNum;

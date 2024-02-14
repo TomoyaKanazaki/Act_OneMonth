@@ -40,7 +40,7 @@ HRESULT CObject_Char::Init(void)
 	//モデル用のメモリの確保
 	if (m_ppModel == NULL)
 	{
-		m_ppModel = new CModel * [m_pLayer->nNumModel];
+		m_ppModel = new CModel* [m_pLayer->nNumModel];
 	}
 
 	//必要なモデルを生成

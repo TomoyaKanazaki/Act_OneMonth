@@ -25,6 +25,7 @@ public:
 		ENEMY_LANTERN, // 提灯お化け
 		ENEMY_UMBRELLA, // 唐笠お化け
 		ENEMY_BOSS, // ボス
+		BLADE, // 刀弾
 		MAP_LAYER, //マップのやつ
 		LAYERS_MAX
 	}LAYERS;
