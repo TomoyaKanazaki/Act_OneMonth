@@ -38,6 +38,7 @@ public:
 		BOSS_ATTACK, // ‹ß‹——£UŒ‚
 		BOSS_DEATH, // Ž€–S
 		BOSS_DASH, // “Ëi
+		BLADE, // 
 		MOTION_NONE
 	}MOTION;
 

@@ -10,6 +10,8 @@
 #include "manager.h"
 #include "gametime.h"
 #include "camera.h"
+#include "orbit.h"
+#include "motion.h"
 
 //==========================================
 //  定数定義
@@ -27,7 +29,8 @@ namespace
 //==========================================
 CBlade::CBlade(int nPriority) : CObject_Char(nPriority),
 m_rotation(0.0f),
-m_Time(0.0f)
+m_Time(0.0f),
+m_pOrbit(nullptr)
 {
 }
 
@@ -46,10 +49,20 @@ HRESULT CBlade::Init(void)
 	//階層構造情報を生成
 	m_pLayer = CLayer::Set(CLayer::BLADE);
 
+	// 初期化処理
+	HRESULT hr = CObject_Char::Init();
+
 	// 移動量の設定
 	SetMove();
 
-	return CObject_Char::Init();
+	// 剣に軌跡を付ける
+	if (m_pOrbit == nullptr)
+	{
+		m_pOrbit = COrbit::Create(m_ppModel[0], D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.5f), D3DXVECTOR3(0.0f, 0.0f, 20.0f), D3DXVECTOR3(0.0f, 0.0f, -50.0f), 10);
+		m_pOrbit->SwitchDraw(false);
+	}
+
+	return hr;
 }
 
 //==========================================
@@ -75,6 +88,7 @@ void CBlade::Update(void)
 	if (m_Time >= WAIT_TIME)
 	{
 		m_pos += m_move * m_fDeltaTime;
+		m_pOrbit->SwitchDraw(true);
 	}
 
 	// 回転
@@ -88,6 +102,7 @@ void CBlade::Update(void)
 	// 画面外で削除
 	if (!CGameManager::GetCamera()->OnScreen(m_pos))
 	{
+		m_pOrbit->SwitchDraw(false);
 		Uninit();
 	}
 }
@@ -154,6 +169,7 @@ void CBlade::Hit()
 {
 	// プレイヤーへのベクトルを算出
 	D3DXVECTOR3 vec = CGameManager::GetPlayer()->GetCenterPos() - m_pos;
+	vec.z = 0.0f;
 
 	// 距離を測る
 	if (HIT_LENGTH * HIT_LENGTH > vec.x * vec.x + vec.y * vec.y)
