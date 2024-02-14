@@ -22,11 +22,11 @@
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 SLASH_SIZE = D3DXVECTOR3(2000.0f, 50.0f, 0.0f); // ポリゴンサイズ
+	const D3DXVECTOR3 SLASH_SIZE = D3DXVECTOR3(800.0f, 5.0f, 0.0f); // ポリゴンサイズ
 	const float CLEAR_TIME = 4.0f; // 1 / n 秒
 	const float MIN_COLOR = 0.5f; // 色の下限
 	const D3DXCOLOR EFFECT_COLOR[3] = { D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f), D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f) }; // エフェクトカラー
-	const D3DXVECTOR3 EFFECT_SCALE = D3DXVECTOR3(0.5f, 1.5f, 0.0f); // エフェクトのスケール
+	const D3DXVECTOR3 EFFECT_SCALE = D3DXVECTOR3(0.5f, 10.0f, 0.0f); // エフェクトのスケール
 }
 
 //==========================================
@@ -54,12 +54,12 @@ HRESULT CSlash::Init(void)
 	m_size = SLASH_SIZE;
 
 	// ポリゴンの左端の座標を算出
-	m_posLeft.x = m_pos.x + (cosf(m_rot.z) * m_size.x);
-	m_posLeft.y = m_pos.y + (sinf(m_rot.z) * m_size.x);
+	m_posLeft.x = m_pos.x + (cosf(m_rot.z) * (m_size.x * 0.5f));
+	m_posLeft.y = m_pos.y + (sinf(m_rot.z) * (m_size.x * 0.5f));
 
 	// ポリゴンの右端の座標を算出
-	m_posRight.x = m_pos.x - (cosf(m_rot.z) * m_size.x);
-	m_posRight.y = m_pos.y - (sinf(m_rot.z) * m_size.x);
+	m_posRight.x = m_pos.x - (cosf(m_rot.z) * (m_size.x * 0.5f));
+	m_posRight.y = m_pos.y - (sinf(m_rot.z) * (m_size.x * 0.5f));
 
 	// テクスチャ割り当て
 	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::EFFECT));
@@ -80,8 +80,7 @@ HRESULT CSlash::Init(void)
 	{
 		CSlash_Effect::Create(m_pos, m_rot, EFFECT_COLOR[i]);
 	}
-	CSplash::Create(m_pos, m_rot, D3DXVECTOR3(m_size.x * EFFECT_SCALE.x, m_size.y * EFFECT_SCALE.y, EFFECT_SCALE.z), m_col);
-
+	CSplash::Create(m_pos, m_rot, D3DXVECTOR3(m_size.x, m_size.y * EFFECT_SCALE.y, EFFECT_SCALE.z), m_col);
 
 	// 初期化
 	return CObject3D_Anim::Init();
