@@ -40,7 +40,7 @@ namespace
 	const float JUMP_MOVE = 600.0f; //ジャンプ力
 	const float GRAVITY = 25.0f; //重力
 	const int MAX_ATTACK_COUNT = 3; // 連続攻撃の最大数
-	const float ATTACK_COOL_TIME = 0.0f; // 攻撃のクールタイム
+	const float ATTACK_COOL_TIME = 1.0f; // 攻撃のクールタイム
 	const float LIMIT_HEIGHT_NORMAL = 300.0f; // 道中の上昇限界
 	const float LIMIT_HEIGHT_BOSS = 380.0f; // ボス戦中の上昇限界
 	const float LIMIT_WIDTH_BOSS = 1350.0f; // ボス戦中の上昇限界
@@ -63,7 +63,8 @@ m_pOrbit(nullptr),
 m_nLife(MAX_LIFE),
 m_bDamage(false),
 m_fDamageCounter(0.0f),
-m_fHitLength(HIT_LENGTH)
+m_fHitLength(HIT_LENGTH),
+m_bDoubleJump(false)
 {
 	m_CenterPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fDashAngle = 0.0f;
@@ -105,7 +106,7 @@ HRESULT CPlayer::Init(void)
 	// 軌跡の生成
 	if (m_pOrbit == nullptr)
 	{
-		m_pOrbit = COrbit::Create(m_ppModel[3], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, -11.0f, 21.0f), 6);
+		m_pOrbit = COrbit::Create(m_ppModel[14], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 30.0f, 3.0f), 6);
 		m_pOrbit->SwitchDraw(false);
 	}
 
@@ -355,6 +356,7 @@ void CPlayer::Limit(void)
 	if (m_pos.y <= 0.0f)
 	{
 		m_bRand = true;
+		m_bDoubleJump = false;
 	}
 
 	if (CGameManager::GetState() != CGameManager::STATE_BOSS)
@@ -498,7 +500,7 @@ void CPlayer::Jump(void)
 	}
 
 	//着地フラグがオフの時
-	if (!m_bRand)
+	else if (!m_bRand && m_bDoubleJump)
 	{
 		return;
 	}
@@ -506,6 +508,12 @@ void CPlayer::Jump(void)
 	//ジャンプ!
 	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_SPACE) || CManager::GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_LB))
 	{
+		if(!m_bRand)
+		{
+			m_bDoubleJump = true;
+		}
+
+		// 着地していない状態
 		m_move.y = JUMP_MOVE;
 		m_bRand = false;
 	}

@@ -71,6 +71,7 @@ private:
 	D3DXVECTOR3 m_posStart; // 攻撃のスタート地点
 	float m_fDashAngle;
 	bool m_bRand;
+	bool m_bDoubleJump;
 	bool m_bDash;
 	D3DXMATERIAL *m_pDefMat;
 	State m_State;
