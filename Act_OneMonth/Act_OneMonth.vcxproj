@@ -74,6 +74,7 @@
     </ClCompile>
     <ClCompile Include="source\renderer.cpp" />
     <ClCompile Include="source\resultmanager.cpp" />
+    <ClCompile Include="source\rush_effect.cpp" />
     <ClCompile Include="source\scene.cpp" />
     <ClCompile Include="source\scenemanager.cpp" />
     <ClCompile Include="source\slash.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="source\precompile.h" />
     <ClInclude Include="source\renderer.h" />
     <ClInclude Include="source\resultmanager.h" />
+    <ClInclude Include="source\rush_effect.h" />
     <ClInclude Include="source\scene.h" />
     <ClInclude Include="source\scenemanager.h" />
     <ClInclude Include="source\slash.h" />

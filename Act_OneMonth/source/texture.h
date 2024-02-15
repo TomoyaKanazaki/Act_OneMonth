@@ -41,6 +41,7 @@ public:
 		PLAYER_FRAME, // 🍃用の枠
 		ENEMY_FRAME, // 🔥用の枠
 		FLAME, // 🔥
+		RUSH, // 連撃
 		TEXTURE_MAX
 	};
 

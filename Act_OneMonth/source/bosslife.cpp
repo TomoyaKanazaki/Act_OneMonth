@@ -13,6 +13,7 @@
 #include "texture.h"
 #include "renderer.h"
 #include "input.h"
+#include "rush_effect.h"
 
 //==========================================
 //  定数定義
@@ -90,7 +91,7 @@ void CBossLife::Update(void)
 	// 演出を呼ぶ
 	if (m_fLife <= 0.0f)
 	{
-
+		CRush::Create();
 	}
 
 	// 大きさの更新
