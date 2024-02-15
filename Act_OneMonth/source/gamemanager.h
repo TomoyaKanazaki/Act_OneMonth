@@ -15,6 +15,7 @@ class CPlayer;
 class CCamera;
 class CLight;
 class CEnemyManager;
+class CBossLife;
 
 //==========================================
 //  ゲームマネージャクラス定義
@@ -80,6 +81,7 @@ private:
 	static State m_oldState; //前フレームでのゲームの状態
 	static Progress m_Progress; //進行状況
 	static CEnemyManager* m_pEnemy;
+	static CBossLife* m_pLife;
 
 };
 

@@ -22,6 +22,7 @@
 #include "build.h"
 #include "fog.h"
 #include "enemymanager.h"
+#include "bosslife.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -34,6 +35,7 @@ CGameManager::State CGameManager::m_State = NONE;
 CGameManager::State CGameManager::m_oldState = NONE;
 CGameManager::Progress CGameManager::m_Progress = TUTORIAL_ENEMY;
 CEnemyManager* CGameManager::m_pEnemy = nullptr;
+CBossLife* CGameManager::m_pLife = nullptr;
 
 //==========================================
 //  定数定義
@@ -41,7 +43,8 @@ CEnemyManager* CGameManager::m_pEnemy = nullptr;
 namespace
 {
 	const float END_FOG = 560.0f;
-	const float START_FOG = 150.0f;
+	const float LIMIT_FOG = 100.0f;
+	const float START_FOG = 300.0f;
 }
 
 //==========================================
@@ -134,6 +137,12 @@ void CGameManager::Uninit(void)
 		m_pEnemy = nullptr;
 	}
 
+	// 体力表示の破棄
+	if (m_pLife != nullptr)
+	{
+		m_pLife = nullptr;
+	}
+
 	// カメラの終了
 	m_pCamera = NULL;
 
@@ -177,12 +186,45 @@ void CGameManager::Update(void)
 	if (m_pEnemy->GetRush())
 	{
 		m_State = STATE_RUSH;
+
+		// 体力表示を生成
+		if (m_pLife == nullptr)
+		{
+			m_pLife = CBossLife::Create();
+
+			// フォグを設定
+			Fog::Set(true);
+			Fog::SetCol(D3DXCOLOR(0.9f, 1.0f, 0.9f, 1.0f));
+		}
+
+		if (m_pLife != nullptr)
+		{
+			if (m_pLife->GetDeath())
+			{
+				m_State = STATE_END;
+			}
+		}
+	}
+
+	// 終了状態の処理
+	if (m_State == STATE_END)
+	{
+		// フォグを更新
+		D3DXCOLOR col = Fog::GetCol();
+		col += D3DXCOLOR(0.02f, 0.0f, 0.02f, 0.0f);
+		Fog::SetCol(col);
+		float end = Fog::GetEnd();
+		if (end >= LIMIT_FOG)
+		{
+			end -= 10.0f;
+		}
+		Fog::SetEnd(end);
 	}
 
 	// リザルトに遷移
-	if (m_pEnemy->GetBossCrush())
+	if (Fog::Get() && Fog::GetCol().r >= 1.0f)
 	{
-		// プレイ結果を失敗に設定
+		// プレイ結果を成功に設定
 		CSceneManager::SetClear(true);
 
 		// リザルトに遷移

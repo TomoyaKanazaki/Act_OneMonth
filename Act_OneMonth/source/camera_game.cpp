@@ -70,7 +70,7 @@ void CCameraGame::Update(void)
 		// ƒJƒƒ‰‚ğŒÅ’è‚·‚é
 		LockBoss();
 	}
-	else if (CGameManager::GetState() == CGameManager::STATE_RUSH)
+	else if (CGameManager::GetState() == CGameManager::STATE_RUSH || CGameManager::GetState() == CGameManager::STATE_END)
 	{
 		LockRush();
 	}

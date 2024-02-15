@@ -144,7 +144,7 @@ void CPlayer::Update(void)
 	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
 	// 留めを刺すとき
-	if (CGameManager::GetState() == CGameManager::STATE_RUSH)
+	if (CGameManager::GetState() == CGameManager::STATE_RUSH || CGameManager::GetState() == CGameManager::STATE_END)
 	{
 		// ラッシュ状態
 		m_State = RUSH;
@@ -165,17 +165,20 @@ void CPlayer::Update(void)
 	else
 	{
 		// 攻撃
-		if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB) || m_State == IAI)
+		if (CGameManager::GetState() != CGameManager::STATE_END)
 		{
-			Dash();
-		}
-		else
-		{
-			Attack();
-		}
+			if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB) || m_State == IAI)
+			{
+				Dash();
+			}
+			else
+			{
+				Attack();
+			}
 
-		// ジャンプ
-		Jump();
+			// ジャンプ
+			Jump();
+		}
 
 		// 移動の処理
 		Move();
@@ -433,10 +436,9 @@ void CPlayer::Move(void)
 	}
 
 	//自動歩行
-	if (CGameManager::GetState() == CGameManager::STATE_START || CGameManager::GetState() == CGameManager::STATE_END)
+	if (CGameManager::GetState() == CGameManager::STATE_START)
 	{
 		move.x = 1.0f;
-		move.y = 0.0f;
 	}
 
 	//移動量の適用
