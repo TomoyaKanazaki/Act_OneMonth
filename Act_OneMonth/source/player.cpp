@@ -149,6 +149,9 @@ void CPlayer::Update(void)
 		// ƒ‰ƒbƒVƒ…ó‘Ô
 		m_State = RUSH;
 
+		// Œü‚«‚ð•â³
+		m_rot.y = -D3DX_PI * 0.5f;
+
 		// À•W‚ð•â³
 		m_pos = CGameManager::GetEnemy()->GetBoss()->GetCenterPos() + ENEMY_DISTANCE;
 

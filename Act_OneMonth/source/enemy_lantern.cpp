@@ -14,7 +14,7 @@
 namespace
 {
 	const D3DXVECTOR3 LANTERN_SIZE = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
-	const float MAX_LIFE = 10.0f;
+	const float MAX_LIFE = 3.0f;
 	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 0.0f, 0.0f); // 中心座標とオブジェクト座標の差
 }
 

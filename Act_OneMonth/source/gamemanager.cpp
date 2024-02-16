@@ -23,6 +23,7 @@
 #include "fog.h"
 #include "enemymanager.h"
 #include "bosslife.h"
+#include "rush_effect.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -191,6 +192,7 @@ void CGameManager::Update(void)
 		if (m_pLife == nullptr)
 		{
 			m_pLife = CBossLife::Create();
+			CRush::Create();
 
 			// フォグを設定
 			Fog::Set(true);

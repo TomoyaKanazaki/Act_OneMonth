@@ -505,6 +505,8 @@ void CJoyPad::Update(void)
 			m_nStickTriggerR = m_nStickAngleR;
 		}
 
+		DebugProc::Print("\n\n%d\n\b", m_nStickAngleR);
+
 		//ƒvƒŒƒXˆ—
 		m_JoyKeyState = JoyKeyState;
 
