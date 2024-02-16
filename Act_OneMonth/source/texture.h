@@ -42,6 +42,7 @@ public:
 		ENEMY_FRAME, // 🔥用の枠
 		FLAME, // 🔥
 		RUSH, // 連撃
+		TUTORIAL, // チュートリアル
 		TEXTURE_MAX
 	};
 

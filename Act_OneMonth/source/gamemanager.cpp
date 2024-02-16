@@ -24,6 +24,7 @@
 #include "enemymanager.h"
 #include "bosslife.h"
 #include "rush_effect.h"
+#include "tutorial.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -97,6 +98,9 @@ HRESULT CGameManager::Init(void)
 	
 	//水の生成
 	CFeild::Create(D3DXVECTOR3(0.0f, -3000.0f, 0.0f), D3DXVECTOR3(60000.0f, 0.0f, 60000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR2(50.0f, 50.0f), CFeild::WATER);
+
+	// チュートリアルの生成
+	CTutorial::Create();
 
 	//カメラの生成
 	if (m_pCamera == NULL)
