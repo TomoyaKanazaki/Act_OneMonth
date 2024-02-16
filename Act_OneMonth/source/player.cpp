@@ -143,6 +143,9 @@ void CPlayer::Update(void)
 	// 経過時間を取得する
 	m_fDeltaTime = CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 
+	// 中心座標を設定
+	m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
+
 	// 留めを刺すとき
 	if (CGameManager::GetState() == CGameManager::STATE_RUSH || CGameManager::GetState() == CGameManager::STATE_END)
 	{
@@ -208,9 +211,6 @@ void CPlayer::Update(void)
 		// 前回座標に保存
 		m_oldPos = m_pos;
 		m_oldposModel = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
-
-		// 中心座標を設定
-		m_CenterPos = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 	}
 
 	// モーション

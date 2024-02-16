@@ -229,6 +229,7 @@ void CSound::Uninit(void)
 //==========================================
 HRESULT CSound::Play(SOUND_LABEL label)
 {
+	return E_FAIL;
 	XAUDIO2_VOICE_STATE xa2state;
 	XAUDIO2_BUFFER buffer;
 

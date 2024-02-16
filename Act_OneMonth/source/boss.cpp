@@ -45,6 +45,7 @@ namespace
 	const float ATTACK_SPEED = 200.0f; // 攻撃中の移動速度
 	const float ATTACK_MIN_LENGTH = 50.0f; // 攻撃中の移動速度
 	const D3DXVECTOR3 RAIN_POS = D3DXVECTOR3(1800.0f, 300.0f, 0.0f); // 雨降らしの待機位置
+	const D3DXVECTOR3 RUSH_POS = D3DXVECTOR3(1800.0f, 100.0f, 0.0f); // 雨降らしの待機位置
 	const float RAIN_ADD = 60.0f; // 雨降らし行動が追加されるライフ
 	const int RAINBULLET_NUM = 10; // 雨降らしで出す弾の数
 }
@@ -192,6 +193,7 @@ void CBoss::Update(void)
 	// 死亡する
 	if (m_fLife <= 0.0f)
 	{
+		m_pos = RUSH_POS;
 		m_State = RUSH;
 	}
 
