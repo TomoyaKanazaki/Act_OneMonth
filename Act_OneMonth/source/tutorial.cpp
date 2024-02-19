@@ -14,8 +14,8 @@
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 TUTORIAL_SIZE = D3DXVECTOR3(156.0f, 53.0f, 0.0f); // ポリゴンサイズ
-	const D3DXVECTOR3 TUTORIAL_POS = D3DXVECTOR3(678.0f, FLOAT_SCREEN_HEIGHT - 50.0f, 0.0f); // ポリゴン座標
+	const D3DXVECTOR3 TUTORIAL_SIZE = D3DXVECTOR3(250.0f, 70.0f, 0.0f); // ポリゴンサイズ
+	const D3DXVECTOR3 TUTORIAL_POS = D3DXVECTOR3(130.0f, 50.0f, 0.0f); // ポリゴン座標
 }
 
 //==========================================
