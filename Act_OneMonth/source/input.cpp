@@ -8,6 +8,7 @@
 #include "input.h"
 #include "manager.h"
 #include "debugproc.h"
+#include "gametime.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -422,7 +423,7 @@ CJoyPad::CJoyPad()
 	m_JoyKeyState = {};
 	m_JoyKeyTrigger = {};
 	m_Vibration = {};
-	m_VibrationState = VIBRATIONSTATE_NONE;
+	m_bVibration = false;
 	m_VibrationTimer = 0;
 	m_nIdx = m_nNum;
 
@@ -511,49 +512,7 @@ void CJoyPad::Update(void)
 		m_JoyKeyState = JoyKeyState;
 
 		//バイブ制御
-		if (m_VibrationState != VIBRATIONSTATE_NONE)
-		{
-			//バイブ状態の更新
-			switch (m_VibrationState)
-			{
-			case VIBRATIONSTATE_ENEMY_HIT:
-				m_Vibration.wLeftMotorSpeed -= (short)(USHRT_MAX * 0.01f);
-				m_Vibration.wRightMotorSpeed -= (short)(USHRT_MAX * 0.01f);
-				break;
-			case VIBRATIONSTATE_ENEMY_DEAD:
-				m_Vibration.wLeftMotorSpeed = (m_Vibration.wLeftMotorSpeed == USHRT_MAX / 2) ? USHRT_MAX : USHRT_MAX / 2;
-				m_Vibration.wRightMotorSpeed = (m_Vibration.wRightMotorSpeed == USHRT_MAX / 2) ? USHRT_MAX : USHRT_MAX / 2;
-				break;
-			default:
-				break;
-			}
-
-			//バイブ情報の値を補正する
-			if (m_Vibration.wLeftMotorSpeed < 0)
-			{
-				m_Vibration.wLeftMotorSpeed = 0;
-			}
-			if (m_Vibration.wRightMotorSpeed < 0)
-			{
-				m_Vibration.wRightMotorSpeed = 0;
-			}
-
-			//バイブ時間の更新
-			m_VibrationTimer--;
-
-			//バイブ状態のリセット
-			if (m_VibrationTimer == 0)
-			{
-				m_VibrationState = VIBRATIONSTATE_NONE;
-			}
-		}
-		else
-		{
-			memset(&m_Vibration, 0, sizeof(XINPUT_VIBRATION));
-		}
-
-		//バイブ情報をジョイパッドに送信
-		XInputSetState(m_nIdx, &m_Vibration);
+		Vibration();
 	}
 	else
 	{
@@ -693,6 +652,36 @@ bool CJoyPad::KnockStickR(XINPUT_STATE JoyKey) //右
 }
 
 //==========================================
+//  バイブ処理
+//==========================================
+void CJoyPad::Vibration()
+{
+	if (m_bVibration)
+	{
+		//バイブ時間の更新
+		m_VibrationTimer -= CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
+		//バイブ状態のリセット
+		if (m_VibrationTimer <= 0.0f)
+		{
+			m_VibrationTimer = 0.0f;
+			m_bVibration = false;
+		}
+	}
+	else
+	{
+		memset(&m_Vibration, 0, sizeof(XINPUT_VIBRATION));
+	}
+
+	//バイブ情報をジョイパッドに送信
+	XInputSetState(m_nIdx, &m_Vibration);
+
+	DebugProc::Print("\n左バイブ : %d\n", m_Vibration.wLeftMotorSpeed);
+	DebugProc::Print("左バイブ : %d\n", m_Vibration.wRightMotorSpeed);
+	DebugProc::Print("バイブ時間 : %f\n", m_VibrationTimer);
+}
+
+//==========================================
 //  スティックのトリガー取得
 //==========================================
 bool CJoyPad::GetStickTriggerL(int nDirection) //左
@@ -734,31 +723,36 @@ bool CJoyPad::GetStickTriggerR(int nDirection) //右
 }
 
 //==========================================
-//  バイブレーション機能
+//  バイブ速度の加算
 //==========================================
-void CJoyPad::VibrationJoyPad(VIBRATION VibrationState)
+void CJoyPad::AddVibrationSpeed(WORD speed)
 {
-	//バイブ状態の設定
-	m_VibrationState = VibrationState;
+	// 加算
+	m_Vibration.wLeftMotorSpeed += speed;
+	m_Vibration.wRightMotorSpeed += speed;
 
-	//バイブレーションの設定
-	switch (m_VibrationState)
+	//バイブ情報の値を補正する
+	if (m_Vibration.wLeftMotorSpeed < 0)
 	{
-	case VIBRATIONSTATE_ENEMY_DEAD:
-		m_Vibration.wLeftMotorSpeed = USHRT_MAX;
-		m_Vibration.wRightMotorSpeed = USHRT_MAX;
-		m_VibrationTimer = 100;
-		break;
-	case VIBRATIONSTATE_ENEMY_HIT:
-		m_Vibration.wLeftMotorSpeed = USHRT_MAX / 2;
-		m_Vibration.wRightMotorSpeed = USHRT_MAX / 2;
-		m_VibrationTimer = 100;
-		break;
-	default:
-		assert(false);
-		break;
+		m_Vibration.wLeftMotorSpeed = 0;
 	}
+	if (m_Vibration.wRightMotorSpeed < 0)
+	{
+		m_Vibration.wRightMotorSpeed = 0;
+	}
+}
 
-	//バイブ情報をジョイパッドに送信
-	XInputSetState(m_nIdx, &m_Vibration);
+//==========================================
+//  バイブ時間の加算
+//==========================================
+void CJoyPad::AddVibrationTimer(float time)
+{
+	// マイナスの値を加算させない
+	if (time < 0.0f) { return; }
+
+	// 加算
+	m_VibrationTimer += time;
+
+	// バイブフラグをオン
+	m_bVibration = true;
 }

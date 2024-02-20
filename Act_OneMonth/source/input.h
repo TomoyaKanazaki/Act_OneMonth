@@ -148,14 +148,6 @@ public:
 		STICK_ALL = 360 // 全方向判定
 	}JOYKEY_STICK;
 
-	typedef enum
-	{
-		VIBRATIONSTATE_NONE = 0,
-		VIBRATIONSTATE_ENEMY_HIT,
-		VIBRATIONSTATE_ENEMY_DEAD,
-		VIBRARIONSTATE_MAX
-	}VIBRATION;
-
 	CJoyPad(); //コンストラクタ
 	~CJoyPad(); //デストラクタ
 
@@ -170,24 +162,26 @@ public:
 	D3DXVECTOR3 GetStickR(float Dead);
 	bool GetStickTriggerL(int nDirection);
 	bool GetStickTriggerR(int nDirection);
-	void VibrationJoyPad(VIBRATION VibrationState);
+	void AddVibrationSpeed(WORD speed);
+	void AddVibrationTimer(float time);
 
 private:
 
 	// メンバ関数
 	bool KnockStickL(XINPUT_STATE JoyKey);
 	bool KnockStickR(XINPUT_STATE JoyKey);
+	void Vibration();
 
 	//メンバ変数
 	XINPUT_STATE m_JoyKeyState; //プレス情報
 	XINPUT_STATE m_JoyKeyTrigger; //トリガー情報
 	XINPUT_VIBRATION m_Vibration; //バイブ情報
-	VIBRATION m_VibrationState; //バイブ状態
+	bool m_bVibration; //バイブ状態
 	int m_nStickAngleL; // 左スティックの角度
 	int m_nStickAngleR; // 右スティックの角度
 	int m_nStickTriggerL; // 左スティックのトリガー
 	int m_nStickTriggerR; // 右スティックのトリガー
-	int m_VibrationTimer; //バイブの持続時間
+	float m_VibrationTimer; //バイブの持続時間
 	int m_nIdx; //ジョイパッドの通し番号
 
 	//静的メンバ変数

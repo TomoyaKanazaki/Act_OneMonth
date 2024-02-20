@@ -16,6 +16,7 @@
 #include "hit_effect.h"
 #include "gamemanager.h"
 #include "camera.h"
+#include "input.h"
 
 //==========================================
 //  定数定義
@@ -235,6 +236,10 @@ void CSlash::Hit()
 								CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_SLICE);
 								pObj->SetState(CObject::ATTACKED);
 								CHitEffect::Create((posCross + pos) * 0.5f);
+
+								// バイブレーションの設定
+								CManager::GetInstance()->GetJoyPad()->AddVibrationSpeed(USHRT_MAX);
+								CManager::GetInstance()->GetJoyPad()->AddVibrationTimer(0.1f);
 							}
 						}
 					}
