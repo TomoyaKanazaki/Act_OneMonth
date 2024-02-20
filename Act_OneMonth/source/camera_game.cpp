@@ -11,6 +11,7 @@
 #include "input.h"
 #include "enemymanager.h"
 #include "boss.h"
+#include "gametime.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -30,7 +31,9 @@ namespace
 //==========================================
 CCameraGame::CCameraGame()
 {
-
+	m_Quake.rangeR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Quake.rangeV = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Quake.time = 0.0f;
 }
 
 //==========================================
@@ -86,7 +89,63 @@ void CCameraGame::Update(void)
 	//·•ª‚ğ‰ÁZ
 	m_fFov += fDiff * REVISION_SPEED_FOV;
 
+	// —h‚ê
+	Quake();
+
 	CCamera::Update();
+}
+
+//==========================================
+//  —h‚ê‚Ìİ’è
+//==========================================
+void CCameraGame::SetQuake(const D3DXVECTOR3& range, float time)
+{
+	// —h‚ê”ÍˆÍ‚Ìİ’è
+	m_Quake.rangeR = range * 0.5f;
+	m_Quake.rangeV = range * 0.5f;
+
+	// —h‚êŠÔ‚Ìİ’è
+	m_Quake.time = time;
+}
+
+//==========================================
+//  —h‚ê‚Ì‰ÁZ
+//==========================================
+void CCameraGame::AddQuake(const D3DXVECTOR3& range, float time)
+{
+	// —h‚ê”ÍˆÍ‚Ìİ’è
+	m_Quake.rangeR += range * 0.5f;
+	m_Quake.rangeV += range * 0.5f;
+
+	// —h‚êŠÔ‚Ìİ’è
+	m_Quake.time += time;
+}
+
+//==========================================
+//  ‰æ–Ê—h‚ê‚Ìİ’è
+//==========================================
+void CCameraGame::Quake()
+{
+	// Œp‘±ŠÔ‚Ì”»’è
+	if (m_Quake.time <= 0.0f)
+	{
+		// ƒŠƒZƒbƒg
+		m_Quake.time = 0.0f;
+		m_Quake.rangeR = m_Quake.rangeV  = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+		// —h‚ê‚È‚¢
+		return;
+	}
+
+	// Œp‘±ŠÔ‚ğXV
+	m_Quake.time -= CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
+
+	// Œë·‚ğì¬‚·‚é
+	float Rand = ((float)rand() - ((float)RAND_MAX * 0.5f)) / ((float)RAND_MAX * 0.5f);
+
+	// Œë·”ÍˆÍ‚ÉŒë·‚ğ“K—p‚·‚é
+	m_posR += m_Quake.rangeR * Rand;
+	m_posV += m_Quake.rangeV * Rand;
 }
 
 //==========================================

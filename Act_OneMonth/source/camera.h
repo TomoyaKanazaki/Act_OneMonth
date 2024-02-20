@@ -33,6 +33,8 @@ public:
 	bool OnScreen(const D3DXVECTOR3 pos) const; // スクリーン内の判定
 	D3DXVECTOR3 WorldToScreen(const D3DXVECTOR3& posWorld) const;
 	//D3DXVECTOR3 ScreenToWorld(const D3DXVECTOR3& posScreen) const;
+	virtual void SetQuake(const D3DXVECTOR3& range, float time) {};
+	virtual void AddQuake(const D3DXVECTOR3& range, float time) {};
 
 protected:
 #define CAMERA_DISTANCE (-500.0f) //視点からプレイヤーの距離

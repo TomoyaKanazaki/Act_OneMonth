@@ -17,6 +17,7 @@
 #include "gamemanager.h"
 #include "camera.h"
 #include "input.h"
+#include "camera_game.h"
 
 //==========================================
 //  定数定義
@@ -240,6 +241,9 @@ void CSlash::Hit()
 								// バイブレーションの設定
 								CManager::GetInstance()->GetJoyPad()->AddVibrationSpeed(USHRT_MAX);
 								CManager::GetInstance()->GetJoyPad()->AddVibrationTimer(0.1f);
+
+								// 画面揺れの設定
+								CGameManager::GetCamera()->AddQuake(D3DXVECTOR3(10.0f, 10.0f, 0.0f), 0.1f);
 							}
 						}
 					}

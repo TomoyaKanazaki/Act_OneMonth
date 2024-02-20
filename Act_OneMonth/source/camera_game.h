@@ -22,12 +22,27 @@ public:
 	HRESULT Init(void) override;
 	void Update(void) override;
 
+	void SetQuake(const D3DXVECTOR3& range, float time) override;
+	void AddQuake(const D3DXVECTOR3& range, float time = 0.0f) override;
+
 private:
 
 	//ƒƒ“ƒoŠÖ”
 	void MovePlayer(void);
 	void LockBoss(void);
 	void LockRush();
+	void Quake();
+
+	// ‰æ–Ê—h‚ê—p‚Ì\‘¢‘Ì
+	struct QuakeData
+	{
+		D3DXVECTOR3 rangeR; // ’‹“_‚Ì—h‚ê
+		D3DXVECTOR3 rangeV; // ‹“_‚Ì—h‚ê
+		float time; // Œp‘±ŠÔ
+	};
+
+	// ƒƒ“ƒo•Ï”
+	QuakeData m_Quake; // —h‚êî•ñ
 
 };
 
