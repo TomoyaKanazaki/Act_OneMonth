@@ -675,10 +675,6 @@ void CJoyPad::Vibration()
 
 	//バイブ情報をジョイパッドに送信
 	XInputSetState(m_nIdx, &m_Vibration);
-
-	DebugProc::Print("\n左バイブ : %d\n", m_Vibration.wLeftMotorSpeed);
-	DebugProc::Print("左バイブ : %d\n", m_Vibration.wRightMotorSpeed);
-	DebugProc::Print("バイブ時間 : %f\n", m_VibrationTimer);
 }
 
 //==========================================
@@ -727,9 +723,23 @@ bool CJoyPad::GetStickTriggerR(int nDirection) //右
 //==========================================
 void CJoyPad::AddVibrationSpeed(WORD speed)
 {
-	// 加算
-	m_Vibration.wLeftMotorSpeed += speed;
-	m_Vibration.wRightMotorSpeed += speed;
+	// 最大値をオーバーしないサイズに丸める
+	if (m_Vibration.wLeftMotorSpeed + speed > USHRT_MAX)
+	{
+		m_Vibration.wLeftMotorSpeed = USHRT_MAX;
+	}
+	else
+	{
+		m_Vibration.wLeftMotorSpeed += speed;
+	}
+	if (m_Vibration.wRightMotorSpeed + speed > USHRT_MAX)
+	{
+		m_Vibration.wRightMotorSpeed = USHRT_MAX;
+	}
+	else
+	{
+		m_Vibration.wRightMotorSpeed += speed;
+	}
 
 	//バイブ情報の値を補正する
 	if (m_Vibration.wLeftMotorSpeed < 0)
