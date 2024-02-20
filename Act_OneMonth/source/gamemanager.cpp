@@ -25,6 +25,7 @@
 #include "bosslife.h"
 #include "rush_effect.h"
 #include "tutorial.h"
+#include "stick.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -197,6 +198,7 @@ void CGameManager::Update(void)
 		{
 			m_pLife = CBossLife::Create();
 			CRush::Create();
+			CStick::Create();
 
 			// フォグを設定
 			Fog::Set(true);

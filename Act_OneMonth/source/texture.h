@@ -43,6 +43,8 @@ public:
 		FLAME, // 🔥
 		RUSH, // 連撃
 		TUTORIAL, // チュートリアル
+		STICK, // スティック
+		BASE, // スティックベース
 		TEXTURE_MAX
 	};
 

@@ -1,50 +1,47 @@
 //==========================================
 //
-//  操作方法(tutorial.cpp)
+//  スティックぐりぐりUI(stick_base.cpp)
 //  Author : Tomoya Kanazaki
 //
 //==========================================
-#include "tutorial.h"
-#include "enemymanager.h"
+#include "stick_base.h"
 #include "manager.h"
+#include "input.h"
 #include "texture.h"
+#include "gamemanager.h"
 
 //==========================================
 //  定数定義
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 TUTORIAL_SIZE = D3DXVECTOR3(250.0f, 70.0f, 0.0f); // ポリゴンサイズ
-	const D3DXVECTOR3 TUTORIAL_POS = D3DXVECTOR3(130.0f, 50.0f, 0.0f); // ポリゴン座標
+	const D3DXVECTOR3 STICKSIZE = D3DXVECTOR3(80.0f, 80.0f, 0.0f); // 位置
 }
 
 //==========================================
 //  コンストラクタ
 //==========================================
-CTutorial::CTutorial(int nPriority) : CObject2D(nPriority)
+CBase::CBase(int nPriority) : CObject2D(nPriority)
 {
 }
 
 //==========================================
 //  デストラクタ
 //==========================================
-CTutorial::~CTutorial()
+CBase::~CBase()
 {
 }
 
 //==========================================
 //  初期化処理
 //==========================================
-HRESULT CTutorial::Init(void)
+HRESULT CBase::Init(void)
 {
-	// 位置を設定
-	m_pos = TUTORIAL_POS;
+	// テクスチャ割り当て
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::BASE));
 
 	// 大きさを設定
-	m_size = TUTORIAL_SIZE;
-
-	// テクスチャ割り当て
-	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL));
+	m_size = STICKSIZE;
 
 	return CObject2D::Init();
 }
@@ -52,7 +49,7 @@ HRESULT CTutorial::Init(void)
 //==========================================
 //  終了処理
 //==========================================
-void CTutorial::Uninit(void)
+void CBase::Uninit(void)
 {
 	CObject2D::Uninit();
 }
@@ -60,15 +57,21 @@ void CTutorial::Uninit(void)
 //==========================================
 //  更新処理
 //==========================================
-void CTutorial::Update(void)
+void CBase::Update(void)
 {
 	CObject2D::Update();
+
+	// 終了
+	if (CGameManager::GetState() == CGameManager::STATE_END)
+	{
+		Uninit();
+	}
 }
 
 //==========================================
 //  描画処理
 //==========================================
-void CTutorial::Draw(void)
+void CBase::Draw(void)
 {
 	CObject2D::Draw();
 }
@@ -76,16 +79,19 @@ void CTutorial::Draw(void)
 //==========================================
 //  生成処理
 //==========================================
-CTutorial* CTutorial::Create()
+CBase* CBase::Create(const D3DXVECTOR3& pos)
 {
 	// インスタンス生成
-	CTutorial* pTutorial = new CTutorial;
+	CBase* pBase = new CBase;
 
 	// NULLチェック
-	if (pTutorial == nullptr) { return nullptr; }
+	if (pBase == nullptr) { return pBase; }
+
+	// 数値を設定
+	pBase->m_pos = pos;
 
 	// 初期化処理
-	pTutorial->Init();
+	pBase->Init();
 
-	return pTutorial;
+	return pBase;
 }
