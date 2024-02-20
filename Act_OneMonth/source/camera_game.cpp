@@ -24,6 +24,8 @@ namespace
 	const D3DXVECTOR3 LOCK_BOSS = D3DXVECTOR3(1800.0f, 150.0f, 0.0f);
 	const float BOSS_DISTANCE = -620.0f;
 	const D3DXVECTOR3 RUSH_DISTANCE = D3DXVECTOR3(-50.0f, 60.0f, -150.0f);
+	const float QUAKE_RANGE_LIMIT = 10.0f; // —h‚ê‚ÌãŒÀ
+	const float QUAKE_TIME_LIMIT = 1.0f; // —h‚êŠÔãŒÀ
 }
 
 //==========================================
@@ -105,7 +107,14 @@ void CCameraGame::SetQuake(const D3DXVECTOR3& range, float time)
 	m_Quake.rangeV = range * 0.5f;
 
 	// —h‚êŠÔ‚Ìİ’è
-	m_Quake.time = time;
+	if (time < QUAKE_TIME_LIMIT)
+	{
+		m_Quake.time = time;
+	}
+	else
+	{
+		m_Quake.time = QUAKE_TIME_LIMIT;
+	}
 }
 
 //==========================================
@@ -118,7 +127,14 @@ void CCameraGame::AddQuake(const D3DXVECTOR3& range, float time)
 	m_Quake.rangeV += range * 0.5f;
 
 	// —h‚êŠÔ‚Ìİ’è
-	m_Quake.time += time;
+	if (m_Quake.time < QUAKE_TIME_LIMIT)
+	{
+		m_Quake.time += time;
+	}
+	else
+	{
+		m_Quake.time = QUAKE_TIME_LIMIT;
+	}
 }
 
 //==========================================
@@ -135,6 +151,32 @@ void CCameraGame::Quake()
 
 		// —h‚ê‚È‚¢
 		return;
+	}
+
+	// —h‚êãŒÀ‚Ìİ’è
+	if (m_Quake.rangeR.x >= QUAKE_RANGE_LIMIT)
+	{
+		m_Quake.rangeR.x = QUAKE_RANGE_LIMIT;
+	}
+	if (m_Quake.rangeR.y >= QUAKE_RANGE_LIMIT)
+	{
+		m_Quake.rangeR.y = QUAKE_RANGE_LIMIT;
+	}
+	if (m_Quake.rangeR.z >= QUAKE_RANGE_LIMIT)
+	{
+		m_Quake.rangeR.z = QUAKE_RANGE_LIMIT;
+	}
+	if (m_Quake.rangeV.x >= QUAKE_RANGE_LIMIT)
+	{
+		m_Quake.rangeV.x = QUAKE_RANGE_LIMIT;
+	}
+	if (m_Quake.rangeV.y >= QUAKE_RANGE_LIMIT)
+	{
+		m_Quake.rangeV.y = QUAKE_RANGE_LIMIT;
+	}
+	if (m_Quake.rangeV.z >= QUAKE_RANGE_LIMIT)
+	{
+		m_Quake.rangeV.z = QUAKE_RANGE_LIMIT;
 	}
 
 	// Œp‘±ŠÔ‚ğXV

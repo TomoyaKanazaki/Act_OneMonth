@@ -39,7 +39,7 @@ namespace
 	const float DASH_DISTANCE = 200.0f; //ダッシュの移動距離
 	const float HIT_RANGE = 2020.0f; //ヒットする範囲
 	const float JUMP_MOVE = 600.0f; //ジャンプ力
-	const float GRAVITY = 25.0f; //重力
+	const float GRAVITY = 1500.0f; //重力
 	const int MAX_ATTACK_COUNT = 3; // 連続攻撃の最大数
 	const float ATTACK_COOL_TIME = 0.2f; // 攻撃のクールタイム
 	const float LIMIT_HEIGHT_NORMAL = 300.0f; // 道中の上昇限界
@@ -575,7 +575,7 @@ void CPlayer::Gravity(void)
 	}
 
 	//移動量の減少
-	m_move.y -= GRAVITY;
+	m_move.y -= GRAVITY * CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
 }
 
 //==========================================
