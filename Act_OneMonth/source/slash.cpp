@@ -243,7 +243,7 @@ void CSlash::Hit()
 								CManager::GetInstance()->GetJoyPad()->AddVibrationTimer(0.1f);
 
 								// 画面揺れの設定
-								CGameManager::GetCamera()->AddQuake(D3DXVECTOR3(10.0f, 10.0f, 0.0f), 0.05f);
+								CGameManager::GetCamera()->AddQuake(D3DXVECTOR3(1.0f, 1.0f, 0.0f), 0.05f);
 
 								// ヒットストップ
 								if (CManager::GetInstance()->GetGameTime()->GetTime() >= 0.0f)

@@ -44,7 +44,7 @@ namespace
 	const float ATTACK_COOL_TIME = 0.2f; // 攻撃のクールタイム
 	const float LIMIT_HEIGHT_NORMAL = 300.0f; // 道中の上昇限界
 	const float LIMIT_HEIGHT_BOSS = 380.0f; // ボス戦中の上昇限界
-	const float LIMIT_WIDTH_BOSS = 1350.0f; // ボス戦中の上昇限界
+	const float LIMIT_WIDTH_BOSS = 1350.0f; // ボス戦中の移動限界
 	const int MAX_LIFE = 10; // 体力上限
 	const float DAMAGE_TIME = 0.8f;
 	const float DAMAGE_SPEED = 0.3f; // ダメージ状態中の移動倍率
