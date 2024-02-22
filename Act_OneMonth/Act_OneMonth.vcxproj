@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="source\bg.cpp" />
     <ClCompile Include="source\blade.cpp" />
+    <ClCompile Include="source\block.cpp" />
     <ClCompile Include="source\boss.cpp" />
     <ClCompile Include="source\bosslife.cpp" />
     <ClCompile Include="source\boss_effect.cpp" />
@@ -38,7 +39,6 @@
     <ClCompile Include="source\enemylife.cpp" />
     <ClCompile Include="source\enemylifemanager.cpp" />
     <ClCompile Include="source\enemymanager.cpp" />
-    <ClCompile Include="source\enemy_blade.cpp" />
     <ClCompile Include="source\enemy_lantern.cpp" />
     <ClCompile Include="source\enemy_umbrella.cpp" />
     <ClCompile Include="source\explosion.cpp" />
@@ -92,6 +92,7 @@
   <ItemGroup>
     <ClInclude Include="source\bg.h" />
     <ClInclude Include="source\blade.h" />
+    <ClInclude Include="source\block.h" />
     <ClInclude Include="source\boss.h" />
     <ClInclude Include="source\bosslife.h" />
     <ClInclude Include="source\boss_effect.h" />
@@ -109,7 +110,6 @@
     <ClInclude Include="source\enemylife.h" />
     <ClInclude Include="source\enemylifemanager.h" />
     <ClInclude Include="source\enemymanager.h" />
-    <ClInclude Include="source\enemy_blade.h" />
     <ClInclude Include="source\enemy_lantern.h" />
     <ClInclude Include="source\enemy_umbrella.h" />
     <ClInclude Include="source\explosion.h" />

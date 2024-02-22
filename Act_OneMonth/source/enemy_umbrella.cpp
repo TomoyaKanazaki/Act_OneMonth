@@ -20,7 +20,7 @@ namespace
 {
 	const D3DXVECTOR3 UMBRELLA_SIZE = D3DXVECTOR3(50.0f, 50.0f, 50.0f);
 	const float MAX_LIFE = 5.0f;
-	const float ROTATION_SPEED = 0.1f; // 1フレームにの回転量
+	const float ROTATION_SPEED = 0.1f; // 1フレームの回転量
 	const float POS_DISTANCE = 80.0f; // 初期位置からの距離
 	const float LOOK_PLAYER = 150.0f; // プレイヤーを発見する距離
 	const D3DXVECTOR3 CENTER_POS = D3DXVECTOR3(0.0f, 40.0f, 0.0f); // 中心座標とオブジェクト座標の差
