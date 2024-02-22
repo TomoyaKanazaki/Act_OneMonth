@@ -38,6 +38,7 @@
     <ClCompile Include="source\enemylife.cpp" />
     <ClCompile Include="source\enemylifemanager.cpp" />
     <ClCompile Include="source\enemymanager.cpp" />
+    <ClCompile Include="source\enemy_blade.cpp" />
     <ClCompile Include="source\enemy_lantern.cpp" />
     <ClCompile Include="source\enemy_umbrella.cpp" />
     <ClCompile Include="source\explosion.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="source\enemylife.h" />
     <ClInclude Include="source\enemylifemanager.h" />
     <ClInclude Include="source\enemymanager.h" />
+    <ClInclude Include="source\enemy_blade.h" />
     <ClInclude Include="source\enemy_lantern.h" />
     <ClInclude Include="source\enemy_umbrella.h" />
     <ClInclude Include="source\explosion.h" />
