@@ -60,10 +60,10 @@ public:
 	TYPE GetType(void) { return m_type; }
 	STATE GetObjState(void) { return m_ObjState; }
 	bool GetMap(void) { return m_bMap; }
-	void SetPos(const D3DXVECTOR3 pos) { m_pos = pos; }
-	void SetRot(const D3DXVECTOR3 rot) { m_rot = rot; }
-	void SetMove(const D3DXVECTOR3 move) { m_move = move; }
-	void SetSize(const D3DXVECTOR3 size) { m_size = size; }
+	void SetPos(const D3DXVECTOR3& pos) { m_pos = pos; }
+	void SetRot(const D3DXVECTOR3& rot) { m_rot = rot; }
+	void SetMove(const D3DXVECTOR3& move) { m_move = move; }
+	void SetSize(const D3DXVECTOR3& size) { m_size = size; }
 	void SetType(TYPE type) { m_type = type; }
 	void SetMap(void) { m_bMap = true; }
 	void SetState(STATE state) { m_ObjState = state; }

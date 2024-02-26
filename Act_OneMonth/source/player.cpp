@@ -138,6 +138,10 @@ void CPlayer::Uninit(void)
 //==========================================
 void CPlayer::Update(void)
 {
+	// 前回座標に保存
+	m_oldPos = m_pos;
+	m_oldposModel = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
+
 	DebugProc::Print("プレイヤー位置 : ( %f, %f, %f )\n", m_pos.x, m_pos.y, m_pos.z);
 
 	// 経過時間を取得する
@@ -207,10 +211,6 @@ void CPlayer::Update(void)
 			m_State = DEATH;
 			ChangeColor(false);
 		}
-
-		// 前回座標に保存
-		m_oldPos = m_pos;
-		m_oldposModel = D3DXVECTOR3(m_ppModel[3]->GetMtx()._41, m_ppModel[3]->GetMtx()._42, m_ppModel[3]->GetMtx()._43);
 	}
 
 	// モーション
@@ -563,7 +563,7 @@ void CPlayer::Gravity(void)
 	}
 
 	//重力の無効条件
-	if (m_pos.y <= 0.0f)
+	if (m_bRand)
 	{
 		m_move.y = 0.0f;
 		return;
