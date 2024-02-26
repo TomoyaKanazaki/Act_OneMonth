@@ -18,6 +18,7 @@
 #include "field.h"
 #include "build.h"
 #include "camera_title.h"
+#include "running.h"
 
 //==========================================
 //  静的メンバ変数宣言
@@ -47,6 +48,8 @@ CResultManager::~CResultManager()
 //==========================================
 HRESULT CResultManager::Init(void)
 {
+	CSceneManager::GetClear();
+
 	//建物の生成
 	CBuild::Create();
 
@@ -74,6 +77,9 @@ HRESULT CResultManager::Init(void)
 
 	//BGMの再生
 	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_RESULT);
+
+	// プレイヤー出す
+	CRunning::Create();
 
 	return S_OK;
 }
