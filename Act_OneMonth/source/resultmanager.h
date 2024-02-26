@@ -9,6 +9,12 @@
 #include "scene.h"
 
 //==========================================
+//  前方宣言
+//==========================================
+class CLight;
+class CCamera;
+
+//==========================================
 //  タイトルマネージャクラス定義
 //==========================================
 class CResultManager : public CScene
@@ -28,6 +34,10 @@ private:
 	//メンバ変数
 	float m_fCntScene;
 	int m_nRank;
+
+	//静的メンバ変数
+	static CLight* m_pLight;
+	static CCamera* m_pCamera;
 
 };
 

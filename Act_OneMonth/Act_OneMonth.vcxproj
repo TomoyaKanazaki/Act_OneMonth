@@ -28,6 +28,7 @@
     <ClCompile Include="source\bullet.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\camera_game.cpp" />
+    <ClCompile Include="source\camera_result.cpp" />
     <ClCompile Include="source\camera_title.cpp" />
     <ClCompile Include="source\cut.cpp" />
     <ClCompile Include="source\cut_polygon.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="source\bullet.h" />
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\camera_game.h" />
+    <ClInclude Include="source\camera_result.h" />
     <ClInclude Include="source\camera_title.h" />
     <ClInclude Include="source\cut.h" />
     <ClInclude Include="source\cut_polygon.h" />

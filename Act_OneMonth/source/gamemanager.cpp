@@ -248,6 +248,19 @@ void CGameManager::Update(void)
 		// ƒŠƒUƒ‹ƒg‚É‘JˆÚ
 		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}
+
+#ifdef _DEBUG
+
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_0))
+	{
+		// ƒvƒŒƒCŒ‹‰Ê‚ðŽ¸”s‚ÉÝ’è
+		CSceneManager::SetClear(false);
+
+		// ƒŠƒUƒ‹ƒg‚É‘JˆÚ
+		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+	}
+
+#endif
 }
 
 //==========================================
