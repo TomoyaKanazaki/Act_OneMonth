@@ -28,6 +28,14 @@ public:
 	//静的メンバ関数
 	static CRunning* Create();
 
+private:
+
+	// メンバ関数
+	void Rotate();
+
+	// メンバ変数
+	D3DXVECTOR3 m_end; // 終了位置
+
 };
 
 #endif

@@ -13,6 +13,7 @@
 //==========================================
 class CLight;
 class CCamera;
+class CRunning;
 
 //==========================================
 //  タイトルマネージャクラス定義
@@ -29,6 +30,9 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 
+	// 静的メンバ関数
+	static CRunning* GetPlayer() { return m_pRunning; }
+
 private:
 
 	//メンバ変数
@@ -38,6 +42,7 @@ private:
 	//静的メンバ変数
 	static CLight* m_pLight;
 	static CCamera* m_pCamera;
+	static CRunning* m_pRunning;
 
 };
 

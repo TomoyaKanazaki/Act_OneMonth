@@ -260,6 +260,15 @@ void CGameManager::Update(void)
 		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
 	}
 
+	if (CManager::GetInstance()->GetKeyboard()->GetTrigger(DIK_9))
+	{
+		// ƒvƒŒƒCŒ‹‰Ê‚ðŽ¸”s‚ÉÝ’è
+		CSceneManager::SetClear(true);
+
+		// ƒŠƒUƒ‹ƒg‚É‘JˆÚ
+		CManager::GetInstance()->GetSceneManager()->SetNext(CSceneManager::RESULT);
+	}
+
 #endif
 }
 

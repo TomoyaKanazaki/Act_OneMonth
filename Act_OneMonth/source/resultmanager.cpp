@@ -25,6 +25,7 @@
 //==========================================
 CLight* CResultManager::m_pLight = NULL;
 CCamera* CResultManager::m_pCamera = NULL;
+CRunning* CResultManager::m_pRunning = nullptr;
 
 //==========================================
 //  コンストラクタ
@@ -48,8 +49,6 @@ CResultManager::~CResultManager()
 //==========================================
 HRESULT CResultManager::Init(void)
 {
-	CSceneManager::GetClear();
-
 	//建物の生成
 	CBuild::Create();
 
@@ -79,7 +78,10 @@ HRESULT CResultManager::Init(void)
 	CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_RESULT);
 
 	// プレイヤー出す
-	CRunning::Create();
+	if (m_pRunning == nullptr)
+	{
+		m_pRunning = CRunning::Create();
+	}
 
 	return S_OK;
 }
@@ -91,6 +93,12 @@ void CResultManager::Uninit(void)
 {
 	//BGMの停止
 	CManager::GetInstance()->GetInstance()->GetSound()->Stop();
+
+	// プレイヤーを開放
+	if (m_pRunning != nullptr)
+	{
+		m_pRunning = nullptr;
+	}
 }
 
 //==========================================
@@ -98,11 +106,8 @@ void CResultManager::Uninit(void)
 //==========================================
 void CResultManager::Update(void)
 {
-	//シーン経過時間を加算
-	m_fCntScene += CManager::GetInstance()->GetGameTime()->GetDeltaTimeFloat();
-
 	//画面遷移
-	if (CManager::GetInstance()->GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || m_fCntScene >= 15.0f || CManager::GetInstance()->GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN))
+	if (CManager::GetInstance()->GetInstance()->GetJoyPad()->GetTrigger(CJoyPad::BUTTON_A) || CManager::GetInstance()->GetInstance()->GetKeyboard()->GetTrigger(DIK_RETURN))
 	{
 		CManager::GetInstance()->GetInstance()->GetSceneManager()->SetNext(CSceneManager::TITLE);
 		CManager::GetInstance()->GetSound()->Play(CSound::SOUND_LABEL_END);
