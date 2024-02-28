@@ -19,12 +19,14 @@
 #include "build.h"
 #include "camera_title.h"
 #include "running.h"
+#include "result.h"
+#include "boss_result.h"
 
 //==========================================
 //  静的メンバ変数宣言
 //==========================================
 CLight* CResultManager::m_pLight = NULL;
-CCamera* CResultManager::m_pCamera = NULL;
+CCamera* CResultManager::m_pCamera = nullptr;
 CRunning* CResultManager::m_pRunning = nullptr;
 
 //==========================================
@@ -69,7 +71,7 @@ HRESULT CResultManager::Init(void)
 	}
 
 	//カメラの生成
-	if (m_pCamera == NULL)
+	if (m_pCamera == nullptr)
 	{
 		m_pCamera = CSceneManager::GetCamera();
 	}
@@ -83,6 +85,15 @@ HRESULT CResultManager::Init(void)
 		m_pRunning = CRunning::Create();
 	}
 
+	// 敵を出す
+	if (!CSceneManager::GetClear())
+	{
+		CEnemy::Create(m_pCamera->GetPosR(), CEnemy::RESULT);
+	}
+
+	// メッセージを生成
+	CResult::Create();
+
 	return S_OK;
 }
 
@@ -93,6 +104,12 @@ void CResultManager::Uninit(void)
 {
 	//BGMの停止
 	CManager::GetInstance()->GetInstance()->GetSound()->Stop();
+
+	// カメラの終了
+	if (m_pCamera != nullptr)
+	{
+		m_pCamera = nullptr;
+	}
 
 	// プレイヤーを開放
 	if (m_pRunning != nullptr)

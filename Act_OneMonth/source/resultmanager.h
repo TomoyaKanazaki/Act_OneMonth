@@ -32,6 +32,7 @@ public:
 
 	// Ã“Iƒƒ“ƒoŠÖ”
 	static CRunning* GetPlayer() { return m_pRunning; }
+	static CCamera* GetCamera() { return m_pCamera; }
 
 private:
 

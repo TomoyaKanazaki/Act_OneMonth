@@ -21,6 +21,7 @@ public:
 		LANTERN = 0, // 提灯お化け
 		UMBRELLA, // 唐笠お化け
 		BOSS, // ボス
+		RESULT, // リザルト用のボス
 		MAX,
 		NONE
 	};
@@ -57,7 +58,6 @@ protected:
 
 	// 静的メンバ変数
 	static float m_AllDamage; // 受けたダメージ
-
 
 private:
 

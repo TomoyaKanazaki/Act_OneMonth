@@ -24,6 +24,7 @@
     <ClCompile Include="source\boss.cpp" />
     <ClCompile Include="source\bosslife.cpp" />
     <ClCompile Include="source\boss_effect.cpp" />
+    <ClCompile Include="source\boss_result.cpp" />
     <ClCompile Include="source\build.cpp" />
     <ClCompile Include="source\bullet.cpp" />
     <ClCompile Include="source\camera.cpp" />
@@ -74,6 +75,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">source</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="source\renderer.cpp" />
+    <ClCompile Include="source\result.cpp" />
     <ClCompile Include="source\resultmanager.cpp" />
     <ClCompile Include="source\running.cpp" />
     <ClCompile Include="source\rush_effect.cpp" />
@@ -96,6 +98,7 @@
     <ClInclude Include="source\boss.h" />
     <ClInclude Include="source\bosslife.h" />
     <ClInclude Include="source\boss_effect.h" />
+    <ClInclude Include="source\boss_result.h" />
     <ClInclude Include="source\build.h" />
     <ClInclude Include="source\bullet.h" />
     <ClInclude Include="source\camera.h" />
@@ -141,6 +144,7 @@
     <ClInclude Include="source\player.h" />
     <ClInclude Include="source\precompile.h" />
     <ClInclude Include="source\renderer.h" />
+    <ClInclude Include="source\result.h" />
     <ClInclude Include="source\resultmanager.h" />
     <ClInclude Include="source\running.h" />
     <ClInclude Include="source\rush_effect.h" />

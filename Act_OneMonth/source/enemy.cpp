@@ -14,6 +14,7 @@
 #include "boss.h"
 #include "gametime.h"
 #include "camera.h"
+#include "boss_result.h"
 
 //==========================================
 //  ’è”’è‹`
@@ -107,6 +108,10 @@ CEnemy* CEnemy::Create(D3DXVECTOR3 pos, CEnemy::TYPE type)
 
 	case BOSS:
 		pEnemy = new CBoss;
+		break;
+
+	case RESULT:
+		pEnemy = new CBossResult;
 		break;
 
 	default:
