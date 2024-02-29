@@ -29,6 +29,9 @@ public:
 	static CTutorial* Create();
 
 private:
+
+	// Ã“Iƒƒ“ƒo•Ï”
+	static int m_nIdx;
 };
 
 #endif

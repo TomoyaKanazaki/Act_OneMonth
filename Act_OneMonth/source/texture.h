@@ -42,7 +42,8 @@ public:
 		ENEMY_FRAME, // 🔥用の枠
 		FLAME, // 🔥
 		RUSH, // 連撃
-		TUTORIAL, // チュートリアル
+		TUTORIAL0, // チュートリアル
+		TUTORIAL1, // チュートリアル
 		STICK, // スティック
 		BASE, // スティックベース
 		TEXTURE_MAX

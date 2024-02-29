@@ -102,6 +102,7 @@ HRESULT CGameManager::Init(void)
 
 	// チュートリアルの生成
 	CTutorial::Create();
+	CTutorial::Create();
 
 	//カメラの生成
 	if (m_pCamera == NULL)

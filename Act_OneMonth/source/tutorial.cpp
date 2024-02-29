@@ -14,9 +14,14 @@
 //==========================================
 namespace
 {
-	const D3DXVECTOR3 TUTORIAL_SIZE = D3DXVECTOR3(250.0f, 70.0f, 0.0f); // ポリゴンサイズ
-	const D3DXVECTOR3 TUTORIAL_POS = D3DXVECTOR3(130.0f, 50.0f, 0.0f); // ポリゴン座標
+	const D3DXVECTOR3 TUTORIAL_SIZE = D3DXVECTOR3(225.0f, 63.0f, 0.0f); // ポリゴンサイズ
+	const D3DXVECTOR3 TUTORIAL_POS = D3DXVECTOR3(117.0f, 44.0f, 0.0f); // ポリゴン座標
 }
+
+//==========================================
+//  静的メンバ変数宣言
+//==========================================
+int CTutorial::m_nIdx = 0;
 
 //==========================================
 //  コンストラクタ
@@ -30,6 +35,7 @@ CTutorial::CTutorial(int nPriority) : CObject2D(nPriority)
 //==========================================
 CTutorial::~CTutorial()
 {
+	--m_nIdx;
 }
 
 //==========================================
@@ -39,12 +45,16 @@ HRESULT CTutorial::Init(void)
 {
 	// 位置を設定
 	m_pos = TUTORIAL_POS;
+	m_pos.y += TUTORIAL_SIZE.y * m_nIdx; 
 
 	// 大きさを設定
 	m_size = TUTORIAL_SIZE;
 
 	// テクスチャ割り当て
-	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL));
+	BindTexture(CManager::GetInstance()->CManager::GetInstance()->GetInstance()->GetTexture()->GetAddress(CTexture::TUTORIAL0 + m_nIdx));
+
+	// インデックス加算
+	++m_nIdx;
 
 	return CObject2D::Init();
 }
