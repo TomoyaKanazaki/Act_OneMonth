@@ -179,7 +179,7 @@ void CPlayer::Update(void)
 		{
 			if (CManager::GetInstance()->GetJoyPad()->GetPress(CJoyPad::BUTTON_RB) || m_State == IAI)
 			{
-				Dash();
+				//Dash();
 			}
 			else
 			{
